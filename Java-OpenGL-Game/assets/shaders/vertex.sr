@@ -1,0 +1,29 @@
+#version 330 core
+
+in vec3 position;
+in vec2 texCoords;
+in vec3 normal;
+
+uniform mat4 modelMat;
+uniform mat4 projectionMat;
+uniform mat4 viewMat;
+
+uniform vec3 lightPosition;
+
+uniform vec3 camPos;
+
+out vec3 unitNormal;
+out vec3 unitToLightVec;
+out vec3 unitToCamVec;
+
+out vec2 textureCoords;
+
+void main(void)
+{
+	vec4 worldPos = modelMat * vec4(position, 1.0);
+	gl_Position = projectionMat * viewMat * worldPos;
+	unitNormal = normalize((modelMat * vec4(normal, 0.0)).xyz);
+	unitToLightVec = normalize(lightPosition - worldPos.xyz);
+	unitToCamVec = (inverse(viewMat) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPos.xyz;
+	textureCoords = texCoords;
+}
