@@ -8,7 +8,6 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL33;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
@@ -61,12 +60,13 @@ public abstract class ShaderProgram
 		bindAllAttributes();
 		GL20.glLinkProgram(programID);
 		GL20.glValidateProgram(programID);
+
 		int status = GL20.glGetProgrami(programID, GL20.GL_LINK_STATUS);
 		if (status == GL11.GL_TRUE)
 		{
 			System.out.println("Successfully linked shader program!");
 		}
-		else if (status == GL11.GL_FALSE)
+		else
 		{
 			System.out.println("Failed to link shader program!");
 		}
@@ -79,14 +79,15 @@ public abstract class ShaderProgram
 		String source = readShader(file);
 		GL20.glShaderSource(shaderID, source);
 		GL20.glCompileShader(shaderID);
-		if (GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE)
+		int status = GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS);
+		if (status == GL11.GL_TRUE)
 		{
-			System.out.println("Failed to compile shader! " + file);
-			System.out.println(GL20.glGetShaderInfoLog(shaderID, 500));
+			System.out.println("Successfully compiled shader!");
 		}
 		else
 		{
-			System.out.println("Successfully compiled shader! " + file);
+			System.out.println("Failed to compile shader!");
+			System.out.println(GL20.glGetShaderInfoLog(shaderID, 500));
 		}
 		return shaderID;
 	}
