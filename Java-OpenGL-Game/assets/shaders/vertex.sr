@@ -18,12 +18,12 @@ out vec3 unitToCamVec;
 
 out vec2 textureCoords;
 
-void main(void)
+void main()
 {
 	vec4 worldPos = modelMat * vec4(position, 1.0);
 	gl_Position = projectionMat * viewMat * worldPos;
-	unitNormal = normalize((modelMat * vec4(normal, 0.0)).xyz);
+	textureCoords = texCoords;
+	unitNormal = normalize((worldPos * vec4(normal, 1.0f)).xyz);
 	unitToLightVec = normalize(lightPosition - worldPos.xyz);
 	unitToCamVec = (inverse(viewMat) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPos.xyz;
-	textureCoords = texCoords;
 }

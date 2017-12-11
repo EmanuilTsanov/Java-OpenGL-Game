@@ -46,7 +46,7 @@ public class BasicShader extends ShaderProgram
 		locProjectionMat = super.getUniformLocation("projectionMat");
 		locViewMat = super.getUniformLocation("viewMat");
 
-		locCameraPosition = super.getUniformLocation("camPosition");
+		locCameraPosition = super.getUniformLocation("camPos");
 
 		locLightVector = super.getUniformLocation("lightPosition");
 		locLightAmbient = super.getUniformLocation("light.ambient");

@@ -1,10 +1,10 @@
 #version 330 core
 
+in vec2 textureCoords;
+
 in vec3 unitNormal;
 in vec3 unitToLightVec;
-in vec3 unitToCameraVec;
-
-in vec2 textureCoords;
+in vec3 unitToCamVec;
 
 uniform sampler2D sampler;
 
@@ -14,6 +14,7 @@ uniform struct Light
 	vec3 diffuse;
 	vec3 specular;
 } light;
+
 uniform struct Material
 {
 	vec3 diffuse;
@@ -23,19 +24,18 @@ uniform struct Material
 
 out vec4 finalColor;
 
-void main(void)
+void main()
 {
-vec4 color = texture(sampler, textureCoords);
-	float brightness = max(dot(unitNormal, unitToLightVec), 0.0f);
-	vec3 diffuse = brightness * material.diffuse * light.diffuse;
+	float diffuseDot = dot(unitNormal, unitToLightVec);
+	vec3 diffuse = diffuseDot * light.diffuse * material.diffuse;
 	vec3 finalDiffuse = clamp(diffuse, 0.0f, 1.0f);
-	
+
 	vec3 finalAmbient = light.ambient;
 	
 	vec3 lightDirection = -unitToLightVec;
-	vec3 reflectLightDir = reflect(lightDirection, unitNormal);
-	vec3 specular = light.specular * pow(max(dot(reflectLightDir, unitToCameraVec), 0.0f), 0.3f * material.shininess);
+	vec3 reflectedLightVec = reflect(lightDirection, unitNormal);
+	vec3 specular = light.specular * pow(max(dot(reflectedLightVec, unitToCamVec), 0.0f), 0.3f * material.shininess);
 	vec3 finalSpecular = clamp(specular, 0.0f, 1.0f);
-	
-	finalColor = color + vec4((finalDiffuse * finalAmbient * finalSpecular).xyz, 1.0f);
+
+	finalColor = texture(sampler, textureCoords) + vec4(finalDiffuse * finalAmbient * finalSpecular, 1.0f);
 }

@@ -329,7 +329,7 @@ public class MainRenderer
 		camera.control(this);
 		prepareScreen(0, 1, 1);
 		basicShader.start();
-		picker.update();
+		picker.update();       
 		basicShader.loadLight(sun);
 		basicShader.loadViewMatrix(camera);
 		if (camera.getEntityHolder() != null)
