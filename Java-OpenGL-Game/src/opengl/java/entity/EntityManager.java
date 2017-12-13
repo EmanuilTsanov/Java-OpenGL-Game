@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.collision.Collision;
 import opengl.java.logger.Logger;
 import opengl.java.terrain.Chunk;
+import opengl.java.terrain.ChunkGenerator;
 import opengl.java.terrain.TerrainManager;
 
 public class EntityManager
@@ -114,7 +115,7 @@ public class EntityManager
 
 	public float genRandTerrainPos()
 	{
-		float result = rand.nextFloat() * (Chunk.VERTEX_SIZE * Chunk.QUAD_SIZE * TerrainManager.size / 2f);
+		float result = rand.nextFloat() * (ChunkGenerator.VERTEX_SIZE * ChunkGenerator.QUAD_SIZE * TerrainManager.size / 2f);
 		if (rand.nextInt(2) == 1)
 			return -result;
 		return result;

@@ -19,6 +19,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
@@ -177,7 +178,8 @@ public class MainRenderer
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, tManager.getTexture().getID());
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-			terrainShader.loadTransformationMatrix(new Vector3f(chunks.get(i).getX(), 0, chunks.get(i).getZ()), new Vector3f(0f, 0f, 0f), 1f);
+			Vector2f chPos = chunks.get(i).getPosition();
+			terrainShader.loadTransformationMatrix(new Vector3f(chPos.x, 0, chPos.y), new Vector3f(0f, 0f, 0f), 1f);
 			GL11.glDrawElements(GL11.GL_TRIANGLES, chunks.get(i).getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			GL20.glDisableVertexAttribArray(0);
 			GL20.glDisableVertexAttribArray(1);
