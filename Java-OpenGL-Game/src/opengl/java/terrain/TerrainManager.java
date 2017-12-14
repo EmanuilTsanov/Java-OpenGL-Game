@@ -16,7 +16,7 @@ public class TerrainManager
 	public TerrainManager(int size)
 	{
 		TerrainManager.size = size;
-		texture = FileManager.loadTexture("grassT");
+		texture = FileManager.loadTexture("snowT");
 		generateChunks(size);
 	}
 
