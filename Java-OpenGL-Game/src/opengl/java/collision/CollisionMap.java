@@ -8,9 +8,9 @@ public class CollisionMap
 {
 	private HashMap<Integer, CollisionCell> colMap;
 
-	public CollisionMap(int width, int height)
+	public CollisionMap(int size)
 	{
-		fillCollisionMap(width, height);
+		fillCollisionMap(size, size);
 	}
 
 	private void fillCollisionMap(int width, int height)

@@ -10,7 +10,7 @@ public class Chunk
 
 	public RawModel model;
 
-	public Chunk(int x, int y)
+	public Chunk(float x, float y)
 	{
 		this.position = ChunkGenerator.getWorldPosition(x, y);
 		this.model = ChunkGenerator.generateChunk();

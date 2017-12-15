@@ -34,7 +34,7 @@ import opengl.java.shader.FontShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.terrain.Chunk;
-import opengl.java.terrain.TerrainManager;
+import opengl.java.terrain.ChunkMap;
 import opengl.java.texture.BaseTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.Window;
@@ -50,7 +50,7 @@ public class MainRenderer
 
 	private MousePicker picker;
 
-	private TerrainManager tManager;
+	private ChunkMap tManager;
 	private EntityManager eManager;
 
 	int framebufferID;
@@ -65,7 +65,7 @@ public class MainRenderer
 		sun = new Light(new Vector3f(0.6f, 0.6f, 0.6f), new Vector3f(0.7f, 0.7f, 0.7f), new Vector3f(1.0f, 1.0f, 1.0f));
 		camera = new Camera(new Vector3f(0, 20, 0), 35, 45, 45);
 		picker = new MousePicker(Maths.getProjectionMatrix(), camera);
-		tManager = new TerrainManager(4);
+		tManager = new ChunkMap(4);
 		eManager = new EntityManager();
 		entities = eManager.loadEntities();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
