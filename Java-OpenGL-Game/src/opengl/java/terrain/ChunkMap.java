@@ -25,7 +25,7 @@ public class ChunkMap
 
 	private void fillArray(int size)
 	{
-		int s = size / 2;
+		float s = (float) size / 2f;
 		for (int y = -s; y < s; y++)
 		{
 			for (int x = -s; x < s; x++)
