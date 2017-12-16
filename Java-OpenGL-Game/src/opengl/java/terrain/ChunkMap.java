@@ -12,12 +12,13 @@ public class ChunkMap
 
 	private BaseTexture texture;
 
-	private static int size;
+	private int size;
 
 	private CollisionMap colMap;
 
-	public ChunkMap(int size) {
-		ChunkMap.size = size;
+	public ChunkMap(int size)
+	{
+		this.size = size;
 		texture = FileManager.loadTexture("snowT");
 		fillArray(size);
 		colMap = new CollisionMap(size);
@@ -25,12 +26,13 @@ public class ChunkMap
 
 	private void fillArray(int size)
 	{
-		float s = (float) size / 2f;
-		for (int y = -s; y < s; y++)
+		float startP = -(float) size / 2f;
+		for (int y = 0; y < size; y++)
 		{
-			for (int x = -s; x < s; x++)
+			for (int x = 0; x < size; x++)
 			{
-				chunks.add(new Chunk(x, y));
+				Chunk chunk = new Chunk(startP + x, startP + y);
+				chunks.add(chunk);
 			}
 		}
 	}
@@ -43,5 +45,10 @@ public class ChunkMap
 	public BaseTexture getTexture()
 	{
 		return texture;
+	}
+
+	public int getSize()
+	{
+		return size;
 	}
 }

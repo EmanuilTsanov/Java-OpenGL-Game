@@ -3,15 +3,12 @@ package opengl.java.entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.collision.Collision;
 import opengl.java.logger.Logger;
 import opengl.java.terrain.ChunkGenerator;
-import opengl.java.terrain.ChunkMap;
 
 public class EntityManager
 {
@@ -28,13 +25,13 @@ public class EntityManager
 	public static Entity mushroom = new Entity(6, "Mushroom", true).setModel("mushroom").setTexture("mushroom");
 	public static Entity mushroom1 = new Entity(7, "Brown Mushroom", true).setModel("mushroom").setTexture("mushroom1");
 	public static Entity grass = new Entity(8, "Grass", true).setModel("grass").setTexture("grass");
-	public static Entity christmasTree = new Entity(9, "Christmas Tree", true).setModel("christmas_tree")
-			.setTexture("christmas_tree");
+	public static Entity christmasTree = new Entity(9, "Christmas Tree", true).setModel("christmas_tree").setTexture("christmas_tree");
 	public static Entity snowman = new Entity(10, "Snowman", true).setModel("snowman").setTexture("snowman");
 
 	private HashMap<Integer, List<Entity>> entities;
 
-	public EntityManager() {
+	public EntityManager()
+	{
 		entities = new HashMap<Integer, List<Entity>>();
 	}
 
@@ -50,19 +47,19 @@ public class EntityManager
 
 	public boolean addEntity(Entity entity, boolean checkCollision)
 	{
-		if (checkCollision)
-		{
-			for (Map.Entry<Integer, List<Entity>> e : entities.entrySet())
-			{
-				for (int j = 0; j < e.getValue().size(); j++)
-				{
-					if (Collision.checkCollision(entity, e.getValue().get(j)))
-					{
-						return false;
-					}
-				}
-			}
-		}
+		//		if (checkCollision)
+		//		{
+		//			for (Map.Entry<Integer, List<Entity>> e : entities.entrySet())
+		//			{
+		//				for (int j = 0; j < e.getValue().size(); j++)
+		//				{
+		//					if (Collision.checkCollision(entity, e.getValue().get(j)))
+		//					{
+		//						return false;
+		//					}
+		//				}
+		//			}
+		//		}
 		if (entities.get(entity.getId()) == null)
 		{
 			ArrayList<Entity> ents = new ArrayList<Entity>();
@@ -105,8 +102,7 @@ public class EntityManager
 				}
 				if (j == TRIES_TO_ADD_LIMIT - 1)
 				{
-					Logger.log("Try to add limit reached. Entity of type '" + entity.getName()
-							+ "' wasn't added on the map.");
+					Logger.log("Try to add limit reached. Entity of type '" + entity.getName() + "' wasn't added on the map.");
 				}
 			}
 		}
@@ -115,8 +111,7 @@ public class EntityManager
 
 	public float genRandTerrainPos()
 	{
-		float result = rand.nextFloat()
-				* (ChunkGenerator.VERTEX_SIZE * ChunkGenerator.QUAD_SIZE * ChunkMap.size / 2f);
+		float result = rand.nextFloat() * (ChunkGenerator.VERTEX_SIZE * ChunkGenerator.QUAD_SIZE * 4 / 2f);
 		if (rand.nextInt(2) == 1)
 			return -result;
 		return result;

@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.collision.CollisionModel;
 import opengl.java.management.FileManager;
 import opengl.java.material.Material;
 import opengl.java.model.RawModel;
@@ -37,7 +36,6 @@ public class Entity
 	private static HashMap<Integer, RawModel> models = new HashMap<Integer, RawModel>(); // Stores entity models (instead of having multiple copies of the same model, we use only one to render multiple entities)
 	private static HashMap<Integer, BaseTexture> textures = new HashMap<Integer, BaseTexture>(); // Stores entity textures (instead of having multiple copies of the same texture, we use only one to render multiple entities)
 	private static HashMap<Integer, BaseTexture> specularMaps = new HashMap<Integer, BaseTexture>();
-	private static HashMap<Integer, CollisionModel> collisions = new HashMap<Integer, CollisionModel>();
 
 	private Vector3f color;
 
@@ -98,16 +96,6 @@ public class Entity
 	{
 		BaseTexture texture = FileManager.loadTexture("assets/textures/specular/", val);
 		specularMaps.put(id, texture);
-		return this;
-	}
-
-	/**
-	 * Sets the collision model file name to be loaded from the assets later on.
-	 */
-	public Entity setCollisionModel(String val)
-	{
-		CollisionModel colModel = FileManager.loadCollision(val);
-		collisions.put(id, colModel);
 		return this;
 	}
 
@@ -289,11 +277,6 @@ public class Entity
 	public static BaseTexture getSpecularMap(int id)
 	{
 		return specularMaps.get(id);
-	}
-
-	public static CollisionModel getCollisionModel(int id)
-	{
-		return collisions.get(id);
 	}
 
 	public static Entity getEntityByColor(Vector3f color)

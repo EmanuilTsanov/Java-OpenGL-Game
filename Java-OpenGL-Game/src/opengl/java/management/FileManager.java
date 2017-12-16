@@ -12,8 +12,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.Texture;
 
-import opengl.java.collision.CollisionBox;
-import opengl.java.collision.CollisionModel;
 import opengl.java.files.ExternalFilePaths;
 import opengl.java.loader.ModelLoader;
 import opengl.java.model.RawModel;
@@ -171,49 +169,5 @@ public class FileManager
 			e.printStackTrace();
 		}
 		return new BaseTexture(tex.getTextureID());
-	}
-
-	public static CollisionModel loadCollision(String fileName)
-	{
-		ArrayList<CollisionBox> colBoxes = new ArrayList<CollisionBox>();
-		try
-		{
-			BufferedReader reader = new BufferedReader(new FileReader(new File("assets/collision/" + fileName + "." + ExternalFilePaths.collisionExtension)));
-			String line;
-			CollisionBox b = null;
-			ArrayList<Vector3f> vectors = new ArrayList<Vector3f>();
-			while ((line = reader.readLine()) != null)
-			{
-				if (line.startsWith("v "))
-				{
-					String[] tokens = line.split("\\s+");
-					vectors.add(new Vector3f(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3])));
-				}
-				else if (line.startsWith("o ") && b != null)
-				{
-					b.push(vectors);
-					colBoxes.add(b);
-					b = new CollisionBox();
-					vectors = new ArrayList<Vector3f>();
-				}
-				else if (line.startsWith("o ") && b == null)
-				{
-					b = new CollisionBox();
-				}
-			}
-			b.push(vectors);
-			colBoxes.add(b);
-			reader.close();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return new CollisionModel(colBoxes);
-	}
-
-	public void loadAdvancedModel()
-	{
-
 	}
 }

@@ -7,8 +7,8 @@ import opengl.java.model.RawModel;
 
 public class ChunkGenerator
 {
-	public static final int VERTEX_SIZE = 64;
-	public static final int QUAD_SIZE = 1;
+	public static final int VERTEX_SIZE = 4;
+	public static final int QUAD_SIZE = 20;
 
 	public static RawModel generateChunk()
 	{
@@ -62,5 +62,10 @@ public class ChunkGenerator
 	public static Vector2f getWorldPosition(float x, float y)
 	{
 		return new Vector2f(toWorldSpace(x), toWorldSpace(y));
+	}
+
+	public static int getQuadSize()
+	{
+		return QUAD_SIZE;
 	}
 }

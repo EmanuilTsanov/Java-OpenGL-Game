@@ -65,7 +65,7 @@ public class MainRenderer
 		sun = new Light(new Vector3f(0.6f, 0.6f, 0.6f), new Vector3f(0.7f, 0.7f, 0.7f), new Vector3f(1.0f, 1.0f, 1.0f));
 		camera = new Camera(new Vector3f(0, 20, 0), 35, 45, 45);
 		picker = new MousePicker(Maths.getProjectionMatrix(), camera);
-		tManager = new ChunkMap(4);
+		tManager = new ChunkMap(5);
 		eManager = new EntityManager();
 		entities = eManager.loadEntities();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -341,6 +341,7 @@ public class MainRenderer
 		}
 		renderEntities();
 		basicShader.stop();
+		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		terrainShader.start();
 		terrainShader.loadViewMatrix(camera);
 		renderTerrain();
