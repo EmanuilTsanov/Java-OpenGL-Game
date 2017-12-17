@@ -95,11 +95,6 @@ public class Maths
 		return 0;
 	}
 
-	public static int concatenateInts(int a, int b)
-	{
-		return Integer.parseInt(a + "" + b);
-	}
-
 	public static float getImageValue(float value, float dimSize)
 	{
 		float pixel_size = 1f / dimSize;

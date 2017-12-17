@@ -341,7 +341,6 @@ public class MainRenderer
 		}
 		renderEntities();
 		basicShader.stop();
-		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		terrainShader.start();
 		terrainShader.loadViewMatrix(camera);
 		renderTerrain();
