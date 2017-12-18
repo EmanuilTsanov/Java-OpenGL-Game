@@ -1,5 +1,7 @@
 package opengl.java.terrain;
 
+import java.util.Random;
+
 import org.lwjgl.util.vector.Vector2f;
 
 import opengl.java.loader.ModelLoader;
@@ -7,8 +9,10 @@ import opengl.java.model.RawModel;
 
 public class ChunkGenerator
 {
-	public static final int VERTEX_SIZE = 4;
-	public static final int QUAD_SIZE = 20;
+	public static final int VERTEX_SIZE = 32;
+	public static final int QUAD_SIZE = 2;
+
+	private static Random rand = new Random();
 
 	public static RawModel generateChunk()
 	{
@@ -67,5 +71,18 @@ public class ChunkGenerator
 	public static int getQuadSize()
 	{
 		return QUAD_SIZE;
+	}
+
+	public static int getVertexSize()
+	{
+		return VERTEX_SIZE;
+	}
+
+	public static float genRandTerrainPos(int chunkMapSize)
+	{
+		float result = rand.nextFloat() * ((ChunkGenerator.VERTEX_SIZE-1) * ChunkGenerator.QUAD_SIZE * chunkMapSize / 2f);
+		if (rand.nextInt(2) == 1)
+			return -result;
+		return result;
 	}
 }

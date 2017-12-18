@@ -24,15 +24,13 @@ public class FileManager
 	{
 		ArrayList<String> lines = new ArrayList<String>();
 
-		try
+		try (BufferedReader stream = new BufferedReader(new FileReader(new File(path + fileName + ExternalFilePaths.DOT + extension)));)
 		{
-			BufferedReader stream = new BufferedReader(new FileReader(new File(path + fileName + ExternalFilePaths.DOT + extension)));
 			String line;
 			while ((line = stream.readLine()) != null)
 			{
 				lines.add(line);
 			}
-			stream.close();
 		}
 		catch (FileNotFoundException e)
 		{

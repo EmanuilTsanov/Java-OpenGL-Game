@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +49,7 @@ public class MainRenderer
 
 	private MousePicker picker;
 
-	private ChunkMap tManager;
+	private ChunkMap chunkMap;
 	private EntityManager eManager;
 
 	int framebufferID;
@@ -65,8 +64,8 @@ public class MainRenderer
 		sun = new Light(new Vector3f(0.6f, 0.6f, 0.6f), new Vector3f(0.7f, 0.7f, 0.7f), new Vector3f(1.0f, 1.0f, 1.0f));
 		camera = new Camera(new Vector3f(0, 20, 0), 35, 45, 45);
 		picker = new MousePicker(Maths.getProjectionMatrix(), camera);
-		tManager = new ChunkMap(5);
-		eManager = new EntityManager();
+		chunkMap = new ChunkMap(5);
+		eManager = new EntityManager(chunkMap.getSize());
 		entities = eManager.loadEntities();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Window.WIDTH, Window.HEIGHT);
@@ -168,19 +167,20 @@ public class MainRenderer
 	 */
 	public void renderTerrain()
 	{
-		ArrayList<Chunk> chunks = tManager.getChunkArray();
-		for (int i = 0; i < chunks.size(); i++)
+		HashMap<String, Chunk> chunks = chunkMap.getChunkArray();
+		for (Map.Entry<String, Chunk> chunk : chunks.entrySet())
 		{
-			GL30.glBindVertexArray(chunks.get(i).getModel().getVAOID());
+			Chunk ch = chunk.getValue();
+			GL30.glBindVertexArray(ch.getModel().getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, tManager.getTexture().getID());
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, chunkMap.getTexture().getID());
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-			Vector2f chPos = chunks.get(i).getPosition();
+			Vector2f chPos = ch.getPosition();
 			terrainShader.loadTransformationMatrix(new Vector3f(chPos.x, 0, chPos.y), new Vector3f(0f, 0f, 0f), 1f);
-			GL11.glDrawElements(GL11.GL_TRIANGLES, chunks.get(i).getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			GL11.glDrawElements(GL11.GL_TRIANGLES, ch.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			GL20.glDisableVertexAttribArray(0);
 			GL20.glDisableVertexAttribArray(1);
 			GL30.glBindVertexArray(0);
@@ -331,7 +331,7 @@ public class MainRenderer
 		camera.control(this);
 		prepareScreen(0, 1, 1);
 		basicShader.start();
-		picker.update();       
+		picker.update();
 		basicShader.loadLight(sun);
 		basicShader.loadViewMatrix(camera);
 		if (camera.getEntityHolder() != null)
@@ -339,6 +339,7 @@ public class MainRenderer
 			camera.getEntityHolder().setPosition(picker.getMapPosition());
 			renderEntity(camera.getEntityHolder());
 		}
+		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		renderEntities();
 		basicShader.stop();
 		terrainShader.start();
@@ -348,6 +349,10 @@ public class MainRenderer
 		if (Keyboard.isKeyDown(Keyboard.KEY_F1))
 		{
 			takeScreenshot();
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_F2))
+		{
+			chunkMap.getChunkByPos((int) picker.getMapPosition().x, (int) picker.getMapPosition().z);
 		}
 		// s.start();
 		// fr.render(g);

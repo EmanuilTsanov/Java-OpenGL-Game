@@ -1,27 +1,23 @@
 package opengl.java.terrain;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
-import opengl.java.collision.CollisionMap;
 import opengl.java.management.FileManager;
 import opengl.java.texture.BaseTexture;
 
 public class ChunkMap
 {
-	private ArrayList<Chunk> chunks = new ArrayList<Chunk>();
+	private HashMap<String, Chunk> chunks = new HashMap<String, Chunk>();
 
 	private BaseTexture texture;
 
 	private int size;
-
-	private CollisionMap colMap;
 
 	public ChunkMap(int size)
 	{
 		this.size = size;
 		texture = FileManager.loadTexture("snowT");
 		fillArray(size);
-		colMap = new CollisionMap(size);
 	}
 
 	private void fillArray(int size)
@@ -32,12 +28,21 @@ public class ChunkMap
 			for (int x = 0; x < size; x++)
 			{
 				Chunk chunk = new Chunk(startP + x, startP + y);
-				chunks.add(chunk);
+				chunks.put(x + "/" + y, chunk);
 			}
 		}
 	}
 
-	public ArrayList<Chunk> getChunkArray()
+	public Chunk getChunkByPos(int x, int y)
+	{
+		int chunkSize = ChunkGenerator.getVertexSize() * ChunkGenerator.getQuadSize();
+		int xArr = x / chunkSize;
+		int yArr = y / chunkSize;
+		System.out.println(xArr + " / " + yArr + "        " + x + " / " + y);
+		return chunks.get(xArr + "/" + yArr);
+	}
+
+	public HashMap<String, Chunk> getChunkArray()
 	{
 		return chunks;
 	}
