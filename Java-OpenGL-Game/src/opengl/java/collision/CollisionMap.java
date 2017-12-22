@@ -6,10 +6,11 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class CollisionMap {
 	private HashMap<String, CollisionCell> colMap;
+	private Vector2f selectedCells = new Vector2f(0, 0);
 
 	public CollisionMap(int size) {
 		colMap = new HashMap<String, CollisionCell>();
-		fillCollisionMap(size);
+		fillCollisionMap(size - 1);
 	}
 
 	private void fillCollisionMap(int size) {

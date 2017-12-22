@@ -33,11 +33,11 @@ public class ChunkMap
 		}
 	}
 
-	public Chunk getChunkByPos(int x, int y)
+	public Chunk getChunkByPos(float x, float y)
 	{
 		int chunkSize = ChunkGenerator.getVertexSize() * ChunkGenerator.getQuadSize();
-		int xArr = x / chunkSize;
-		int yArr = y / chunkSize;
+		float xArr = x / chunkSize;
+		float yArr = y / chunkSize;
 		System.out.println(xArr + " / " + yArr + "        " + x + " / " + y);
 		return chunks.get(xArr + "/" + yArr);
 	}

@@ -1114,3 +1114,43 @@
 [22:08:09] 100 entities of type 'Bench' were added successfully!
 [22:08:09] 100 entities of type 'Christmas Tree' were added successfully!
 [22:08:09] 100 entities of type 'Snowman' were added successfully!
+[12:59:25] 100 entities of type 'Pine Tree' were added successfully!
+[12:59:25] 100 entities of type 'Bench' were added successfully!
+[12:59:25] 100 entities of type 'Christmas Tree' were added successfully!
+[12:59:25] 100 entities of type 'Snowman' were added successfully!
+[16:26:35] 100 entities of type 'Pine Tree' were added successfully!
+[16:26:35] 100 entities of type 'Bench' were added successfully!
+[16:26:35] 100 entities of type 'Christmas Tree' were added successfully!
+[16:26:35] 100 entities of type 'Snowman' were added successfully!
+[16:26:55] 100 entities of type 'Pine Tree' were added successfully!
+[16:26:55] 100 entities of type 'Bench' were added successfully!
+[16:26:55] 100 entities of type 'Christmas Tree' were added successfully!
+[16:26:55] 100 entities of type 'Snowman' were added successfully!
+[16:27:45] 100 entities of type 'Pine Tree' were added successfully!
+[16:27:45] 100 entities of type 'Bench' were added successfully!
+[16:27:45] 100 entities of type 'Christmas Tree' were added successfully!
+[16:27:45] 100 entities of type 'Snowman' were added successfully!
+[16:30:22] 100 entities of type 'Pine Tree' were added successfully!
+[16:30:22] 100 entities of type 'Bench' were added successfully!
+[16:30:22] 100 entities of type 'Christmas Tree' were added successfully!
+[16:30:22] 100 entities of type 'Snowman' were added successfully!
+[16:42:21] 100 entities of type 'Pine Tree' were added successfully!
+[16:42:21] 100 entities of type 'Bench' were added successfully!
+[16:42:21] 100 entities of type 'Christmas Tree' were added successfully!
+[16:42:21] 100 entities of type 'Snowman' were added successfully!
+[16:43:55] 100 entities of type 'Pine Tree' were added successfully!
+[16:43:55] 100 entities of type 'Bench' were added successfully!
+[16:43:55] 100 entities of type 'Christmas Tree' were added successfully!
+[16:43:55] 100 entities of type 'Snowman' were added successfully!
+[16:44:05] 100 entities of type 'Pine Tree' were added successfully!
+[16:44:05] 100 entities of type 'Bench' were added successfully!
+[16:44:05] 100 entities of type 'Christmas Tree' were added successfully!
+[16:44:05] 100 entities of type 'Snowman' were added successfully!
+[16:45:00] 100 entities of type 'Pine Tree' were added successfully!
+[16:45:00] 100 entities of type 'Bench' were added successfully!
+[16:45:00] 100 entities of type 'Christmas Tree' were added successfully!
+[16:45:00] 100 entities of type 'Snowman' were added successfully!
+[16:45:14] 100 entities of type 'Pine Tree' were added successfully!
+[16:45:14] 100 entities of type 'Bench' were added successfully!
+[16:45:14] 100 entities of type 'Christmas Tree' were added successfully!
+[16:45:14] 100 entities of type 'Snowman' were added successfully!

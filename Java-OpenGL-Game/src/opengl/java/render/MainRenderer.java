@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
@@ -352,7 +353,7 @@ public class MainRenderer
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_F2))
 		{
-			chunkMap.getChunkByPos((int) picker.getMapPosition().x, (int) picker.getMapPosition().z);
+			chunkMap.getChunkByPos(picker.getMapPosition().x, picker.getMapPosition().z);
 		}
 		// s.start();
 		// fr.render(g);
