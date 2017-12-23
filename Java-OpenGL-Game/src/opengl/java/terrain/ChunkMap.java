@@ -22,7 +22,7 @@ public class ChunkMap
 
 	private void fillArray(int size)
 	{
-		float startP = -(float) size / 2f;
+		float startP = -(int) size / 2f;
 		for (int y = 0; y < size; y++)
 		{
 			for (int x = 0; x < size; x++)
@@ -35,9 +35,10 @@ public class ChunkMap
 
 	public Chunk getChunkByPos(float x, float y)
 	{
-		int chunkSize = ChunkGenerator.getVertexSize() * ChunkGenerator.getQuadSize();
-		float xArr = x / chunkSize;
-		float yArr = y / chunkSize;
+		float chunkSize = size * ChunkGenerator.getVertexSize() * ChunkGenerator.getQuadSize();
+		int xArr = (int) (chunkSize / x);
+		int yArr = (int) (chunkSize / y);
+		System.out.println(xArr + "/" + yArr);
 		return chunks.get(xArr + "/" + yArr);
 	}
 
