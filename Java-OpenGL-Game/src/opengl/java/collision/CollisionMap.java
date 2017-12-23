@@ -6,7 +6,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class CollisionMap {
 	private HashMap<String, CollisionCell> colMap;
-	private Vector2f selectedCells = new Vector2f(0, 0);
+	
+	private Vector2f highlightedCell;
 
 	public CollisionMap(int size) {
 		colMap = new HashMap<String, CollisionCell>();

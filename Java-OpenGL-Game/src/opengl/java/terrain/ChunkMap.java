@@ -38,7 +38,6 @@ public class ChunkMap
 		int chunkSize = ChunkGenerator.getVertexSize() * ChunkGenerator.getQuadSize();
 		float xArr = x / chunkSize;
 		float yArr = y / chunkSize;
-		System.out.println(xArr + " / " + yArr + "        " + x + " / " + y);
 		return chunks.get(xArr + "/" + yArr);
 	}
 
