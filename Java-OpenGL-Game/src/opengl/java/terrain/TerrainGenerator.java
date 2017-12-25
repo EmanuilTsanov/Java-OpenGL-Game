@@ -12,18 +12,7 @@ public class TerrainGenerator
 	public static final int VERTEX_SIZE = 128;
 	public static final int QUAD_SIZE = 2;
 
-	private static RawModel hModel;
-
 	private static Random rand = new Random();
-
-	static float[] vertices = { 0.0f, 0.0f, QUAD_SIZE, 0.0f, 0.0f, 0.0f, QUAD_SIZE, 0.0f, 0.0f, QUAD_SIZE, 0.0f, QUAD_SIZE };
-	static int[] indices = { 0, 1, 3, 3, 1, 2 };
-	static float[] texCoords = { 0 };
-	static float[] normals = { 0 };
-	static
-	{
-		loadHighlightModel();
-	}
 
 	public static RawModel generateTerrain()
 	{
@@ -66,17 +55,6 @@ public class TerrainGenerator
 		ModelLoader loader = new ModelLoader();
 		float[] normals = { 0 };
 		return loader.loadModel(vertices, indices, texCoords, normals);
-	}
-
-	public static void loadHighlightModel()
-	{
-		ModelLoader loader = new ModelLoader();
-		hModel = loader.loadModel(vertices, indices, texCoords, normals);
-	}
-
-	public static RawModel getHighlightModel()
-	{
-		return hModel;
 	}
 
 	private static float toWorldSpace(float coord)

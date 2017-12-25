@@ -18,8 +18,6 @@ public class Terrain
 
 	private BaseTexture texture;
 
-	private Vector2f highlightedCell;
-
 	public Terrain()
 	{
 		this.position = new Vector2f(0, 0);
@@ -63,20 +61,5 @@ public class Terrain
 	public BaseTexture getTexture()
 	{
 		return texture;
-	}
-
-	public void highlight(CollisionCell cell)
-	{
-		if (cell == null)
-		{
-			System.out.println("null");
-		}
-		else
-			highlightedCell = cell.getPosition();
-	}
-
-	public Vector2f getHighlightedCell()
-	{
-		return highlightedCell;
 	}
 }

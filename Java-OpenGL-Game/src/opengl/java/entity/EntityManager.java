@@ -37,10 +37,13 @@ public class EntityManager
 
 	public HashMap<Integer, List<Entity>> loadEntities()
 	{
-		addEntities(pineTree, 100, true, 1f, 1f);
-		addEntities(bench, 100, true, 1f, 1f);
-		addEntities(christmasTree, 100, true, 1f, 1f);
-		addEntities(snowman, 100, true, 1f, 1f);
+		addEntities(pineTree, 1000, true, 1f, 1f);
+		addEntities(bench, 1000, true, 1f, 1f);
+		addEntities(christmasTree, 1000, true, 1f, 1f);
+		addEntities(snowman, 1000, true, 1f, 1f);
+		addEntities(table, 100, true, 1f, 1f);
+		addEntities(campfire, 250, true, 1f, 1f);
+		addEntities(grass, 1000, true, 1f, 1f);
 
 		return entities;
 	}

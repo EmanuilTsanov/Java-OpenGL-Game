@@ -23,6 +23,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
 import opengl.java.calculations.MousePicker;
+import opengl.java.collision.CellSelector;
 import opengl.java.collision.CollisionCell;
 import opengl.java.entity.Entity;
 import opengl.java.entity.EntityManager;
@@ -53,6 +54,7 @@ public class MainRenderer
 	private MousePicker picker;
 
 	private Terrain terrain;
+	private CellSelector cs;
 	private EntityManager eManager;
 
 	int framebufferID;
@@ -65,11 +67,12 @@ public class MainRenderer
 	{
 		initShaders();
 		sun = new Light(new Vector3f(0.6f, 0.6f, 0.6f), new Vector3f(0.7f, 0.7f, 0.7f), new Vector3f(1.0f, 1.0f, 1.0f));
-		camera = new Camera(new Vector3f(0, 20, 0), 35, 45, 45);
+		camera = new Camera(new Vector3f(TerrainGenerator.getVertexSize() * TerrainGenerator.getQuadSize() / 2, 20, TerrainGenerator.getVertexSize() * TerrainGenerator.getQuadSize() / 2), 35, 45, 45);
 		picker = new MousePicker(Maths.getProjectionMatrix(), camera);
 		terrain = new Terrain();
 		eManager = new EntityManager();
 		entities = eManager.loadEntities();
+		cs = new CellSelector();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Window.WIDTH, Window.HEIGHT);
 	}
@@ -150,16 +153,27 @@ public class MainRenderer
 		}
 	}
 
-	public void renderModel(RawModel m)
+	public void renderModel(RawModel m, Vector3f position, Vector3f rotation, float scale)
 	{
 		GL30.glBindVertexArray(m.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
-		Vector2f v = terrain.getHighlightedCell();
-		System.out.println(v);
-		cShader.loadTransformationMatrix(new Vector3f(v.x*TerrainGenerator.getQuadSize(), 0.0f, v.y*TerrainGenerator.getQuadSize()), new Vector3f(0, 0, 0), 1f);
+		cShader.loadTransformationMatrix(position, rotation, scale);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, m.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
+	}
+
+	public void renderHighlightedArea()
+	{
+		Vector3f mapPos = picker.getMapPosition();
+		CollisionCell cell = terrain.getColCell((int) mapPos.x / TerrainGenerator.getQuadSize(), (int) mapPos.z / TerrainGenerator.getQuadSize());
+		cs.highlight(cell);
+		Vector2f v = cs.getHighlightedCell();
+		cShader.start();
+		cShader.loadViewMatrix(camera);
+		cShader.loadColor(new Vector3f(0, 1, 0));
+		renderModel(cs.getModel(), new Vector3f(v.x * TerrainGenerator.getQuadSize(), 0.2f, v.y * TerrainGenerator.getQuadSize()), new Vector3f(0, 0, 0), 1f);
+		cShader.stop();
 	}
 
 	public void renderEntity(Entity e)
@@ -348,20 +362,12 @@ public class MainRenderer
 		picker.update();
 		basicShader.loadLight(sun);
 		basicShader.loadViewMatrix(camera);
-//		if (Keyboard.isKeyDown(Keyboard.KEY_F2))
-//		{
-//			Vector3f mapPos = picker.getMapPosition();
-//			CollisionCell cell = terrain.getColCell((int) mapPos.x / TerrainGenerator.getQuadSize(), (int) mapPos.z / TerrainGenerator.getQuadSize());
-//			terrain.highlight(cell);
-//			Vector2f v = terrain.getHighlightedCell();
-//			renderEntity(EntityManager.bench.getFullCopy(true).setPosition(v.x*TerrainGenerator.getQuadSize(), 0, v.y*TerrainGenerator.getQuadSize()));
-//		}
 		if (camera.getEntityHolder() != null)
 		{
 			camera.getEntityHolder().setPosition(picker.getMapPosition());
 			renderEntity(camera.getEntityHolder());
 		}
-//		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
+		//		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		renderEntities();
 		basicShader.stop();
 		terrainShader.start();
@@ -372,18 +378,10 @@ public class MainRenderer
 		{
 			takeScreenshot();
 		}
-				if (Keyboard.isKeyDown(Keyboard.KEY_F2))
-				{
-					Vector3f mapPos = picker.getMapPosition();
-					System.out.println(mapPos);
-					CollisionCell cell = terrain.getColCell((int) mapPos.x / TerrainGenerator.getQuadSize(), (int) mapPos.z / TerrainGenerator.getQuadSize());
-					terrain.highlight(cell);
-					cShader.start();
-					cShader.loadViewMatrix(camera);
-					cShader.loadColor(new Vector3f(0,1,0));
-					renderModel(TerrainGenerator.getHighlightModel());
-					cShader.stop();
-				}
+		if (Keyboard.isKeyDown(Keyboard.KEY_F2))
+		{
+			renderHighlightedArea();
+		}
 		// s.start();
 		// fr.render(g);
 		// s.stop();
