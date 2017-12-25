@@ -7,16 +7,26 @@ import org.lwjgl.util.vector.Vector2f;
 import opengl.java.loader.ModelLoader;
 import opengl.java.model.RawModel;
 
-public class ChunkGenerator
+public class TerrainGenerator
 {
-	public static final int VERTEX_SIZE = 32;
+	public static final int VERTEX_SIZE = 128;
 	public static final int QUAD_SIZE = 2;
+
+	private static RawModel hModel;
 
 	private static Random rand = new Random();
 
-	public static RawModel generateChunk()
+	static float[] vertices = { 0.0f, 0.0f, QUAD_SIZE, 0.0f, 0.0f, 0.0f, QUAD_SIZE, 0.0f, 0.0f, QUAD_SIZE, 0.0f, QUAD_SIZE };
+	static int[] indices = { 0, 1, 3, 3, 1, 2 };
+	static float[] texCoords = { 0 };
+	static float[] normals = { 0 };
+	static
 	{
+		loadHighlightModel();
+	}
 
+	public static RawModel generateTerrain()
+	{
 		float[] vertices = new float[VERTEX_SIZE * VERTEX_SIZE * 3];
 		int[] indices = new int[(VERTEX_SIZE - 1) * (VERTEX_SIZE - 1) * 6];
 		float[] texCoords = new float[VERTEX_SIZE * VERTEX_SIZE * 2];
@@ -58,8 +68,20 @@ public class ChunkGenerator
 		return loader.loadModel(vertices, indices, texCoords, normals);
 	}
 
+	public static void loadHighlightModel()
+	{
+		ModelLoader loader = new ModelLoader();
+		hModel = loader.loadModel(vertices, indices, texCoords, normals);
+	}
+
+	public static RawModel getHighlightModel()
+	{
+		return hModel;
+	}
+
 	private static float toWorldSpace(float coord)
 	{
+		System.out.println(coord * VERTEX_SIZE * QUAD_SIZE - QUAD_SIZE * coord);
 		return coord * VERTEX_SIZE * QUAD_SIZE - QUAD_SIZE * coord;
 	}
 
@@ -78,11 +100,9 @@ public class ChunkGenerator
 		return VERTEX_SIZE;
 	}
 
-	public static float genRandTerrainPos(int chunkMapSize)
+	public static float genRandTerrainPos()
 	{
-		float result = rand.nextFloat() * ((ChunkGenerator.VERTEX_SIZE-1) * ChunkGenerator.QUAD_SIZE * chunkMapSize / 2f);
-		if (rand.nextInt(2) == 1)
-			return -result;
+		float result = rand.nextFloat() * (TerrainGenerator.VERTEX_SIZE - 1) * TerrainGenerator.QUAD_SIZE;
 		return result;
 	}
 }

@@ -8,7 +8,7 @@ import java.util.Random;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.logger.Logger;
-import opengl.java.terrain.ChunkGenerator;
+import opengl.java.terrain.TerrainGenerator;
 
 public class EntityManager
 {
@@ -28,14 +28,11 @@ public class EntityManager
 	public static Entity christmasTree = new Entity(9, "Christmas Tree", true).setModel("christmas_tree").setTexture("christmas_tree");
 	public static Entity snowman = new Entity(10, "Snowman", true).setModel("snowman").setTexture("snowman");
 
-	
-	private int chunkMapSize;
 	private HashMap<Integer, List<Entity>> entities;
 
-	public EntityManager(int chunkMapSize)
+	public EntityManager()
 	{
 		entities = new HashMap<Integer, List<Entity>>();
-		this.chunkMapSize = chunkMapSize;
 	}
 
 	public HashMap<Integer, List<Entity>> loadEntities()
@@ -85,7 +82,7 @@ public class EntityManager
 			Entity e = entity.getFullCopy(false);
 
 			float scale = rand.nextFloat() * (maxScale - minScale) + minScale;
-			e.setPosition(ChunkGenerator.genRandTerrainPos(chunkMapSize), 0, ChunkGenerator.genRandTerrainPos(chunkMapSize)).setScale(scale);
+			e.setPosition(TerrainGenerator.genRandTerrainPos(), 0, TerrainGenerator.genRandTerrainPos()).setScale(scale);
 
 			if (randRot)
 			{
@@ -101,7 +98,7 @@ public class EntityManager
 				}
 				else
 				{
-					e.setPosition(ChunkGenerator.genRandTerrainPos(chunkMapSize), 0, ChunkGenerator.genRandTerrainPos(chunkMapSize));
+					e.setPosition(TerrainGenerator.genRandTerrainPos(), 0, TerrainGenerator.genRandTerrainPos());
 				}
 				if (j == TRIES_TO_ADD_LIMIT - 1)
 				{

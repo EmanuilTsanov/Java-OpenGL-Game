@@ -23,17 +23,19 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
 import opengl.java.calculations.MousePicker;
+import opengl.java.collision.CollisionCell;
 import opengl.java.entity.Entity;
 import opengl.java.entity.EntityManager;
 import opengl.java.fonts.GUIText;
 import opengl.java.lighting.Light;
 import opengl.java.model.RawModel;
 import opengl.java.shader.BasicShader;
+import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
-import opengl.java.terrain.Chunk;
-import opengl.java.terrain.ChunkMap;
+import opengl.java.terrain.Terrain;
+import opengl.java.terrain.TerrainGenerator;
 import opengl.java.texture.BaseTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.Window;
@@ -44,12 +46,13 @@ public class MainRenderer
 	private BasicShader basicShader;
 	private TerrainShader terrainShader;
 	private PickShader pickShader;
+	private ColorfulShader cShader;
 	private Light sun;
 	private Camera camera;
 
 	private MousePicker picker;
 
-	private ChunkMap chunkMap;
+	private Terrain terrain;
 	private EntityManager eManager;
 
 	int framebufferID;
@@ -64,8 +67,8 @@ public class MainRenderer
 		sun = new Light(new Vector3f(0.6f, 0.6f, 0.6f), new Vector3f(0.7f, 0.7f, 0.7f), new Vector3f(1.0f, 1.0f, 1.0f));
 		camera = new Camera(new Vector3f(0, 20, 0), 35, 45, 45);
 		picker = new MousePicker(Maths.getProjectionMatrix(), camera);
-		chunkMap = new ChunkMap(5);
-		eManager = new EntityManager(chunkMap.getSize());
+		terrain = new Terrain();
+		eManager = new EntityManager();
 		entities = eManager.loadEntities();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Window.WIDTH, Window.HEIGHT);
@@ -82,6 +85,7 @@ public class MainRenderer
 		basicShader = new BasicShader();
 		terrainShader = new TerrainShader();
 		pickShader = new PickShader();
+		cShader = new ColorfulShader();
 
 		// Loading up shaders
 		fontShader.start();
@@ -96,6 +100,9 @@ public class MainRenderer
 		pickShader.start();
 		pickShader.loadProjectionMatrix();
 		pickShader.stop();
+		cShader.start();
+		cShader.loadProjectionMatrix();
+		cShader.stop();
 	}
 
 	/**
@@ -143,6 +150,18 @@ public class MainRenderer
 		}
 	}
 
+	public void renderModel(RawModel m)
+	{
+		GL30.glBindVertexArray(m.getVAOID());
+		GL20.glEnableVertexAttribArray(0);
+		Vector2f v = terrain.getHighlightedCell();
+		System.out.println(v);
+		cShader.loadTransformationMatrix(new Vector3f(v.x*TerrainGenerator.getQuadSize(), 0.0f, v.y*TerrainGenerator.getQuadSize()), new Vector3f(0, 0, 0), 1f);
+		GL11.glDrawElements(GL11.GL_TRIANGLES, m.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+		GL20.glDisableVertexAttribArray(0);
+		GL30.glBindVertexArray(0);
+	}
+
 	public void renderEntity(Entity e)
 	{
 		RawModel model = Entity.getModel(e.getId());
@@ -167,24 +186,19 @@ public class MainRenderer
 	 */
 	public void renderTerrain()
 	{
-		HashMap<String, Chunk> chunks = chunkMap.getChunkArray();
-		for (Map.Entry<String, Chunk> chunk : chunks.entrySet())
-		{
-			Chunk ch = chunk.getValue();
-			GL30.glBindVertexArray(ch.getModel().getVAOID());
-			GL20.glEnableVertexAttribArray(0);
-			GL20.glEnableVertexAttribArray(1);
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, chunkMap.getTexture().getID());
-			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
-			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-			Vector2f chPos = ch.getPosition();
-			terrainShader.loadTransformationMatrix(new Vector3f(chPos.x, 0, chPos.y), new Vector3f(0f, 0f, 0f), 1f);
-			GL11.glDrawElements(GL11.GL_TRIANGLES, ch.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-			GL20.glDisableVertexAttribArray(0);
-			GL20.glDisableVertexAttribArray(1);
-			GL30.glBindVertexArray(0);
-		}
+		GL30.glBindVertexArray(terrain.getModel().getVAOID());
+		GL20.glEnableVertexAttribArray(0);
+		GL20.glEnableVertexAttribArray(1);
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getTexture().getID());
+		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+		Vector2f chPos = terrain.getPosition();
+		terrainShader.loadTransformationMatrix(new Vector3f(chPos.x, 0, chPos.y), new Vector3f(0f, 0f, 0f), 1f);
+		GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+		GL20.glDisableVertexAttribArray(0);
+		GL20.glDisableVertexAttribArray(1);
+		GL30.glBindVertexArray(0);
 	}
 
 	/**
@@ -334,12 +348,20 @@ public class MainRenderer
 		picker.update();
 		basicShader.loadLight(sun);
 		basicShader.loadViewMatrix(camera);
+//		if (Keyboard.isKeyDown(Keyboard.KEY_F2))
+//		{
+//			Vector3f mapPos = picker.getMapPosition();
+//			CollisionCell cell = terrain.getColCell((int) mapPos.x / TerrainGenerator.getQuadSize(), (int) mapPos.z / TerrainGenerator.getQuadSize());
+//			terrain.highlight(cell);
+//			Vector2f v = terrain.getHighlightedCell();
+//			renderEntity(EntityManager.bench.getFullCopy(true).setPosition(v.x*TerrainGenerator.getQuadSize(), 0, v.y*TerrainGenerator.getQuadSize()));
+//		}
 		if (camera.getEntityHolder() != null)
 		{
 			camera.getEntityHolder().setPosition(picker.getMapPosition());
 			renderEntity(camera.getEntityHolder());
 		}
-		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
+//		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		renderEntities();
 		basicShader.stop();
 		terrainShader.start();
@@ -350,10 +372,18 @@ public class MainRenderer
 		{
 			takeScreenshot();
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_F2))
-		{
-			chunkMap.getChunkByPos(picker.getMapPosition().x, picker.getMapPosition().z);
-		}
+				if (Keyboard.isKeyDown(Keyboard.KEY_F2))
+				{
+					Vector3f mapPos = picker.getMapPosition();
+					System.out.println(mapPos);
+					CollisionCell cell = terrain.getColCell((int) mapPos.x / TerrainGenerator.getQuadSize(), (int) mapPos.z / TerrainGenerator.getQuadSize());
+					terrain.highlight(cell);
+					cShader.start();
+					cShader.loadViewMatrix(camera);
+					cShader.loadColor(new Vector3f(0,1,0));
+					renderModel(TerrainGenerator.getHighlightModel());
+					cShader.stop();
+				}
 		// s.start();
 		// fr.render(g);
 		// s.stop();

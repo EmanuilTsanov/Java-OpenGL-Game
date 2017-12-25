@@ -43,7 +43,6 @@ public class MousePicker
 		{
 			mousePosition.set(mousePos.x, mousePos.y);
 			terrainPosition = searchRay(0, 0, RANGE, worldRay);
-			System.out.println("CALCULATION!");
 		}
 		return terrainPosition;
 	}

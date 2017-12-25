@@ -34,7 +34,7 @@ public class Logger
 			{
 				e.printStackTrace();
 			}
-		writer.println(getTime() + s);
+		writer.println(getDate() + getTime() + " " + s);
 		writer.flush();
 	}
 
@@ -45,7 +45,18 @@ public class Logger
 		int m = c.get(Calendar.MINUTE);
 		int s = c.get(Calendar.SECOND);
 		String divider = ":";
-		builder.append("[").append(h < 10 ? 0 + "" + h : h).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(s < 10 ? 0 + "" + s : s).append("] ");
+		builder.append("[").append(h < 10 ? 0 + "" + h : h).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(s < 10 ? 0 + "" + s : s).append("]");
+		return builder.toString();
+	}
+
+	private static String getDate()
+	{
+		StringBuilder builder = new StringBuilder();
+		int d = c.get(Calendar.DAY_OF_MONTH);
+		int m = c.get(Calendar.MONTH);
+		int y = c.get(Calendar.YEAR);
+		String divider = ".";
+		builder.append("[").append(d < 10 ? 0 + "" + d : d).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(y).append("]");
 		return builder.toString();
 	}
 }
