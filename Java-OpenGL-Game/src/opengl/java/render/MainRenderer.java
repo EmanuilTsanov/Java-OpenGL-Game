@@ -27,6 +27,7 @@ import opengl.java.entity.Entity;
 import opengl.java.entity.EntityManager;
 import opengl.java.fonts.GUIText;
 import opengl.java.lighting.Light;
+import opengl.java.loader.ModelLoader;
 import opengl.java.model.RawModel;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
@@ -41,61 +42,58 @@ import opengl.java.window.Window;
 
 public class MainRenderer
 {
-	private FontShader fontShader;
-	private BasicShader basicShader;
-	private TerrainShader terrainShader;
-	private PickShader pickShader;
-	private ColorfulShader cShader;
 	private Light sun;
 	private Camera camera;
 
+	private Terrain terrain;
+
+	private int framebufferID;
+	private int colorTextureID;
+	private int renderBufferID;
+
 	private MousePicker picker;
 
-	private Terrain terrain;
-	private EntityManager eManager;
+	private BasicShader eShader;
+	private TerrainShader tShader;
+	private PickShader pickShader;
+	private FontShader fontShader;
+	private ColorfulShader cShader;
 
-	int framebufferID;
-	int colorTextureID;
-	int renderBufferID;
+	private EntityManager eManager;
 
 	public static HashMap<Integer, List<Entity>> entities;
 
 	public MainRenderer()
 	{
-		initShaders();
 		sun = new Light(new Vector3f(0.6f, 0.6f, 0.6f), new Vector3f(0.7f, 0.7f, 0.7f), new Vector3f(1.0f, 1.0f, 1.0f));
-		camera = new Camera(new Vector3f(TerrainGenerator.getVertexSize() * TerrainGenerator.getQuadSize() / 2, 20, TerrainGenerator.getVertexSize() * TerrainGenerator.getQuadSize() / 2), 35, 45, 45);
-		picker = new MousePicker(Maths.getProjectionMatrix(), camera);
+		Vector2f m = TerrainGenerator.getMidPoint();
+		camera = new Camera(new Vector3f(m.x, 20, m.y), 35, 45, 45);
 		terrain = new Terrain();
+		bindBuffers(Window.WIDTH, Window.HEIGHT);
+		picker = new MousePicker(Maths.getProjectionMatrix(), camera);
+		initShaders();
 		eManager = new EntityManager();
 		entities = eManager.loadEntities();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		bindBuffers(Window.WIDTH, Window.HEIGHT);
 	}
 
-	/**
-	 * Initializes the shaders and loads them up with the necessary elements to
-	 * make them work properly.
-	 */
-	public void initShaders()
+	private void initShaders()
 	{
-		// Initializing shaders
 		fontShader = new FontShader();
-		basicShader = new BasicShader();
-		terrainShader = new TerrainShader();
+		eShader = new BasicShader();
+		tShader = new TerrainShader();
 		pickShader = new PickShader();
 		cShader = new ColorfulShader();
 
-		// Loading up shaders
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		fontShader.stop();
-		basicShader.start();
-		basicShader.loadProjectionMatrix();
-		basicShader.stop();
-		terrainShader.start();
-		terrainShader.loadProjectionMatrix();
-		terrainShader.stop();
+		eShader.start();
+		eShader.loadProjectionMatrix();
+		eShader.stop();
+		tShader.start();
+		tShader.loadProjectionMatrix();
+		tShader.stop();
 		pickShader.start();
 		pickShader.loadProjectionMatrix();
 		pickShader.stop();
@@ -122,7 +120,6 @@ public class MainRenderer
 		{
 			RawModel model = Entity.getModel(ents.getKey());
 			BaseTexture texture = Entity.getTexture(ents.getKey());
-			BaseTexture specularMap = Entity.getSpecularMap(ents.getKey());
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
@@ -130,16 +127,11 @@ public class MainRenderer
 			List<Entity> entsArr = ents.getValue();
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
-			if (specularMap != null)
-			{
-				GL13.glActiveTexture(GL13.GL_TEXTURE1);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, specularMap.getID());
-			}
 			for (int e = 0; e < ents.getValue().size(); e++)
 			{
 				Entity currentEntity = entsArr.get(e);
-				basicShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
-				basicShader.loadMaterialValues(currentEntity.getMaterial());
+				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
+				eShader.loadMaterialValues(currentEntity.getMaterial());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			GL20.glDisableVertexAttribArray(0);
@@ -159,8 +151,8 @@ public class MainRenderer
 		GL20.glEnableVertexAttribArray(2);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
-		basicShader.loadTransformationMatrix(e.getPosition(), e.getRotation(), e.getScale());
-		basicShader.loadMaterialValues(e.getMaterial());
+		eShader.loadTransformationMatrix(e.getPosition(), e.getRotation(), e.getScale());
+		eShader.loadMaterialValues(e.getMaterial());
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
@@ -181,7 +173,7 @@ public class MainRenderer
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 		Vector2f chPos = terrain.getPosition();
-		terrainShader.loadTransformationMatrix(new Vector3f(chPos.x, 0, chPos.y), new Vector3f(0f, 0f, 0f), 1f);
+		tShader.loadTransformationMatrix(new Vector3f(chPos.x, 0, chPos.y), new Vector3f(0f, 0f, 0f), 1f);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
@@ -276,18 +268,19 @@ public class MainRenderer
 
 	public void takeScreenshot()
 	{
-		basicShader.start();
+		eShader.start();
 		prepareScreen(0, 1, 1);
 		renderEntities();
-		basicShader.stop();
-		terrainShader.start();
+		eShader.stop();
+		tShader.start();
 		renderTerrain();
-		terrainShader.stop();
+		tShader.stop();
 		unbindBuffers();
 		saveScreenshot();
 	}
-	
-	public Terrain getTerrain() {
+
+	public Terrain getTerrain()
+	{
 		return terrain;
 	}
 
@@ -335,24 +328,27 @@ public class MainRenderer
 	{
 		camera.control(this);
 		prepareScreen(0, 1, 1);
-		basicShader.start();
+		eShader.start();
 		picker.update();
-		basicShader.loadLight(sun);
-		basicShader.loadViewMatrix(camera);
+		eShader.loadLight(sun);
+		eShader.loadViewMatrix(camera);
 		if (camera.getEntityHolder() != null)
 		{
 			Vector3f mPos = picker.getMapPosition();
 			Vector2f vec = terrain.getCellPos(mPos.x, mPos.z);
-			camera.getEntityHolder().setPosition((int)(vec.x+0.5f)*TerrainGenerator.getQuadSize(), 0, (int)(vec.y+0.5f)*TerrainGenerator.getQuadSize());
+			System.out.println((int) (vec.x + 0.5f) * TerrainGenerator.getQuadSize() + " / " + (int) (vec.y + 0.5f) * TerrainGenerator.getQuadSize());
+			camera.getEntityHolder().setPosition((int) (vec.x + 0.5f) * TerrainGenerator.getQuadSize(), 0, (int) (vec.y + 0.5f) * TerrainGenerator.getQuadSize());
 			renderEntity(camera.getEntityHolder());
 		}
 		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		renderEntities();
-		basicShader.stop();
-		terrainShader.start();
-		terrainShader.loadViewMatrix(camera);
+
+		eShader.stop();
+
+		tShader.start();
+		tShader.loadViewMatrix(camera);
 		renderTerrain();
-		terrainShader.stop();
+		tShader.stop();
 		if (Keyboard.isKeyDown(Keyboard.KEY_F1))
 		{
 			takeScreenshot();
@@ -360,5 +356,26 @@ public class MainRenderer
 		// s.start();
 		// fr.render(g);
 		// s.stop();
+	}
+
+	public RawModel initModel()
+	{
+		float[] vertices = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f, 2.0f, 0.0f, 2.0f, 2.0f, 0.0f, 0.0f };
+		int[] indices = { 0, 1, 3, 3, 1, 2 };
+		float[] texCoords = { 0 };
+		float[] normals = { 0 };
+		ModelLoader loader = new ModelLoader();
+		return loader.loadModel(vertices, indices, texCoords, normals);
+	}
+
+	public void renderModel(RawModel model, Vector3f pos)
+	{
+		GL30.glBindVertexArray(model.getVAOID());
+		GL20.glEnableVertexAttribArray(0);
+		cShader.loadViewMatrix(camera);
+		cShader.loadTransformationMatrix(pos, new Vector3f(0, 0, 0), 1f);
+		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+		GL20.glDisableVertexAttribArray(0);
+		GL30.glBindVertexArray(0);
 	}
 }

@@ -38,7 +38,6 @@ public class Entity
 
 	private static HashMap<Integer, RawModel> models = new HashMap<Integer, RawModel>(); // Stores entity models (instead of having multiple copies of the same model, we use only one to render multiple entities)
 	private static HashMap<Integer, BaseTexture> textures = new HashMap<Integer, BaseTexture>(); // Stores entity textures (instead of having multiple copies of the same texture, we use only one to render multiple entities)
-	private static HashMap<Integer, BaseTexture> specularMaps = new HashMap<Integer, BaseTexture>();
 
 	private Vector3f color;
 
@@ -89,16 +88,6 @@ public class Entity
 	{
 		BaseTexture texture = FileManager.loadTexture(val);
 		textures.put(id, texture);
-		return this;
-	}
-
-	/**
-	 * Sets the specular map.
-	 */
-	public Entity setSpecularMap(String val)
-	{
-		BaseTexture texture = FileManager.loadTexture("assets/textures/specular/", val);
-		specularMaps.put(id, texture);
 		return this;
 	}
 
@@ -183,13 +172,16 @@ public class Entity
 		this.scale = scale;
 		return this;
 	}
-	
+
 	/**
 	 * Specifies the required area on the map for this entity.
-	 * @param area - width and height in terrain blocks
+	 * 
+	 * @param area
+	 *            - width and height in terrain blocks
 	 */
-	
-	public void setArea(Vector2f area) {
+
+	public void setArea(Vector2f area)
+	{
 		this.areaRequired = area;
 	}
 
@@ -289,11 +281,6 @@ public class Entity
 	public static BaseTexture getTexture(int id)
 	{
 		return textures.get(id);
-	}
-
-	public static BaseTexture getSpecularMap(int id)
-	{
-		return specularMaps.get(id);
 	}
 
 	public static Entity getEntityByColor(Vector3f color)

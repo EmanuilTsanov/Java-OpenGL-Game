@@ -83,4 +83,10 @@ public class TerrainGenerator
 		float result = rand.nextFloat() * (TerrainGenerator.VERTEX_SIZE - 1) * TerrainGenerator.QUAD_SIZE;
 		return result;
 	}
+
+	public static Vector2f getMidPoint()
+	{
+		int m = VERTEX_SIZE * QUAD_SIZE / 2;
+		return new Vector2f(m, m);
+	}
 }
