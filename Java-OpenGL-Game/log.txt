@@ -2102,3 +2102,346 @@
 [25.11.2017][22:55:59] 100 entities of type 'Table' were added successfully!
 [25.11.2017][22:55:59] 250 entities of type 'Campfire' were added successfully!
 [25.11.2017][22:55:59] 1000 entities of type 'Grass' were added successfully!
+[26.11.2017][09:52:46] 1000 entities of type 'Pine Tree' were added successfully!
+[26.11.2017][09:52:46] 1000 entities of type 'Bench' were added successfully!
+[26.11.2017][09:52:46] 1000 entities of type 'Christmas Tree' were added successfully!
+[26.11.2017][09:52:46] 1000 entities of type 'Snowman' were added successfully!
+[26.11.2017][09:52:46] 100 entities of type 'Table' were added successfully!
+[26.11.2017][09:52:46] 250 entities of type 'Campfire' were added successfully!
+[26.11.2017][09:52:46] 1000 entities of type 'Grass' were added successfully!
+[26.11.2017][22:16:44] 100 entities of type 'Pine Tree' were added successfully!
+[26.11.2017][22:16:44] 100 entities of type 'Bench' were added successfully!
+[26.11.2017][22:16:44] 100 entities of type 'Christmas Tree' were added successfully!
+[26.11.2017][22:16:44] 100 entities of type 'Snowman' were added successfully!
+[26.11.2017][22:16:44] 10 entities of type 'Table' were added successfully!
+[26.11.2017][22:16:44] 25 entities of type 'Campfire' were added successfully!
+[26.11.2017][22:16:44] 100 entities of type 'Grass' were added successfully!
+[26.11.2017][22:17:20] 100 entities of type 'Pine Tree' were added successfully!
+[26.11.2017][22:17:20] 100 entities of type 'Bench' were added successfully!
+[26.11.2017][22:17:20] 100 entities of type 'Christmas Tree' were added successfully!
+[26.11.2017][22:17:20] 100 entities of type 'Snowman' were added successfully!
+[26.11.2017][22:17:20] 10 entities of type 'Table' were added successfully!
+[26.11.2017][22:17:20] 25 entities of type 'Campfire' were added successfully!
+[26.11.2017][22:17:20] 100 entities of type 'Grass' were added successfully!
+[26.11.2017][22:57:00] 100 entities of type 'Pine Tree' were added successfully!
+[26.11.2017][22:57:00] 100 entities of type 'Bench' were added successfully!
+[26.11.2017][22:57:00] 100 entities of type 'Christmas Tree' were added successfully!
+[26.11.2017][22:57:00] 100 entities of type 'Snowman' were added successfully!
+[26.11.2017][22:57:00] 10 entities of type 'Table' were added successfully!
+[26.11.2017][22:57:00] 25 entities of type 'Campfire' were added successfully!
+[26.11.2017][22:57:00] 100 entities of type 'Grass' were added successfully!
+[26.11.2017][22:57:37] 100 entities of type 'Pine Tree' were added successfully!
+[26.11.2017][22:57:37] 100 entities of type 'Bench' were added successfully!
+[26.11.2017][22:57:37] 100 entities of type 'Christmas Tree' were added successfully!
+[26.11.2017][22:57:37] 100 entities of type 'Snowman' were added successfully!
+[26.11.2017][22:57:37] 10 entities of type 'Table' were added successfully!
+[26.11.2017][22:57:37] 25 entities of type 'Campfire' were added successfully!
+[26.11.2017][22:57:37] 100 entities of type 'Grass' were added successfully!
+[26.11.2017][22:58:54] 100 entities of type 'Pine Tree' were added successfully!
+[26.11.2017][22:58:54] 100 entities of type 'Bench' were added successfully!
+[26.11.2017][22:58:54] 100 entities of type 'Christmas Tree' were added successfully!
+[26.11.2017][22:58:54] 100 entities of type 'Snowman' were added successfully!
+[26.11.2017][22:58:54] 10 entities of type 'Table' were added successfully!
+[26.11.2017][22:58:54] 25 entities of type 'Campfire' were added successfully!
+[26.11.2017][22:58:54] 100 entities of type 'Grass' were added successfully!
+[26.11.2017][22:59:43] 100 entities of type 'Pine Tree' were added successfully!
+[26.11.2017][22:59:43] 100 entities of type 'Bench' were added successfully!
+[26.11.2017][22:59:43] 100 entities of type 'Christmas Tree' were added successfully!
+[26.11.2017][22:59:43] 100 entities of type 'Snowman' were added successfully!
+[26.11.2017][22:59:43] 10 entities of type 'Table' were added successfully!
+[26.11.2017][22:59:43] 25 entities of type 'Campfire' were added successfully!
+[26.11.2017][22:59:43] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][10:53:26] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][10:53:26] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][10:53:26] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][10:53:26] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][10:53:26] 10 entities of type 'Table' were added successfully!
+[27.11.2017][10:53:26] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][10:53:26] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:06:10] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:06:10] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:06:10] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:06:10] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:06:10] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:06:10] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:06:10] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:10:09] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:10:09] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:10:09] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:10:09] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:10:09] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:10:09] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:10:09] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:10:38] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:10:38] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:10:38] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:10:38] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:10:38] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:10:38] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:10:38] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:32:29] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:32:29] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:32:29] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:32:29] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:32:29] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:32:29] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:32:29] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:33:26] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:33:26] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:33:26] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:33:26] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:33:26] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:33:26] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:33:26] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:34:00] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:34:00] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:34:00] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:34:00] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:34:00] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:34:00] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:34:00] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:34:42] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:34:42] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:34:42] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:34:42] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:34:42] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:34:42] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:34:42] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:46:35] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:46:35] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:46:35] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:46:35] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:46:35] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:46:35] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:46:35] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:48:26] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:48:26] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:48:26] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:48:26] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:48:26] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:48:26] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:48:26] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:48:38] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:48:38] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:48:38] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:48:38] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:48:38] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:48:38] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:48:38] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:49:46] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:49:46] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:49:46] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:49:46] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:49:46] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:49:46] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:49:46] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:50:44] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:50:44] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:50:44] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:50:44] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:50:44] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:50:44] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:50:44] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][11:50:51] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][11:50:51] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][11:50:51] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][11:50:51] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][11:50:51] 10 entities of type 'Table' were added successfully!
+[27.11.2017][11:50:51] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][11:50:51] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:12:53] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:12:53] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:12:53] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:12:53] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:12:53] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:12:53] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:12:53] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:13:02] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:13:02] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:13:02] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:13:02] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:13:02] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:13:02] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:13:02] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:13:18] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:13:18] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:13:18] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:13:18] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:13:18] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:13:18] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:13:18] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:13:53] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:13:53] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:13:53] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:13:53] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:13:53] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:13:53] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:13:53] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:14:06] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:14:06] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:14:06] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:14:06] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:14:06] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:14:06] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:14:06] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:15:38] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:15:38] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:15:38] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:15:38] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:15:38] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:15:38] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:15:38] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:17:52] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:17:52] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:17:52] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:17:52] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:17:52] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:17:52] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:17:52] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:18:16] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:18:16] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:18:16] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:18:16] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:18:16] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:18:16] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:18:16] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:20:39] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:20:39] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:20:39] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:20:39] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:20:39] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:20:39] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:20:39] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:20:48] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:20:48] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:20:48] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:20:48] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:20:48] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:20:48] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:20:48] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:24:26] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:24:26] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:24:26] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:24:26] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:24:26] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:24:26] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:24:26] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:24:38] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:24:38] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:24:38] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:24:38] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:24:38] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:24:38] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:24:38] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:24:50] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:24:50] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:24:50] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:24:50] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:24:50] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:24:50] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:24:50] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:29:02] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:29:02] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:29:02] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:29:02] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:29:02] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:29:02] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:29:02] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:30:00] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:30:00] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:30:00] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:30:00] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:30:00] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:30:00] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:30:00] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:35:01] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:35:01] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:35:01] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:35:01] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:35:01] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:35:01] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:35:01] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:35:25] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:35:25] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:35:25] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:35:25] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:35:25] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:35:25] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:35:25] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:36:05] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:36:05] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:36:05] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:36:05] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:36:05] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:36:05] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:36:05] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:37:25] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:37:25] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:37:25] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:37:25] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:37:25] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:37:25] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:37:25] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:42:49] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:42:49] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:42:49] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:42:49] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:42:49] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:42:49] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:42:49] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:43:46] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:43:46] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:43:46] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:43:46] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:43:46] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:43:46] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:43:46] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][12:57:43] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][12:57:43] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][12:57:43] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][12:57:43] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][12:57:43] 10 entities of type 'Table' were added successfully!
+[27.11.2017][12:57:43] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][12:57:43] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][13:02:29] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][13:02:29] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][13:02:29] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][13:02:29] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][13:02:29] 10 entities of type 'Table' were added successfully!
+[27.11.2017][13:02:29] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][13:02:29] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][13:10:18] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][13:10:18] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][13:10:18] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][13:10:18] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][13:10:18] 10 entities of type 'Table' were added successfully!
+[27.11.2017][13:10:18] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][13:10:18] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][13:11:30] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][13:11:30] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][13:11:30] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][13:11:30] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][13:11:30] 10 entities of type 'Table' were added successfully!
+[27.11.2017][13:11:30] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][13:11:30] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][13:11:45] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][13:11:45] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][13:11:45] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][13:11:45] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][13:11:45] 10 entities of type 'Table' were added successfully!
+[27.11.2017][13:11:45] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][13:11:45] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][13:12:26] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][13:12:26] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][13:12:26] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][13:12:26] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][13:12:26] 10 entities of type 'Table' were added successfully!
+[27.11.2017][13:12:26] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][13:12:26] 100 entities of type 'Grass' were added successfully!
+[27.11.2017][13:12:51] 100 entities of type 'Pine Tree' were added successfully!
+[27.11.2017][13:12:51] 100 entities of type 'Bench' were added successfully!
+[27.11.2017][13:12:51] 100 entities of type 'Christmas Tree' were added successfully!
+[27.11.2017][13:12:51] 100 entities of type 'Snowman' were added successfully!
+[27.11.2017][13:12:51] 10 entities of type 'Table' were added successfully!
+[27.11.2017][13:12:51] 25 entities of type 'Campfire' were added successfully!
+[27.11.2017][13:12:51] 100 entities of type 'Grass' were added successfully!

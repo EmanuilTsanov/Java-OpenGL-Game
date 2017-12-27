@@ -2,6 +2,7 @@ package opengl.java.entity;
 
 import java.util.HashMap;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.management.FileManager;
@@ -26,6 +27,8 @@ public class Entity
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
+
+	protected Vector2f areaRequired = new Vector2f(0, 0);
 
 	protected float scale = 1;
 
@@ -180,6 +183,15 @@ public class Entity
 		this.scale = scale;
 		return this;
 	}
+	
+	/**
+	 * Specifies the required area on the map for this entity.
+	 * @param area - width and height in terrain blocks
+	 */
+	
+	public void setArea(Vector2f area) {
+		this.areaRequired = area;
+	}
 
 	private Vector3f manageColor(Vector3f color)
 	{
@@ -252,6 +264,11 @@ public class Entity
 	public float getScale()
 	{
 		return scale;
+	}
+
+	public Vector2f getArea()
+	{
+		return areaRequired;
 	}
 
 	public Entity getCopy(boolean staticEntity)

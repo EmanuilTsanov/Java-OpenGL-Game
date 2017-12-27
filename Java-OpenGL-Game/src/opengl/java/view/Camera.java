@@ -134,8 +134,11 @@ public class Camera
 			}
 			else
 			{
+				if(!renderer.getTerrain().isOccupied(entityHolder)) {
+					renderer.getTerrain().setOccupied(entityHolder);
 				MainRenderer.entities.get(entityHolder.getId()).add(entityHolder.getFullCopy(false));
 				entityHolder = null;
+				}
 			}
 		}
 		mouseBtn0 = Mouse.isButtonDown(0);
