@@ -1,20 +1,17 @@
 package opengl.java.main;
 
-import opengl.java.render.MainRenderer;
+import opengl.java.management.GameManager;
 import opengl.java.window.Window;
 
-public class Main
-{
+public class Main {
 
-	public static void main(String args[])
-	{
+	public static void main(String args[]) {
 		Window.create("OpenGL Game");
 		Window.setFPScap(120);
-		MainRenderer renderer = new MainRenderer();
-		while (Window.isOpened())
-		{
+		GameManager gm = new GameManager();
+		while (Window.isOpened()) {
 			Window.update();
-			renderer.render();
+			gm.update();
 		}
 		Window.destroy();
 	}
