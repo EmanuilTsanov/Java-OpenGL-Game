@@ -45,10 +45,11 @@ public class Entity
 
 	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
-	public Entity(int id, String name, boolean staticEntity)
+	public Entity(int id, String name, Vector2f areaRequired, boolean staticEntity)
 	{
 		this.id = id;
 		this.name = name;
+		this.areaRequired = areaRequired;
 		if (staticHash.get(id) == null)
 		{
 			staticHash.put(id, this);
@@ -265,12 +266,12 @@ public class Entity
 
 	public Entity getCopy(boolean staticEntity)
 	{
-		return new Entity(id, name, staticEntity);
+		return new Entity(id, name, areaRequired, staticEntity);
 	}
 
 	public Entity getFullCopy(boolean staticEntity)
 	{
-		return new Entity(id, name, staticEntity).setPosition(position).setRotationInRadians(rotation).setScale(scale);
+		return new Entity(id, name, areaRequired, staticEntity).setPosition(position).setRotationInRadians(rotation).setScale(scale);
 	}
 
 	public static RawModel getModel(int id)

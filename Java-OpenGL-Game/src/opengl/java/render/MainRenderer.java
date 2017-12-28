@@ -65,16 +65,21 @@ public class MainRenderer
 
 	public MainRenderer()
 	{
+		init();
+	}
+
+	public void init()
+	{
+		initShaders();
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		bindBuffers(Window.WIDTH, Window.HEIGHT);
 		sun = new Light(new Vector3f(0.6f, 0.6f, 0.6f), new Vector3f(0.7f, 0.7f, 0.7f), new Vector3f(1.0f, 1.0f, 1.0f));
 		Vector2f m = TerrainGenerator.getMidPoint();
 		camera = new Camera(new Vector3f(m.x, 20, m.y), 35, 45, 45);
 		terrain = new Terrain();
-		bindBuffers(Window.WIDTH, Window.HEIGHT);
 		picker = new MousePicker(Maths.getProjectionMatrix(), camera);
-		initShaders();
 		eManager = new EntityManager();
 		entities = eManager.loadEntities();
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
 	private void initShaders()
@@ -101,19 +106,13 @@ public class MainRenderer
 		cShader.loadProjectionMatrix();
 		cShader.stop();
 	}
-
-	/**
-	 * Prepares the screen for rendering.
-	 */
+	
 	public void prepareScreen(float r, float g, float b)
 	{
 		GL11.glClearColor(r, g, b, 0);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 	}
-
-	/**
-	 * Renders all the entities.
-	 */
+	
 	public void renderEntities()
 	{
 		for (Map.Entry<Integer, List<Entity>> ents : entities.entrySet())
@@ -337,13 +336,23 @@ public class MainRenderer
 			Vector3f mPos = picker.getMapPosition();
 			Vector2f vec = terrain.getCellPos(mPos.x, mPos.z);
 			System.out.println((int) (vec.x + 0.5f) * TerrainGenerator.getQuadSize() + " / " + (int) (vec.y + 0.5f) * TerrainGenerator.getQuadSize());
-			camera.getEntityHolder().setPosition((int) (vec.x + 0.5f) * TerrainGenerator.getQuadSize(), 0, (int) (vec.y + 0.5f) * TerrainGenerator.getQuadSize());
+			float sX = camera.getEntityHolder().getArea().x;
+			float sY = camera.getEntityHolder().getArea().y;
+			camera.getEntityHolder().setPosition((int) (vec.x + sX) * TerrainGenerator.getQuadSize(), 0, (int) (vec.y + sY) * TerrainGenerator.getQuadSize());
 			renderEntity(camera.getEntityHolder());
 		}
 		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		renderEntities();
 
 		eShader.stop();
+
+		cShader.start();
+		RawModel m = initModel(4);
+		cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
+		Vector3f mPos = picker.getMapPosition();
+		Vector2f vec = terrain.getCellPos(mPos.x, mPos.z);
+		renderModel(m, new Vector3f((int) (vec.x) * TerrainGenerator.getQuadSize(), 0, (int) (vec.y) * TerrainGenerator.getQuadSize()));
+		cShader.stop();
 
 		tShader.start();
 		tShader.loadViewMatrix(camera);
@@ -358,12 +367,18 @@ public class MainRenderer
 		// s.stop();
 	}
 
-	public RawModel initModel()
+	public RawModel initModel(int size)
 	{
 		float[] vertices = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f, 2.0f, 0.0f, 2.0f, 2.0f, 0.0f, 0.0f };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
 		float[] texCoords = { 0 };
 		float[] normals = { 0 };
+		if (size % 2 == 0)
+		{
+			int s = size / 2;
+			int t = s * TerrainGenerator.getQuadSize();
+			vertices = new float[] { -t, 0.0f, -t, -t, 0.0f, t, t, 0.0f, t, t, 0.0f, -t };
+		}
 		ModelLoader loader = new ModelLoader();
 		return loader.loadModel(vertices, indices, texCoords, normals);
 	}

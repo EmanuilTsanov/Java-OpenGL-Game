@@ -18,7 +18,7 @@ public class MousePicker
 	private Camera camera;
 
 	private Vector2f mousePosition;
-	private Vector3f terrainPosition;
+	private Vector3f terrainPosition = new Vector3f(0,0,0);
 
 	private static final int RANGE = 600;
 	private static final int LOOPS = 200;

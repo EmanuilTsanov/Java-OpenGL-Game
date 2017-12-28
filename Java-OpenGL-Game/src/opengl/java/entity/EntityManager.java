@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.logger.Logger;
@@ -16,17 +17,17 @@ public class EntityManager
 
 	private Random rand = new Random();
 
-	public static Entity pineTree = new Entity(0, "Pine Tree", true).setModel("treePine").setTexture("treePine");
-	public static Entity bench = new Entity(1, "Bench", true).setModel("bench").setTexture("bench");
-	public static Entity table = new Entity(2, "Table", true).setModel("table").setTexture("table");
-	public static Entity plate = new Entity(3, "Plate", true).setModel("plate").setTexture("plate");
-	public static Entity rock = new Entity(4, "Rock", true).setModel("rock").setTexture("rock");
-	public static Entity campfire = new Entity(5, "Campfire", true).setModel("campfire").setTexture("campfire");
-	public static Entity mushroom = new Entity(6, "Mushroom", true).setModel("mushroom").setTexture("mushroom");
-	public static Entity mushroom1 = new Entity(7, "Brown Mushroom", true).setModel("mushroom").setTexture("mushroom1");
-	public static Entity grass = new Entity(8, "Grass", true).setModel("grass").setTexture("grass");
-	public static Entity christmasTree = new Entity(9, "Christmas Tree", true).setModel("christmas_tree").setTexture("christmas_tree");
-	public static Entity snowman = new Entity(10, "Snowman", true).setModel("snowman").setTexture("snowman");
+	public static Entity pineTree = new Entity(0, "Pine Tree", new Vector2f(2, 2), true).setModel("treePine").setTexture("treePine");
+	public static Entity bench = new Entity(1, "Bench", new Vector2f(2, 1), true).setModel("bench").setTexture("bench");
+	public static Entity table = new Entity(2, "Table", new Vector2f(2, 1), true).setModel("table").setTexture("table");
+	public static Entity plate = new Entity(3, "Plate", new Vector2f(1, 1), true).setModel("plate").setTexture("plate");
+	public static Entity rock = new Entity(4, "Rock", new Vector2f(1, 1), true).setModel("rock").setTexture("rock");
+	public static Entity campfire = new Entity(5, "Campfire", new Vector2f(1, 1), true).setModel("campfire").setTexture("campfire");
+	public static Entity mushroom = new Entity(6, "Mushroom", new Vector2f(1, 1), true).setModel("mushroom").setTexture("mushroom");
+	public static Entity mushroom1 = new Entity(7, "Brown Mushroom", new Vector2f(1, 1), true).setModel("mushroom").setTexture("mushroom1");
+	public static Entity grass = new Entity(8, "Grass", new Vector2f(1, 1), true).setModel("grass").setTexture("grass");
+	public static Entity christmasTree = new Entity(9, "Christmas Tree", new Vector2f(2, 2), true).setModel("christmas_tree").setTexture("christmas_tree");
+	public static Entity snowman = new Entity(10, "Snowman", new Vector2f(2, 2), true).setModel("snowman").setTexture("snowman");
 
 	private HashMap<Integer, List<Entity>> entities;
 
