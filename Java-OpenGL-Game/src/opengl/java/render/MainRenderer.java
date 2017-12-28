@@ -58,6 +58,7 @@ public class MainRenderer
 	private PickShader pickShader;
 	private FontShader fontShader;
 	private ColorfulShader cShader;
+	int s = 1;
 
 	private EntityManager eManager;
 
@@ -106,13 +107,13 @@ public class MainRenderer
 		cShader.loadProjectionMatrix();
 		cShader.stop();
 	}
-	
+
 	public void prepareScreen(float r, float g, float b)
 	{
 		GL11.glClearColor(r, g, b, 0);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 	}
-	
+
 	public void renderEntities()
 	{
 		for (Map.Entry<Integer, List<Entity>> ents : entities.entrySet())
@@ -347,10 +348,11 @@ public class MainRenderer
 		eShader.stop();
 
 		cShader.start();
-		RawModel m = initModel(4);
+		RawModel m = initModel(s);
 		cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
 		Vector3f mPos = picker.getMapPosition();
-		Vector2f vec = terrain.getCellPos(mPos.x, mPos.z);
+		int p = s % 2 == 0 ? 1 : 0;
+		Vector2f vec = terrain.getCellPos(mPos.x + p, mPos.z + p);
 		renderModel(m, new Vector3f((int) (vec.x) * TerrainGenerator.getQuadSize(), 0, (int) (vec.y) * TerrainGenerator.getQuadSize()));
 		cShader.stop();
 
@@ -361,6 +363,9 @@ public class MainRenderer
 		if (Keyboard.isKeyDown(Keyboard.KEY_F1))
 		{
 			takeScreenshot();
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_F3)) {
+			s++;
 		}
 		// s.start();
 		// fr.render(g);
