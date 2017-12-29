@@ -33,8 +33,13 @@ public class MouseController
 	{
 		if (Mouse.isButtonDown(0))
 		{
+			if(entityHolder == null) {
 			Vector3f color = renderer.pickColor(Mouse.getX(), Mouse.getY());
 			entityHolder = Entity.getEntityByColor(color).getFullCopy(false);
+			}
+			else {
+				
+			}
 		}
 		else if (Mouse.isButtonDown(1))
 		{
