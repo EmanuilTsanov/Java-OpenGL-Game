@@ -28,7 +28,8 @@ import opengl.java.texture.BaseTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.Window;
 
-public class GameRenderer {
+public class GameRenderer
+{
 
 	private Light sun;
 
@@ -48,7 +49,8 @@ public class GameRenderer {
 
 	private HashMap<Integer, List<Entity>> entities;
 
-	public GameRenderer(HashMap<Integer, List<Entity>> entities, Terrain terrain, Camera camera, Light light) {
+	public GameRenderer(HashMap<Integer, List<Entity>> entities, Terrain terrain, Camera camera, Light light)
+	{
 		init();
 		this.sun = light;
 		this.camera = camera;
@@ -56,13 +58,15 @@ public class GameRenderer {
 		this.entities = entities;
 	}
 
-	public void init() {
+	public void init()
+	{
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Window.WIDTH, Window.HEIGHT);
 	}
 
-	private void initShaders() {
+	private void initShaders()
+	{
 		fontShader = new FontShader();
 		eShader = new BasicShader();
 		tShader = new TerrainShader();
@@ -86,7 +90,8 @@ public class GameRenderer {
 		cShader.stop();
 	}
 
-	public void bindBuffers(int width, int height) {
+	public void bindBuffers(int width, int height)
+	{
 		framebufferID = GL30.glGenFramebuffers();
 		colorTextureID = GL11.glGenTextures();
 		renderBufferID = GL30.glGenRenderbuffers();
@@ -95,30 +100,31 @@ public class GameRenderer {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
 
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT,
-				(java.nio.ByteBuffer) null);
-		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID,
-				0);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, renderBufferID);
 		GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL14.GL_DEPTH_COMPONENT24, width, height);
-		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER,
-				renderBufferID);
+		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, renderBufferID);
 		unbindBuffers();
 	}
 
-	public void unbindBuffers() {
+	public void unbindBuffers()
+	{
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 	}
 
-	public void prepareScreen(float r, float g, float b) {
+	public void prepareScreen(float r, float g, float b)
+	{
 		GL11.glClearColor(r, g, b, 0);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 	}
 
-	public void renderEntities() {
-		for (Map.Entry<Integer, List<Entity>> ents : entities.entrySet()) {
+	public void renderEntities()
+	{
+		for (Map.Entry<Integer, List<Entity>> ents : entities.entrySet())
+		{
 			RawModel model = Entity.getModel(ents.getKey());
 			BaseTexture texture = Entity.getTexture(ents.getKey());
 			GL30.glBindVertexArray(model.getVAOID());
@@ -128,10 +134,10 @@ public class GameRenderer {
 			List<Entity> entsArr = ents.getValue();
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
-			for (int e = 0; e < ents.getValue().size(); e++) {
+			for (int e = 0; e < ents.getValue().size(); e++)
+			{
 				Entity currentEntity = entsArr.get(e);
-				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				eShader.loadMaterialValues(currentEntity.getMaterial());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -142,7 +148,8 @@ public class GameRenderer {
 		}
 	}
 
-	public void renderEntity(Entity e) {
+	public void renderEntity(Entity e)
+	{
 		RawModel model = Entity.getModel(e.getId());
 		BaseTexture texture = Entity.getTexture(e.getId());
 		GL30.glBindVertexArray(model.getVAOID());
@@ -163,7 +170,8 @@ public class GameRenderer {
 	/**
 	 * Renders the terrain.
 	 */
-	public void renderTerrain() {
+	public void renderTerrain()
+	{
 		GL30.glBindVertexArray(terrain.getModel().getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
@@ -186,7 +194,8 @@ public class GameRenderer {
 	 *            - the GUI, containing the fonts, the font size and the text
 	 *            itself.
 	 */
-	public void renderText(GUIText t) {
+	public void renderText(GUIText t)
+	{
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -203,16 +212,18 @@ public class GameRenderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
-	public void renderOffScreen() {
-		for (Map.Entry<Integer, List<Entity>> ents : entities.entrySet()) {
+	public void renderOffScreen()
+	{
+		for (Map.Entry<Integer, List<Entity>> ents : entities.entrySet())
+		{
 			RawModel model = Entity.getModel(ents.getKey());
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			List<Entity> entsArr = ents.getValue();
-			for (int e = 0; e < ents.getValue().size(); e++) {
+			for (int e = 0; e < ents.getValue().size(); e++)
+			{
 				Entity currentEntity = entsArr.get(e);
-				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				pickShader.loadColor(currentEntity.getColor());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -221,7 +232,9 @@ public class GameRenderer {
 		}
 	}
 
-	public Vector3f pickColor(int x, int y) {
+	public Vector3f pickColor(int x, int y)
+	{
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, framebufferID);
 		pickShader.start();
 		prepareScreen(1, 1, 1);
 		pickShader.loadViewMatrix(camera);
@@ -236,7 +249,8 @@ public class GameRenderer {
 		return new Vector3f(r, g, b);
 	}
 
-	public ByteBuffer readScreen(int x, int y, int width, int height) {
+	public ByteBuffer readScreen(int x, int y, int width, int height)
+	{
 		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
 		GL11.glReadPixels(x, y, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 		return buffer;
@@ -245,17 +259,18 @@ public class GameRenderer {
 	/**
 	 * Renders everything.
 	 */
-	public void render() {
+	public void render()
+	{
 		prepareScreen(0, 1, 1);
-		tShader.start();
-		tShader.loadViewMatrix(camera);
-		renderTerrain();
-		tShader.stop();
 		eShader.start();
 		eShader.loadLight(sun);
 		eShader.loadViewMatrix(camera);
 		renderEntities();
 		eShader.stop();
+		tShader.start();
+		tShader.loadViewMatrix(camera);
+		renderTerrain();
+		tShader.stop();
 		// cShader.start();
 		// cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
 		// cShader.stop();
