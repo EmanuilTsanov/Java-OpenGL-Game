@@ -1,7 +1,6 @@
 package opengl.java.render;
 
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,27 +15,17 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
-import opengl.java.lighting.Light;
 import opengl.java.model.RawModel;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
-import opengl.java.terrain.Terrain;
 import opengl.java.texture.BaseTexture;
-import opengl.java.view.Camera;
 import opengl.java.window.Window;
 
 public class GameRenderer
 {
-
-	private Light sun;
-
-	private Camera camera;
-
-	private Terrain terrain;
-
 	private int framebufferID;
 	private int colorTextureID;
 	private int renderBufferID;
@@ -47,18 +36,9 @@ public class GameRenderer
 	private FontShader fontShader;
 	private ColorfulShader cShader;
 
-	private HashMap<Integer, List<Entity>> entities;
+	private static GameRenderer singleton = new GameRenderer();
 
-	public GameRenderer(HashMap<Integer, List<Entity>> entities, Terrain terrain, Camera camera, Light light)
-	{
-		init();
-		this.sun = light;
-		this.camera = camera;
-		this.terrain = terrain;
-		this.entities = entities;
-	}
-
-	public void init()
+	public GameRenderer()
 	{
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -100,19 +80,27 @@ public class GameRenderer
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
 
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);
-		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT,
+				(java.nio.ByteBuffer) null);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID,
+				0);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, renderBufferID);
 		GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL14.GL_DEPTH_COMPONENT24, width, height);
-		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, renderBufferID);
+		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER,
+				renderBufferID);
 		unbindBuffers();
 	}
 
 	public void unbindBuffers()
 	{
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+	}
+
+	public static GameRenderer getInstance()
+	{
+		return singleton;
 	}
 
 	public void prepareScreen(float r, float g, float b)
@@ -137,7 +125,8 @@ public class GameRenderer
 			for (int e = 0; e < ents.getValue().size(); e++)
 			{
 				Entity currentEntity = entsArr.get(e);
-				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
+				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
+						currentEntity.getScale());
 				eShader.loadMaterialValues(currentEntity.getMaterial());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -223,7 +212,8 @@ public class GameRenderer
 			for (int e = 0; e < ents.getValue().size(); e++)
 			{
 				Entity currentEntity = entsArr.get(e);
-				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
+				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
+						currentEntity.getScale());
 				pickShader.loadColor(currentEntity.getColor());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}

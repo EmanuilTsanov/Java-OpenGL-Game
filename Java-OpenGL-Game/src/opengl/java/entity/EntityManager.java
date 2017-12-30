@@ -1,8 +1,6 @@
 package opengl.java.entity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -13,10 +11,6 @@ import opengl.java.terrain.TerrainGenerator;
 
 public class EntityManager
 {
-	private static final int TRIES_TO_ADD_LIMIT = 50;
-
-	private Random rand = new Random();
-
 	public static Entity pineTree = new Entity(0, "Pine Tree", new Vector2f(2, 2), true).setModel("treePine").setTexture("treePine");
 	public static Entity bench = new Entity(1, "Bench", new Vector2f(2, 1), true).setModel("bench").setTexture("bench");
 	public static Entity table = new Entity(2, "Table", new Vector2f(2, 1), true).setModel("table").setTexture("table");
@@ -29,72 +23,62 @@ public class EntityManager
 	public static Entity christmasTree = new Entity(9, "Christmas Tree", new Vector2f(2, 2), true).setModel("christmas_tree").setTexture("christmas_tree");
 	public static Entity snowman = new Entity(10, "Snowman", new Vector2f(2, 2), true).setModel("snowman").setTexture("snowman");
 
-	private HashMap<Integer, List<Entity>> entities;
+	private static final int TRY_LIMIT = 50;
+
+	private Random rand = new Random();
+	
+	private HashMap<Integer, HashMap<Integer, Entity>> entities;
 
 	public EntityManager()
 	{
-		entities = new HashMap<Integer, List<Entity>>();
+		entities = new HashMap<Integer, HashMap<Integer, Entity>>();
 	}
 
-	public HashMap<Integer, List<Entity>> loadEntities()
+	public HashMap<Integer, HashMap<Integer, Entity>> loadEntities()
 	{
-		addEntities(pineTree, 100, true, 1f, 1f);
-		addEntities(bench, 100, true, 1f, 1f);
-		addEntities(christmasTree, 100, true, 1f, 1f);
-		addEntities(snowman, 100, true, 1f, 1f);
-		addEntities(table, 10, true, 1f, 1f);
-		addEntities(campfire, 25, true, 1f, 1f);
-		addEntities(grass, 100, true, 1f, 1f);
+		addEntities(pineTree, 100, true);
+		addEntities(bench, 100, true);
+		addEntities(christmasTree, 100, true);
+		addEntities(snowman, 100, true);
+		addEntities(table, 10, true);
+		addEntities(campfire, 25, true);
+		addEntities(grass, 100, true);
 
 		return entities;
 	}
 
-	public boolean addEntity(Entity entity, boolean checkCollision)
+	public boolean addEntity(Entity entity)
 	{
-		//		if (checkCollision)
-		//		{
-		//			for (Map.Entry<Integer, List<Entity>> e : entities.entrySet())
-		//			{
-		//				for (int j = 0; j < e.getValue().size(); j++)
-		//				{
-		//					if (Collision.checkCollision(entity, e.getValue().get(j)))
-		//					{
-		//						return false;
-		//					}
-		//				}
-		//			}
-		//		}
 		if (entities.get(entity.getId()) == null)
 		{
-			ArrayList<Entity> ents = new ArrayList<Entity>();
-			ents.add(entity);
-			entities.put(entity.getId(), ents);
+			HashMap<Integer, Entity> batch = new HashMap<Integer, Entity>();
+			batch.put(entity.getUniqueID(), entity);
+			entities.put(entity.getId(), batch);
 			return true;
 		}
 		else
 		{
-			entities.get(entity.getId()).add(entity);
+			entities.get(entity.getId()).put(entity.getUniqueID(), entity);
 			return true;
 		}
 	}
 
-	public void addEntities(Entity entity, int count, boolean randRot, float minScale, float maxScale)
+	public void addEntities(Entity entity, int count, boolean randRot)
 	{
 		int successE = 0;
 		for (int i = 0; i < count; i++)
 		{
-			Entity e = entity.getFullCopy(false);
+			Entity e = entity.getCopy(false);
 
-			float scale = rand.nextFloat() * (maxScale - minScale) + minScale;
-			e.setPosition(TerrainGenerator.genRandTerrainPos(), 0, TerrainGenerator.genRandTerrainPos()).setScale(scale);
+			e.setPosition(TerrainGenerator.genRandTerrainPos(), 0, TerrainGenerator.genRandTerrainPos());
 
 			if (randRot)
 			{
 				e.setRotationInRadians(new Vector3f(0, rand.nextFloat() * 180, 0));
 			}
-			inner: for (int j = 0; j < TRIES_TO_ADD_LIMIT; j++)
+			inner: for (int j = 0; j < TRY_LIMIT; j++)
 			{
-				boolean a = addEntity(e, false);
+				boolean a = addEntity(e);
 				if (a)
 				{
 					successE++;
@@ -104,7 +88,7 @@ public class EntityManager
 				{
 					e.setPosition(TerrainGenerator.genRandTerrainPos(), 0, TerrainGenerator.genRandTerrainPos());
 				}
-				if (j == TRIES_TO_ADD_LIMIT - 1)
+				if (j == TRY_LIMIT - 1)
 				{
 					Logger.log("Try to add limit reached. Entity of type '" + entity.getName() + "' wasn't added on the map.");
 				}

@@ -8,7 +8,6 @@ import opengl.java.calculations.MousePicker;
 import opengl.java.controls.MouseController;
 import opengl.java.entity.EntityManager;
 import opengl.java.lighting.Light;
-import opengl.java.render.GameRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.terrain.TerrainGenerator;
 import opengl.java.view.Camera;
@@ -27,8 +26,6 @@ public class GameManager
 
 	private EntityManager manager;
 
-	private GameRenderer renderer;
-
 	public GameManager()
 	{
 
@@ -38,7 +35,6 @@ public class GameManager
 		terrain = new Terrain();
 		picker = new MousePicker(Maths.getProjectionMatrix(), camera);
 		manager = new EntityManager();
-		renderer = new GameRenderer(manager.loadEntities(), terrain, camera, sun);
 		mController = new MouseController(renderer, camera, picker);
 	}
 

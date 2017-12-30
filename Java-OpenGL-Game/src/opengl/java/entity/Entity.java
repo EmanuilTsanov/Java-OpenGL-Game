@@ -15,15 +15,14 @@ public class Entity
 	protected int id;
 	protected int uniqueID;
 
-	private static int nextEntityID = 0;
-
 	protected String name;
 
 	protected String model;
 	protected String texture;
-	protected String collisionModel;
 
 	protected int materialID = 0;
+
+	private static int nextEntityID = 0;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
@@ -33,9 +32,6 @@ public class Entity
 	protected float scale = 1;
 
 	private static HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>();
-
-	private static HashMap<Integer, Entity> staticHash = new HashMap<Integer, Entity>(); // Stores entity examples (for copying them later on)
-
 	private static HashMap<Integer, RawModel> models = new HashMap<Integer, RawModel>(); // Stores entity models (instead of having multiple copies of the same model, we use only one to render multiple entities)
 	private static HashMap<Integer, BaseTexture> textures = new HashMap<Integer, BaseTexture>(); // Stores entity textures (instead of having multiple copies of the same texture, we use only one to render multiple entities)
 
@@ -50,10 +46,6 @@ public class Entity
 		this.id = id;
 		this.name = name;
 		this.areaRequired = areaRequired;
-		if (staticHash.get(id) == null)
-		{
-			staticHash.put(id, this);
-		}
 		if (!staticEntity)
 		{
 			this.uniqueID = nextEntityID++;
@@ -234,11 +226,6 @@ public class Entity
 		return texture;
 	}
 
-	public String getCollisionModel()
-	{
-		return collisionModel;
-	}
-
 	public Vector3f getPosition()
 	{
 		return position;
@@ -263,13 +250,7 @@ public class Entity
 	{
 		return areaRequired;
 	}
-
 	public Entity getCopy(boolean staticEntity)
-	{
-		return new Entity(id, name, areaRequired, staticEntity);
-	}
-
-	public Entity getFullCopy(boolean staticEntity)
 	{
 		return new Entity(id, name, areaRequired, staticEntity).setPosition(position).setRotationInRadians(rotation).setScale(scale);
 	}
