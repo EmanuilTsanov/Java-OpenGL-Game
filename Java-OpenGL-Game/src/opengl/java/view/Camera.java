@@ -4,13 +4,15 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera
 {
-
 	private Vector3f position;
 
 	private float pitch;
 	private float yaw;
 	private float roll;
+
 	private boolean locked;
+
+	private static Camera singleton = new Camera(new Vector3f(0, 20, 0), 35f, 45f, 0f);
 
 	public Camera(Vector3f position, float pitch, float yaw, float roll)
 	{
@@ -18,6 +20,10 @@ public class Camera
 		this.pitch = pitch;
 		this.yaw = yaw;
 		this.roll = roll;
+	}
+	
+	public static Camera getInstance() {
+		return singleton;
 	}
 
 	public Vector3f getPosition()
@@ -34,21 +40,16 @@ public class Camera
 
 	public float getPitch()
 	{
-		return (float) Math.toRadians(pitch);
+		return pitch;
 	}
 
 	public float getYaw()
 	{
-		return (float) Math.toRadians(yaw);
+		return yaw;
 	}
-
-	public float getRoll()
-	{
-		return (float) Math.toRadians(roll);
-	}
-
-	public void update()
-	{
+	
+	public float getRoll() {
+		return roll;
 	}
 
 	public void move(Vector3f position, Vector3f rotation)

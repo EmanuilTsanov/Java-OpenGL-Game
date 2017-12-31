@@ -19,6 +19,8 @@ public class Terrain
 	private BaseTexture texture;
 
 	private HashMap<String, TerrainCell> cells;
+	
+	private static Terrain singleton = new Terrain();
 
 	public Terrain()
 	{
@@ -26,6 +28,10 @@ public class Terrain
 		this.model = TerrainGenerator.generateTerrain();
 		texture = FileManager.loadTexture("snowT");
 		generateCells();
+	}
+	
+	public static Terrain getInstance() {
+		return singleton;
 	}
 
 	private void generateCells()

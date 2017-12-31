@@ -1,4 +1,4 @@
-package opengl.java.calculations;
+package opengl.java.controls;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -7,6 +7,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
+import opengl.java.calculations.Maths;
 import opengl.java.view.Camera;
 
 public class MousePicker
@@ -15,19 +16,19 @@ public class MousePicker
 
 	private Matrix4f projectionMatrix;
 	private Matrix4f viewMatrix;
-	private Camera camera;
 
 	private Vector2f mousePosition;
-	private Vector3f terrainPosition = new Vector3f(0,0,0);
+	private Vector3f terrainPosition = new Vector3f(0, 0, 0);
 
 	private static final int RANGE = 600;
 	private static final int LOOPS = 200;
 
-	public MousePicker(Matrix4f projectionMatrix, Camera camera)
+	private static MousePicker singleton = new MousePicker();
+
+	public MousePicker()
 	{
-		this.projectionMatrix = projectionMatrix;
-		this.camera = camera;
-		this.viewMatrix = Maths.createViewMatrix(camera);
+		this.projectionMatrix = Maths.getProjectionMatrix();
+		this.viewMatrix = Maths.createViewMatrix();
 		this.mousePosition = new Vector2f(0, 0);
 	}
 
@@ -49,7 +50,7 @@ public class MousePicker
 
 	public void update()
 	{
-		viewMatrix = Maths.createViewMatrix(camera);
+		viewMatrix = Maths.createViewMatrix();
 		worldRay = calculateMouseRay();
 	}
 
@@ -90,7 +91,7 @@ public class MousePicker
 
 	private Vector3f getPointOnVector(Vector3f ray, float distance)
 	{
-		Vector3f camPosition = camera.getPosition();
+		Vector3f camPosition = Camera.getInstance().getPosition();
 		Vector3f start = new Vector3f(camPosition.x, camPosition.y, camPosition.z);
 		Vector3f scaledRay = new Vector3f(ray.x * distance, ray.y * distance, ray.z * distance);
 		return Vector3f.add(start, scaledRay, null);
@@ -118,5 +119,10 @@ public class MousePicker
 			return true;
 		else
 			return false;
+	}
+
+	public static MousePicker getInstance()
+	{
+		return singleton;
 	}
 }

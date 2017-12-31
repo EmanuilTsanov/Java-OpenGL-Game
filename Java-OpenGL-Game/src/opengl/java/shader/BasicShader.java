@@ -70,7 +70,7 @@ public class BasicShader extends ShaderProgram
 
 	public void loadViewMatrix(Camera camera)
 	{
-		super.loadMatrix(locViewMat, Maths.createViewMatrix(camera));
+		super.loadMatrix(locViewMat, Maths.createViewMatrix());
 		super.loadVector3f(locCameraPosition, camera.getPosition());
 	}
 

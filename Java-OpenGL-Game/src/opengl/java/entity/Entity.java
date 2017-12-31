@@ -20,20 +20,20 @@ public class Entity
 	protected String model;
 	protected String texture;
 
-	protected int materialID = 0;
+	protected Material material = Material.defaultMaterial;
 
 	private static int nextEntityID = 0;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
 
-	protected Vector2f areaRequired = new Vector2f(0, 0);
-
 	protected float scale = 1;
 
+	protected Vector2f areaRequired = new Vector2f(0, 0);
+
 	private static HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>();
-	private static HashMap<Integer, RawModel> models = new HashMap<Integer, RawModel>(); // Stores entity models (instead of having multiple copies of the same model, we use only one to render multiple entities)
-	private static HashMap<Integer, BaseTexture> textures = new HashMap<Integer, BaseTexture>(); // Stores entity textures (instead of having multiple copies of the same texture, we use only one to render multiple entities)
+	private static HashMap<Integer, RawModel> models = new HashMap<Integer, RawModel>();
+	private static HashMap<Integer, BaseTexture> textures = new HashMap<Integer, BaseTexture>();
 
 	private Vector3f color;
 
@@ -41,18 +41,32 @@ public class Entity
 
 	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
-	public Entity(int id, String name, Vector2f areaRequired, boolean staticEntity)
+	public static Entity pineTree = new Entity(0, "Pine Tree", new Vector2f(2, 2)).setModel("treePine").setTexture("treePine");
+	public static Entity bench = new Entity(1, "Bench", new Vector2f(2, 1)).setModel("bench").setTexture("bench");
+	public static Entity table = new Entity(2, "Table", new Vector2f(2, 1)).setModel("table").setTexture("table");
+	public static Entity plate = new Entity(3, "Plate", new Vector2f(1, 1)).setModel("plate").setTexture("plate");
+	public static Entity rock = new Entity(4, "Rock", new Vector2f(1, 1)).setModel("rock").setTexture("rock");
+	public static Entity campfire = new Entity(5, "Campfire", new Vector2f(1, 1)).setModel("campfire").setTexture("campfire");
+	public static Entity mushroom = new Entity(6, "Mushroom", new Vector2f(1, 1)).setModel("mushroom").setTexture("mushroom");
+	public static Entity mushroom1 = new Entity(7, "Brown Mushroom", new Vector2f(1, 1)).setModel("mushroom").setTexture("mushroom1");
+	public static Entity grass = new Entity(8, "Grass", new Vector2f(1, 1)).setModel("grass").setTexture("grass");
+	public static Entity christmasTree = new Entity(9, "Christmas Tree", new Vector2f(2, 2)).setModel("christmas_tree").setTexture("christmas_tree");
+	public static Entity snowman = new Entity(10, "Snowman", new Vector2f(2, 2)).setModel("snowman").setTexture("snowman");
+
+	public Entity(int id, String name, Vector2f areaRequired)
 	{
 		this.id = id;
 		this.name = name;
 		this.areaRequired = areaRequired;
-		if (!staticEntity)
-		{
-			this.uniqueID = nextEntityID++;
-			color = manageColor(globalColor);
-			colorArray.put(color.x + "" + color.y + "" + color.z, uniqueID);
-			entities.put(uniqueID, this);
-		}
+	}
+
+	public Entity setup()
+	{
+		this.uniqueID = nextEntityID++;
+		color = manageColor(globalColor);
+		colorArray.put(color.x + "" + color.y + "" + color.z, uniqueID);
+		entities.put(uniqueID, this);
+		return this;
 	}
 
 	/**
@@ -81,17 +95,6 @@ public class Entity
 	{
 		BaseTexture texture = FileManager.loadTexture(val);
 		textures.put(id, texture);
-		return this;
-	}
-
-	public Material getMaterial()
-	{
-		return Material.getMaterial(materialID);
-	}
-
-	public Entity setMaterial(Material material)
-	{
-		materialID = material.getID();
 		return this;
 	}
 
@@ -178,6 +181,12 @@ public class Entity
 		this.areaRequired = area;
 	}
 
+	public Entity setMaterial(Material mat)
+	{
+		this.material = mat;
+		return this;
+	}
+
 	private Vector3f manageColor(Vector3f color)
 	{
 		int r = (int) color.x;
@@ -199,6 +208,11 @@ public class Entity
 			color.y = color.z = 0;
 		}
 		return col;
+	}
+
+	public Material getMaterial()
+	{
+		return material;
 	}
 
 	public int getId()
@@ -250,9 +264,10 @@ public class Entity
 	{
 		return areaRequired;
 	}
-	public Entity getCopy(boolean staticEntity)
+
+	public Entity getCopy()
 	{
-		return new Entity(id, name, areaRequired, staticEntity).setPosition(position).setRotationInRadians(rotation).setScale(scale);
+		return new Entity(id, name, areaRequired).setPosition(position).setRotationInRadians(rotation).setScale(scale).setMaterial(material).setup();
 	}
 
 	public static RawModel getModel(int id)

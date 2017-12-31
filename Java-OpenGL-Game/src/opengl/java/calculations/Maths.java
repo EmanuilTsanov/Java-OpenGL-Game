@@ -46,11 +46,12 @@ public class Maths {
 		projectionMatrix.m33 = 0;
 	}
 
-	public static Matrix4f createViewMatrix(Camera camera) {
+	public static Matrix4f createViewMatrix() {
+		Camera camera = Camera.getInstance();
 		Matrix4f matrix = new Matrix4f();
 		matrix.setIdentity();
-		Matrix4f.rotate(camera.getPitch(), new Vector3f(1, 0, 0), matrix, matrix);
-		Matrix4f.rotate(camera.getYaw(), new Vector3f(0, 1, 0), matrix, matrix);
+		Matrix4f.rotate((float)Math.toRadians(camera.getPitch()), new Vector3f(1, 0, 0), matrix, matrix);
+		Matrix4f.rotate((float)Math.toRadians(camera.getYaw()), new Vector3f(0, 1, 0), matrix, matrix);
 		Vector3f camPos = camera.getPosition();
 		Vector3f negativeCamPos = new Vector3f(-camPos.x, -camPos.y, -camPos.z);
 		Matrix4f.translate(negativeCamPos, matrix, matrix);
