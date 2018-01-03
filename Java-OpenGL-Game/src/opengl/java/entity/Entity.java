@@ -8,6 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.management.FileManager;
 import opengl.java.material.Material;
 import opengl.java.model.RawModel;
+import opengl.java.terrain.TerrainGenerator;
 import opengl.java.texture.BaseTexture;
 
 public class Entity
@@ -50,7 +51,7 @@ public class Entity
 	public static Entity mushroom = new Entity(6, "Mushroom", new Vector2f(1, 1)).setModel("mushroom").setTexture("mushroom");
 	public static Entity mushroom1 = new Entity(7, "Brown Mushroom", new Vector2f(1, 1)).setModel("mushroom").setTexture("mushroom1");
 	public static Entity grass = new Entity(8, "Grass", new Vector2f(1, 1)).setModel("grass").setTexture("grass");
-	public static Entity christmasTree = new Entity(9, "Christmas Tree", new Vector2f(4, 4)).setModel("christmas_tree").setTexture("christmas_tree");
+	public static Entity christmasTree = new Entity(9, "Christmas Tree", new Vector2f(40, 40)).setModel("christmas_tree").setTexture("christmas_tree");
 	public static Entity snowman = new Entity(10, "Snowman", new Vector2f(2, 2)).setModel("snowman").setTexture("snowman");
 
 	public Entity(int id, String name, Vector2f areaRequired)
@@ -263,6 +264,14 @@ public class Entity
 	public Vector2f getArea()
 	{
 		return areaRequired;
+	}
+	
+	public float getAdditionalXArea() {
+		return areaRequired.x % 2 == 0 ? TerrainGenerator.getQuadSize()/4f : 0f;
+	}
+	
+	public float getAdditionalZArea() {
+		return areaRequired.y % 2 == 0 ? TerrainGenerator.getQuadSize()/4f : 0f;
 	}
 
 	public Entity getCopy()

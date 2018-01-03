@@ -96,7 +96,7 @@ public class MouseController
 		if (entityHolder != null)
 		{
 			Vector3f vec = picker.getMapPosition();
-			Vector2f vec1 = Terrain.getInstance().getCellPos(vec.x+entityHolder.getArea().x/4, vec.z+entityHolder.getArea().y/4);
+			Vector2f vec1 = Terrain.getInstance().getCellPos(vec.x+entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
 			entityHolder.setPosition(new Vector3f(vec1.x*TerrainGenerator.getQuadSize(), 0f, vec1.y*TerrainGenerator.getQuadSize()));
 		}
 	}
