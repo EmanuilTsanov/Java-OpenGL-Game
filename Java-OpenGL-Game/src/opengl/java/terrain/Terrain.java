@@ -24,7 +24,7 @@ public class Terrain
 	{
 		this.position = new Vector2f(0, 0);
 		this.model = TerrainGenerator.generateTerrain();
-		texture = FileManager.loadTexture("snowT");
+		texture = FileManager.loadTexture("grassT");
 		generateCells();
 	}
 

@@ -68,6 +68,19 @@ public class MouseController
 					Mouse.setGrabbed(false);
 				}
 			}
+			if (Mouse.getEventButton() == 2)
+			{
+				if (Mouse.getEventButtonState())
+				{
+					if (entityHolder != null)
+					{
+						entityHolder.rotate(0, 90, 0);
+						Vector2f a = entityHolder.getArea();
+						Vector2f b = new Vector2f(a.y, a.x);
+						entityHolder.setArea(b);
+					}
+				}
+			}
 		}
 		if (Mouse.isButtonDown(1) && Mouse.isGrabbed())
 		{
@@ -87,17 +100,20 @@ public class MouseController
 		}
 		if (Mouse.isButtonDown(2))
 		{
-			float radius = (float) Camera.getInstance().getLookDistance();
-			float dx = (float) (radius * Math.sin(Math.toRadians(angle))) * 0.1f;
-			float dz = (float) (radius * Math.cos(Math.toRadians(angle))) * 0.1f;
-			Camera.getInstance().increasePosition(-dx, 0, -dz);
-			angle += 1f;
+			if (entityHolder == null)
+			{
+				float radius = (float) Camera.getInstance().getLookDistance();
+				float dx = (float) (radius * Math.sin(Math.toRadians(angle))) * 0.1f;
+				float dz = (float) (radius * Math.cos(Math.toRadians(angle))) * 0.1f;
+				Camera.getInstance().increasePosition(-dx, 0, -dz);
+				angle += 1f;
+			}
 		}
 		if (entityHolder != null)
 		{
 			Vector3f vec = picker.getMapPosition();
-			Vector2f vec1 = Terrain.getInstance().getCellPos(vec.x+entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
-			entityHolder.setPosition(new Vector3f(vec1.x*TerrainGenerator.getQuadSize(), 0f, vec1.y*TerrainGenerator.getQuadSize()));
+			Vector2f vec1 = Terrain.getInstance().getCellPos(vec.x + entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
+			entityHolder.setPosition(new Vector3f((vec1.x + entityHolder.positionX()) * TerrainGenerator.getQuadSize(), 0f, (vec1.y + entityHolder.positionY()) * TerrainGenerator.getQuadSize()));
 		}
 	}
 

@@ -43,8 +43,8 @@ public class Entity
 	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
 	public static Entity pineTree = new Entity(0, "Pine Tree", new Vector2f(2, 2)).setModel("treePine").setTexture("treePine");
-	public static Entity bench = new Entity(1, "Bench", new Vector2f(2, 1)).setModel("bench").setTexture("bench");
-	public static Entity table = new Entity(2, "Table", new Vector2f(2, 1)).setModel("table").setTexture("table");
+	public static Entity bench = new Entity(1, "Bench", new Vector2f(1, 2)).setModel("bench").setTexture("bench");
+	public static Entity table = new Entity(2, "Table", new Vector2f(1, 2)).setModel("table").setTexture("table");
 	public static Entity plate = new Entity(3, "Plate", new Vector2f(1, 1)).setModel("plate").setTexture("plate");
 	public static Entity rock = new Entity(4, "Rock", new Vector2f(1, 1)).setModel("rock").setTexture("rock");
 	public static Entity campfire = new Entity(5, "Campfire", new Vector2f(1, 1)).setModel("campfire").setTexture("campfire");
@@ -265,13 +265,31 @@ public class Entity
 	{
 		return areaRequired;
 	}
-	
-	public float getAdditionalXArea() {
-		return areaRequired.x % 2 == 0 ? TerrainGenerator.getQuadSize()/4f : 0f;
+
+	public float getAdditionalXArea()
+	{
+		return areaRequired.x % 2 == 0 ? TerrainGenerator.getQuadSize() / 2f : 0f;
+	}
+
+	public float getAdditionalZArea()
+	{
+		return areaRequired.y % 2 == 0 ? TerrainGenerator.getQuadSize() / 2f : 0f;
+	}
+
+	public float positionX()
+	{
+		return areaRequired.x % 2 != 0 ? areaRequired.x / 2 : 0f;
+	}
+
+	public float positionY()
+	{
+		return areaRequired.y % 2 != 0 ? areaRequired.y / 2 : 0f;
 	}
 	
-	public float getAdditionalZArea() {
-		return areaRequired.y % 2 == 0 ? TerrainGenerator.getQuadSize()/4f : 0f;
+	public void rotate(float x, float y, float z) {
+		rotation.x+=Math.toRadians(x);
+		rotation.y+=Math.toRadians(y);
+		rotation.z+=Math.toRadians(z);
 	}
 
 	public Entity getCopy()

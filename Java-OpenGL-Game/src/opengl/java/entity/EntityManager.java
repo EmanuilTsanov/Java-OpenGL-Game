@@ -31,13 +31,16 @@ public class EntityManager
 
 	public void loadEntities()
 	{
-		addEntities(Entity.pineTree, 100, true);
-		addEntities(Entity.bench, 100, true);
-		addEntities(Entity.christmasTree, 100, true);
-		addEntities(Entity.snowman, 100, true);
-		addEntities(Entity.table, 10, true);
-		addEntities(Entity.campfire, 25, true);
-		addEntities(Entity.grass, 100, true);
+		addEntities(Entity.pineTree, 100, false);
+		addEntities(Entity.bench, 100, false);
+		addEntities(Entity.christmasTree, 100, false);
+		addEntities(Entity.snowman, 100, false);
+		addEntities(Entity.table, 10, false);
+		addEntities(Entity.campfire, 25, false);
+		addEntities(Entity.grass, 100, false);
+		addEntities(Entity.mushroom, 100, false);
+		addEntities(Entity.mushroom1, 100, false);
+		addEntities(Entity.rock, 100, false);
 	}
 
 	public boolean addEntity(Entity entity)

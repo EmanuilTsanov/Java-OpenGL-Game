@@ -255,6 +255,7 @@ public class GameRenderer
 	 */
 	public void render()
 	{
+//		GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		prepareScreen(0, 1, 1);
 		eShader.start();
 		eShader.loadLight(sun);
