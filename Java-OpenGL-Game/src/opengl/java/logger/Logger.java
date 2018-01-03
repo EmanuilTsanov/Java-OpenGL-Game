@@ -9,33 +9,31 @@ import java.util.Calendar;
 public class Logger
 {
 	private static File file = new File("log.txt");
-	private static PrintWriter writer;
 	private static Calendar c = Calendar.getInstance();
 
 	public static void log(String s)
 	{
 		if (!file.exists())
 		{
-			try
+			try(PrintWriter writer = new PrintWriter(new FileWriter(file, true)))
 			{
 				file.createNewFile();
+				writer.println("# This file was created on " + getDate() + ", " + getTime() + "h.");
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
-		if (writer == null)
-			try
-			{
-				writer = new PrintWriter(new FileWriter(file, true));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		writer.println(getDate() + getTime() + " " + s);
-		writer.flush();
+		try (PrintWriter writer = new PrintWriter(new FileWriter(file, true)))
+		{
+			writer.println("[" + getDate() + "] [" + getTime() + "] " + s);
+			writer.flush();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private static String getTime()
@@ -45,7 +43,7 @@ public class Logger
 		int m = c.get(Calendar.MINUTE);
 		int s = c.get(Calendar.SECOND);
 		String divider = ":";
-		builder.append("[").append(h < 10 ? 0 + "" + h : h).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(s < 10 ? 0 + "" + s : s).append("]");
+		builder.append(h < 10 ? 0 + "" + h : h).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(s < 10 ? 0 + "" + s : s);
 		return builder.toString();
 	}
 
@@ -53,10 +51,10 @@ public class Logger
 	{
 		StringBuilder builder = new StringBuilder();
 		int d = c.get(Calendar.DAY_OF_MONTH);
-		int m = c.get(Calendar.MONTH);
+		int m = c.get(Calendar.MONTH + 1);
 		int y = c.get(Calendar.YEAR);
 		String divider = ".";
-		builder.append("[").append(d < 10 ? 0 + "" + d : d).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(y).append("]");
+		builder.append(d < 10 ? 0 + "" + d : d).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(y);
 		return builder.toString();
 	}
 }

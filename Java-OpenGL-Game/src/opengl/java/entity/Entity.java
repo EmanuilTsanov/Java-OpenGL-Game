@@ -50,7 +50,7 @@ public class Entity
 	public static Entity mushroom = new Entity(6, "Mushroom", new Vector2f(1, 1)).setModel("mushroom").setTexture("mushroom");
 	public static Entity mushroom1 = new Entity(7, "Brown Mushroom", new Vector2f(1, 1)).setModel("mushroom").setTexture("mushroom1");
 	public static Entity grass = new Entity(8, "Grass", new Vector2f(1, 1)).setModel("grass").setTexture("grass");
-	public static Entity christmasTree = new Entity(9, "Christmas Tree", new Vector2f(2, 2)).setModel("christmas_tree").setTexture("christmas_tree");
+	public static Entity christmasTree = new Entity(9, "Christmas Tree", new Vector2f(4, 4)).setModel("christmas_tree").setTexture("christmas_tree");
 	public static Entity snowman = new Entity(10, "Snowman", new Vector2f(2, 2)).setModel("snowman").setTexture("snowman");
 
 	public Entity(int id, String name, Vector2f areaRequired)

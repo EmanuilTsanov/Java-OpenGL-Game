@@ -260,9 +260,7 @@ public class GameRenderer
 		eShader.loadLight(sun);
 		eShader.loadViewMatrix(camera);
 		renderEntities();
-		Entity e = MouseController.getInstance().getEntityHolder();
-		if(e!=null)
-			renderEntity(e);
+		MouseController.getInstance().render();
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);

@@ -21,8 +21,9 @@ public class Camera
 		this.yaw = yaw;
 		this.roll = roll;
 	}
-	
-	public static Camera getInstance() {
+
+	public static Camera getInstance()
+	{
 		return singleton;
 	}
 
@@ -47,8 +48,9 @@ public class Camera
 	{
 		return yaw;
 	}
-	
-	public float getRoll() {
+
+	public float getRoll()
+	{
 		return roll;
 	}
 
@@ -61,5 +63,19 @@ public class Camera
 			this.yaw = rotation.y;
 			this.roll = rotation.z;
 		}
+	}
+
+	public double getLookPos()
+	{
+		double botAngle = Math.toRadians(90 - pitch);
+		double dist = position.y / Math.sin(botAngle) * Math.sin(Math.toRadians(pitch));
+		return dist;
+	}
+
+	public double getLookDistance()
+	{
+		double botAngle = Math.toRadians(90 - pitch);
+		double dist = position.y / Math.sin(botAngle) * Math.sin(Math.toRadians(pitch));
+		return dist;
 	}
 }
