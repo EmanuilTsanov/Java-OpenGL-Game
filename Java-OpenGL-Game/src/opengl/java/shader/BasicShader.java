@@ -76,8 +76,8 @@ public class BasicShader extends ShaderProgram
 
 	public void loadMaterialValues(Material material)
 	{
-		super.loadInt(locMaterialDiffuse, 0);
-		super.loadInt(locMaterialSpecular, 1);
+		super.loadVector3f(locMaterialDiffuse, new Vector3f(0,0,0));
+		super.loadVector3f(locMaterialSpecular, new Vector3f(1,1,1));
 		super.loadFloat(locMaterialShininess, material.getShininess());
 	}
 
