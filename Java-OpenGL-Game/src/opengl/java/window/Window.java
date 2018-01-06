@@ -3,11 +3,12 @@ package opengl.java.window;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.PixelFormat;
 
 public class Window
 {
-	public static final int WIDTH = 1280;
-	public static final int HEIGHT = 720;
+	public static final int WIDTH = 640;
+	public static final int HEIGHT = 320;
 	private static int fpsCap;
 
 	private static WindowFrameController wfc = new WindowFrameController();
@@ -19,7 +20,8 @@ public class Window
 		{
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.setTitle(title);
-			Display.create();
+			Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
+			Display.create(new PixelFormat(32, 0, 24, 0, 4));
 		}
 		catch (LWJGLException e)
 		{

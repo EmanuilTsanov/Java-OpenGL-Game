@@ -34,7 +34,7 @@ void main()
 	
 	vec3 lightDirection = -unitToLightVec;
 	vec3 reflectedLightVec = reflect(lightDirection, unitNormal);
-	vec3 specular = light.specular * pow(max(dot(reflectedLightVec, unitToCamVec), 0.0f), 0.3f * material.shininess);
+	vec3 specular = light.specular * material.specular * pow(max(dot(reflectedLightVec, unitToCamVec), 0.0f), 0.3f * material.shininess);
 	vec3 finalSpecular = clamp(specular, 0.0f, 1.0f);
 
 	finalColor = texture(sampler, textureCoords) + vec4(finalDiffuse * finalAmbient * finalSpecular, 1.0f);

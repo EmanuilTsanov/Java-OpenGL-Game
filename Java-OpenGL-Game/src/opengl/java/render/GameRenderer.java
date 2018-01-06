@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
@@ -261,6 +262,7 @@ public class GameRenderer
 		eShader.loadLight(sun);
 		eShader.loadViewMatrix(camera);
 		renderEntities();
+		System.out.println(Mouse.getX() +"/"+ Mouse.getY());
 		MouseController.getInstance().render();
 		eShader.stop();
 		tShader.start();

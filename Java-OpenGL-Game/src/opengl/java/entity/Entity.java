@@ -65,7 +65,7 @@ public class Entity
 	{
 		this.uniqueID = nextEntityID++;
 		color = manageColor(globalColor);
-		colorArray.put(color.x + "" + color.y + "" + color.z, uniqueID);
+		colorArray.put(color.x + "/" + color.y + "/" + color.z, uniqueID);
 		entities.put(uniqueID, this);
 		return this;
 	}
@@ -285,11 +285,12 @@ public class Entity
 	{
 		return areaRequired.y % 2 != 0 ? areaRequired.y / 2 : 0f;
 	}
-	
-	public void rotate(float x, float y, float z) {
-		rotation.x+=Math.toRadians(x);
-		rotation.y+=Math.toRadians(y);
-		rotation.z+=Math.toRadians(z);
+
+	public void rotate(float x, float y, float z)
+	{
+		rotation.x += Math.toRadians(x);
+		rotation.y += Math.toRadians(y);
+		rotation.z += Math.toRadians(z);
 	}
 
 	public Entity getCopy()
@@ -309,7 +310,7 @@ public class Entity
 
 	public static Entity getEntityByColor(Vector3f color)
 	{
-		Entity entity = entities.get(colorArray.get(color.x + "" + color.y + "" + color.z));
+		Entity entity = entities.get(colorArray.get(color.x + "/" + color.y + "/" + color.z));
 		return entity;
 	}
 }
