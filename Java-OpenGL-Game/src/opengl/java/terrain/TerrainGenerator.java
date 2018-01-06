@@ -77,6 +77,10 @@ public class TerrainGenerator
 	{
 		return VERTEX_SIZE;
 	}
+	
+	public static int getFullSize() {
+		return VERTEX_SIZE * QUAD_SIZE;
+	}
 
 	public static float genRandTerrainPos()
 	{
