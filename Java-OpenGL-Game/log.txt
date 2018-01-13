@@ -689,3 +689,23 @@
 [13.02.2018] [09:13:55] 100 entities of type 'Mushroom' were added successfully!
 [13.02.2018] [09:13:55] 100 entities of type 'Brown Mushroom' were added successfully!
 [13.02.2018] [09:13:55] 100 entities of type 'Rock' were added successfully!
+[13.02.2018] [09:45:34] 100 entities of type 'Pine Tree' were added successfully!
+[13.02.2018] [09:45:34] 100 entities of type 'Bench' were added successfully!
+[13.02.2018] [09:45:34] 100 entities of type 'Christmas Tree' were added successfully!
+[13.02.2018] [09:45:34] 100 entities of type 'Snowman' were added successfully!
+[13.02.2018] [09:45:34] 10 entities of type 'Table' were added successfully!
+[13.02.2018] [09:45:34] 25 entities of type 'Campfire' were added successfully!
+[13.02.2018] [09:45:34] 100 entities of type 'Grass' were added successfully!
+[13.02.2018] [09:45:34] 100 entities of type 'Mushroom' were added successfully!
+[13.02.2018] [09:45:34] 100 entities of type 'Brown Mushroom' were added successfully!
+[13.02.2018] [09:45:34] 100 entities of type 'Rock' were added successfully!
+[13.02.2018] [09:49:30] 100 entities of type 'Pine Tree' were added successfully!
+[13.02.2018] [09:49:30] 100 entities of type 'Bench' were added successfully!
+[13.02.2018] [09:49:30] 100 entities of type 'Christmas Tree' were added successfully!
+[13.02.2018] [09:49:30] 100 entities of type 'Snowman' were added successfully!
+[13.02.2018] [09:49:30] 10 entities of type 'Table' were added successfully!
+[13.02.2018] [09:49:30] 25 entities of type 'Campfire' were added successfully!
+[13.02.2018] [09:49:30] 100 entities of type 'Grass' were added successfully!
+[13.02.2018] [09:49:30] 100 entities of type 'Mushroom' were added successfully!
+[13.02.2018] [09:49:30] 100 entities of type 'Brown Mushroom' were added successfully!
+[13.02.2018] [09:49:30] 100 entities of type 'Rock' were added successfully!
