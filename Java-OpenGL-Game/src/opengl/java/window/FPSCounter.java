@@ -32,7 +32,7 @@ public class FPSCounter
 	{
 		if (getTime() - lastFPS > 1000)
 		{
-			String cap = Window.getFPScap() < 0 ? "UNLIMITED" : Window.getFPScap() + "";
+			String cap = Window.getInstance().getFPScap() < 0 ? "UNLIMITED" : Window.getInstance().getFPScap() + "";
 			System.out.println("FPS: " + fps + "; FPS limit: " + cap);
 			fps = 0;
 			lastFPS += 1000;

@@ -7,30 +7,33 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class Window
 {
-	public static final int WIDTH = 640;
-	public static final int HEIGHT = 320;
-	private static int fpsCap;
+	public int width = 1920;
+	public int height = 1080;
+	private int fpsCap;
+	private boolean fullscreen;
 
-	private static WindowFrameController wfc = new WindowFrameController();
-	private static FPSCounter fpsc = new FPSCounter();
+	private WindowFrameController wfc = new WindowFrameController();
+	private FPSCounter fpsc = new FPSCounter();
 
-	public static void create(String title)
+	private static Window singleton = new Window();
+
+	public void create(String title)
 	{
 		try
 		{
-			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(title);
 			Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
 			Display.create(new PixelFormat(32, 0, 24, 0, 4));
 		}
 		catch (LWJGLException e)
 		{
-			System.out.println("An error ocurred while creating display.");
+			System.out.println("An error ocurred while creating the display.");
 			e.printStackTrace();
 		}
 	}
 
-	public static void update()
+	public void update()
 	{
 		Display.sync(fpsCap);
 		Display.update();
@@ -38,23 +41,67 @@ public class Window
 		fpsc.update();
 	}
 
-	public static void destroy()
+	public void destroy()
 	{
 		Display.destroy();
 	}
 
-	public static void setFPScap(int fpsCap)
+	public void setFullscreen(boolean b)
 	{
-		Window.fpsCap = fpsCap;
+		fullscreen = b;
+		try
+		{
+			if(b) {
+				Display.setDisplayMode(new DisplayMode(1920,1080));
+			}
+			else 
+				Display.setDisplayModeAndFullscreen(new DisplayMode(width, height));
+		}
+		catch (LWJGLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public static boolean isOpened()
+	public boolean isFullscreen()
+	{
+		return fullscreen;
+	}
+
+	public void setFPScap(int fpsCap)
+	{
+		this.fpsCap = fpsCap;
+	}
+
+	public boolean isOpened()
 	{
 		return !Display.isCloseRequested();
 	}
 
-	public static int getFPScap()
+	public int getFPScap()
 	{
 		return fpsCap;
+	}
+
+	public static Window getInstance()
+	{
+		return singleton;
+	}
+
+	public int getWidth()
+	{
+		return width;
+	}
+
+	public int getHeight()
+	{
+		return height;
+	}
+
+	public void setSize(int width, int height)
+	{
+		this.width = width;
+		this.height = height;
 	}
 }

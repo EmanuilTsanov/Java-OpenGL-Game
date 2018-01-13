@@ -72,7 +72,7 @@ public class MouseController
 				float dz = (float) Math.sin(camYaw) * distanceX;
 				float dx1 = (float) Math.cos(camYawH) * distanceY;
 				float dz1 = (float) Math.sin(camYawH) * distanceY;
-				cam.increasePosition(dx-dx1, 0, dz-dz1);
+				cam.increasePosition(dx - dx1, 0, dz - dz1);
 				moveCursorToMid();
 			}
 			if (Mouse.isButtonDown(2))
@@ -128,7 +128,7 @@ public class MouseController
 
 	public void moveCursorToMid()
 	{
-		Mouse.setCursorPosition(Window.WIDTH / 2, Window.HEIGHT / 2);
+		Mouse.setCursorPosition(Window.getInstance().getWidth() / 2, Window.getInstance().getHeight() / 2);
 		pickLocation.x = Mouse.getX();
 		pickLocation.y = Mouse.getY();
 	}

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -54,7 +55,7 @@ public class GameRenderer
 	{
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		bindBuffers(Window.WIDTH, Window.HEIGHT);
+		bindBuffers(Window.getInstance().getWidth(), Window.getInstance().getHeight());
 	}
 
 	private void initShaders()
@@ -269,6 +270,9 @@ public class GameRenderer
 		tShader.loadViewMatrix(camera);
 		renderTerrain();
 		tShader.stop();
+		if(Keyboard.isKeyDown(Keyboard.KEY_F11)) {
+			Window.getInstance().setFullscreen(!Window.getInstance().isFullscreen());
+		}
 		// cShader.start();
 		// cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
 		// cShader.stop();
