@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
@@ -169,7 +168,7 @@ public class GameRenderer
 	 */
 	public void renderTerrain()
 	{
-		GL30.glBindVertexArray(terrain.getModel().getVAOID());
+		GL30.glBindVertexArray(terrain.getMesh().getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -178,7 +177,7 @@ public class GameRenderer
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 		Vector2f chPos = terrain.getPosition();
 		tShader.loadTransformationMatrix(new Vector3f(chPos.x, 0, chPos.y), new Vector3f(0f, 0f, 0f), 1f);
-		GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+		GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
@@ -263,14 +262,14 @@ public class GameRenderer
 		eShader.loadLight(sun);
 		eShader.loadViewMatrix(camera);
 		renderEntities();
-		System.out.println(Mouse.getX() +"/"+ Mouse.getY());
 		MouseController.getInstance().render();
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);
 		renderTerrain();
 		tShader.stop();
-		if(Keyboard.isKeyDown(Keyboard.KEY_F11)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_F11))
+		{
 			Window.getInstance().setFullscreen(!Window.getInstance().isFullscreen());
 		}
 		// cShader.start();

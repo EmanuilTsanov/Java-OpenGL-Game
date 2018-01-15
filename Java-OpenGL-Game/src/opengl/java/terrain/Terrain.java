@@ -12,9 +12,8 @@ public class Terrain
 {
 	private Vector2f position;
 
-	private RawModel model;
-
-	private BaseTexture texture;
+	private RawModel terrainMesh;
+	private BaseTexture terrainTexture;
 
 	private HashMap<String, TerrainCell> cells;
 
@@ -23,14 +22,9 @@ public class Terrain
 	public Terrain()
 	{
 		this.position = new Vector2f(0, 0);
-		this.model = TerrainGenerator.generateTerrain();
-		texture = FileManager.loadTexture("grassT");
+		this.terrainMesh = TerrainGenerator.getTerrainMesh();
+		terrainTexture = FileManager.loadTexture("grassT");
 		generateCells();
-	}
-
-	public static Terrain getInstance()
-	{
-		return singleton;
 	}
 
 	private void generateCells()
@@ -52,12 +46,12 @@ public class Terrain
 		return x + "/" + y;
 	}
 
-	public TerrainCell getCell(int x, int y)
+	public static Terrain getInstance()
 	{
-		return cells.get(formKey(x, y));
+		return singleton;
 	}
 
-	public Vector2f getCellPos(float x, float y)
+	public Vector2f getCellPosition(float x, float y)
 	{
 		Vector2f vec = new Vector2f((int) (x / TerrainGenerator.getQuadSize()), (int) (y / TerrainGenerator.getQuadSize()));
 		return vec;
@@ -68,13 +62,13 @@ public class Terrain
 		return position;
 	}
 
-	public RawModel getModel()
+	public RawModel getMesh()
 	{
-		return model;
+		return terrainMesh;
 	}
 
 	public BaseTexture getTexture()
 	{
-		return texture;
+		return terrainTexture;
 	}
 }

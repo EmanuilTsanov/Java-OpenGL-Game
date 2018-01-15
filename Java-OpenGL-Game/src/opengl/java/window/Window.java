@@ -7,8 +7,8 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class Window
 {
-	public int width = 1920;
-	public int height = 1080;
+	public int width = 1280;
+	public int height = 720;
 	private int fpsCap;
 	private boolean fullscreen;
 
@@ -23,7 +23,6 @@ public class Window
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(title);
-			Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
 			Display.create(new PixelFormat(32, 0, 24, 0, 4));
 		}
 		catch (LWJGLException e)

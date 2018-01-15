@@ -90,7 +90,7 @@ public class MouseController
 		if (entityHolder != null)
 		{
 			Vector3f vec = picker.getMapPosition();
-			Vector2f vec1 = Terrain.getInstance().getCellPos(vec.x + entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
+			Vector2f vec1 = Terrain.getInstance().getCellPosition(vec.x + entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
 			entityHolder.setPosition(new Vector3f((vec1.x + entityHolder.positionX()) * TerrainGenerator.getQuadSize(), 0f, (vec1.y + entityHolder.positionY()) * TerrainGenerator.getQuadSize()));
 		}
 	}
@@ -100,7 +100,6 @@ public class MouseController
 		if (entityHolder == null)
 		{
 			Vector3f color = GameRenderer.getInstance().pickColor(Mouse.getX(), Mouse.getY());
-			System.out.println(color);
 			Entity e = Entity.getEntityByColor(color);
 			if (e != null)
 			{
