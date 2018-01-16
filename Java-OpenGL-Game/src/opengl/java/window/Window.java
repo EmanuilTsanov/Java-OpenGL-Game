@@ -10,7 +10,6 @@ public class Window
 	public int width = 1280;
 	public int height = 720;
 	private int fpsCap;
-	private boolean fullscreen;
 
 	private WindowFrameController wfc = new WindowFrameController();
 	private FPSCounter fpsc = new FPSCounter();
@@ -45,27 +44,9 @@ public class Window
 		Display.destroy();
 	}
 
-	public void setFullscreen(boolean b)
+	public int getFPScap()
 	{
-		fullscreen = b;
-		try
-		{
-			if(b) {
-				Display.setDisplayMode(new DisplayMode(1920,1080));
-			}
-			else 
-				Display.setDisplayModeAndFullscreen(new DisplayMode(width, height));
-		}
-		catch (LWJGLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public boolean isFullscreen()
-	{
-		return fullscreen;
+		return fpsCap;
 	}
 
 	public void setFPScap(int fpsCap)
@@ -76,11 +57,6 @@ public class Window
 	public boolean isOpened()
 	{
 		return !Display.isCloseRequested();
-	}
-
-	public int getFPScap()
-	{
-		return fpsCap;
 	}
 
 	public static Window getInstance()

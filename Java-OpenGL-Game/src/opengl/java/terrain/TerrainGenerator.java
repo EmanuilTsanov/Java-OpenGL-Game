@@ -7,7 +7,7 @@ import opengl.java.model.RawModel;
 
 public class TerrainGenerator
 {
-	private static final int VERTEX_SIZE = 64;
+	private static final int VERTEX_SIZE = 128;
 	private static final int QUAD_SIZE = 2;
 
 	private static Random rand = new Random();
