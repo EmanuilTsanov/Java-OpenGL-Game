@@ -36,7 +36,7 @@ public class Logger
 		}
 	}
 
-	private static String getTime()
+	public static String getTime()
 	{
 		StringBuilder builder = new StringBuilder();
 		int h = c.get(Calendar.HOUR_OF_DAY);
@@ -47,7 +47,18 @@ public class Logger
 		return builder.toString();
 	}
 
-	private static String getDate()
+	public static String getFormattedTime()
+	{
+		StringBuilder builder = new StringBuilder();
+		int h = c.get(Calendar.HOUR_OF_DAY);
+		int m = c.get(Calendar.MINUTE);
+		int s = c.get(Calendar.SECOND);
+		String divider = "_";
+		builder.append(h < 10 ? 0 + "" + h : h).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(s < 10 ? 0 + "" + s : s);
+		return builder.toString();
+	}
+
+	public static String getDate()
 	{
 		StringBuilder builder = new StringBuilder();
 		int d = c.get(Calendar.DAY_OF_MONTH);

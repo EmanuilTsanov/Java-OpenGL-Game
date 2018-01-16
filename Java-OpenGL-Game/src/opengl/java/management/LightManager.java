@@ -1,6 +1,8 @@
-package opengl.java.lighting;
+package opengl.java.management;
 
 import org.lwjgl.util.vector.Vector3f;
+
+import opengl.java.lighting.Light;
 
 public class LightManager
 {

@@ -1,4 +1,4 @@
-package opengl.java.controls;
+package opengl.java.interaction;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;

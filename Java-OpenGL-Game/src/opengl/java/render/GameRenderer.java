@@ -13,12 +13,13 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.controls.MouseController;
 import opengl.java.entity.Entity;
-import opengl.java.entity.EntityManager;
 import opengl.java.fonts.GUIText;
+import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
-import opengl.java.lighting.LightManager;
+import opengl.java.management.EntityManager;
+import opengl.java.management.FileManager;
+import opengl.java.management.LightManager;
 import opengl.java.model.RawModel;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
@@ -241,6 +242,20 @@ public class GameRenderer
 		int b = buffer.get(2) & 0xFF;
 
 		return new Vector3f(r, g, b);
+	}
+
+	public void takeScreenshot()
+	{
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, framebufferID);
+		eShader.start();
+		prepareScreen(0, 1, 1);
+		renderEntities();
+		eShader.stop();
+		tShader.start();
+		renderTerrain();
+		tShader.stop();
+		unbindBuffers();
+		FileManager.saveScreenshot();
 	}
 
 	public ByteBuffer readScreen(int x, int y, int width, int height)

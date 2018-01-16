@@ -1,10 +1,11 @@
-package opengl.java.entity;
+package opengl.java.management;
 
 import java.util.HashMap;
 import java.util.Random;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.entity.Entity;
 import opengl.java.logger.Logger;
 import opengl.java.terrain.TerrainGenerator;
 
@@ -98,7 +99,8 @@ public class EntityManager
 	{
 		HashMap<Integer, Entity> ptr = entities.get(e.getId());
 		ptr.remove(e.getUniqueID());
-		if(ptr.isEmpty()) {
+		if (ptr.isEmpty())
+		{
 			ptr = null;
 		}
 	}

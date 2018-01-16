@@ -1,4 +1,4 @@
-package opengl.java.files;
+package opengl.java.loader;
 
 public class MapLoader
 {

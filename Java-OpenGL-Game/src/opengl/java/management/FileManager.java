@@ -1,21 +1,28 @@
 package opengl.java.management;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.Texture;
 
-import opengl.java.files.ExternalFilePaths;
+import opengl.java.files.FileSRC;
 import opengl.java.loader.ModelLoader;
+import opengl.java.logger.Logger;
 import opengl.java.model.RawModel;
+import opengl.java.render.GameRenderer;
 import opengl.java.texture.BaseTexture;
+import opengl.java.window.Window;
 
 public class FileManager
 {
@@ -24,7 +31,7 @@ public class FileManager
 	{
 		ArrayList<String> lines = new ArrayList<String>();
 
-		try (BufferedReader stream = new BufferedReader(new FileReader(new File(path + fileName + ExternalFilePaths.DOT + extension)));)
+		try (BufferedReader stream = new BufferedReader(new FileReader(new File(path + fileName + FileSRC.DOT + extension))))
 		{
 			String line;
 			while ((line = stream.readLine()) != null)
@@ -34,11 +41,11 @@ public class FileManager
 		}
 		catch (FileNotFoundException e)
 		{
-			System.out.println("File '" + fileName + ExternalFilePaths.DOT + extension + "' + not found");
+			System.out.println("File '" + fileName + FileSRC.DOT + extension + "' + not found");
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error reading file '" + fileName + ExternalFilePaths.DOT + extension + "'.\nInfoLog: ");
+			System.out.println("Error reading file '" + fileName + FileSRC.DOT + extension + "'.\nInfoLog: ");
 			e.printStackTrace();
 		}
 		return lines;
@@ -55,7 +62,7 @@ public class FileManager
 		float[] normalsArr = null;
 		int[] indicesArr = null;
 
-		ArrayList<String> lines = readTextFile(ExternalFilePaths.modelFolder, fileName, ExternalFilePaths.modelExtension);
+		ArrayList<String> lines = readTextFile(FileSRC.MODELS_FOLDER, fileName, FileSRC.MODEL_EXTENSION);
 
 		ModelLoader loader = new ModelLoader();
 
@@ -146,7 +153,7 @@ public class FileManager
 		Texture tex = null;
 		try
 		{
-			tex = org.newdawn.slick.opengl.TextureLoader.getTexture("png", new FileInputStream(ExternalFilePaths.textureFolder + fileName + "." + ExternalFilePaths.textureExtension));
+			tex = org.newdawn.slick.opengl.TextureLoader.getTexture("png", new FileInputStream(FileSRC.TEXTURES_FOLDER + fileName + "." + FileSRC.TEXTURE_EXTENSION));
 		}
 		catch (IOException e)
 		{
@@ -160,12 +167,42 @@ public class FileManager
 		Texture tex = null;
 		try
 		{
-			tex = org.newdawn.slick.opengl.TextureLoader.getTexture("png", new FileInputStream(path + fileName + "." + ExternalFilePaths.textureExtension));
+			tex = org.newdawn.slick.opengl.TextureLoader.getTexture("png", new FileInputStream(path + fileName + "." + FileSRC.TEXTURE_EXTENSION));
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 		return new BaseTexture(tex.getTextureID());
+	}
+
+	public static void saveScreenshot()
+	{
+		Window window = Window.getInstance();
+		ByteBuffer buffer = GameRenderer.getInstance().readScreen(0, 0, window.getWidth(), window.getHeight());
+		File file = new File(Logger.getDate() + "_" + Logger.getFormattedTime() + FileSRC.DOT + FileSRC.TEXTURE_EXTENSION);
+		BufferedImage image = new BufferedImage(window.getWidth(), window.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+		for (int x = 0; x < window.getWidth(); x++)
+		{
+			for (int y = 0; y < window.getHeight(); y++)
+			{
+				int i = (x + (window.getWidth() * y)) * 4;
+				int r = buffer.get(i) & 0xFF;
+				int g = buffer.get(i + 1) & 0xFF;
+				int b = buffer.get(i + 2) & 0xFF;
+				image.setRGB(x, window.getHeight() - (y + 1), (0xFF << 24) | (r << 16) | (g << 8) | b);
+			}
+		}
+
+		try
+		{
+			ImageIO.write(image, FileSRC.TEXTURE_EXTENSION, file);
+			System.out.println("SCREENSHOT");
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

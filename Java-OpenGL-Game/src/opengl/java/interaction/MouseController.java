@@ -1,11 +1,12 @@
-package opengl.java.controls;
+package opengl.java.interaction;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
-import opengl.java.entity.EntityManager;
+import opengl.java.management.EntityManager;
 import opengl.java.render.GameRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.terrain.TerrainGenerator;
@@ -92,6 +93,9 @@ public class MouseController
 			Vector3f vec = picker.getMapPosition();
 			Vector2f vec1 = Terrain.getInstance().getCellPosition(vec.x + entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
 			entityHolder.setPosition(new Vector3f((vec1.x + entityHolder.positionX()) * TerrainGenerator.getQuadSize(), 0f, (vec1.y + entityHolder.positionY()) * TerrainGenerator.getQuadSize()));
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+			GameRenderer.getInstance().takeScreenshot();
 		}
 	}
 

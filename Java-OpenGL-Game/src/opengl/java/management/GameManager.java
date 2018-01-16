@@ -1,7 +1,7 @@
 package opengl.java.management;
 
-import opengl.java.controls.MouseController;
-import opengl.java.controls.MousePicker;
+import opengl.java.interaction.MouseController;
+import opengl.java.interaction.MousePicker;
 import opengl.java.render.GameRenderer;
 
 public class GameManager
