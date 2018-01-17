@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
@@ -13,6 +14,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
 import opengl.java.interaction.MouseController;
@@ -282,6 +284,10 @@ public class GameRenderer
 		tShader.loadViewMatrix(camera);
 		renderTerrain();
 		tShader.stop();
+		if(Keyboard.isKeyDown(Keyboard.KEY_F5)) {
+			Window.setS();
+			Maths.deleteProjectionMatrix();
+		}
 		// cShader.start();
 		// cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
 		// cShader.stop();

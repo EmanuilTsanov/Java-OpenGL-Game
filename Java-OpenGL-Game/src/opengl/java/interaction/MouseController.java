@@ -47,7 +47,7 @@ public class MouseController
 
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
 				{
-					moveCursorToMid();
+					moveCursor();
 					Mouse.setGrabbed(true);
 				}
 				if (getEventButton(MIDDLE_MOUSE_BUTTON))
@@ -74,7 +74,7 @@ public class MouseController
 				float dx1 = (float) Math.cos(camYawH) * distanceY;
 				float dz1 = (float) Math.sin(camYawH) * distanceY;
 				cam.increasePosition(dx - dx1, 0, dz - dz1);
-				moveCursorToMid();
+				moveCursor();
 			}
 			if (Mouse.isButtonDown(2))
 			{
@@ -129,7 +129,7 @@ public class MouseController
 		}
 	}
 
-	public void moveCursorToMid()
+	public void moveCursor()
 	{
 		Mouse.setCursorPosition(Window.getInstance().getWidth() / 2, Window.getInstance().getHeight() / 2);
 		pickLocation.x = Mouse.getX();

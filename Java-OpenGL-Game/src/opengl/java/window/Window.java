@@ -5,15 +5,16 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
+import opengl.java.calculations.Maths;
+
 public class Window
 {
-	public int width = 1280;
-	public int height = 720;
+	public static int width = 1600;
+	public static int height = 900;
 	private int fpsCap;
 
 	private WindowFrameController wfc = new WindowFrameController();
 	private FPSCounter fpsc = new FPSCounter();
-
 	private static Window singleton = new Window();
 
 	public void create(String title)
@@ -22,12 +23,24 @@ public class Window
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(title);
-			Display.create(new PixelFormat(32, 0, 24, 0, 4));
+			Display.create(new PixelFormat(32, 0, 24, 0, 16));
 		}
 		catch (LWJGLException e)
 		{
 			System.out.println("An error ocurred while creating the display.");
 			e.printStackTrace();
+		}
+	}
+
+	public static void setS()
+	{
+		try
+		{Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
+		Maths.deleteProjectionMatrix();
+		}
+		catch (Exception e)
+		{
+
 		}
 	}
 
