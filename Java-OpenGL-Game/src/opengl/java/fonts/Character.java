@@ -70,6 +70,10 @@ public class Character
 	{
 		return xAdvance;
 	}
+	
+	public Character getCopy() {
+		return new Character(id, x, y, width, height, xOffset, yOffset, xAdvance);
+	}
 
 	public Character setFontSize(float v)
 	{

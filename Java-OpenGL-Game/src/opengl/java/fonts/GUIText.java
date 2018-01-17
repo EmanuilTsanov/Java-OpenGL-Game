@@ -15,10 +15,24 @@ public class GUIText
 
 	private int imgID;
 
+	private int maxLineWidth;
+	private FontType fontType;
+	private float fontSize;
+
 	public GUIText(int x, int y, String text, FontType fontType, float fontSize, int maxLineWidth)
 	{
+		this.x = x;
+		this.y = y;
+		this.maxLineWidth = maxLineWidth;
+		this.fontType = fontType;
+		this.fontSize = fontSize;
 		txtModel = translateText(text, maxLineWidth, fontType, fontSize);
 		imgID = fontType.getImg().getID();
+	}
+
+	public void update(String t)
+	{
+		txtModel = translateText(t, maxLineWidth, fontType, fontSize);
 	}
 
 	public RawModel translateText(String text, int maxLineWidth, FontType fontType, float fontSize)
@@ -44,8 +58,7 @@ public class GUIText
 			}
 			else if (result == Line.NOT_ADDED_TOO_LONG)
 			{
-				System.out.println(
-						"A word in the specified text is too long to be displayed within the maximum line length. The text will not be displayed.");
+				System.out.println("A word in the specified text is too long to be displayed within the maximum line length. The text will not be displayed.");
 				break;
 			}
 		}
@@ -84,18 +97,18 @@ public class GUIText
 					vertices.add(Maths.getScreenValue(y + lineHeight + ch.getScrHeight() + ch.getYOffset(), 1));
 					vertices.add(Maths.getScreenValue(x + lineXAdvance + ch.getScrWidth() + ch.getXOffset(), 0));
 					vertices.add(Maths.getScreenValue(y + lineHeight + ch.getScrHeight() + ch.getYOffset(), 1));
-					textureCoords.add(Maths.getImageValue((float)ch.getX()+1, textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getY(), textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getX()+1, textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getY() + (float)ch.getHeight()+1, textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getX() + (float)ch.getWidth()-1, textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getY(), textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getX() + (float)ch.getWidth()-1, textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getY(), textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getX()+1, textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getY() + (float)ch.getHeight()+1, textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getX() + (float)ch.getWidth()-1, textureSize));
-					textureCoords.add(Maths.getImageValue((float)ch.getY() + (float)ch.getHeight()+1, textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getX() + 1, textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getY(), textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getX() + 1, textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getY() + (float) ch.getHeight() + 1, textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getX() + (float) ch.getWidth() - 1, textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getY(), textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getX() + (float) ch.getWidth() - 1, textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getY(), textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getX() + 1, textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getY() + (float) ch.getHeight() + 1, textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getX() + (float) ch.getWidth() - 1, textureSize));
+					textureCoords.add(Maths.getImageValue((float) ch.getY() + (float) ch.getHeight() + 1, textureSize));
 					lineXAdvance += ch.getXAdvance();
 				}
 				lineXAdvance += space_advance;
@@ -124,7 +137,7 @@ public class GUIText
 		HashMap<Integer, Character> scaledChars = new HashMap<Integer, Character>();
 		for (int c = 0; c < chars.size(); c++)
 		{
-			scaledChars.put(chars.get(c).getID(), chars.get(c).setFontSize(fontSize));
+			scaledChars.put(chars.get(c).getID(), chars.get(c).getCopy().setFontSize(fontSize));
 		}
 		return scaledChars;
 	}

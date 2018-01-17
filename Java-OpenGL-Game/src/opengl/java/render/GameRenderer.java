@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
@@ -14,8 +13,9 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
+import opengl.java.fonts.FontReader;
+import opengl.java.fonts.FontType;
 import opengl.java.fonts.GUIText;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
@@ -31,6 +31,7 @@ import opengl.java.shader.TerrainShader;
 import opengl.java.terrain.Terrain;
 import opengl.java.texture.BaseTexture;
 import opengl.java.view.Camera;
+import opengl.java.window.FPSCounter;
 import opengl.java.window.Window;
 
 public class GameRenderer
@@ -44,7 +45,7 @@ public class GameRenderer
 	private PickShader pickShader;
 	private FontShader fontShader;
 	private ColorfulShader cShader;
-
+	
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
@@ -194,9 +195,8 @@ public class GameRenderer
 	 */
 	public void renderText(GUIText t)
 	{
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL30.glBindVertexArray(t.getModel().getVAOID());
 		GL20.glEnableVertexAttribArray(0);
@@ -207,6 +207,7 @@ public class GameRenderer
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
@@ -284,15 +285,12 @@ public class GameRenderer
 		tShader.loadViewMatrix(camera);
 		renderTerrain();
 		tShader.stop();
-		if(Keyboard.isKeyDown(Keyboard.KEY_F5)) {
-			Window.setS();
-			Maths.deleteProjectionMatrix();
-		}
 		// cShader.start();
 		// cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
 		// cShader.stop();
-		// s.start();
-		// fr.render(g);
-		// s.stop();
+		fontShader.start();
+		fontShader.loadColor(new Vector3f(0,0,0));
+		renderText(FPSCounter.getInstance().getMesh());
+		fontShader.stop();
 	}
 }

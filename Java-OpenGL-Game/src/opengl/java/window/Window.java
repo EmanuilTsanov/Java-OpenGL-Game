@@ -5,16 +5,14 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
-import opengl.java.calculations.Maths;
-
 public class Window
 {
-	public static int width = 1600;
-	public static int height = 900;
 	private int fpsCap;
+	
+	private int width = 1600;
+	private int height = 900;
 
 	private WindowFrameController wfc = new WindowFrameController();
-	private FPSCounter fpsc = new FPSCounter();
 	private static Window singleton = new Window();
 
 	public void create(String title)
@@ -32,24 +30,12 @@ public class Window
 		}
 	}
 
-	public static void setS()
-	{
-		try
-		{Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
-		Maths.deleteProjectionMatrix();
-		}
-		catch (Exception e)
-		{
-
-		}
-	}
-
 	public void update()
 	{
 		Display.sync(fpsCap);
 		Display.update();
 		wfc.update();
-		fpsc.update();
+		FPSCounter.getInstance().update();
 	}
 
 	public void destroy()
@@ -62,9 +48,9 @@ public class Window
 		return fpsCap;
 	}
 
-	public void setFPScap(int fpsCap)
+	public void setFPScap(int cap)
 	{
-		this.fpsCap = fpsCap;
+		this.fpsCap = cap;
 	}
 
 	public boolean isOpened()
@@ -85,11 +71,5 @@ public class Window
 	public int getHeight()
 	{
 		return height;
-	}
-
-	public void setSize(int width, int height)
-	{
-		this.width = width;
-		this.height = height;
 	}
 }

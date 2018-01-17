@@ -13,7 +13,7 @@ public class FontReader
 	private String imgName;
 
 	private final String FONT_FOLDER = "assets/fonts/";
-	private final String FONT_EXTENSION = ".txt";
+	private final String FONT_EXTENSION = ".fnt";
 
 	public ArrayList<Character> readFontsFile(String fileName)
 	{
