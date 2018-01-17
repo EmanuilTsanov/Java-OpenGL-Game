@@ -21,7 +21,7 @@ public class Window
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(title);
-			Display.create(new PixelFormat(32, 0, 24, 0, 16));
+			Display.create(new PixelFormat(32, 0, 24, 0, 8));
 		}
 		catch (LWJGLException e)
 		{
