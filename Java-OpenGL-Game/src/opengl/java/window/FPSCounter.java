@@ -16,7 +16,7 @@ public class FPSCounter
 
 	private FontReader reader = new FontReader();
 	private FontType t = new FontType(reader, "font");
-	private GUIText g = new GUIText(10,10,"FPS: " + stackFPS, t, 0.25f, 1920);
+	private GUIText g = new GUIText(10,10,"FPS: " + stackFPS, t, 0.1f, 1920);
 
 	private static FPSCounter singleton = new FPSCounter();
 

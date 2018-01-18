@@ -14,8 +14,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
-import opengl.java.fonts.FontReader;
-import opengl.java.fonts.FontType;
 import opengl.java.fonts.GUIText;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
@@ -45,7 +43,7 @@ public class GameRenderer
 	private PickShader pickShader;
 	private FontShader fontShader;
 	private ColorfulShader cShader;
-	
+
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
@@ -289,7 +287,7 @@ public class GameRenderer
 		// cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
 		// cShader.stop();
 		fontShader.start();
-		fontShader.loadColor(new Vector3f(0,0,0));
+		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getInstance().getMesh());
 		fontShader.stop();
 	}
