@@ -28,7 +28,6 @@ public class Window
 			Display.setTitle(title);
 			Display.create(new PixelFormat().withSamples(8), attribs);
 			GL11.glEnable(GL13.GL_MULTISAMPLE);
-			Display.create(new PixelFormat(32, 0, 24, 0, 8));
 		}
 		catch (LWJGLException e)
 		{
