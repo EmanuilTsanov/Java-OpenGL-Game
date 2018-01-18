@@ -26,6 +26,7 @@ import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
+import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.texture.BaseTexture;
 import opengl.java.view.Camera;
@@ -48,6 +49,8 @@ public class GameRenderer
 	private Terrain terrain = Terrain.getInstance();
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
+
+	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(Camera.getInstance());
 
 	private static GameRenderer singleton = new GameRenderer();
 
@@ -265,6 +268,14 @@ public class GameRenderer
 		GL11.glReadPixels(x, y, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 		return buffer;
 	}
+	
+	public void renderShadowMap() {
+		smmr.render(EntityManager.getInstance().getEntityHashMap(), sun);
+	}
+	
+	public int getShadowMapTexture() {
+		return smmr.getShadowMap();
+	}
 
 	/**
 	 * Renders everything.
@@ -272,6 +283,7 @@ public class GameRenderer
 	public void render()
 	{
 		// GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
+		renderShadowMap();
 		prepareScreen(0, 1, 1);
 		eShader.start();
 		eShader.loadLight(sun);

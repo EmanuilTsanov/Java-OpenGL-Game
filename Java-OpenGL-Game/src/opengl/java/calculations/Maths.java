@@ -8,7 +8,7 @@ import opengl.java.view.Camera;
 
 public class Maths
 {
-	public static float FOV = 90;
+	public static float FOV = 70;
 	public static final float NEAR_PLANE = 0.1f;
 	public static final float FAR_PLANE = 1000;
 
@@ -35,17 +35,17 @@ public class Maths
 
 	private static void createProjectMat()
 	{
+		projectionMatrix = new Matrix4f();
 		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
-		float x_scale = (float) (1f / Math.tan(Math.toRadians(FOV / 2f)));
-		float y_scale = x_scale * aspectRatio;
+		float y_scale = (float) (1f / Math.tan(Math.toRadians(FOV / 2f)));
+		float x_scale = y_scale / aspectRatio;
 		float frustum_len = FAR_PLANE - NEAR_PLANE;
 
-		projectionMatrix = new Matrix4f();
 		projectionMatrix.m00 = x_scale;
 		projectionMatrix.m11 = y_scale;
 		projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_len);
 		projectionMatrix.m23 = -1;
-		projectionMatrix.m32 = -((2 * FAR_PLANE * NEAR_PLANE) / frustum_len);
+		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_len);
 		projectionMatrix.m33 = 0;
 	}
 

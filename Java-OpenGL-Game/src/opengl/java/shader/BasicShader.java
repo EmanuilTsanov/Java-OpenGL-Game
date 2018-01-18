@@ -83,7 +83,7 @@ public class BasicShader extends ShaderProgram
 
 	public void loadLight(Light light)
 	{
-		super.loadVector4f(locLightVector, light.getPosition());
+		super.loadVector3f(locLightVector, light.getPosition());
 		super.loadVector3f(locLightAmbient, light.getAmbient());
 		super.loadVector3f(locLightDiffuse, light.getDiffuse());
 		super.loadVector3f(locLightSpecular, light.getSpecular());

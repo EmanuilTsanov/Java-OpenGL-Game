@@ -43,7 +43,7 @@ public abstract class ShaderProgram
 		GL20.glBindAttribLocation(programID, index, name);
 	}
 
-	public abstract void getAllUniformLocations();
+	protected abstract void getAllUniformLocations();
 
 	public int getUniformLocation(String name)
 	{
