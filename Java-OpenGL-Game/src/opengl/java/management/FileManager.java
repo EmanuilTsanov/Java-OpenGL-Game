@@ -27,7 +27,7 @@ import opengl.java.loader.ModelLoader;
 import opengl.java.logger.Logger;
 import opengl.java.model.RawModel;
 import opengl.java.render.GameRenderer;
-import opengl.java.texture.BaseTexture;
+import opengl.java.texture.ModelTexture;
 import opengl.java.window.Window;
 
 public class FileManager
@@ -69,8 +69,6 @@ public class FileManager
 		int[] indicesArr = null;
 
 		ArrayList<String> lines = readTextFile(FileSRC.MODELS_FOLDER, fileName, FileSRC.MODEL_EXTENSION);
-
-		ModelLoader loader = new ModelLoader();
 
 		int currentLine = 0;
 		String line;
@@ -138,7 +136,7 @@ public class FileManager
 		{
 			indicesArr[i] = indices.get(i);
 		}
-		return loader.loadModel(verticesArr, indicesArr, texturesArr, normalsArr);
+		return ModelLoader.getInstance().loadModel(verticesArr, indicesArr, texturesArr, normalsArr);
 	}
 
 	public static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords, float[] texturesArr, ArrayList<Vector3f> normals, float[] normalsArr)
@@ -154,7 +152,7 @@ public class FileManager
 		normalsArr[vertexPointer * 3 + 2] = normal.z;
 	}
 
-	public static BaseTexture loadTexture(String fileName)
+	public static ModelTexture loadTexture(String fileName)
 	{
 		Texture tex = null;
 		try
@@ -177,10 +175,10 @@ public class FileManager
 		{
 			e.printStackTrace();
 		}
-		return new BaseTexture(tex.getTextureID());
+		return new ModelTexture(tex.getTextureID());
 	}
 
-	public static BaseTexture loadTexture(String path, String fileName)
+	public static ModelTexture loadTexture(String path, String fileName)
 	{
 		Texture tex = null;
 		try
@@ -191,7 +189,7 @@ public class FileManager
 		{
 			e.printStackTrace();
 		}
-		return new BaseTexture(tex.getTextureID());
+		return new ModelTexture(tex.getTextureID());
 	}
 
 	public static void saveScreenshot()

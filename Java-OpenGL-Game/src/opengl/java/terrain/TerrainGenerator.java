@@ -47,9 +47,8 @@ public class TerrainGenerator
 				indices[pointer + 4] = j * VERTEX_SIZE + i + VERTEX_SIZE;
 				indices[pointer + 5] = j * VERTEX_SIZE + i + 1 + VERTEX_SIZE;
 			}
-		ModelLoader loader = new ModelLoader();
 		float[] normals = { 0 };
-		return loader.loadModel(vertices, indices, texCoords, normals);
+		return ModelLoader.getInstance().loadModel(vertices, indices, texCoords, normals);
 	}
 
 	public static RawModel getTerrainMesh()

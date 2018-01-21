@@ -18,13 +18,20 @@ public class ModelLoader
 	private List<Integer> vaoList = new ArrayList<Integer>();
 	private List<Integer> vboList = new ArrayList<Integer>();
 
+	private static ModelLoader singleton = new ModelLoader();
+
+	public static ModelLoader getInstance()
+	{
+		return singleton;
+	}
+
 	public RawModel loadFonts(float[] vertices, float[] textureCoords)
 	{
 		int vaoID = createVAO();
 		storeFloatsInVBO(0, 2, vertices);
 		storeFloatsInVBO(1, 2, textureCoords);
 		unbindVAO();
-		return new RawModel(vaoID, vertices.length/2);
+		return new RawModel(vaoID, vertices.length / 2);
 	}
 
 	public RawModel loadModel(float[] vertices, int[] indices, float[] textureCoords, float[] normals)

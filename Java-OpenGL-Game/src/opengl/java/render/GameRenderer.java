@@ -28,7 +28,7 @@ import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
-import opengl.java.texture.BaseTexture;
+import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
 import opengl.java.window.Window;
@@ -127,7 +127,7 @@ public class GameRenderer
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
 			RawModel model = Entity.getModel(outer.getKey());
-			BaseTexture texture = Entity.getTexture(outer.getKey());
+			ModelTexture texture = Entity.getTexture(outer.getKey());
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
@@ -151,7 +151,7 @@ public class GameRenderer
 	public void renderEntity(Entity e)
 	{
 		RawModel model = Entity.getModel(e.getId());
-		BaseTexture texture = Entity.getTexture(e.getId());
+		ModelTexture texture = Entity.getTexture(e.getId());
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);

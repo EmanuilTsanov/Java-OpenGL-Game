@@ -9,7 +9,7 @@ import opengl.java.management.FileManager;
 import opengl.java.material.Material;
 import opengl.java.model.RawModel;
 import opengl.java.terrain.TerrainGenerator;
-import opengl.java.texture.BaseTexture;
+import opengl.java.texture.ModelTexture;
 
 public class Entity
 {
@@ -34,7 +34,7 @@ public class Entity
 
 	private static HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>();
 	private static HashMap<Integer, RawModel> models = new HashMap<Integer, RawModel>();
-	private static HashMap<Integer, BaseTexture> textures = new HashMap<Integer, BaseTexture>();
+	private static HashMap<Integer, ModelTexture> textures = new HashMap<Integer, ModelTexture>();
 
 	private Vector3f color;
 
@@ -94,7 +94,7 @@ public class Entity
 	 */
 	public Entity setTexture(String val)
 	{
-		BaseTexture texture = FileManager.loadTexture(val);
+		ModelTexture texture = FileManager.loadTexture(val);
 		textures.put(id, texture);
 		return this;
 	}
@@ -303,7 +303,7 @@ public class Entity
 		return models.get(id);
 	}
 
-	public static BaseTexture getTexture(int id)
+	public static ModelTexture getTexture(int id)
 	{
 		return textures.get(id);
 	}

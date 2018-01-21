@@ -6,14 +6,14 @@ import org.lwjgl.util.vector.Vector2f;
 
 import opengl.java.management.FileManager;
 import opengl.java.model.RawModel;
-import opengl.java.texture.BaseTexture;
+import opengl.java.texture.ModelTexture;
 
 public class Terrain
 {
 	private Vector2f position;
 
 	private RawModel terrainMesh;
-	private BaseTexture terrainTexture;
+	private ModelTexture terrainTexture;
 
 	private HashMap<String, TerrainCell> cells;
 
@@ -67,7 +67,7 @@ public class Terrain
 		return terrainMesh;
 	}
 
-	public BaseTexture getTexture()
+	public ModelTexture getTexture()
 	{
 		return terrainTexture;
 	}
