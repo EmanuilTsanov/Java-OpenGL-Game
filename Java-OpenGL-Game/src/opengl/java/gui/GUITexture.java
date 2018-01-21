@@ -44,6 +44,7 @@ public class GUITexture extends GUIComponent
 	@Override
 	public void render()
 	{
+		
 	}
 
 }
