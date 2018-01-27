@@ -9,6 +9,7 @@ public abstract class GUIComponent
 {
 	protected int x, y;
 	protected int width, height;
+	
 	protected Model model;
 	protected ModelTexture image;
 

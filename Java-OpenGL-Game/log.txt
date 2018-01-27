@@ -2217,3 +2217,187 @@
 [27.04.2018] [14:40:20] 100 entities of type 'Mushroom' were added successfully!
 [27.04.2018] [14:40:20] 100 entities of type 'Brown Mushroom' were added successfully!
 [27.04.2018] [14:40:20] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [19:38:51] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [19:38:51] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [19:38:51] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [19:38:51] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [19:38:51] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [19:38:51] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [19:38:51] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [19:38:51] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:32:52] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:32:52] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:32:52] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:32:52] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:32:52] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:32:52] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:32:52] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:32:52] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:56:20] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:56:20] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:56:20] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:56:20] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:56:20] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:56:20] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:56:20] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:56:20] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:56:45] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:56:45] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:56:45] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:56:45] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:56:45] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:56:45] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:56:45] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:56:45] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:57:06] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:57:06] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:57:06] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:57:06] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:57:06] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:57:06] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:57:06] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:57:06] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:57:28] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:57:28] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:57:28] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:57:28] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:57:28] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:57:28] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:57:28] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:57:28] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:57:55] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:57:55] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:57:55] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:57:55] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:57:55] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:57:55] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:57:55] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:57:55] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:58:04] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:58:04] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:58:04] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:58:04] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:58:04] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:58:04] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:58:04] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:58:04] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:58:09] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:58:09] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:58:09] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:58:09] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:58:09] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:58:09] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:58:09] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:58:09] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:58:52] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:58:52] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:58:52] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:58:52] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:58:52] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:58:52] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:58:52] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:58:52] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [20:59:34] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [20:59:34] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [20:59:34] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [20:59:34] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [20:59:34] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [20:59:34] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [20:59:34] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [20:59:34] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:00:04] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:00:04] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:00:04] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:00:04] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:00:04] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:00:04] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:00:04] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:00:04] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:00:10] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:00:10] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:00:10] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:00:10] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:00:10] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:00:10] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:00:10] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:00:10] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:00:48] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:00:48] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:00:48] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:00:48] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:00:48] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:00:48] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:00:48] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:00:48] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:01:41] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:01:41] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:01:41] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:01:41] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:01:41] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:01:41] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:01:41] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:01:41] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:32:54] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:32:54] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:32:54] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:32:54] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:32:54] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:32:54] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:32:54] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:32:54] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:34:01] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:34:01] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:34:01] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:34:01] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:34:01] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:34:01] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:34:01] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:34:01] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:35:07] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:35:07] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:35:07] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:35:07] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:35:07] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:35:07] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:35:07] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:35:07] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:35:21] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:35:21] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:35:21] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:35:21] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:35:21] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:35:21] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:35:21] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:35:21] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:35:32] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:35:32] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:35:32] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:35:32] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:35:32] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:35:32] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:35:32] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:35:32] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:37:23] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:37:23] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:37:23] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:37:23] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:37:23] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:37:23] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:37:23] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:37:23] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:57:17] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:57:17] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:57:17] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:57:17] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:57:17] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:57:17] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:57:17] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:57:17] 100 entities of type 'Rock' were added successfully!
+[27.04.2018] [21:58:55] 1000 entities of type 'Pine Tree' were added successfully!
+[27.04.2018] [21:58:55] 100 entities of type 'Bench' were added successfully!
+[27.04.2018] [21:58:55] 10 entities of type 'Table' were added successfully!
+[27.04.2018] [21:58:55] 25 entities of type 'Campfire' were added successfully!
+[27.04.2018] [21:58:55] 100 entities of type 'Grass' were added successfully!
+[27.04.2018] [21:58:55] 100 entities of type 'Mushroom' were added successfully!
+[27.04.2018] [21:58:55] 100 entities of type 'Brown Mushroom' were added successfully!
+[27.04.2018] [21:58:55] 100 entities of type 'Rock' were added successfully!

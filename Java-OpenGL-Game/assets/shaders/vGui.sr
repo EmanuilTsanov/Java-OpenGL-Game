@@ -1,0 +1,17 @@
+#version 330 core
+
+in vec3 vertex;
+
+in vec2 texCoords;
+
+uniform mat4 modelMat;
+uniform mat4 projectionMat;
+uniform mat4 viewMat;
+
+out vec2 textureCoords;
+
+void main()
+{
+	gl_Position = vec4(vertex, 1.0f);
+	textureCoords = texCoords;
+}

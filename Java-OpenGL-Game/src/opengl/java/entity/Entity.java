@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.management.FileManager;
+import opengl.java.management.SRCLoader;
 import opengl.java.material.Material;
 import opengl.java.model.Model;
 import opengl.java.terrain.TerrainGenerator;
@@ -84,7 +84,7 @@ public class Entity
 	 */
 	public Entity setModel(String val)
 	{
-		Model model = FileManager.loadRawModel(val);
+		Model model = SRCLoader.loadRawModel(val);
 		models.put(id, model);
 		return this;
 	}
@@ -94,7 +94,7 @@ public class Entity
 	 */
 	public Entity setTexture(String val)
 	{
-		ModelTexture texture = FileManager.loadTexture(val);
+		ModelTexture texture = SRCLoader.loadTexture(val);
 		textures.put(id, texture);
 		return this;
 	}

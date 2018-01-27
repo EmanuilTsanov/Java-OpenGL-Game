@@ -15,15 +15,17 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
+import opengl.java.gui.GUITexture;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
-import opengl.java.management.FileManager;
 import opengl.java.management.LightManager;
+import opengl.java.management.SRCLoader;
 import opengl.java.model.Model;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
+import opengl.java.shader.GUIShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
@@ -44,13 +46,16 @@ public class GameRenderer
 	private PickShader pickShader;
 	private FontShader fontShader;
 	private ColorfulShader cShader;
+	private GUIShader gShader;
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
 
-	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(Camera.getInstance());
+	private GUITexture guit = new GUITexture(50, 50, 500, 500, "snowman");
+
+	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
 	private static GameRenderer singleton = new GameRenderer();
 
@@ -68,6 +73,7 @@ public class GameRenderer
 		tShader = new TerrainShader();
 		pickShader = new PickShader();
 		cShader = new ColorfulShader();
+		gShader = new GUIShader();
 
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
@@ -259,7 +265,7 @@ public class GameRenderer
 		renderTerrain();
 		tShader.stop();
 		unbindBuffers();
-		FileManager.saveScreenshot();
+		SRCLoader.saveScreenshot();
 	}
 
 	public ByteBuffer readScreen(int x, int y, int width, int height)
@@ -297,6 +303,9 @@ public class GameRenderer
 		tShader.loadViewMatrix(camera);
 		renderTerrain();
 		tShader.stop();
+		gShader.start();
+		guit.render();
+		gShader.stop();
 		// cShader.start();
 		// cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
 		// cShader.stop();

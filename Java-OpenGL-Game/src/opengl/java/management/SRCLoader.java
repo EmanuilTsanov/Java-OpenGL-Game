@@ -30,7 +30,7 @@ import opengl.java.render.GameRenderer;
 import opengl.java.texture.ModelTexture;
 import opengl.java.window.Window;
 
-public class FileManager
+public class SRCLoader
 {
 
 	public static ArrayList<String> readTextFile(String path, String fileName, String extension)

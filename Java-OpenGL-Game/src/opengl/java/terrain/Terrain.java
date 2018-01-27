@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.lwjgl.util.vector.Vector2f;
 
-import opengl.java.management.FileManager;
+import opengl.java.management.SRCLoader;
 import opengl.java.model.Model;
 import opengl.java.texture.ModelTexture;
 
@@ -23,7 +23,7 @@ public class Terrain
 	{
 		this.position = new Vector2f(0, 0);
 		this.terrainMesh = TerrainGenerator.getTerrainMesh();
-		terrainTexture = FileManager.loadTexture("grassT");
+		terrainTexture = SRCLoader.loadTexture("grassT");
 		generateCells();
 	}
 
