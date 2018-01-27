@@ -85,18 +85,18 @@ public class GUIText
 				for (int c = 0; c < chars.size(); c++)
 				{
 					Character ch = chars.get(c);
-					vertices.add(Maths.getScreenValue(x + lineXAdvance + ch.getXOffset(), 0));
-					vertices.add(Maths.getScreenValue(y + lineHeight + ch.getYOffset(), 1));
-					vertices.add(Maths.getScreenValue(x + lineXAdvance + ch.getXOffset(), 0));
-					vertices.add(Maths.getScreenValue(y + lineHeight + ch.getScrHeight() + ch.getYOffset(), 1));
-					vertices.add(Maths.getScreenValue(x + lineXAdvance + ch.getScrWidth() + ch.getXOffset(), 0));
-					vertices.add(Maths.getScreenValue(y + lineHeight + ch.getYOffset(), 1));
-					vertices.add(Maths.getScreenValue(x + lineXAdvance + ch.getScrWidth() + ch.getXOffset(), 0));
-					vertices.add(Maths.getScreenValue(y + lineHeight + ch.getYOffset(), 1));
-					vertices.add(Maths.getScreenValue(x + lineXAdvance + ch.getXOffset(), 0));
-					vertices.add(Maths.getScreenValue(y + lineHeight + ch.getScrHeight() + ch.getYOffset(), 1));
-					vertices.add(Maths.getScreenValue(x + lineXAdvance + ch.getScrWidth() + ch.getXOffset(), 0));
-					vertices.add(Maths.getScreenValue(y + lineHeight + ch.getScrHeight() + ch.getYOffset(), 1));
+					vertices.add(Maths.toOpenGLWidth(x + lineXAdvance + ch.getXOffset()));
+					vertices.add(Maths.toOpenGLHeight(y + lineHeight + ch.getYOffset()));
+					vertices.add(Maths.toOpenGLWidth(x + lineXAdvance + ch.getXOffset()));
+					vertices.add(Maths.toOpenGLHeight(y + lineHeight + ch.getScrHeight() + ch.getYOffset()));
+					vertices.add(Maths.toOpenGLWidth(x + lineXAdvance + ch.getScrWidth() + ch.getXOffset()));
+					vertices.add(Maths.toOpenGLHeight(y + lineHeight + ch.getYOffset()));
+					vertices.add(Maths.toOpenGLWidth(x + lineXAdvance + ch.getScrWidth() + ch.getXOffset()));
+					vertices.add(Maths.toOpenGLHeight(y + lineHeight + ch.getYOffset()));
+					vertices.add(Maths.toOpenGLWidth(x + lineXAdvance + ch.getXOffset()));
+					vertices.add(Maths.toOpenGLHeight(y + lineHeight + ch.getScrHeight() + ch.getYOffset()));
+					vertices.add(Maths.toOpenGLWidth(x + lineXAdvance + ch.getScrWidth() + ch.getXOffset()));
+					vertices.add(Maths.toOpenGLHeight(y + lineHeight + ch.getScrHeight() + ch.getYOffset()));
 					textureCoords.add(Maths.getImageValue((float) ch.getX() + 1, textureSize));
 					textureCoords.add(Maths.getImageValue((float) ch.getY(), textureSize));
 					textureCoords.add(Maths.getImageValue((float) ch.getX() + 1, textureSize));

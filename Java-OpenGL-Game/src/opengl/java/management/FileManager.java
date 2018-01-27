@@ -194,20 +194,21 @@ public class FileManager
 
 	public static void saveScreenshot()
 	{
-		Window window = Window.getInstance();
-		ByteBuffer buffer = GameRenderer.getInstance().readScreen(0, 0, window.getWidth(), window.getHeight());
+		int width = Window.getWidth();
+		int height = Window.getHeight();
+		ByteBuffer buffer = GameRenderer.getInstance().readScreen(0, 0, width, height);
 		File file = new File(Logger.getDate() + "_" + Logger.getFormattedTime() + FileSRC.DOT + FileSRC.TEXTURE_EXTENSION);
-		BufferedImage image = new BufferedImage(window.getWidth(), window.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-		for (int x = 0; x < window.getWidth(); x++)
+		for (int x = 0; x < width; x++)
 		{
-			for (int y = 0; y < window.getHeight(); y++)
+			for (int y = 0; y < height; y++)
 			{
-				int i = (x + (window.getWidth() * y)) * 4;
+				int i = (x + (width * y)) * 4;
 				int r = buffer.get(i) & 0xFF;
 				int g = buffer.get(i + 1) & 0xFF;
 				int b = buffer.get(i + 2) & 0xFF;
-				image.setRGB(x, window.getHeight() - (y + 1), (0xFF << 24) | (r << 16) | (g << 8) | b);
+				image.setRGB(x, height - (y + 1), (0xFF << 24) | (r << 16) | (g << 8) | b);
 			}
 		}
 

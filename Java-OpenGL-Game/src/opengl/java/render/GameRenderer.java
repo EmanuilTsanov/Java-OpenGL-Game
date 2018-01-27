@@ -58,7 +58,7 @@ public class GameRenderer
 	{
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		bindBuffers(Window.getInstance().getWidth(), Window.getInstance().getHeight());
+		bindBuffers(Window.getWidth(), Window.getHeight());
 	}
 
 	private void initShaders()

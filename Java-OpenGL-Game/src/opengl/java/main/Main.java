@@ -8,15 +8,14 @@ public class Main
 
 	public static void main(String args[])
 	{
-		Window window = Window.getInstance();
-		window.create("OpenGL Game");
-		window.setFPScap(300);
+		Window.create("OpenGL Game");
+		Window.setFPScap(300);
 		GameManager gm = new GameManager();
-		while (window.isOpened())
+		while (Window.isOpened())
 		{
-			window.update();
+			Window.update();
 			gm.update();
 		}
-		window.destroy();
+		Window.destroy();
 	}
 }

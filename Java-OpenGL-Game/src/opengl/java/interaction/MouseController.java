@@ -131,7 +131,7 @@ public class MouseController
 
 	public void moveCursor()
 	{
-		Mouse.setCursorPosition(Window.getInstance().getWidth() / 2, Window.getInstance().getHeight() / 2);
+		Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
 		pickLocation.x = Mouse.getX();
 		pickLocation.y = Mouse.getY();
 	}

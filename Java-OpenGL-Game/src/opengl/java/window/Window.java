@@ -10,17 +10,16 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class Window
 {
-	private int fpsCap;
+	private static int fpsCap;
 
-	private int width = 1600;
-	private int height = 900;
+	private static int width = 1280;
+	private static int height = 720;
 
-	private ContextAttribs attribs = new ContextAttribs(3, 3).withForwardCompatible(true).withProfileCore(true);
+	private static ContextAttribs attribs = new ContextAttribs(3, 3).withForwardCompatible(true).withProfileCore(true);
 
-	private WindowFrameController wfc = new WindowFrameController();
-	private static Window singleton = new Window();
+	private static WindowFrameController wfc = new WindowFrameController();
 
-	public void create(String title)
+	public static void create(String title)
 	{
 		try
 		{
@@ -36,17 +35,7 @@ public class Window
 		}
 	}
 
-	public float toOpenGLWidth(int x)
-	{
-		return (float) (Window.getInstance().getWidth() / 2 - 400) * (-1) / Window.getInstance().getWidth() / 2;
-	}
-
-	public float toOpenGLHeight(int x)
-	{
-		return (float) (Window.getInstance().getHeight() / 2 - 400) * (-1) / Window.getInstance().getWidth() / 2;
-	}
-
-	public void update()
+	public static void update()
 	{
 		Display.sync(fpsCap);
 		Display.update();
@@ -54,38 +43,33 @@ public class Window
 		FPSCounter.getInstance().update();
 	}
 
-	public void destroy()
+	public static void destroy()
 	{
 		Display.destroy();
 	}
 
-	public int getFPScap()
-	{
-		return fpsCap;
-	}
-
-	public void setFPScap(int cap)
-	{
-		this.fpsCap = cap;
-	}
-
-	public boolean isOpened()
-	{
-		return !Display.isCloseRequested();
-	}
-
-	public static Window getInstance()
-	{
-		return singleton;
-	}
-
-	public int getWidth()
+	public static int getWidth()
 	{
 		return width;
 	}
 
-	public int getHeight()
+	public static int getHeight()
 	{
 		return height;
+	}
+
+	public static int getFPScap()
+	{
+		return fpsCap;
+	}
+
+	public static boolean isOpened()
+	{
+		return !Display.isCloseRequested();
+	}
+
+	public static void setFPScap(int cap)
+	{
+		fpsCap = cap;
 	}
 }

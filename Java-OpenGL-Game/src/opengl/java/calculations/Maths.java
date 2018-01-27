@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.view.Camera;
+import opengl.java.window.Window;
 
 public class Maths
 {
@@ -99,6 +100,20 @@ public class Maths
 			}
 		}
 		return 0;
+	}
+
+	public static float toOpenGLWidth(float value)
+	{
+		float halfWidth = Window.getWidth() / 2;
+		float result = (halfWidth - value) / -halfWidth;
+		return result;
+	}
+
+	public static float toOpenGLHeight(float value)
+	{
+		float halfHeight = Window.getHeight() / 2;
+		float result = (halfHeight - value) / halfHeight;
+		return result;
 	}
 
 	public static float getImageValue(float value, float dimSize)

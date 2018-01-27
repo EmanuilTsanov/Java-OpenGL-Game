@@ -8,7 +8,6 @@ public class GUITexture extends GUIComponent
 	public GUITexture(int x, int y, int width, int height, String imageName)
 	{
 		super(x, y, width, height);
-		this.model = loadModel();
 		this.image = FileManager.loadTexture(imageName);
 	}
 
