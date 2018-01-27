@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.management.FileManager;
 import opengl.java.material.Material;
-import opengl.java.model.RawModel;
+import opengl.java.model.Model;
 import opengl.java.terrain.TerrainGenerator;
 import opengl.java.texture.ModelTexture;
 
@@ -33,7 +33,7 @@ public class Entity
 	protected Vector2f areaRequired = new Vector2f(0, 0);
 
 	private static HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>();
-	private static HashMap<Integer, RawModel> models = new HashMap<Integer, RawModel>();
+	private static HashMap<Integer, Model> models = new HashMap<Integer, Model>();
 	private static HashMap<Integer, ModelTexture> textures = new HashMap<Integer, ModelTexture>();
 
 	private Vector3f color;
@@ -84,7 +84,7 @@ public class Entity
 	 */
 	public Entity setModel(String val)
 	{
-		RawModel model = FileManager.loadRawModel(val);
+		Model model = FileManager.loadRawModel(val);
 		models.put(id, model);
 		return this;
 	}
@@ -298,7 +298,7 @@ public class Entity
 		return new Entity(id, name, areaRequired).setPosition(position).setRotationInRadians(rotation).setScale(scale).setMaterial(material).setup();
 	}
 
-	public static RawModel getModel(int id)
+	public static Model getModel(int id)
 	{
 		return models.get(id);
 	}

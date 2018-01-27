@@ -36,6 +36,16 @@ public class Window
 		}
 	}
 
+	public float toOpenGLWidth(int x)
+	{
+		return (float) (Window.getInstance().getWidth() / 2 - 400) * (-1) / Window.getInstance().getWidth() / 2;
+	}
+
+	public float toOpenGLHeight(int x)
+	{
+		return (float) (Window.getInstance().getHeight() / 2 - 400) * (-1) / Window.getInstance().getWidth() / 2;
+	}
+
 	public void update()
 	{
 		Display.sync(fpsCap);

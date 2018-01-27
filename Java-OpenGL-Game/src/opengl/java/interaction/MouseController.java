@@ -67,23 +67,23 @@ public class MouseController
 				Camera cam = Camera.getInstance();
 				float distanceX = (pickLocation.x - Mouse.getX()) * 0.1f;
 				float distanceY = (pickLocation.y - Mouse.getY()) * 0.1f;
-				float camYaw = (float) Math.toRadians(cam.getYaw());
-				float camYawH = (float) Math.toRadians(cam.getYaw() + 90);
+				float camYaw = cam.getYaw();
+				float camYawH = cam.getYaw() + 90;
 				float dx = (float) Math.cos(camYaw) * distanceX;
 				float dz = (float) Math.sin(camYaw) * distanceX;
 				float dx1 = (float) Math.cos(camYawH) * distanceY;
 				float dz1 = (float) Math.sin(camYawH) * distanceY;
-				cam.increasePosition(dx - dx1, 0, dz - dz1);
+				cam.moveBy(dx - dx1, 0, dz - dz1);
 				moveCursor();
 			}
 			if (Mouse.isButtonDown(2))
 			{
 				if (entityHolder == null)
 				{
-					float radius = (float) Camera.getInstance().getLookDistance();
+					float radius = (float) Camera.getInstance().getDistToLookPoint();
 					float dx = (float) (radius * Math.sin(Math.toRadians(angle))) * 0.1f;
 					float dz = (float) (radius * Math.cos(Math.toRadians(angle))) * 0.1f;
-					Camera.getInstance().increasePosition(-dx, 0, -dz);
+					Camera.getInstance().moveBy(-dx, 0, -dz);
 					angle += 1f;
 				}
 			}

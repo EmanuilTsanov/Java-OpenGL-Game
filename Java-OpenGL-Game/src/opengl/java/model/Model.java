@@ -1,11 +1,11 @@
 package opengl.java.model;
 
-public class RawModel
+public class Model
 {
 	private int vaoID;
 	private int vertexCount;
 
-	public RawModel(int vaoID, int vertexCount)
+	public Model(int vaoID, int vertexCount)
 	{
 		this.vaoID = vaoID;
 		this.vertexCount = vertexCount;

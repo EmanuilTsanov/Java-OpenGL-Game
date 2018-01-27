@@ -5,14 +5,14 @@ import java.util.HashMap;
 import org.lwjgl.util.vector.Vector2f;
 
 import opengl.java.management.FileManager;
-import opengl.java.model.RawModel;
+import opengl.java.model.Model;
 import opengl.java.texture.ModelTexture;
 
 public class Terrain
 {
 	private Vector2f position;
 
-	private RawModel terrainMesh;
+	private Model terrainMesh;
 	private ModelTexture terrainTexture;
 
 	private HashMap<String, TerrainCell> cells;
@@ -62,7 +62,7 @@ public class Terrain
 		return position;
 	}
 
-	public RawModel getMesh()
+	public Model getMesh()
 	{
 		return terrainMesh;
 	}

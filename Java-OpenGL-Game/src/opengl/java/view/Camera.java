@@ -12,16 +12,14 @@ public class Camera
 	private float yaw;
 	private float roll;
 
-	private boolean locked;
-
 	private static Camera singleton = new Camera(new Vector3f(TerrainGenerator.getFullSize() / 2, 20, TerrainGenerator.getFullSize() / 2), 45f, 45f, 0f);
 
 	public Camera(Vector3f position, float pitch, float yaw, float roll)
 	{
 		this.position = position;
-		this.pitch = pitch;
-		this.yaw = yaw;
-		this.roll = roll;
+		this.pitch = (float) Math.toRadians(pitch);
+		this.yaw = (float) Math.toRadians(yaw);
+		this.roll = (float) Math.toRadians(roll);
 	}
 
 	public static Camera getInstance()
@@ -32,13 +30,6 @@ public class Camera
 	public Vector3f getPosition()
 	{
 		return position;
-	}
-
-	public void increasePosition(float x, float y, float z)
-	{
-		this.position.x += x;
-		this.position.y += y;
-		this.position.z += z;
 	}
 
 	public float getPitch()
@@ -56,28 +47,22 @@ public class Camera
 		return roll;
 	}
 
-	public void move(Vector3f position, Vector3f rotation)
+	public double getDistToLookPoint()
+	{
+		double botAngle = Math.toRadians(90 - pitch);
+		double dist = position.y / Math.sin(botAngle) * Math.sin(pitch);
+		return dist;
+	}
+
+	public void move(Vector3f position)
 	{
 		this.position = position;
-		if (!locked)
-		{
-			this.pitch = rotation.x;
-			this.yaw = rotation.y;
-			this.roll = rotation.z;
-		}
 	}
 
-	public double getLookPos()
+	public void moveBy(float x, float y, float z)
 	{
-		double botAngle = Math.toRadians(90 - pitch);
-		double dist = position.y / Math.sin(botAngle) * Math.sin(Math.toRadians(pitch));
-		return dist;
-	}
-
-	public double getLookDistance()
-	{
-		double botAngle = Math.toRadians(90 - pitch);
-		double dist = position.y / Math.sin(botAngle) * Math.sin(Math.toRadians(pitch));
-		return dist;
+		this.position.x += x;
+		this.position.y += y;
+		this.position.z += z;
 	}
 }

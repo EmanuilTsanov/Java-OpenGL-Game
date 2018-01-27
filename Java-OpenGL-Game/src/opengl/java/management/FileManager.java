@@ -25,7 +25,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import opengl.java.files.FileSRC;
 import opengl.java.loader.ModelLoader;
 import opengl.java.logger.Logger;
-import opengl.java.model.RawModel;
+import opengl.java.model.Model;
 import opengl.java.render.GameRenderer;
 import opengl.java.texture.ModelTexture;
 import opengl.java.window.Window;
@@ -57,7 +57,7 @@ public class FileManager
 		return lines;
 	}
 
-	public static RawModel loadRawModel(String fileName)
+	public static Model loadRawModel(String fileName)
 	{
 		ArrayList<Vector3f> vertices = new ArrayList<Vector3f>();
 		ArrayList<Vector2f> texCoords = new ArrayList<Vector2f>();

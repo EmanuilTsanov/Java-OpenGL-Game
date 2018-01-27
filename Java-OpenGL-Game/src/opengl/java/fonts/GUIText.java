@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 import opengl.java.calculations.Maths;
 import opengl.java.loader.ModelLoader;
-import opengl.java.model.RawModel;
+import opengl.java.model.Model;
 
 public class GUIText
 {
 	private int x, y;
 
-	private RawModel txtModel;
+	private Model txtModel;
 
 	private int imgID;
 
@@ -35,7 +35,7 @@ public class GUIText
 		txtModel = translateText(t, maxLineWidth, fontType, fontSize);
 	}
 
-	public RawModel translateText(String text, int maxLineWidth, FontType fontType, float fontSize)
+	public Model translateText(String text, int maxLineWidth, FontType fontType, float fontSize)
 	{
 		String[] tokens = text.split("\\s+");
 		HashMap<Integer, Character> chars = scaleFonts(fontType.getChars(), fontSize);
@@ -66,7 +66,7 @@ public class GUIText
 		return loadTextMesh(linesArr, fontType, fontSize);
 	}
 
-	public RawModel loadTextMesh(ArrayList<Line> lines, FontType ft, float fontSize)
+	public Model loadTextMesh(ArrayList<Line> lines, FontType ft, float fontSize)
 	{
 		int lineXAdvance = 0;
 		ArrayList<Float> vertices = new ArrayList<Float>();
@@ -141,7 +141,7 @@ public class GUIText
 		return scaledChars;
 	}
 
-	public RawModel getModel()
+	public Model getModel()
 	{
 		return txtModel;
 	}

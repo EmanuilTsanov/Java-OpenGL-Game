@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import opengl.java.model.RawModel;
+import opengl.java.model.Model;
 
 public class ModelLoader
 {
@@ -25,16 +25,16 @@ public class ModelLoader
 		return singleton;
 	}
 
-	public RawModel loadFonts(float[] vertices, float[] textureCoords)
+	public Model loadFonts(float[] vertices, float[] textureCoords)
 	{
 		int vaoID = createVAO();
 		storeFloatsInVBO(0, 2, vertices);
 		storeFloatsInVBO(1, 2, textureCoords);
 		unbindVAO();
-		return new RawModel(vaoID, vertices.length / 2);
+		return new Model(vaoID, vertices.length / 2);
 	}
 
-	public RawModel loadModel(float[] vertices, int[] indices, float[] textureCoords, float[] normals)
+	public Model loadModel(float[] vertices, int[] indices, float[] textureCoords, float[] normals)
 	{
 		int vaoID = createVAO();
 		storeIntsInVBO(indices);
@@ -42,7 +42,7 @@ public class ModelLoader
 		storeFloatsInVBO(1, 2, textureCoords);
 		storeFloatsInVBO(2, 3, normals);
 		unbindVAO();
-		return new RawModel(vaoID, indices.length);
+		return new Model(vaoID, indices.length);
 	}
 
 	public int createVAO()

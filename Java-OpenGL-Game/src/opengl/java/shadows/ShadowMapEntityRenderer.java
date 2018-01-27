@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
-import opengl.java.model.RawModel;
+import opengl.java.model.Model;
 import opengl.java.shader.ShadowShader;
 
 public class ShadowMapEntityRenderer
@@ -45,7 +45,7 @@ public class ShadowMapEntityRenderer
 		{
 			for (Map.Entry<Integer, Entity> innerEntry : entry.getValue().entrySet())
 			{
-				RawModel rawModel = Entity.getModel(innerEntry.getValue().getId());
+				Model rawModel = Entity.getModel(innerEntry.getValue().getId());
 				bindModel(rawModel);
 				prepareInstance(innerEntry.getValue());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -63,7 +63,7 @@ public class ShadowMapEntityRenderer
 	 * @param rawModel
 	 *            - the model to be bound.
 	 */
-	private void bindModel(RawModel rawModel)
+	private void bindModel(Model rawModel)
 	{
 		GL30.glBindVertexArray(rawModel.getVAOID());
 		GL20.glEnableVertexAttribArray(0);

@@ -20,7 +20,7 @@ import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
 import opengl.java.management.FileManager;
 import opengl.java.management.LightManager;
-import opengl.java.model.RawModel;
+import opengl.java.model.Model;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
@@ -126,7 +126,7 @@ public class GameRenderer
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
-			RawModel model = Entity.getModel(outer.getKey());
+			Model model = Entity.getModel(outer.getKey());
 			ModelTexture texture = Entity.getTexture(outer.getKey());
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
@@ -150,7 +150,7 @@ public class GameRenderer
 
 	public void renderEntity(Entity e)
 	{
-		RawModel model = Entity.getModel(e.getId());
+		Model model = Entity.getModel(e.getId());
 		ModelTexture texture = Entity.getTexture(e.getId());
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
@@ -216,7 +216,7 @@ public class GameRenderer
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
-			RawModel model = Entity.getModel(outer.getKey());
+			Model model = Entity.getModel(outer.getKey());
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
@@ -268,12 +268,14 @@ public class GameRenderer
 		GL11.glReadPixels(x, y, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 		return buffer;
 	}
-	
-	public void renderShadowMap() {
+
+	public void renderShadowMap()
+	{
 		smmr.render(EntityManager.getInstance().getEntityHashMap(), sun);
 	}
-	
-	public int getShadowMapTexture() {
+
+	public int getShadowMapTexture()
+	{
 		return smmr.getShadowMap();
 	}
 

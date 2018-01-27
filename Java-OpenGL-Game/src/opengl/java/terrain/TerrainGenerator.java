@@ -3,7 +3,7 @@ package opengl.java.terrain;
 import java.util.Random;
 
 import opengl.java.loader.ModelLoader;
-import opengl.java.model.RawModel;
+import opengl.java.model.Model;
 
 public class TerrainGenerator
 {
@@ -12,9 +12,9 @@ public class TerrainGenerator
 
 	private static Random rand = new Random();
 
-	private static RawModel terrainMesh;
+	private static Model terrainMesh;
 
-	private static RawModel genTerrainMesh()
+	private static Model genTerrainMesh()
 	{
 		int pointer;
 		int tPointer;
@@ -51,7 +51,7 @@ public class TerrainGenerator
 		return ModelLoader.getInstance().loadModel(vertices, indices, texCoords, normals);
 	}
 
-	public static RawModel getTerrainMesh()
+	public static Model getTerrainMesh()
 	{
 		if (terrainMesh == null)
 		{
