@@ -32,10 +32,8 @@ public class EntityManager
 
 	public void loadEntities()
 	{
-		addEntities(Entity.pineTree, 100, false);
+		addEntities(Entity.pineTree, 1000, false);
 		addEntities(Entity.bench, 100, false);
-		addEntities(Entity.christmasTree, 100, false);
-		addEntities(Entity.snowman, 100, false);
 		addEntities(Entity.table, 10, false);
 		addEntities(Entity.campfire, 25, false);
 		addEntities(Entity.grass, 100, false);
