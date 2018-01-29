@@ -34,7 +34,7 @@ public abstract class GUIComponent
 		return ModelLoader.getInstance().loadModel(vertices, indices, textureCoords, normals);
 	}
 
-	public abstract void render();
-
 	public abstract void update();
+
+	public abstract void render();
 }

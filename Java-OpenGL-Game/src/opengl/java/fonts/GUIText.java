@@ -3,6 +3,8 @@ package opengl.java.fonts;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import opengl.java.calculations.Maths;
 import opengl.java.loader.ModelLoader;
 import opengl.java.model.Model;
@@ -23,9 +25,9 @@ public class GUIText
 	{
 		this.x = x;
 		this.y = y;
-		this.maxLineWidth = maxLineWidth;
 		this.fontType = fontType;
 		this.fontSize = fontSize;
+		this.maxLineWidth = maxLineWidth;
 		txtModel = translateText(text, maxLineWidth, fontType, fontSize);
 		imgID = fontType.getImg().getID();
 	}
@@ -33,6 +35,43 @@ public class GUIText
 	public void update(String t)
 	{
 		txtModel = translateText(t, maxLineWidth, fontType, fontSize);
+	}
+
+	public Vector2f getTextDimensions(String text, int maxLineWidth, FontType fontType, float fontSize)
+	{
+		String[] tokens = text.split("\\s+");
+		HashMap<Integer, Character> chars = scaleFonts(fontType.getChars(), fontSize);
+		ArrayList<Line> linesArr = new ArrayList<Line>();
+		Line line = new Line(maxLineWidth);
+		int lineWidth=0;
+		Vector2f textDimensions = new Vector2f();
+		for (int t = 0; t < tokens.length; t++)
+		{
+			Word word = new Word();
+			char[] charArray = tokens[t].toCharArray();
+			for (int c = 0; c < charArray.length; c++)
+			{
+				word.addCharacter(chars.get((int) charArray[c]));
+			}
+			lineWidth+= word.getWordWidth();
+			int result = line.addWord(word);
+			if (result == Line.NOT_ADDED)
+			{
+				linesArr.add(line);
+				textDimensions.x = lineWidth;
+				line = new Line(maxLineWidth);
+				line.addWord(word);
+				lineWidth = word.getWordWidth();
+			}
+			else if (result == Line.NOT_ADDED_TOO_LONG)
+			{
+				System.out.println("A word in the specified text is too long to be displayed within the maximum line length. The text will not be displayed.");
+				break;
+			}
+		}
+		linesArr.add(line);
+		textDimensions.y = (int) (fontType.getLineHeight() * fontSize) * linesArr.size();
+		return textDimensions;
 	}
 
 	public Model translateText(String text, int maxLineWidth, FontType fontType, float fontSize)

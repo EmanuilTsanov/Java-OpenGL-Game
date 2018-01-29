@@ -16,7 +16,7 @@ public class FPSCounter
 
 	private FontReader reader = new FontReader();
 	private FontType t = new FontType(reader, "font");
-	private GUIText g = new GUIText(10,10,"FPS: " + stackFPS, t, 0.1f, 1920);
+	private GUIText g = new GUIText(10,10,"FPS: " + stackFPS, t, 0.1f, Window.getWidth());
 
 	private static FPSCounter singleton = new FPSCounter();
 
@@ -59,6 +59,7 @@ public class FPSCounter
 			g.update("FPS: " + stackFPS);
 		}
 		fps++;
+		System.out.println(g.getTextDimensions("FPS: " + stackFPS, 1200, t, 0.1f));
 	}
 
 	public int getFPS()
