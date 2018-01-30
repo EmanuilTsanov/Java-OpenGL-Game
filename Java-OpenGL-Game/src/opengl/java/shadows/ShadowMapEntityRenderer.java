@@ -10,7 +10,9 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
+import opengl.java.interaction.MouseController;
 import opengl.java.model.Model;
+import opengl.java.render.GameRenderer;
 import opengl.java.shader.ShadowShader;
 
 public class ShadowMapEntityRenderer
@@ -50,6 +52,13 @@ public class ShadowMapEntityRenderer
 				prepareInstance(innerEntry.getValue());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
+		}
+		if(MouseController.getInstance().getEntityHolder()!=null) {
+
+			Model rawModel = Entity.getModel(MouseController.getInstance().getEntityHolder().getId());
+			bindModel(rawModel);
+			prepareInstance(MouseController.getInstance().getEntityHolder());
+			GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		}
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);

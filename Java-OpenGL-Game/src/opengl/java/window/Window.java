@@ -12,8 +12,8 @@ public class Window
 {
 	private static int fpsCap;
 
-	private static int width = 1280;
-	private static int height = 720;
+	private static int width = 1920;
+	private static int height = 1080;
 
 	private static ContextAttribs attribs = new ContextAttribs(3, 3).withForwardCompatible(true).withProfileCore(true);
 

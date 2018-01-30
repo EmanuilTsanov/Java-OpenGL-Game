@@ -1,12 +1,19 @@
 #version 330 core
 
 in vec2 textureCoords;
+in vec4 shadowCoords;
 
 uniform sampler2D sampler;
+uniform sampler2D shadowMap;
 
 out vec4 finalColor;
 
 void main()
 {
-	finalColor = texture(sampler, textureCoords);
+	float objectNearestLight = texture(shadowMap, shadowCoords.xy).r;
+	float lightFactor=1.0f;
+	if(shadowCoords.z > objectNearestLight) {
+	lightFactor = 1.0 - 0.4;
+	}
+	finalColor = texture(sampler, textureCoords) * vec4(1.0f,1.0f,1.0f,1.0f) * lightFactor;
 }

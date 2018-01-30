@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL30;
 
 import opengl.java.fonts.FontReader;
 import opengl.java.fonts.FontType;
+import opengl.java.fonts.Fonts;
 import opengl.java.fonts.GUIText;
 import opengl.java.management.SRCLoader;
 import opengl.java.render.GameRenderer;
@@ -15,6 +16,7 @@ public class GUIButton extends GUIComponent
 {
 	private String text;
 	private FontType font;
+	private float fontSize;
 	private GUIText guiText;
 
 	protected GUIButton(int x, int y, int width, int height, String imageName)
@@ -29,16 +31,16 @@ public class GUIButton extends GUIComponent
 		this.text = text;
 	}
 
-	public void setFont(String fileName, int fontSize, int maxLineWidth)
+	public void setFont(String fileName, float fontSize, int maxLineWidth)
 	{
-
 		FontReader reader = new FontReader();
 		this.font = new FontType(reader, fileName);
 	}
 
 	private void reloadText()
 	{
-		guiText = new GUIText();  
+		guiText = new GUIText(x,y,text==null?"" : text,font==null? Fonts.FONTS_DEFAULT : font, fontSize, width);
+		guiText.setPosition(x+(width-(int)guiText.getTextDimensions().x)/2, y+(height-(int)guiText.getTextDimensions().y)/2);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class Camera
 	private float yaw;
 	private float roll;
 
-	private static Camera singleton = new Camera(new Vector3f(TerrainGenerator.getFullSize() / 2, 20, TerrainGenerator.getFullSize() / 2), 45f, 45f, 0f);
+	private static Camera singleton = new Camera(new Vector3f(TerrainGenerator.getFullSize() / 2, 20, TerrainGenerator.getFullSize() / 2), 45f, 0f, 0f);
 
 	public Camera(Vector3f position, float pitch, float yaw, float roll)
 	{

@@ -33,4 +33,8 @@ public class Line
 	{
 		return words;
 	}
+	
+	public int getLineWidth() {
+		return lineWidth;
+	}
 }

@@ -20,6 +20,8 @@ public class GUIText
 	private int maxLineWidth;
 	private FontType fontType;
 	private float fontSize;
+	
+	private Vector2f textDimensions = new Vector2f();
 
 	public GUIText(int x, int y, String text, FontType fontType, float fontSize, int maxLineWidth)
 	{
@@ -35,43 +37,6 @@ public class GUIText
 	public void update(String t)
 	{
 		txtModel = translateText(t, maxLineWidth, fontType, fontSize);
-	}
-
-	public Vector2f getTextDimensions(String text, int maxLineWidth, FontType fontType, float fontSize)
-	{
-		String[] tokens = text.split("\\s+");
-		HashMap<Integer, Character> chars = scaleFonts(fontType.getChars(), fontSize);
-		ArrayList<Line> linesArr = new ArrayList<Line>();
-		Line line = new Line(maxLineWidth);
-		int lineWidth=0;
-		Vector2f textDimensions = new Vector2f();
-		for (int t = 0; t < tokens.length; t++)
-		{
-			Word word = new Word();
-			char[] charArray = tokens[t].toCharArray();
-			for (int c = 0; c < charArray.length; c++)
-			{
-				word.addCharacter(chars.get((int) charArray[c]));
-			}
-			lineWidth+= word.getWordWidth();
-			int result = line.addWord(word);
-			if (result == Line.NOT_ADDED)
-			{
-				linesArr.add(line);
-				textDimensions.x = lineWidth;
-				line = new Line(maxLineWidth);
-				line.addWord(word);
-				lineWidth = word.getWordWidth();
-			}
-			else if (result == Line.NOT_ADDED_TOO_LONG)
-			{
-				System.out.println("A word in the specified text is too long to be displayed within the maximum line length. The text will not be displayed.");
-				break;
-			}
-		}
-		linesArr.add(line);
-		textDimensions.y = (int) (fontType.getLineHeight() * fontSize) * linesArr.size();
-		return textDimensions;
 	}
 
 	public Model translateText(String text, int maxLineWidth, FontType fontType, float fontSize)
@@ -92,6 +57,8 @@ public class GUIText
 			if (result == Line.NOT_ADDED)
 			{
 				linesArr.add(line);
+				if(textDimensions.x < line.getLineWidth())
+					textDimensions.x = line.getLineWidth();
 				line = new Line(maxLineWidth);
 				line.addWord(word);
 			}
@@ -102,6 +69,9 @@ public class GUIText
 			}
 		}
 		linesArr.add(line);
+		if(textDimensions.x < line.getLineWidth())
+			textDimensions.x = line.getLineWidth();
+		textDimensions.y = fontType.getLineHeight()*fontSize*linesArr.size();
 		return loadTextMesh(linesArr, fontType, fontSize);
 	}
 
@@ -179,6 +149,11 @@ public class GUIText
 		}
 		return scaledChars;
 	}
+	
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	public Model getModel()
 	{
@@ -188,5 +163,9 @@ public class GUIText
 	public int getTextureID()
 	{
 		return imgID;
+	}
+	
+	public Vector2f getTextDimensions() {
+		return textDimensions;
 	}
 }

@@ -11,12 +11,12 @@ public class FPSCounter
 	private long lastFrame;
 	private int fps;
 	private long lastFPS;
-	
+
 	private int stackFPS;
 
 	private FontReader reader = new FontReader();
 	private FontType t = new FontType(reader, "font");
-	private GUIText g = new GUIText(10,10,"FPS: " + stackFPS, t, 0.1f, Window.getWidth());
+	private GUIText g = new GUIText(10, 10, "FPS: " + stackFPS, t, 0.1f, Window.getWidth());
 
 	private static FPSCounter singleton = new FPSCounter();
 
@@ -26,10 +26,11 @@ public class FPSCounter
 		lastFPS = getTime();
 	}
 
-	public GUIText getMesh() {
+	public GUIText getMesh()
+	{
 		return g;
 	}
-	
+
 	public static FPSCounter getInstance()
 	{
 		return singleton;
@@ -59,7 +60,6 @@ public class FPSCounter
 			g.update("FPS: " + stackFPS);
 		}
 		fps++;
-		System.out.println(g.getTextDimensions("FPS: " + stackFPS, 1200, t, 0.1f));
 	}
 
 	public int getFPS()

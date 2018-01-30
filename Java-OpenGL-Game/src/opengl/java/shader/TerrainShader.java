@@ -1,5 +1,6 @@
 package opengl.java.shader;
 
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
@@ -13,6 +14,8 @@ public class TerrainShader extends ShaderProgram
 	private int loc_mat_trans;
 	private int loc_mat_project;
 	private int loc_mat_view;
+	private int locToShadowMapSpace;
+	private int locShadowMap;
 
 	public TerrainShader()
 	{
@@ -32,6 +35,8 @@ public class TerrainShader extends ShaderProgram
 		loc_mat_trans = super.getUniformLocation("modelMat");
 		loc_mat_project = super.getUniformLocation("projectionMat");
 		loc_mat_view = super.getUniformLocation("viewMat");
+		locToShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
+		locShadowMap = super.getUniformLocation("shadowMap");
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
@@ -47,5 +52,14 @@ public class TerrainShader extends ShaderProgram
 	public void loadViewMatrix(Camera camera)
 	{
 		super.loadMatrix(loc_mat_view, Maths.createViewMatrix());
+	}
+
+	public void loadToShadowMapSpace(Matrix4f mat)
+	{
+		super.loadMatrix(locToShadowMapSpace, mat);
+	}
+	
+	public void loadShadowMap() {
+		super.loadInt(locShadowMap, 5);
 	}
 }

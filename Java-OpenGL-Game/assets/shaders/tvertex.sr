@@ -7,11 +7,15 @@ uniform mat4 modelMat;
 uniform mat4 projectionMat;
 uniform mat4 viewMat;
 
+uniform mat4 toShadowMapSpace;
+
 out vec2 textureCoords;
+out vec4 shadowCoords;
 
 void main()
 {
 	vec4 worldPos = modelMat * vec4(vertex, 1.0f);
+	shadowCoords = toShadowMapSpace * worldPos;
 	gl_Position = projectionMat * viewMat * worldPos;
 	
 	textureCoords = texCoords * 160f;

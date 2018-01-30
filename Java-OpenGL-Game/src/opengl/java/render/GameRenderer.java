@@ -10,12 +10,12 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
-import opengl.java.gui.GUITexture;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
@@ -25,7 +25,6 @@ import opengl.java.model.Model;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
-import opengl.java.shader.GUIShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
@@ -46,14 +45,11 @@ public class GameRenderer
 	private PickShader pickShader;
 	private FontShader fontShader;
 	private ColorfulShader cShader;
-	private GUIShader gShader;
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
-
-	private GUITexture guit = new GUITexture(50, 50, 500, 500, "snowman");
 
 	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
@@ -73,7 +69,6 @@ public class GameRenderer
 		tShader = new TerrainShader();
 		pickShader = new PickShader();
 		cShader = new ColorfulShader();
-		gShader = new GUIShader();
 
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
@@ -83,6 +78,7 @@ public class GameRenderer
 		eShader.stop();
 		tShader.start();
 		tShader.loadProjectionMatrix();
+		tShader.loadShadowMap();
 		tShader.stop();
 		pickShader.start();
 		pickShader.loadProjectionMatrix();
@@ -126,6 +122,8 @@ public class GameRenderer
 	{
 		GL11.glClearColor(r, g, b, 0);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+		GL13.glActiveTexture(GL13.GL_TEXTURE5);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, getShadowMapTexture());
 	}
 
 	public void renderEntities()
@@ -176,8 +174,9 @@ public class GameRenderer
 	/**
 	 * Renders the terrain.
 	 */
-	public void renderTerrain()
+	public void renderTerrain(Matrix4f toShadowSpace)
 	{
+		tShader.loadToShadowMapSpace(toShadowSpace);
 		GL30.glBindVertexArray(terrain.getMesh().getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
@@ -262,7 +261,7 @@ public class GameRenderer
 		renderEntities();
 		eShader.stop();
 		tShader.start();
-		renderTerrain();
+		renderTerrain(smmr.getToShadowMapSpaceMatrix());
 		tShader.stop();
 		unbindBuffers();
 		SRCLoader.saveScreenshot();
@@ -301,11 +300,8 @@ public class GameRenderer
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);
-		renderTerrain();
+		renderTerrain(smmr.getToShadowMapSpaceMatrix());
 		tShader.stop();
-		gShader.start();
-		guit.render();
-		gShader.stop();
 		// cShader.start();
 		// cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
 		// cShader.stop();
