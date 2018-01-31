@@ -79,6 +79,8 @@ public class GameRenderer
 		tShader.start();
 		tShader.loadProjectionMatrix();
 		tShader.loadShadowMap();
+		tShader.loadShadowDistance();
+		tShader.loadMapSize(ShadowMapMasterRenderer.SHADOW_MAP_SIZE);
 		tShader.stop();
 		pickShader.start();
 		pickShader.loadProjectionMatrix();

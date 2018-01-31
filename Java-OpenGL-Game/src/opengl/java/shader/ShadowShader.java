@@ -19,7 +19,6 @@ public class ShadowShader extends ShaderProgram
 	protected void getAllUniformLocations()
 	{
 		location_mvpMatrix = super.getUniformLocation("mvpMatrix");
-
 	}
 
 	public void loadMvpMatrix(Matrix4f mvpMatrix)
@@ -31,6 +30,6 @@ public class ShadowShader extends ShaderProgram
 	public void bindAllAttributes()
 	{
 		super.bindAttribute(0, "in_position");
+		super.bindAttribute(1, "in_textureCoords");
 	}
-
 }

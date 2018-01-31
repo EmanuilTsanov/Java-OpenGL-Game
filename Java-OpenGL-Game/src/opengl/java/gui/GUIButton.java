@@ -37,10 +37,10 @@ public class GUIButton extends GUIComponent
 		this.font = new FontType(reader, fileName);
 	}
 
-	private void reloadText()
+	public void reloadText()
 	{
-		guiText = new GUIText(x,y,text==null?"" : text,font==null? Fonts.FONTS_DEFAULT : font, fontSize, width);
-		guiText.setPosition(x+(width-(int)guiText.getTextDimensions().x)/2, y+(height-(int)guiText.getTextDimensions().y)/2);
+		guiText = new GUIText(x, y, text == null ? "" : text, font == null ? Fonts.FONTS_DEFAULT : font, fontSize, width);
+		guiText.setPosition(x + (width - (int) guiText.getTextDimensions().x) / 2, y + (height - (int) guiText.getTextDimensions().y) / 2);
 	}
 
 	@Override

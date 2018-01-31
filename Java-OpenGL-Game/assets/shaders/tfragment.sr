@@ -6,14 +6,32 @@ in vec4 shadowCoords;
 uniform sampler2D sampler;
 uniform sampler2D shadowMap;
 
+uniform float mapSize;
+
 out vec4 finalColor;
+
+const int pcfCount = 2;
+const float totalTexels = (pcfCount * 2.0f + 1.0f) * (pcfCount * 2.0f + 1.0f);
 
 void main()
 {
-	float objectNearestLight = texture(shadowMap, shadowCoords.xy).r;
-	float lightFactor=1.0f;
-	if(shadowCoords.z > objectNearestLight) {
-	lightFactor = 1.0 - 0.4;
+	float texelSize = 1.0f / mapSize;
+	float total = 0.0f;
+	
+	for(int x = -pcfCount; x <= pcfCount; x++)
+	{
+		for(int y = -pcfCount; y <= pcfCount; y++)
+		{
+			float objectNearestLight = texture(shadowMap, shadowCoords.xy + vec2(x, y) * texelSize).r;
+			if(shadowCoords.z > objectNearestLight) {
+				total += 1.0f;
+			}
+		}
 	}
+	
+	total /= totalTexels;
+	
+	float lightFactor = 1.0f - (total * shadowCoords.w) * 0.5f;
+	
 	finalColor = texture(sampler, textureCoords) * vec4(1.0f,1.0f,1.0f,1.0f) * lightFactor;
 }

@@ -11,7 +11,7 @@ import opengl.java.view.Camera;
 public class ShadowBox
 {
 
-	private static final float OFFSET = 10;
+	private static final float OFFSET = 15;
 	private static final Vector4f UP = new Vector4f(0, 1, 0, 0);
 	private static final Vector4f FORWARD = new Vector4f(0, 0, -1, 0);
 	private static final float SHADOW_DISTANCE = 150;
@@ -163,6 +163,10 @@ public class ShadowBox
 	private float getAspectRatio()
 	{
 		return (float) Display.getWidth() / (float) Display.getHeight();
+	}
+	
+	public static float getShadowDistance() {
+		return SHADOW_DISTANCE;
 	}
 
 }
