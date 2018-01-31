@@ -49,8 +49,9 @@ public class PickShader extends ShaderProgram
 	{
 		super.loadMatrix(loc_mat_view, Maths.createViewMatrix());
 	}
-	
-	public void loadColor(Vector3f color) {
+
+	public void loadColor(Vector3f color)
+	{
 		super.loadVector3f(loc_vec_color, color);
 	}
 }

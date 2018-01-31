@@ -21,8 +21,7 @@ public class FontReader
 		try
 		{
 			String line;
-			BufferedReader stream = new BufferedReader(
-					new FileReader(new File(FONT_FOLDER + fileName + FONT_EXTENSION)));
+			BufferedReader stream = new BufferedReader(new FileReader(new File(FONT_FOLDER + fileName + FONT_EXTENSION)));
 			while ((line = stream.readLine()) != null)
 			{
 				if (line.startsWith("info"))
@@ -53,11 +52,8 @@ public class FontReader
 					continue;
 				}
 				String[] tokens = line.split("\\s+");
-				Character c = new Character(Integer.parseInt(tokens[1].split("=")[1]),
-						Integer.parseInt(tokens[2].split("=")[1]), Integer.parseInt(tokens[3].split("=")[1]),
-						Integer.parseInt(tokens[4].split("=")[1]), Integer.parseInt(tokens[5].split("=")[1]),
-						Float.parseFloat(tokens[6].split("=")[1]), Float.parseFloat(tokens[7].split("=")[1]),
-						Integer.parseInt(tokens[8].split("=")[1]));
+				Character c = new Character(Integer.parseInt(tokens[1].split("=")[1]), Integer.parseInt(tokens[2].split("=")[1]), Integer.parseInt(tokens[3].split("=")[1]), Integer.parseInt(tokens[4].split("=")[1]),
+						Integer.parseInt(tokens[5].split("=")[1]), Float.parseFloat(tokens[6].split("=")[1]), Float.parseFloat(tokens[7].split("=")[1]), Integer.parseInt(tokens[8].split("=")[1]));
 				chars.add(c);
 			}
 			stream.close();

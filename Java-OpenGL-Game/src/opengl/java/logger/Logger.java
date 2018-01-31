@@ -15,7 +15,7 @@ public class Logger
 	{
 		if (!file.exists())
 		{
-			try(PrintWriter writer = new PrintWriter(new FileWriter(file, true)))
+			try (PrintWriter writer = new PrintWriter(new FileWriter(file, true)))
 			{
 				file.createNewFile();
 				writer.println("# This file was created on " + getDate() + ", " + getTime() + "h.");

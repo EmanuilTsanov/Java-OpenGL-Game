@@ -20,7 +20,7 @@ public class GUIText
 	private int maxLineWidth;
 	private FontType fontType;
 	private float fontSize;
-	
+
 	private Vector2f textDimensions = new Vector2f();
 
 	public GUIText(int x, int y, String text, FontType fontType, float fontSize, int maxLineWidth)
@@ -57,7 +57,7 @@ public class GUIText
 			if (result == Line.NOT_ADDED)
 			{
 				linesArr.add(line);
-				if(textDimensions.x < line.getLineWidth())
+				if (textDimensions.x < line.getLineWidth())
 					textDimensions.x = line.getLineWidth();
 				line = new Line(maxLineWidth);
 				line.addWord(word);
@@ -69,9 +69,9 @@ public class GUIText
 			}
 		}
 		linesArr.add(line);
-		if(textDimensions.x < line.getLineWidth())
+		if (textDimensions.x < line.getLineWidth())
 			textDimensions.x = line.getLineWidth();
-		textDimensions.y = fontType.getLineHeight()*fontSize*linesArr.size();
+		textDimensions.y = fontType.getLineHeight() * fontSize * linesArr.size();
 		return loadTextMesh(linesArr, fontType, fontSize);
 	}
 
@@ -149,8 +149,9 @@ public class GUIText
 		}
 		return scaledChars;
 	}
-	
-	public void setPosition(int x, int y) {
+
+	public void setPosition(int x, int y)
+	{
 		this.x = x;
 		this.y = y;
 	}
@@ -164,8 +165,9 @@ public class GUIText
 	{
 		return imgID;
 	}
-	
-	public Vector2f getTextDimensions() {
+
+	public Vector2f getTextDimensions()
+	{
 		return textDimensions;
 	}
 }

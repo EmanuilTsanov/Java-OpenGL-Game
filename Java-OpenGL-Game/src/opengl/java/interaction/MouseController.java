@@ -94,7 +94,8 @@ public class MouseController
 			Vector2f vec1 = Terrain.getInstance().getCellPosition(vec.x + entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
 			entityHolder.setPosition(new Vector3f((vec1.x + entityHolder.positionX()) * TerrainGenerator.getQuadSize(), 0f, (vec1.y + entityHolder.positionY()) * TerrainGenerator.getQuadSize()));
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_F1))
+		{
 			GameRenderer.getInstance().takeScreenshot();
 		}
 	}

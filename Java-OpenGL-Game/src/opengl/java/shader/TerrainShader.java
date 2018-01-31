@@ -63,12 +63,14 @@ public class TerrainShader extends ShaderProgram
 	{
 		super.loadMatrix(locToShadowMapSpace, mat);
 	}
-	
-	public void loadShadowMap() {
+
+	public void loadShadowMap()
+	{
 		super.loadInt(locShadowMap, 5);
 	}
-	
-	public void loadShadowDistance() {
+
+	public void loadShadowDistance()
+	{
 		super.loadFloat(locShadowDistance, ShadowBox.getShadowDistance());
 	}
 

@@ -164,8 +164,9 @@ public class ShadowBox
 	{
 		return (float) Display.getWidth() / (float) Display.getHeight();
 	}
-	
-	public static float getShadowDistance() {
+
+	public static float getShadowDistance()
+	{
 		return SHADOW_DISTANCE;
 	}
 

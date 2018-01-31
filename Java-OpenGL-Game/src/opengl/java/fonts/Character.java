@@ -70,8 +70,9 @@ public class Character
 	{
 		return xAdvance;
 	}
-	
-	public Character getCopy() {
+
+	public Character getCopy()
+	{
 		return new Character(id, x, y, width, height, xOffset, yOffset, xAdvance);
 	}
 

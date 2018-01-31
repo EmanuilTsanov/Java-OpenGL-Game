@@ -50,8 +50,7 @@ public class FontType
 		Texture tex = null;
 		try
 		{
-			tex = org.newdawn.slick.opengl.TextureLoader.getTexture("png",
-					new FileInputStream(defaultFolder + file + defaultExtension));
+			tex = org.newdawn.slick.opengl.TextureLoader.getTexture("png", new FileInputStream(defaultFolder + file + defaultExtension));
 			// GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 			// GL11.glEnable(GL11.GL_ALPHA_TEST);
 			// GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
