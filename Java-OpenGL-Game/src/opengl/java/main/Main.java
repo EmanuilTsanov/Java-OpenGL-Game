@@ -9,7 +9,7 @@ public class Main
 	public static void main(String args[])
 	{
 		Window.create("OpenGL Game");
-		Window.setFPScap(300);
+		Window.setFPScap(500);
 		GameManager gm = new GameManager();
 		while (Window.isOpened())
 		{

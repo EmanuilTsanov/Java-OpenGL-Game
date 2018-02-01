@@ -57,6 +57,7 @@ public class GameRenderer
 
 	public GameRenderer()
 	{
+		enableCulling();
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Window.getWidth(), Window.getHeight());
@@ -138,15 +139,18 @@ public class GameRenderer
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
 			GL20.glEnableVertexAttribArray(2);
+			if(texture.isTransparent())
+				disableCulling();
+			eShader.loadTextureVariables(texture);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
 				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
-				eShader.loadMaterialValues(currentEntity.getMaterial());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
+			enableCulling();
 			GL20.glDisableVertexAttribArray(0);
 			GL20.glDisableVertexAttribArray(1);
 			GL20.glDisableVertexAttribArray(2);
@@ -165,7 +169,6 @@ public class GameRenderer
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
 		eShader.loadTransformationMatrix(e.getPosition(), e.getRotation(), e.getScale());
-		eShader.loadMaterialValues(e.getMaterial());
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
@@ -284,6 +287,17 @@ public class GameRenderer
 	public int getShadowMapTexture()
 	{
 		return smmr.getShadowMap();
+	}
+
+	public static void enableCulling()
+	{
+GL11.glEnable(GL11.GL_CULL_FACE);
+GL11.glCullFace(GL11.GL_BACK);
+	}
+
+	public static void disableCulling()
+	{
+		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 
 	/**

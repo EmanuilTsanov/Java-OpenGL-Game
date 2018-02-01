@@ -138,4 +138,8 @@ public abstract class ShaderProgram
 	{
 		GL20.glUniform1i(location, var);
 	}
+	
+	public void loadBoolean(int location, boolean value) {
+		GL20.glUniform1f(location, value ? 1.0f : 0.0f);
+	}
 }
