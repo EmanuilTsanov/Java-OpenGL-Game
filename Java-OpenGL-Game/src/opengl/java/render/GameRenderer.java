@@ -15,6 +15,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
+import opengl.java.entity.Player;
 import opengl.java.fonts.GUIText;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
@@ -50,6 +51,7 @@ public class GameRenderer
 	private Terrain terrain = Terrain.getInstance();
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
+	private Player player = new Player();
 
 	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
@@ -139,7 +141,7 @@ public class GameRenderer
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
 			GL20.glEnableVertexAttribArray(2);
-			if(texture.isTransparent())
+			if (texture.isTransparent())
 				disableCulling();
 			eShader.loadTextureVariables(texture);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -291,8 +293,8 @@ public class GameRenderer
 
 	public static void enableCulling()
 	{
-GL11.glEnable(GL11.GL_CULL_FACE);
-GL11.glCullFace(GL11.GL_BACK);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
 	}
 
 	public static void disableCulling()
@@ -305,6 +307,7 @@ GL11.glCullFace(GL11.GL_BACK);
 	 */
 	public void render()
 	{
+		player.update();
 		// GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		renderShadowMap();
 		prepareScreen(0, 1, 1);

@@ -58,6 +58,12 @@ public class Camera
 	{
 		this.position = position;
 	}
+	
+	public void setRotation(Vector3f rotation) {
+		this.pitch = (float) Math.toRadians(rotation.x);
+		this.yaw = (float) Math.toRadians(rotation.y);
+		this.roll = (float) Math.toRadians(rotation.z);
+	}
 
 	public void moveBy(float x, float y, float z)
 	{
