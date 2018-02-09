@@ -4,8 +4,10 @@ import org.lwjgl.Sys;
 
 public class WindowFrameController
 {
-	private static long lastFrameTime;
-	private static float delta;
+	private long lastFrameTime;
+	private float delta;
+	
+	private static WindowFrameController singleton = new WindowFrameController();
 
 	public WindowFrameController()
 	{
@@ -19,13 +21,17 @@ public class WindowFrameController
 		lastFrameTime = currentFrameTime;
 	}
 
-	private static long getCurrentTime()
+	private long getCurrentTime()
 	{
 		return Sys.getTime() * 1000 / Sys.getTimerResolution();
 	}
 
-	public static float getFrameTimeSeconds()
+	public float getFrameTimeSeconds()
 	{
 		return delta;
+	}
+	
+	public static WindowFrameController getInstance() {
+		return singleton;
 	}
 }

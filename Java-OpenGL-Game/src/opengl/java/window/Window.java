@@ -17,8 +17,6 @@ public class Window
 
 	private static ContextAttribs attribs = new ContextAttribs(3, 3).withForwardCompatible(true).withProfileCore(true);
 
-	private static WindowFrameController wfc = new WindowFrameController();
-
 	public static void create(String title)
 	{
 		try
@@ -39,7 +37,7 @@ public class Window
 	{
 		Display.sync(fpsCap);
 		Display.update();
-		wfc.update();
+		WindowFrameController.getInstance().update();
 		FPSCounter.getInstance().update();
 	}
 

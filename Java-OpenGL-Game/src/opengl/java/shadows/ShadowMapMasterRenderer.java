@@ -24,7 +24,7 @@ import opengl.java.view.Camera;
 public class ShadowMapMasterRenderer
 {
 
-	public static final int SHADOW_MAP_SIZE = 8192;
+	public static final int SHADOW_MAP_SIZE = 4096;
 
 	private ShadowFrameBuffer shadowFbo;
 	private ShadowShader shader;
