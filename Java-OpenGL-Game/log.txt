@@ -3840,3 +3840,27 @@
 [11.06.2018] [08:53:22] 100 entities of type 'Christmas Tree' were added successfully!
 [11.06.2018] [08:53:22] 100 entities of type 'Snowman' were added successfully!
 [11.06.2018] [08:53:22] 1 entities of type 'Hut' were added successfully!
+[11.07.2018] [14:12:56] 1000 entities of type 'Pine Tree' were added successfully!
+[11.07.2018] [14:12:56] 100 entities of type 'Bench' were added successfully!
+[11.07.2018] [14:12:56] 10 entities of type 'Table' were added successfully!
+[11.07.2018] [14:12:56] 25 entities of type 'Campfire' were added successfully!
+[11.07.2018] [14:12:56] 100 entities of type 'Grass' were added successfully!
+[11.07.2018] [14:12:56] 100 entities of type 'Mushroom' were added successfully!
+[11.07.2018] [14:12:56] 100 entities of type 'Brown Mushroom' were added successfully!
+[11.07.2018] [14:12:56] 100 entities of type 'Rock' were added successfully!
+[11.07.2018] [14:12:56] 100 entities of type 'Christmas Tree' were added successfully!
+[11.07.2018] [14:12:56] 100 entities of type 'Snowman' were added successfully!
+[11.07.2018] [14:12:56] 1 entities of type 'Hut' were added successfully!
+[11.07.2018] [14:14:48] 1000 entities of type 'Pine Tree' were added successfully!
+[11.07.2018] [14:14:48] 100 entities of type 'Bench' were added successfully!
+[11.07.2018] [14:14:48] 10 entities of type 'Table' were added successfully!
+[11.07.2018] [14:14:48] 25 entities of type 'Campfire' were added successfully!
+[11.07.2018] [14:14:48] 100 entities of type 'Grass' were added successfully!
+[11.07.2018] [14:14:48] 100 entities of type 'Mushroom' were added successfully!
+[11.07.2018] [14:14:48] 100 entities of type 'Brown Mushroom' were added successfully!
+[11.07.2018] [14:14:48] 100 entities of type 'Rock' were added successfully!
+[11.07.2018] [14:14:48] 100 entities of type 'Christmas Tree' were added successfully!
+[11.07.2018] [14:14:48] 100 entities of type 'Snowman' were added successfully!
+[11.07.2018] [14:14:48] 1 entities of type 'Hut' were added successfully!
+[11.07.2018] [14:44:47] 1 entities of type 'Hut' were added successfully!
+[11.07.2018] [14:47:11] 1 entities of type 'Hut' were added successfully!
