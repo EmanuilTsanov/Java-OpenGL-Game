@@ -53,6 +53,7 @@ public class Entity
 	public static Entity grass = new Entity(8, "Grass", new Vector2f(1, 1)).setModel("grass").setTexture("grass");
 	public static Entity christmasTree = new Entity(9, "Christmas Tree", new Vector2f(40, 40)).setModel("christmas_tree").setTexture("christmas_tree");
 	public static Entity snowman = new Entity(10, "Snowman", new Vector2f(2, 2)).setModel("snowman").setTexture("snowman");
+	public static Entity hut = new Entity(11, "Hut", new Vector2f(2, 2)).setModel("hut").setTexture("hut");
 
 	public Entity(int id, String name, Vector2f areaRequired)
 	{
