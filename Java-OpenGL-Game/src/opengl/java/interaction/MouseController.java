@@ -42,24 +42,19 @@ public class MouseController
 			{
 				if (getEventButton(LEFT_MOUSE_BUTTON))
 				{
-					directEntity();
 				}
 
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
 				{
-					moveCursor();
-					Mouse.setGrabbed(true);
 				}
 				if (getEventButton(MIDDLE_MOUSE_BUTTON))
 				{
-					rotateEntity();
 				}
 			}
 			else
 			{
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
 				{
-					Mouse.setGrabbed(false);
 				}
 			}
 			if (Mouse.isButtonDown(1) && Mouse.isGrabbed())
@@ -99,44 +94,6 @@ public class MouseController
 			GameRenderer.getInstance().takeScreenshot();
 		}
 	}
-
-	public void directEntity()
-	{
-		if (entityHolder == null)
-		{
-			Vector3f color = GameRenderer.getInstance().pickColor(Mouse.getX(), Mouse.getY());
-			Entity e = Entity.getEntityByColor(color);
-			if (e != null)
-			{
-				entityHolder = e.getCopy();
-				EntityManager.getInstance().removeEntity(e);
-			}
-		}
-		else
-		{
-			EntityManager.getInstance().addEntity(entityHolder);
-			entityHolder = null;
-		}
-	}
-
-	public void rotateEntity()
-	{
-		if (entityHolder != null)
-		{
-			entityHolder.rotate(0, 90, 0);
-			Vector2f a = entityHolder.getArea();
-			Vector2f b = new Vector2f(a.y, a.x);
-			entityHolder.setArea(b);
-		}
-	}
-
-	public void moveCursor()
-	{
-		Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
-		pickLocation.x = Mouse.getX();
-		pickLocation.y = Mouse.getY();
-	}
-
 	public void render()
 	{
 		if (entityHolder != null)
