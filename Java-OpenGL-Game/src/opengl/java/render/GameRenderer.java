@@ -51,7 +51,6 @@ public class GameRenderer
 	private Terrain terrain = Terrain.getInstance();
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
-	private Player player = new Player();
 
 	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
@@ -307,7 +306,6 @@ public class GameRenderer
 	 */
 	public void render()
 	{
-		player.update();
 		// GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		renderShadowMap();
 		prepareScreen(0, 1, 1);

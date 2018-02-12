@@ -6,7 +6,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
-import opengl.java.management.EntityManager;
 import opengl.java.render.GameRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.terrain.TerrainGenerator;
@@ -19,13 +18,13 @@ public class MouseController
 
 	private Entity entityHolder;
 
-	private Vector2f pickLocation = new Vector2f(0, 0);
+	private Vector2f cursorStartLocation = new Vector2f(0, 0);
 
 	private MousePicker picker = MousePicker.getInstance();
 
 	private static final int LEFT_MOUSE_BUTTON = 0;
 	private static final int RIGHT_MOUSE_BUTTON = 1;
-	private static final int MIDDLE_MOUSE_BUTTON = 2;
+//	private static final int MIDDLE_MOUSE_BUTTON = 2;
 
 	private static MouseController singleton = new MouseController();
 
@@ -42,26 +41,31 @@ public class MouseController
 			{
 				if (getEventButton(LEFT_MOUSE_BUTTON))
 				{
+					cursorStartLocation.x = Mouse.getX();
+					cursorStartLocation.y = Mouse.getY();
+					Mouse.setGrabbed(true);
 				}
 
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
 				{
 				}
-				if (getEventButton(MIDDLE_MOUSE_BUTTON))
-				{
-				}
 			}
 			else
 			{
+				if (getEventButton(LEFT_MOUSE_BUTTON))
+				{
+					Mouse.setGrabbed(false);
+				}
+
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
 				{
 				}
 			}
-			if (Mouse.isButtonDown(1) && Mouse.isGrabbed())
+			if (Mouse.isButtonDown(LEFT_MOUSE_BUTTON) && Mouse.isGrabbed())
 			{
 				Camera cam = Camera.getInstance();
-				float distanceX = (pickLocation.x - Mouse.getX()) * 0.1f;
-				float distanceY = (pickLocation.y - Mouse.getY()) * 0.1f;
+				float distanceX = (cursorStartLocation.x - Mouse.getX()) * 0.1f;
+				float distanceY = (cursorStartLocation.y - Mouse.getY()) * 0.1f;
 				float camYaw = cam.getYaw();
 				float camYawH = cam.getYaw() + 90;
 				float dx = (float) Math.cos(camYaw) * distanceX;
@@ -69,18 +73,13 @@ public class MouseController
 				float dx1 = (float) Math.cos(camYawH) * distanceY;
 				float dz1 = (float) Math.sin(camYawH) * distanceY;
 				cam.moveBy(dx - dx1, 0, dz - dz1);
-				moveCursor();
+				Mouse.setCursorPosition(Window.getWidth()/2, Window.getHeight()/2);
+				cursorStartLocation.x = Mouse.getX();
+				cursorStartLocation.y = Mouse.getY();
 			}
-			if (Mouse.isButtonDown(2))
+			if (Mouse.isButtonDown(RIGHT_MOUSE_BUTTON))
 			{
-				if (entityHolder == null)
-				{
-					float radius = (float) Camera.getInstance().getDistToLookPoint();
-					float dx = (float) (radius * Math.sin(Math.toRadians(angle))) * 0.1f;
-					float dz = (float) (radius * Math.cos(Math.toRadians(angle))) * 0.1f;
-					Camera.getInstance().moveBy(-dx, 0, -dz);
-					angle += 1f;
-				}
+				
 			}
 		}
 		if (entityHolder != null)
@@ -94,6 +93,7 @@ public class MouseController
 			GameRenderer.getInstance().takeScreenshot();
 		}
 	}
+
 	public void render()
 	{
 		if (entityHolder != null)
