@@ -17,8 +17,9 @@ public class MouseController
 	private float angle;
 
 	private Entity entityHolder;
+	private boolean leftMBDown;
 
-	private Vector2f cursorStartLocation = new Vector2f(0, 0);
+	private int cursorStartX, cursorStartY;
 
 	private MousePicker picker = MousePicker.getInstance();
 
@@ -35,15 +36,17 @@ public class MouseController
 
 	public void update()
 	{
+		int mouseX=Mouse.getX(), mouseY=Mouse.getY();
+		
 		if (Mouse.next())
 		{
 			if (Mouse.getEventButtonState())
 			{
 				if (getEventButton(LEFT_MOUSE_BUTTON))
 				{
-					cursorStartLocation.x = Mouse.getX();
-					cursorStartLocation.y = Mouse.getY();
-					Mouse.setGrabbed(true);
+					leftMBDown=true;
+					cursorStartX = mouseX;
+					cursorStartY = mouseY;
 				}
 
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
@@ -54,18 +57,20 @@ public class MouseController
 			{
 				if (getEventButton(LEFT_MOUSE_BUTTON))
 				{
-					Mouse.setGrabbed(false);
+					leftMBDown=false;
 				}
 
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
 				{
 				}
 			}
-			if (Mouse.isButtonDown(LEFT_MOUSE_BUTTON) && Mouse.isGrabbed())
+			if (leftMBDown)
 			{
 				Camera cam = Camera.getInstance();
-				float distanceX = (cursorStartLocation.x - Mouse.getX()) * 0.1f;
-				float distanceY = (cursorStartLocation.y - Mouse.getY()) * 0.1f;
+				float distanceX = (cursorStartX - mouseX) * 0.1f;
+				float distanceY = (cursorStartY - mouseY) * 0.1f;
+				cursorStartX = mouseX;
+				cursorStartY = mouseY;
 				float camYaw = cam.getYaw();
 				float camYawH = cam.getYaw() + 90;
 				float dx = (float) Math.cos(camYaw) * distanceX;
@@ -73,9 +78,6 @@ public class MouseController
 				float dx1 = (float) Math.cos(camYawH) * distanceY;
 				float dz1 = (float) Math.sin(camYawH) * distanceY;
 				cam.moveBy(dx - dx1, 0, dz - dz1);
-				Mouse.setCursorPosition(Window.getWidth()/2, Window.getHeight()/2);
-				cursorStartLocation.x = Mouse.getX();
-				cursorStartLocation.y = Mouse.getY();
 			}
 			if (Mouse.isButtonDown(RIGHT_MOUSE_BUTTON))
 			{

@@ -40,8 +40,6 @@ public class EntityManager
 		addEntities(Entity.mushroom, 100, false);
 		addEntities(Entity.mushroom1, 100, false);
 		addEntities(Entity.rock, 100, false);
-		addEntities(Entity.christmasTree, 100, false);
-		addEntities(Entity.snowman, 100, false);
 		addEntities(Entity.hut, 1, false);
 	}
 
