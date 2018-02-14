@@ -15,7 +15,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
-import opengl.java.entity.Player;
 import opengl.java.fonts.GUIText;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
