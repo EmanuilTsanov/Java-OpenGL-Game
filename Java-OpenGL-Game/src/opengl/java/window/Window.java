@@ -1,5 +1,9 @@
 package opengl.java.window;
 
+import java.awt.Canvas;
+
+import javax.swing.JFrame;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
@@ -14,15 +18,22 @@ public class Window
 
 	private static int width = 1920;
 	private static int height = 1080;
+	private static JFrame frame = new JFrame();
+	private static Canvas canvas = new Canvas();
 
 	private static ContextAttribs attribs = new ContextAttribs(3, 3).withForwardCompatible(true).withProfileCore(true);
 
 	public static void create(String title)
 	{
+		frame.add(canvas);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		try
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(title);
+		    Display.setParent(canvas);
 			Display.create(new PixelFormat().withSamples(8), attribs);
 			GL11.glEnable(GL13.GL_MULTISAMPLE);
 		}

@@ -20,10 +20,6 @@ public class Player
 	private float currentJumpSpeed;
 	private boolean jumping;
 
-	private static final int LEFT_MOUSE_BUTTON = 0;
-	private static final int RIGHT_MOUSE_BUTTON = 1;
-	private static final int MIDDLE_MOUSE_BUTTON = 2;
-
 	private Vector2f mouseH;
 
 	public Player()
@@ -90,10 +86,5 @@ public class Player
 		}
 		Camera.getInstance().move(new Vector3f(x, y, z));
 		Camera.getInstance().setRotation(new Vector3f(rotX, rotY, rotZ));
-	}
-
-	private boolean getEventButton(int button)
-	{
-		return Mouse.getEventButton() == button;
 	}
 }

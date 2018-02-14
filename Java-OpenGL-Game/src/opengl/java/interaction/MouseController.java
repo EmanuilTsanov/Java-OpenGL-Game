@@ -10,12 +10,9 @@ import opengl.java.render.GameRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.terrain.TerrainGenerator;
 import opengl.java.view.Camera;
-import opengl.java.window.Window;
 
 public class MouseController
 {
-	private float angle;
-
 	private Entity entityHolder;
 	private boolean leftMBDown;
 
@@ -25,7 +22,7 @@ public class MouseController
 
 	private static final int LEFT_MOUSE_BUTTON = 0;
 	private static final int RIGHT_MOUSE_BUTTON = 1;
-//	private static final int MIDDLE_MOUSE_BUTTON = 2;
+	// private static final int MIDDLE_MOUSE_BUTTON = 2;
 
 	private static MouseController singleton = new MouseController();
 
@@ -36,15 +33,15 @@ public class MouseController
 
 	public void update()
 	{
-		int mouseX=Mouse.getX(), mouseY=Mouse.getY();
-		
+		int mouseX = Mouse.getX(), mouseY = Mouse.getY();
+
 		if (Mouse.next())
 		{
 			if (Mouse.getEventButtonState())
 			{
 				if (getEventButton(LEFT_MOUSE_BUTTON))
 				{
-					leftMBDown=true;
+					leftMBDown = true;
 					cursorStartX = mouseX;
 					cursorStartY = mouseY;
 				}
@@ -57,7 +54,7 @@ public class MouseController
 			{
 				if (getEventButton(LEFT_MOUSE_BUTTON))
 				{
-					leftMBDown=false;
+					leftMBDown = false;
 				}
 
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
@@ -81,7 +78,7 @@ public class MouseController
 			}
 			if (Mouse.isButtonDown(RIGHT_MOUSE_BUTTON))
 			{
-				
+
 			}
 		}
 		if (entityHolder != null)
