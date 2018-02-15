@@ -69,7 +69,7 @@ public class MouseController
 				cursorStartX = mouseX;
 				cursorStartY = mouseY;
 				float camYaw = cam.getYaw();
-				float camYawH = cam.getYaw() + 90;
+				float camYawH = cam.getYaw() + (float)Math.toRadians(90);
 				float dx = (float) Math.cos(camYaw) * distanceX;
 				float dz = (float) Math.sin(camYaw) * distanceX;
 				float dx1 = (float) Math.cos(camYawH) * distanceY;
