@@ -1,6 +1,7 @@
 package opengl.java.window;
 
 import java.awt.Canvas;
+import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
 
@@ -26,14 +27,15 @@ public class Window
 	public static void create(String title)
 	{
 		frame.add(canvas);
-		frame.setVisible(true);
+		frame.setTitle(title);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setUndecorated(true);
+		frame.setVisible(true);
 		try
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
-			Display.setTitle(title);
-		    Display.setParent(canvas);
+			Display.setParent(canvas);
 			Display.create(new PixelFormat().withSamples(8), attribs);
 			GL11.glEnable(GL13.GL_MULTISAMPLE);
 		}
