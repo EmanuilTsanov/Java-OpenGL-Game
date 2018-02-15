@@ -6,7 +6,7 @@ public class WindowFrameController
 {
 	private long lastFrameTime;
 	private float delta;
-	
+
 	private static WindowFrameController singleton = new WindowFrameController();
 
 	public WindowFrameController()
@@ -30,8 +30,9 @@ public class WindowFrameController
 	{
 		return delta;
 	}
-	
-	public static WindowFrameController getInstance() {
+
+	public static WindowFrameController getInstance()
+	{
 		return singleton;
 	}
 }
