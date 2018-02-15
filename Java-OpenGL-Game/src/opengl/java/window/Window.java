@@ -1,7 +1,6 @@
 package opengl.java.window;
 
 import java.awt.Canvas;
-import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
 
@@ -30,7 +29,6 @@ public class Window
 		frame.setTitle(title);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setUndecorated(true);
 		frame.setVisible(true);
 		try
 		{
