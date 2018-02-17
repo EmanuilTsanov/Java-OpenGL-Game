@@ -37,9 +37,7 @@ public class Entity
 	private static HashMap<Integer, ModelTexture> textures = new HashMap<Integer, ModelTexture>();
 
 	private Vector3f color;
-
 	private static Vector3f globalColor = new Vector3f(0, 0, 0);
-
 	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
 	public static Entity pineTree = new Entity(0, "Pine Tree", new Vector2f(2, 2)).setModel("treePine").setTexture("treePine");
