@@ -10,31 +10,29 @@ import opengl.java.material.Material;
 import opengl.java.model.Model;
 import opengl.java.terrain.TerrainGenerator;
 import opengl.java.texture.ModelTexture;
+import opengl.src.Resources;
 
 public class Entity
 {
 	protected int id;
-	protected int uniqueID;
+	protected int srcID;
 
 	protected String name;
 
 	protected String model;
 	protected String texture;
 
+	protected Vector3f position = new Vector3f(0, 0, 0);
+	protected Vector3f rotation = new Vector3f(0, 0, 0);
+	protected Vector2f areaRequired = new Vector2f(1, 1);
+
+	protected float scale = 1;
+
 	protected Material material = Material.defaultMaterial;
 
 	private static int nextEntityID = 0;
 
-	protected Vector3f position = new Vector3f(0, 0, 0);
-	protected Vector3f rotation = new Vector3f(0, 0, 0);
-
-	protected float scale = 1;
-
-	protected Vector2f areaRequired = new Vector2f(0, 0);
-
 	private static HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>();
-	private static HashMap<Integer, Model> models = new HashMap<Integer, Model>();
-	private static HashMap<Integer, ModelTexture> textures = new HashMap<Integer, ModelTexture>();
 
 	private Vector3f color;
 	private static Vector3f globalColor = new Vector3f(0, 0, 0);
@@ -53,48 +51,40 @@ public class Entity
 	public static Entity snowman = new Entity(10, "Snowman", new Vector2f(2, 2)).setModel("snowman").setTexture("snowman");
 	public static Entity hut = new Entity(11, "Hut", new Vector2f(2, 2)).setModel("hut").setTexture("hut");
 
-	public Entity(int id, String name, Vector2f areaRequired)
+	public Entity(int srcID, String name, Vector2f areaRequired)
 	{
-		this.id = id;
+		this.srcID = srcID;
 		this.name = name;
 		this.areaRequired = areaRequired;
+		entities.put(srcID, this);
 	}
 
 	public Entity setup()
 	{
-		this.uniqueID = nextEntityID++;
+		this.id = nextEntityID++;
 		color = manageColor(globalColor);
-		colorArray.put(color.x + "/" + color.y + "/" + color.z, uniqueID);
-		entities.put(uniqueID, this);
+		colorArray.put(color.x + "/" + color.y + "/" + color.z, id);
+		entities.put(id, this);
 		return this;
 	}
 
-	/**
-	 * Sets the display name for this entity.
-	 */
 	public Entity setName(String name)
 	{
 		this.name = name;
 		return this;
 	}
 
-	/**
-	 * Sets the model file name to be loaded from the assets later on.
-	 */
 	public Entity setModel(String val)
 	{
 		Model model = SRCLoader.loadRawModel(val);
-		models.put(id, model);
+		Resources.addModel(srcID, model);
 		return this;
 	}
 
-	/**
-	 * Sets the texture file name to be loaded from the assets later on.
-	 */
 	public Entity setTexture(String val)
 	{
 		ModelTexture texture = SRCLoader.loadTexture(val);
-		textures.put(id, texture);
+		Resources.addTexture(srcID, texture);
 		return this;
 	}
 
@@ -106,47 +96,24 @@ public class Entity
 		return this;
 	}
 
-	/**
-	 * Sets the ingame position for this entity.
-	 * 
-	 * @param position
-	 *            - the position represented by a three dimentional vector
-	 */
 	public Entity setPosition(Vector3f position)
 	{
 		this.position = position;
 		return this;
 	}
 
-	/**
-	 * Sets the ingame position for this entity.
-	 */
 	public Entity setPosition(float x, float y, float z)
 	{
 		position = new Vector3f(x, y, z);
 		return this;
 	}
 
-	/**
-	 * Sets the ingame rotation for this entity.
-	 * 
-	 * @param rotation
-	 *            - the rotation in radians represented by a three dimentional
-	 *            vector
-	 */
 	public Entity setRotationInRadians(Vector3f radiansVec)
 	{
 		this.rotation = new Vector3f(radiansVec.x, radiansVec.y, radiansVec.z);
 		return this;
 	}
 
-	/**
-	 * Sets the ingame rotation for this entity.
-	 * 
-	 * @param rotation
-	 *            - the rotation in radians represented by a three dimentional
-	 *            vector
-	 */
 	public Entity setRotationInDegrees(Vector3f degreesVec)
 	{
 		this.rotation = new Vector3f((float) Math.toRadians(degreesVec.x), (float) Math.toRadians(degreesVec.y), (float) Math.toRadians(degreesVec.z));
@@ -160,21 +127,11 @@ public class Entity
 		this.rotation.z += Math.toRadians(zRot);
 	}
 
-	/**
-	 * Sets the ingame scale for this entity.
-	 */
 	public Entity setScale(float scale)
 	{
 		this.scale = scale;
 		return this;
 	}
-
-	/**
-	 * Specifies the required area on the map for this entity.
-	 * 
-	 * @param area
-	 *            - width and height in terrain blocks
-	 */
 
 	public void setArea(Vector2f area)
 	{
@@ -217,12 +174,12 @@ public class Entity
 
 	public int getId()
 	{
-		return id;
+		return srcID;
 	}
 
 	public int getUniqueID()
 	{
-		return uniqueID;
+		return id;
 	}
 
 	public String getName()
@@ -294,7 +251,7 @@ public class Entity
 
 	public Entity getCopy()
 	{
-		return new Entity(id, name, areaRequired).setPosition(position).setRotationInRadians(rotation).setScale(scale).setMaterial(material).setup();
+		return new Entity(srcID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setMaterial(material).setup();
 	}
 
 	public static Model getModel(int id)
@@ -311,5 +268,9 @@ public class Entity
 	{
 		Entity entity = entities.get(colorArray.get(color.x + "/" + color.y + "/" + color.z));
 		return entity;
+	}
+
+	public static Entity getEntityByID(Vector3f color)
+	{
 	}
 }

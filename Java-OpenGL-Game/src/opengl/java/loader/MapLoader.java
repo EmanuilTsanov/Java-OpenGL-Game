@@ -13,11 +13,17 @@ public class MapLoader
 {
 	public static HashMap<Integer, HashMap<Integer, Entity>> loadMap(String file)
 	{
+		HashMap<Integer, HashMap<Integer, Entity>> entities = new HashMap<Integer, HashMap<Integer, Entity>>();
 		try (BufferedReader stream = new BufferedReader(new FileReader(new File(file))))
 		{
-			while (stream.readLine() != null) 
+			String line;
+			while ((line = stream.readLine()) != null)
 			{
-				
+				if (line.startsWith("e "))
+				{
+					String[] tokens = line.split("//s+");
+					Entity entity new Entity
+				}
 			}
 		}
 		catch (FileNotFoundException e)
@@ -28,5 +34,6 @@ public class MapLoader
 		{
 			e.printStackTrace();
 		}
+		return entities;
 	}
 }
