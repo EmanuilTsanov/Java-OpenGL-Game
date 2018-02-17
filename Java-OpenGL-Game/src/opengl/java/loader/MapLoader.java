@@ -15,7 +15,7 @@ public class MapLoader
 	{
 		try (BufferedReader stream = new BufferedReader(new FileReader(new File(file))))
 		{
-			while (stream.readLine() != null)
+			while (stream.readLine() != null) 
 			{
 				
 			}
