@@ -38,24 +38,22 @@ public class Entity
 	private static Vector3f globalColor = new Vector3f(0, 0, 0);
 	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
-	public static Entity pineTree = new Entity(0, "Pine Tree", new Vector2f(2, 2)).setModel("treePine").setTexture("treePine");
-	public static Entity bench = new Entity(1, "Bench", new Vector2f(1, 2)).setModel("bench").setTexture("bench");
-	public static Entity table = new Entity(2, "Table", new Vector2f(1, 2)).setModel("table").setTexture("table");
-	public static Entity plate = new Entity(3, "Plate", new Vector2f(1, 1)).setModel("plate").setTexture("plate");
-	public static Entity rock = new Entity(4, "Rock", new Vector2f(1, 1)).setModel("rock").setTexture("rock");
-	public static Entity campfire = new Entity(5, "Campfire", new Vector2f(1, 1)).setModel("campfire").setTexture("campfire");
-	public static Entity mushroom = new Entity(6, "Mushroom", new Vector2f(1, 1)).setModel("mushroom").setTexture("mushroom");
-	public static Entity mushroom1 = new Entity(7, "Brown Mushroom", new Vector2f(1, 1)).setModel("mushroom").setTexture("mushroom1");
-	public static Entity grass = new Entity(8, "Grass", new Vector2f(1, 1)).setModel("grass").setTexture("grass");
-	public static Entity christmasTree = new Entity(9, "Christmas Tree", new Vector2f(40, 40)).setModel("christmas_tree").setTexture("christmas_tree");
-	public static Entity snowman = new Entity(10, "Snowman", new Vector2f(2, 2)).setModel("snowman").setTexture("snowman");
-	public static Entity hut = new Entity(11, "Hut", new Vector2f(2, 2)).setModel("hut").setTexture("hut");
+	public static Entity pineTree = new Entity(0).setModel("treePine").setTexture("treePine");
+	public static Entity bench = new Entity(1).setModel("bench").setTexture("bench");
+	public static Entity table = new Entity(2).setModel("table").setTexture("table");
+	public static Entity plate = new Entity(3).setModel("plate").setTexture("plate");
+	public static Entity rock = new Entity(4).setModel("rock").setTexture("rock");
+	public static Entity campfire = new Entity(5).setModel("campfire").setTexture("campfire");
+	public static Entity mushroom = new Entity(6).setModel("mushroom").setTexture("mushroom");
+	public static Entity mushroom1 = new Entity(7).setModel("mushroom").setTexture("mushroom1");
+	public static Entity grass = new Entity(8).setModel("grass").setTexture("grass");
+	public static Entity christmasTree = new Entity(9).setModel("christmas_tree").setTexture("christmas_tree");
+	public static Entity snowman = new Entity(10).setModel("snowman").setTexture("snowman");
+	public static Entity hut = new Entity(11).setModel("hut").setTexture("hut");
 
-	public Entity(int srcID, String name, Vector2f areaRequired)
+	public Entity(int srcID)
 	{
 		this.srcID = srcID;
-		this.name = name;
-		this.areaRequired = areaRequired;
 		entities.put(srcID, this);
 	}
 
@@ -254,23 +252,9 @@ public class Entity
 		return new Entity(srcID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setMaterial(material).setup();
 	}
 
-	public static Model getModel(int id)
-	{
-		return models.get(id);
-	}
-
-	public static ModelTexture getTexture(int id)
-	{
-		return textures.get(id);
-	}
-
 	public static Entity getEntityByColor(Vector3f color)
 	{
 		Entity entity = entities.get(colorArray.get(color.x + "/" + color.y + "/" + color.z));
 		return entity;
-	}
-
-	public static Entity getEntityByID(Vector3f color)
-	{
 	}
 }
