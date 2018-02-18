@@ -6,7 +6,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.management.SRCLoader;
-import opengl.java.material.Material;
 import opengl.java.model.Model;
 import opengl.java.terrain.TerrainGenerator;
 import opengl.java.texture.ModelTexture;
@@ -27,8 +26,6 @@ public class Entity
 	protected Vector2f areaRequired = new Vector2f(1, 1);
 
 	protected float scale = 1;
-
-	protected Material material = Material.defaultMaterial;
 
 	private static int nextEntityID = 0;
 
@@ -136,12 +133,6 @@ public class Entity
 		this.areaRequired = area;
 	}
 
-	public Entity setMaterial(Material mat)
-	{
-		this.material = mat;
-		return this;
-	}
-
 	private Vector3f manageColor(Vector3f color)
 	{
 		int r = (int) color.x;
@@ -165,19 +156,14 @@ public class Entity
 		return col;
 	}
 
-	public Material getMaterial()
-	{
-		return material;
-	}
-
 	public int getId()
 	{
-		return srcID;
+		return id;
 	}
 
-	public int getUniqueID()
+	public int getSrcID()
 	{
-		return id;
+		return srcID;
 	}
 
 	public String getName()
@@ -249,7 +235,7 @@ public class Entity
 
 	public Entity getCopy()
 	{
-		return new Entity(srcID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setMaterial(material).setup();
+		return new Entity(srcID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
 	}
 
 	public static Entity getEntityByColor(Vector3f color)
