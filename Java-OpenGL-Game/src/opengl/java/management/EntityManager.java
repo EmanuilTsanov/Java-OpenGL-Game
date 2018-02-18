@@ -15,13 +15,13 @@ public class EntityManager
 
 	private Random rand = new Random();
 
-	private HashMap<Integer, HashMap<Integer, Entity>> entities;
+	private HashMap<Integer, Entity> entities;
 
 	private static EntityManager singleton = new EntityManager();
 
 	public EntityManager()
 	{
-		entities = new HashMap<Integer, HashMap<Integer, Entity>>();
+		entities = new HashMap<Integer, Entity>();
 		loadEntities();
 	}
 

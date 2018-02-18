@@ -13,13 +13,8 @@ import opengl.src.Resources;
 
 public class Entity
 {
-	protected int id;
+	protected int ID;
 	protected int srcID;
-
-	protected String name;
-
-	protected String model;
-	protected String texture;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
@@ -35,18 +30,18 @@ public class Entity
 	private static Vector3f globalColor = new Vector3f(0, 0, 0);
 	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
-	public static Entity pineTree = new Entity(0).setModel("treePine").setTexture("treePine");
-	public static Entity bench = new Entity(1).setModel("bench").setTexture("bench");
-	public static Entity table = new Entity(2).setModel("table").setTexture("table");
-	public static Entity plate = new Entity(3).setModel("plate").setTexture("plate");
-	public static Entity rock = new Entity(4).setModel("rock").setTexture("rock");
-	public static Entity campfire = new Entity(5).setModel("campfire").setTexture("campfire");
-	public static Entity mushroom = new Entity(6).setModel("mushroom").setTexture("mushroom");
-	public static Entity mushroom1 = new Entity(7).setModel("mushroom").setTexture("mushroom1");
-	public static Entity grass = new Entity(8).setModel("grass").setTexture("grass");
-	public static Entity christmasTree = new Entity(9).setModel("christmas_tree").setTexture("christmas_tree");
-	public static Entity snowman = new Entity(10).setModel("snowman").setTexture("snowman");
-	public static Entity hut = new Entity(11).setModel("hut").setTexture("hut");
+	public static Entity pineTree = new Entity(0);
+	public static Entity bench = new Entity(1);
+	public static Entity table = new Entity(2);
+	public static Entity plate = new Entity(3);
+	public static Entity rock = new Entity(4);
+	public static Entity campfire = new Entity(5);
+	public static Entity mushroom = new Entity(6);
+	public static Entity mushroom1 = new Entity(7);
+	public static Entity grass = new Entity(8);
+	public static Entity christmasTree = new Entity(9);
+	public static Entity snowman = new Entity(10);
+	public static Entity hut = new Entity(11);
 
 	public Entity(int srcID)
 	{
@@ -56,30 +51,10 @@ public class Entity
 
 	public Entity setup()
 	{
-		this.id = nextEntityID++;
+		this.ID = nextEntityID++;
 		color = manageColor(globalColor);
-		colorArray.put(color.x + "/" + color.y + "/" + color.z, id);
-		entities.put(id, this);
-		return this;
-	}
-
-	public Entity setName(String name)
-	{
-		this.name = name;
-		return this;
-	}
-
-	public Entity setModel(String val)
-	{
-		Model model = SRCLoader.loadRawModel(val);
-		Resources.addModel(srcID, model);
-		return this;
-	}
-
-	public Entity setTexture(String val)
-	{
-		ModelTexture texture = SRCLoader.loadTexture(val);
-		Resources.addTexture(srcID, texture);
+		colorArray.put(color.x + "/" + color.y + "/" + color.z, ID);
+		entities.put(ID, this);
 		return this;
 	}
 
@@ -158,27 +133,12 @@ public class Entity
 
 	public int getId()
 	{
-		return id;
+		return ID;
 	}
 
 	public int getSrcID()
 	{
 		return srcID;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public String getModel()
-	{
-		return model;
-	}
-
-	public String getTexture()
-	{
-		return texture;
 	}
 
 	public Vector3f getPosition()
