@@ -5,11 +5,7 @@ import java.util.HashMap;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.management.SRCLoader;
-import opengl.java.model.Model;
 import opengl.java.terrain.TerrainGenerator;
-import opengl.java.texture.ModelTexture;
-import opengl.src.Resources;
 
 public class Entity
 {

@@ -49,7 +49,7 @@ public class EntityManager
 		if (entities.get(entity.getId()) == null)
 		{
 			HashMap<Integer, Entity> batch = new HashMap<Integer, Entity>();
-			batch.put(e.getUniqueID(), e);
+			batch.put(e.getID(), e);
 			entities.put(entity.getId(), batch);
 			return true;
 		}
