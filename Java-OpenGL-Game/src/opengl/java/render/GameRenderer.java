@@ -197,14 +197,6 @@ public class GameRenderer
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
 	}
-
-	/**
-	 * Renders a text GUI.
-	 * 
-	 * @param t
-	 *            - the GUI, containing the fonts, the font size and the text
-	 *            itself.
-	 */
 	public void renderText(GUIText t)
 	{
 		GL11.glEnable(GL11.GL_BLEND);
