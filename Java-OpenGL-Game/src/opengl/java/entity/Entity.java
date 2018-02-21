@@ -127,7 +127,7 @@ public class Entity
 		return col;
 	}
 
-	public int getId()
+	public int getID()
 	{
 		return ID;
 	}

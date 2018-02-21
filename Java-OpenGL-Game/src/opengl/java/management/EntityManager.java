@@ -15,13 +15,13 @@ public class EntityManager
 
 	private Random rand = new Random();
 
-	private HashMap<Integer, Entity> entities;
+	private HashMap<Integer, HashMap<Integer, Entity>> entities;
 
 	private static EntityManager singleton = new EntityManager();
 
 	public EntityManager()
 	{
-		entities = new HashMap<Integer, Entity>();
+		entities = new HashMap<Integer, HashMap<Integer, Entity>>();
 		loadEntities();
 	}
 
@@ -46,16 +46,16 @@ public class EntityManager
 	public boolean addEntity(Entity entity)
 	{
 		Entity e = entity.getCopy();
-		if (entities.get(entity.getId()) == null)
+		if (entities.get(entity.getSrcID()) == null)
 		{
 			HashMap<Integer, Entity> batch = new HashMap<Integer, Entity>();
 			batch.put(e.getID(), e);
-			entities.put(entity.getId(), batch);
+			entities.put(entity.getSrcID(), batch);
 			return true;
 		}
 		else
 		{
-			entities.get(entity.getId()).put(entity.getUniqueID(), entity);
+			entities.get(entity.getSrcID()).put(entity.getID(), entity);
 			return true;
 		}
 	}
@@ -87,17 +87,17 @@ public class EntityManager
 				}
 				if (j == TRY_LIMIT - 1)
 				{
-					Logger.log("Try to add limit reached. Entity of type '" + entity.getName() + "' wasn't added on the map.");
+					Logger.log("Try to add limit reached. Entity wasn't added on the map.");
 				}
 			}
 		}
-		Logger.log(addedEntityCount + " entities of type '" + entity.getName() + "' were added successfully!");
+		Logger.log(addedEntityCount + " entities were added successfully!");
 	}
 
 	public void removeEntity(Entity e)
 	{
-		HashMap<Integer, Entity> ptr = entities.get(e.getId());
-		ptr.remove(e.getUniqueID());
+		HashMap<Integer, Entity> ptr = entities.get(e.getSrcID());
+		ptr.remove(e.getID());
 		if (ptr.isEmpty())
 		{
 			ptr = null;

@@ -33,6 +33,7 @@ import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
 import opengl.java.window.Window;
+import opengl.src.Resources;
 
 public class GameRenderer
 {
@@ -133,8 +134,8 @@ public class GameRenderer
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
-			Model model = Entity.getModel(outer.getKey());
-			ModelTexture texture = Entity.getTexture(outer.getKey());
+			Model model = Resources.getModel(outer.getKey());
+			ModelTexture texture = Resources.getTexture(outer.getKey());
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
@@ -160,8 +161,8 @@ public class GameRenderer
 
 	public void renderEntity(Entity e)
 	{
-		Model model = Entity.getModel(e.getId());
-		ModelTexture texture = Entity.getTexture(e.getId());
+		Model model = Resources.getModel(e.getSrcID());
+		ModelTexture texture = Resources.getTexture(e.getSrcID());
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
@@ -226,7 +227,7 @@ public class GameRenderer
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
-			Model model = Entity.getModel(outer.getKey());
+			Model model = Resources.getModel(outer.getKey());
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())

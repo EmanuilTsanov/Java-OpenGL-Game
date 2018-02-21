@@ -8,3 +8,21 @@
 [17.07.2018] [10:31:31] 100 entities of type 'Brown Mushroom' were added successfully!
 [17.07.2018] [10:31:31] 100 entities of type 'Rock' were added successfully!
 [17.07.2018] [10:31:31] 1 entities of type 'Hut' were added successfully!
+[20.08.2018] [23:16:48] 1000 entities were added successfully!
+[20.08.2018] [23:16:48] 100 entities were added successfully!
+[20.08.2018] [23:16:48] 10 entities were added successfully!
+[20.08.2018] [23:16:48] 25 entities were added successfully!
+[20.08.2018] [23:16:48] 100 entities were added successfully!
+[20.08.2018] [23:16:48] 100 entities were added successfully!
+[20.08.2018] [23:16:48] 100 entities were added successfully!
+[20.08.2018] [23:16:48] 100 entities were added successfully!
+[20.08.2018] [23:16:48] 1 entities were added successfully!
+[21.08.2018] [14:48:31] 1000 entities were added successfully!
+[21.08.2018] [14:48:31] 100 entities were added successfully!
+[21.08.2018] [14:48:31] 10 entities were added successfully!
+[21.08.2018] [14:48:31] 25 entities were added successfully!
+[21.08.2018] [14:48:31] 100 entities were added successfully!
+[21.08.2018] [14:48:31] 100 entities were added successfully!
+[21.08.2018] [14:48:31] 100 entities were added successfully!
+[21.08.2018] [14:48:31] 100 entities were added successfully!
+[21.08.2018] [14:48:31] 1 entities were added successfully!

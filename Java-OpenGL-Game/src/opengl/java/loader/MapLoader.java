@@ -51,12 +51,12 @@ public class MapLoader
 		if (entities.get(e.getSrcID()) == null)
 		{
 			HashMap<Integer, Entity> innerMap = new HashMap<Integer, Entity>();
-			innerMap.put(e.getId(), e);
+			innerMap.put(e.getID(), e);
 			entities.put(e.getSrcID(), innerMap);
 		}
 		else
 		{
-			entities.get(e.getSrcID()).put(e.getId(), e);
+			entities.get(e.getSrcID()).put(e.getID(), e);
 		}
 	}
 }
