@@ -1,9 +1,6 @@
 package opengl.java.management;
 
 import java.util.HashMap;
-import java.util.Random;
-
-import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.logger.Logger;
@@ -12,8 +9,6 @@ import opengl.java.terrain.TerrainGenerator;
 public class EntityManager
 {
 	private static final int TRY_LIMIT = 50;
-
-	private Random rand = new Random();
 
 	private HashMap<Integer, HashMap<Integer, Entity>> entities;
 
@@ -32,15 +27,15 @@ public class EntityManager
 
 	public void loadEntities()
 	{
-		addEntities(Entity.pineTree, 1000, false);
-		addEntities(Entity.bench, 100, false);
-		addEntities(Entity.table, 10, false);
-		addEntities(Entity.campfire, 25, false);
-		addEntities(Entity.grass, 100, false);
-		addEntities(Entity.mushroom, 100, false);
-		addEntities(Entity.mushroom1, 100, false);
-		addEntities(Entity.rock, 100, false);
-		addEntities(Entity.hut, 1, false);
+		addEntities(Entity.pineTree, 1000);
+		addEntities(Entity.bench, 100);
+		addEntities(Entity.table, 10);
+		addEntities(Entity.campfire, 25);
+		addEntities(Entity.grass, 100);
+		addEntities(Entity.mushroom, 100);
+		addEntities(Entity.mushroom1, 100);
+		addEntities(Entity.rock, 100);
+		addEntities(Entity.hut, 1);
 	}
 
 	public boolean addEntity(Entity entity)
@@ -60,7 +55,7 @@ public class EntityManager
 		}
 	}
 
-	public void addEntities(Entity entity, int count, boolean randRot)
+	public void addEntities(Entity entity, int count)
 	{
 		int addedEntityCount = 0;
 		for (int i = 0; i < count; i++)
@@ -69,10 +64,6 @@ public class EntityManager
 
 			e.setPosition(TerrainGenerator.genRandTerrainPos(), 0, TerrainGenerator.genRandTerrainPos());
 
-			if (randRot)
-			{
-				e.setRotationInRadians(new Vector3f(0, rand.nextFloat() * 180, 0));
-			}
 			inner: for (int j = 0; j < TRY_LIMIT; j++)
 			{
 				boolean a = addEntity(e);

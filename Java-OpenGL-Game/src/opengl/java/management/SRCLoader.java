@@ -57,7 +57,7 @@ public class SRCLoader
 		return lines;
 	}
 
-	public static Model loadRawModel(String fileName)
+	public static Model loadModel(String fileName)
 	{
 		ArrayList<Vector3f> vertices = new ArrayList<Vector3f>();
 		ArrayList<Vector2f> texCoords = new ArrayList<Vector2f>();

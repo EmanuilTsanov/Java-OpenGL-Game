@@ -5,12 +5,13 @@ import java.util.HashMap;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.model.TexturedModel;
 import opengl.java.terrain.TerrainGenerator;
 
 public class Entity
 {
-	protected int ID;
-	protected int srcID;
+	protected int id;
+	protected int assetID;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
@@ -26,31 +27,31 @@ public class Entity
 	private static Vector3f globalColor = new Vector3f(0, 0, 0);
 	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
-	public static Entity pineTree = new Entity(0);
-	public static Entity bench = new Entity(1);
-	public static Entity table = new Entity(2);
-	public static Entity plate = new Entity(3);
-	public static Entity rock = new Entity(4);
-	public static Entity campfire = new Entity(5);
-	public static Entity mushroom = new Entity(6);
-	public static Entity mushroom1 = new Entity(7);
-	public static Entity grass = new Entity(8);
-	public static Entity christmasTree = new Entity(9);
-	public static Entity snowman = new Entity(10);
-	public static Entity hut = new Entity(11);
+	public static Entity pineTree = new Entity(TexturedModel.PINE_TREE.getID());
+	public static Entity bench = new Entity(TexturedModel.BENCH.getID());
+	public static Entity table = new Entity(TexturedModel.TABLE.getID());
+	public static Entity plate = new Entity(TexturedModel.PLATE.getID());
+	public static Entity rock = new Entity(TexturedModel.ROCK.getID());
+	public static Entity campfire = new Entity(TexturedModel.CAMPFIRE.getID());
+	public static Entity mushroom = new Entity(TexturedModel.MUSHROOM1.getID());
+	public static Entity mushroom1 = new Entity(TexturedModel.MUSHROOM2.getID());
+	public static Entity grass = new Entity(TexturedModel.GRASS.getID());
+	public static Entity christmasTree = new Entity(TexturedModel.CHRISTMAS_TREE.getID());
+	public static Entity snowman = new Entity(TexturedModel.SNOWMAN.getID());
+	public static Entity hut = new Entity(TexturedModel.HUT.getID());
 
-	public Entity(int srcID)
+	public Entity(int assetID)
 	{
-		this.srcID = srcID;
-		entities.put(srcID, this);
+		this.assetID = assetID;
+		entities.put(assetID, this);
 	}
 
 	public Entity setup()
 	{
-		this.ID = nextEntityID++;
+		this.id = nextEntityID++;
 		color = manageColor(globalColor);
-		colorArray.put(color.x + "/" + color.y + "/" + color.z, ID);
-		entities.put(ID, this);
+		colorArray.put(color.x + "/" + color.y + "/" + color.z, id);
+		entities.put(id, this);
 		return this;
 	}
 
@@ -129,12 +130,12 @@ public class Entity
 
 	public int getID()
 	{
-		return ID;
+		return id;
 	}
 
 	public int getSrcID()
 	{
-		return srcID;
+		return assetID;
 	}
 
 	public Vector3f getPosition()
@@ -191,7 +192,7 @@ public class Entity
 
 	public Entity getCopy()
 	{
-		return new Entity(srcID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
+		return new Entity(assetID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
 	}
 
 	public static Entity getEntityByColor(Vector3f color)

@@ -22,6 +22,7 @@ import opengl.java.management.EntityManager;
 import opengl.java.management.LightManager;
 import opengl.java.management.SRCLoader;
 import opengl.java.model.Model;
+import opengl.java.model.TexturedModel;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
@@ -33,7 +34,6 @@ import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
 import opengl.java.window.Window;
-import opengl.src.Resources;
 
 public class GameRenderer
 {
@@ -49,6 +49,7 @@ public class GameRenderer
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
+
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
 
@@ -134,8 +135,8 @@ public class GameRenderer
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
-			Model model = Resources.getModel(outer.getKey());
-			ModelTexture texture = Resources.getTexture(outer.getKey());
+			Model model = TexturedModel.getTexturedModel(outer.getKey()).getModel();
+			ModelTexture texture = TexturedModel.getTexturedModel(outer.getKey()).getTexture();
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
@@ -161,8 +162,8 @@ public class GameRenderer
 
 	public void renderEntity(Entity e)
 	{
-		Model model = Resources.getModel(e.getSrcID());
-		ModelTexture texture = Resources.getTexture(e.getSrcID());
+		Model model = TexturedModel.getTexturedModel(e.getSrcID()).getModel();
+		ModelTexture texture = TexturedModel.getTexturedModel(e.getSrcID()).getTexture();
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
@@ -197,6 +198,7 @@ public class GameRenderer
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
 	}
+
 	public void renderText(GUIText t)
 	{
 		GL11.glEnable(GL11.GL_BLEND);
@@ -219,7 +221,7 @@ public class GameRenderer
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
-			Model model = Resources.getModel(outer.getKey());
+			Model model = TexturedModel.getTexturedModel(outer.getKey()).getModel();
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
