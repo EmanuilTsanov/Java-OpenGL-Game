@@ -8,49 +8,26 @@ import opengl.java.fonts.GUIText;
 
 public class FPSCounter
 {
-	private long lastFrame;
-	private int fps;
-	private long lastFPS;
+	private static int fps;
+	private static int stackFPS;
+	
+	private static long lastFPS = getTime();
 
-	private int stackFPS;
+	private static FontReader reader = new FontReader();
+	private static FontType t = new FontType(reader, "font");
+	private static GUIText g = new GUIText(10, 10, "FPS: " + stackFPS, t, 0.1f, Window.getWidth());
 
-	private FontReader reader = new FontReader();
-	private FontType t = new FontType(reader, "font");
-	private GUIText g = new GUIText(10, 10, "FPS: " + stackFPS, t, 0.1f, Window.getWidth());
-
-	private static FPSCounter singleton = new FPSCounter();
-
-	public FPSCounter()
-	{
-		getDelta();
-		lastFPS = getTime();
-	}
-
-	public GUIText getMesh()
+	public static GUIText getMesh()
 	{
 		return g;
 	}
 
-	public static FPSCounter getInstance()
-	{
-		return singleton;
-	}
-
-	public int getDelta()
-	{
-		long time = getTime();
-		int delta = (int) (time - lastFrame);
-		lastFrame = time;
-
-		return delta;
-	}
-
-	public long getTime()
+	private static long getTime()
 	{
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 
-	public void update()
+	public static void update()
 	{
 		if (getTime() - lastFPS > 1000)
 		{
@@ -62,7 +39,7 @@ public class FPSCounter
 		fps++;
 	}
 
-	public int getFPS()
+	public static int getFPS()
 	{
 		return stackFPS;
 	}

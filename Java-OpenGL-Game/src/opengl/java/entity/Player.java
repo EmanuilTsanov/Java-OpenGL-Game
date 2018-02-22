@@ -31,7 +31,7 @@ public class Player
 
 	public void update()
 	{
-		float finalSpeed = speed * WindowFrameController.getInstance().getFrameTimeSeconds();
+		float finalSpeed = speed * WindowFrameController.getFrameTimeSeconds();
 		if (Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
 			float dx = (float) (finalSpeed * Math.sin(Math.toRadians(rotY - 90)));

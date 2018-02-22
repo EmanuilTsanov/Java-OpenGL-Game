@@ -318,7 +318,7 @@ public class GameRenderer
 		// cShader.stop();
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
-		renderText(FPSCounter.getInstance().getMesh());
+		renderText(FPSCounter.getMesh());
 		fontShader.stop();
 	}
 }

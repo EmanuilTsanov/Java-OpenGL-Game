@@ -48,8 +48,8 @@ public class Window
 	{
 		Display.sync(fpsCap);
 		Display.update();
-		WindowFrameController.getInstance().update();
-		FPSCounter.getInstance().update();
+		WindowFrameController.update();
+		FPSCounter.update();
 	}
 
 	public static void destroy()
