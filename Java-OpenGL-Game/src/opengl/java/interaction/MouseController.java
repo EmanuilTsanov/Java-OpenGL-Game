@@ -1,6 +1,5 @@
 package opengl.java.interaction;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -69,7 +68,7 @@ public class MouseController
 				cursorStartX = mouseX;
 				cursorStartY = mouseY;
 				float camYaw = cam.getYaw();
-				float camYawH = cam.getYaw() + (float)Math.toRadians(90);
+				float camYawH = cam.getYaw() + (float) Math.toRadians(90);
 				float dx = (float) Math.cos(camYaw) * distanceX;
 				float dz = (float) Math.sin(camYaw) * distanceX;
 				float dx1 = (float) Math.cos(camYawH) * distanceY;
@@ -86,10 +85,6 @@ public class MouseController
 			Vector3f vec = picker.getMapPosition();
 			Vector2f vec1 = Terrain.getInstance().getCellPosition(vec.x + entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
 			entityHolder.setPosition(new Vector3f((vec1.x + entityHolder.positionX()) * TerrainGenerator.getQuadSize(), 0f, (vec1.y + entityHolder.positionY()) * TerrainGenerator.getQuadSize()));
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_F1))
-		{
-			GameRenderer.getInstance().takeScreenshot();
 		}
 	}
 

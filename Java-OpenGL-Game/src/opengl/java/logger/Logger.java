@@ -43,7 +43,7 @@ public class Logger
 		int m = c.get(Calendar.MINUTE);
 		int s = c.get(Calendar.SECOND);
 		String divider = ":";
-		builder.append(h < 10 ? 0 + "" + h : h).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(s < 10 ? 0 + "" + s : s);
+		builder.append(h < 10 ? "0" + h : h).append(divider).append(m < 10 ? "0" + m : m).append(divider).append(s < 10 ? "0" + s : s);
 		return builder.toString();
 	}
 
@@ -54,7 +54,7 @@ public class Logger
 		int m = c.get(Calendar.MINUTE);
 		int s = c.get(Calendar.SECOND);
 		String divider = "_";
-		builder.append(h < 10 ? 0 + "" + h : h).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(s < 10 ? 0 + "" + s : s);
+		builder.append(h < 10 ? "0" + h : h).append(divider).append(m < 10 ? "0" + m : m).append(divider).append(s < 10 ? "0" + s : s);
 		return builder.toString();
 	}
 
@@ -62,10 +62,10 @@ public class Logger
 	{
 		StringBuilder builder = new StringBuilder();
 		int d = c.get(Calendar.DAY_OF_MONTH);
-		int m = c.get(Calendar.MONTH + 1);
+		int m = c.get(Calendar.MONTH)+1;
 		int y = c.get(Calendar.YEAR);
 		String divider = ".";
-		builder.append(d < 10 ? 0 + "" + d : d).append(divider).append(m < 10 ? 0 + "" + m : m).append(divider).append(y);
+		builder.append(d < 10 ? "0" + d : d).append(divider).append(m < 10 ? "0" + m : m).append(divider).append(y);
 		return builder.toString();
 	}
 }

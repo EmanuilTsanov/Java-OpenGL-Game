@@ -50,7 +50,9 @@ public class GameRenderer
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
 
-	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
+	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager
+			.getInstance()
+			.getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
 
 	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
@@ -300,7 +302,6 @@ public class GameRenderer
 	 */
 	public void render()
 	{
-		// GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
 		renderShadowMap();
 		prepareScreen(0, 1, 1);
 		eShader.start();
@@ -313,9 +314,6 @@ public class GameRenderer
 		tShader.loadViewMatrix(camera);
 		renderTerrain(smmr.getToShadowMapSpaceMatrix());
 		tShader.stop();
-		// cShader.start();
-		// cShader.loadColor(new Vector3f(1.0f, 0.0f, 0.0f));
-		// cShader.stop();
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());

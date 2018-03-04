@@ -1,8 +1,10 @@
 package opengl.java.management;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import opengl.java.entity.Entity;
+import opengl.java.loader.MapLoader;
 import opengl.java.logger.Logger;
 import opengl.java.terrain.TerrainGenerator;
 
@@ -27,15 +29,10 @@ public class EntityManager
 
 	public void loadEntities()
 	{
-		addEntities(Entity.pineTree, 1000);
-		addEntities(Entity.bench, 100);
-		addEntities(Entity.table, 10);
-		addEntities(Entity.campfire, 25);
-		addEntities(Entity.grass, 100);
-		addEntities(Entity.mushroom, 100);
-		addEntities(Entity.mushroom1, 100);
-		addEntities(Entity.rock, 100);
-		addEntities(Entity.hut, 1);
+		ArrayList<Entity> entities1 = MapLoader.loadMap("new_map");
+		for(int i =0; i < entities1.size(); i++) {
+			addEntity(entities1.get(i));
+		}
 	}
 
 	public boolean addEntity(Entity entity)

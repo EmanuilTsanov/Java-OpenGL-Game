@@ -15,7 +15,7 @@ public class Player
 	private float rotX, rotY, rotZ;
 
 	private static final float speed = 20f;
-	
+
 	private static final float jumpSpeed = 1f;
 	private float currentJumpSpeed;
 	private boolean jumping;
@@ -62,24 +62,29 @@ public class Player
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE))
 		{
-			if(!jumping) {
-			jumping = true;
-			currentJumpSpeed = jumpSpeed;}
+			if (!jumping)
+			{
+				jumping = true;
+				currentJumpSpeed = jumpSpeed;
+			}
 		}
 		if (Mouse.next())
 		{
-				rotX -= (Mouse.getY() - mouseH.y) * 0.1f;
-				rotY += (Mouse.getX() - mouseH.x) * 0.1f;
-				if(rotX < -90)
-					rotX = -90;
-				else if(rotX > 90) rotX=90;
-				Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
-				mouseH = new Vector2f(Mouse.getX(), Mouse.getY());
+			rotX -= (Mouse.getY() - mouseH.y) * 0.1f;
+			rotY += (Mouse.getX() - mouseH.x) * 0.1f;
+			if (rotX < -90)
+				rotX = -90;
+			else if (rotX > 90)
+				rotX = 90;
+			Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
+			mouseH = new Vector2f(Mouse.getX(), Mouse.getY());
 		}
-		if(jumping) {
+		if (jumping)
+		{
 			y += currentJumpSpeed * finalSpeed;
 			currentJumpSpeed -= 0.1f * finalSpeed;
-			if(y < 2) {
+			if (y < 2)
+			{
 				y = 2;
 				jumping = false;
 			}
