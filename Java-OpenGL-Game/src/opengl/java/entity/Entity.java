@@ -133,7 +133,7 @@ public class Entity
 		return id;
 	}
 
-	public int getSrcID()
+	public int getAssetID()
 	{
 		return assetID;
 	}

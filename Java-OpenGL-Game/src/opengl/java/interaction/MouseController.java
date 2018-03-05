@@ -13,7 +13,7 @@ import opengl.java.view.Camera;
 public class MouseController
 {
 	private Entity entityHolder;
-	private boolean leftMBDown;
+	private boolean rightMBDown;
 
 	private int cursorStartX, cursorStartY;
 
@@ -21,46 +21,45 @@ public class MouseController
 
 	private static final int LEFT_MOUSE_BUTTON = 0;
 	private static final int RIGHT_MOUSE_BUTTON = 1;
-	// private static final int MIDDLE_MOUSE_BUTTON = 2;
 
 	private static MouseController singleton = new MouseController();
 
-	private boolean getEventButton(int button)
+	public static MouseController getInstance()
 	{
-		return Mouse.getEventButton() == button;
+		return singleton;
 	}
 
 	public void update()
 	{
 		int mouseX = Mouse.getX(), mouseY = Mouse.getY();
-
 		if (Mouse.next())
 		{
 			if (Mouse.getEventButtonState())
 			{
 				if (getEventButton(LEFT_MOUSE_BUTTON))
 				{
-					leftMBDown = true;
-					cursorStartX = mouseX;
-					cursorStartY = mouseY;
+					GameRenderer.getInstance().pickColor(mouseX, mouseY);
 				}
 
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
 				{
+					rightMBDown = true;
+					cursorStartX = mouseX;
+					cursorStartY = mouseY;
 				}
 			}
 			else
 			{
 				if (getEventButton(LEFT_MOUSE_BUTTON))
 				{
-					leftMBDown = false;
 				}
 
 				if (getEventButton(RIGHT_MOUSE_BUTTON))
 				{
+					rightMBDown = false;
 				}
 			}
-			if (leftMBDown)
+			if (rightMBDown)
 			{
 				Camera cam = Camera.getInstance();
 				float distanceX = (cursorStartX - mouseX) * 0.1f;
@@ -88,19 +87,19 @@ public class MouseController
 		}
 	}
 
-	public void render()
+	private boolean getEventButton(int button)
 	{
-		if (entityHolder != null)
-			GameRenderer.getInstance().renderEntity(entityHolder);
-	}
-
-	public static MouseController getInstance()
-	{
-		return singleton;
+		return Mouse.getEventButton() == button;
 	}
 
 	public Entity getEntityHolder()
 	{
 		return entityHolder;
+	}
+
+	public void render()
+	{
+		if (entityHolder != null)
+			GameRenderer.getInstance().renderEntity(entityHolder);
 	}
 }

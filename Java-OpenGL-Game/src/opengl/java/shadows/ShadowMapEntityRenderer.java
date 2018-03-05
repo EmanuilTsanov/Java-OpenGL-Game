@@ -51,11 +51,11 @@ public class ShadowMapEntityRenderer
 				Model rawModel = TexturedModel.getTexturedModel
 						(innerEntry
 								.getValue()
-								.getSrcID())
+								.getAssetID())
 						.getModel();
 				bindModel(rawModel);
 				GL13.glActiveTexture(GL13.GL_TEXTURE0);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturedModel.getTexturedModel(innerEntry.getValue().getSrcID()).getTexture().getID());
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturedModel.getTexturedModel(innerEntry.getValue().getAssetID()).getTexture().getID());
 				prepareInstance(innerEntry.getValue());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -63,7 +63,7 @@ public class ShadowMapEntityRenderer
 		if (MouseController.getInstance().getEntityHolder() != null)
 		{
 
-			Model rawModel = TexturedModel.getTexturedModel(MouseController.getInstance().getEntityHolder().getSrcID()).getModel();
+			Model rawModel = TexturedModel.getTexturedModel(MouseController.getInstance().getEntityHolder().getAssetID()).getModel();
 			bindModel(rawModel);
 			prepareInstance(MouseController.getInstance().getEntityHolder());
 			GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);

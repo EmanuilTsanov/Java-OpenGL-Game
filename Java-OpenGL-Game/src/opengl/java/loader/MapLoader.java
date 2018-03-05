@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
-import opengl.java.management.EntityManager;
 
 public class MapLoader
 {
