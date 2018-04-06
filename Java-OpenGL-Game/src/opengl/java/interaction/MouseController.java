@@ -43,7 +43,14 @@ public class MouseController
 				if (Mouse.getEventButton() == LEFT_MOUSE_BUTTON)
 				{
 					if (entityHolder == null)
-						entityHolder = Entity.getEntityByColor(GameRenderer.getInstance().pickColor(mouseX, mouseY));
+					{
+						Entity e = Entity.getEntityByColor(GameRenderer.getInstance().pickColor(mouseX, mouseY));
+						if (e != null)
+						{
+							entityHolder = e.getCopy();
+							EntityManager.getInstance().removeEntity(e);
+						}
+					}
 					else
 					{
 						EntityManager.getInstance().addEntity(entityHolder);
@@ -85,54 +92,6 @@ public class MouseController
 			Vector2f vec1 = Terrain.getInstance().getCellPosition(vec.x + entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
 			entityHolder.setPosition(new Vector3f((vec1.x + entityHolder.positionX()) * TerrainGenerator.getQuadSize(), 0f, (vec1.y + entityHolder.positionY()) * TerrainGenerator.getQuadSize()));
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_1))
-		{
-			entityHolder = Entity.bench.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_2))
-		{
-			entityHolder = Entity.campfire.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_3))
-		{
-			entityHolder = Entity.christmasTree.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_4))
-		{
-			entityHolder = Entity.grass.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_5))
-		{
-			entityHolder = Entity.hut.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_6))
-		{
-			entityHolder = Entity.mushroom.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_7))
-		{
-			entityHolder = Entity.mushroom1.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_8))
-		{
-			entityHolder = Entity.pineTree.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_9))
-		{
-			entityHolder = Entity.rock.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_0))
-		{
-			entityHolder = Entity.snowman.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_T))
-		{
-			entityHolder = Entity.table.getCopy();
-		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_S))
-		{
-			MapLoader.saveMap("new_map", EntityManager.getInstance().getEntityHashMap());
-		}
 		while (Keyboard.next())
 			if (Keyboard.getEventKeyState())
 			{
@@ -140,6 +99,59 @@ public class MouseController
 				{
 					if (entityHolder != null)
 						entityHolder.rotate(0, 90, 0);
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_1)
+				{
+					entityHolder = Entity.bench.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_2)
+				{
+					entityHolder = Entity.campfire.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_3)
+				{
+					entityHolder = Entity.christmasTree.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_4)
+				{
+					entityHolder = Entity.grass.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_5)
+				{
+					entityHolder = Entity.hut.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_6)
+				{
+					entityHolder = Entity.mushroom.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_7)
+				{
+					entityHolder = Entity.mushroom1.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_8)
+				{
+					entityHolder = Entity.pineTree.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_9)
+				{
+					entityHolder = Entity.rock.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_0)
+				{
+					entityHolder = Entity.snowman.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_T)
+				{
+					entityHolder = Entity.table.getCopy();
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_S)
+				{
+					MapLoader.saveMap("new_map", EntityManager.getInstance().getEntityHashMap());
+				}
+				else if (Keyboard.getEventKey() == Keyboard.KEY_D)
+				{
+					if (entityHolder != null)
+						entityHolder = null;
 				}
 			}
 	}

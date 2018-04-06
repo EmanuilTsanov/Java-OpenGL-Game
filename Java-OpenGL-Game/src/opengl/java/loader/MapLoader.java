@@ -45,7 +45,7 @@ public class MapLoader
 							rotation = new Vector3f(Float.parseFloat(rotTokens[0]), Float.parseFloat(rotTokens[1]), Float.parseFloat(rotTokens[2]));
 						}
 					}
-					Entity e = new Entity(asset).setPosition(position).setRotationInDegrees(rotation).getCopy();
+					Entity e = new Entity(asset).setPosition(position).setRotationInRadians(rotation).getCopy();
 					entities.add(e);
 				}
 			}
