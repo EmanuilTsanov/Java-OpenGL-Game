@@ -11,7 +11,7 @@ import opengl.java.terrain.TerrainGenerator;
 public class Entity
 {
 	protected int id;
-	protected int assetID;
+	protected int asset;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
@@ -40,10 +40,10 @@ public class Entity
 	public static Entity snowman = new Entity(TexturedModel.SNOWMAN.getID());
 	public static Entity hut = new Entity(TexturedModel.HUT.getID());
 
-	public Entity(int assetID)
+	public Entity(int asset)
 	{
-		this.assetID = assetID;
-		entities.put(assetID, this);
+		this.asset = asset;
+		entities.put(id, this);
 	}
 
 	public Entity setup()
@@ -133,9 +133,9 @@ public class Entity
 		return id;
 	}
 
-	public int getAssetID()
+	public int getAsset()
 	{
-		return assetID;
+		return asset;
 	}
 
 	public Vector3f getPosition()
@@ -192,7 +192,7 @@ public class Entity
 
 	public Entity getCopy()
 	{
-		return new Entity(assetID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
+		return new Entity(asset).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
 	}
 
 	public static Entity getEntityByColor(Vector3f color)

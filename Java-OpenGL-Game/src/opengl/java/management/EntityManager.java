@@ -35,23 +35,23 @@ public class EntityManager
 	public boolean addEntity(Entity entity)
 	{
 		Entity e = entity.getCopy();
-		if (entities.get(entity.getAssetID()) == null)
+		if (entities.get(entity.getAsset()) == null)
 		{
 			HashMap<Integer, Entity> batch = new HashMap<Integer, Entity>();
 			batch.put(e.getID(), e);
-			entities.put(entity.getAssetID(), batch);
+			entities.put(entity.getAsset(), batch);
 			return true;
 		}
 		else
 		{
-			entities.get(entity.getAssetID()).put(entity.getID(), entity);
+			entities.get(entity.getAsset()).put(entity.getID(), entity);
 			return true;
 		}
 	}
 
 	public void removeEntity(Entity e)
 	{
-		HashMap<Integer, Entity> ptr = entities.get(e.getAssetID());
+		HashMap<Integer, Entity> ptr = entities.get(e.getAsset());
 		ptr.remove(e.getID());
 		if (ptr.isEmpty())
 		{

@@ -164,8 +164,8 @@ public class GameRenderer
 
 	public void renderEntity(Entity e)
 	{
-		Model model = TexturedModel.getTexturedModel(e.getAssetID()).getModel();
-		ModelTexture texture = TexturedModel.getTexturedModel(e.getAssetID()).getTexture();
+		Model model = TexturedModel.getTexturedModel(e.getAsset()).getModel();
+		ModelTexture texture = TexturedModel.getTexturedModel(e.getAsset()).getTexture();
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);

@@ -8,8 +8,8 @@ public class GameManager
 {
 	public void update()
 	{
-		MouseController.getInstance().update();
 		GameRenderer.getInstance().render();
+		MouseController.getInstance().update();
 		MousePicker.getInstance().update();
 	}
 }
