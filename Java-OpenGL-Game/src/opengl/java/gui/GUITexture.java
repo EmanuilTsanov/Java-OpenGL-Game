@@ -6,7 +6,10 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import opengl.java.management.SRCLoader;
+import opengl.java.model.Model;
+import opengl.java.model.TexturedModel;
 import opengl.java.render.GameRenderer;
+import opengl.java.texture.ModelTexture;
 
 public class GUITexture extends GUIComponent
 {
@@ -30,12 +33,11 @@ public class GUITexture extends GUIComponent
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, GameRenderer.getInstance().getShadowMapTexture());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, image.getID());
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
-
 }
