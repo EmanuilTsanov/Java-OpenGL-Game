@@ -4,12 +4,10 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.management.SRCLoader;
-import opengl.java.model.Model;
-import opengl.java.model.TexturedModel;
-import opengl.java.render.GameRenderer;
-import opengl.java.texture.ModelTexture;
+import opengl.java.shader.GUIShader;
 
 public class GUITexture extends GUIComponent
 {

@@ -3,6 +3,7 @@ package opengl.java.gui;
 import opengl.java.calculations.Maths;
 import opengl.java.loader.ModelLoader;
 import opengl.java.model.Model;
+import opengl.java.shader.GUIShader;
 import opengl.java.texture.ModelTexture;
 
 public abstract class GUIComponent
@@ -32,6 +33,12 @@ public abstract class GUIComponent
 		float[] normals = { 0 };
 		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
 		return ModelLoader.getInstance().loadModel(vertices, indices, textureCoords, normals);
+	}
+
+	public void setPosition(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
 	}
 
 	public abstract void update();

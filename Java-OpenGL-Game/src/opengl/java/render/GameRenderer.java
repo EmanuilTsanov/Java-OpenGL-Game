@@ -16,6 +16,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
+import opengl.java.gui.GUITexture;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
@@ -26,6 +27,7 @@ import opengl.java.model.TexturedModel;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
+import opengl.java.shader.GUIShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
@@ -46,13 +48,13 @@ public class GameRenderer
 	private PickShader pickShader;
 	private FontShader fontShader;
 	private ColorfulShader cShader;
+	private GUIShader shader;
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
+	private GUITexture texture = new GUITexture(100, 100, 200, 200, "font");
 
-	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager
-			.getInstance()
-			.getEntityHashMap();
+	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
 
 	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
@@ -74,6 +76,7 @@ public class GameRenderer
 		tShader = new TerrainShader();
 		pickShader = new PickShader();
 		cShader = new ColorfulShader();
+		shader = new GUIShader();
 
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
@@ -93,6 +96,9 @@ public class GameRenderer
 		cShader.start();
 		cShader.loadProjectionMatrix();
 		cShader.stop();
+		shader.start();
+		shader.loadProjectionMatrix();
+		shader.stop();
 	}
 
 	public void bindBuffers(int width, int height)
@@ -318,5 +324,9 @@ public class GameRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
+		shader.start();
+		shader.loadViewMatrix(camera);
+		texture.render();
+		shader.stop();
 	}
 }
