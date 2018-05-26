@@ -20,6 +20,8 @@ public class MouseController
 	Camera cam = Camera.getInstance();
 
 	private int cursorStartX, cursorStartY;
+	private final float zoomLimit = 15;
+	private float currentZoom;
 
 	private MousePicker picker = MousePicker.getInstance();
 
@@ -71,14 +73,36 @@ public class MouseController
 					RMBdown = false;
 				}
 			}
+			int a = Mouse.getDWheel();
+			if(a > 0) {
+				if(currentZoom < zoomLimit) {
+				double speed = 0.5f;
+				cam.moveBy((float) (speed * Math.sin(cam.getYRotation())), (float) -(speed * Math.sin(90-cam.getXRotation())), (float) -(speed * Math.cos(cam.getYRotation())));
+				cam.rotateBy(-0.5f, 0, 0);
+				currentZoom += speed;
+				if(currentZoom > zoomLimit)
+					currentZoom = zoomLimit;
+				}
+			}
+			if(a < 0) {
+				if(currentZoom > 0) {
+				double speed = 0.5f;
+				cam.moveBy((float) -(speed * Math.sin(cam.getYRotation())), (float) (speed * Math.sin(90-cam.getXRotation())), (float) (speed * Math.cos(cam.getYRotation())));
+				cam.rotateBy(0.5f, 0, 0);
+				currentZoom -= speed;
+				if(currentZoom < 0)
+					currentZoom = 0;
+				}
+			}
 			if (RMBdown)
 			{
-				float distanceX = (cursorStartX - mouseX) * 0.1f;
-				float distanceY = (cursorStartY - mouseY) * 0.1f;
+				float distanceX = (cursorStartX - mouseX) * 0.1f / (currentZoom/5+1);
+				float distanceY = (cursorStartY - mouseY) * 0.1f / (currentZoom/5+1);
 				cursorStartX = mouseX;
 				cursorStartY = mouseY;
-				float camYaw = cam.getYaw();
-				float camYawH = cam.getYaw() + (float) Math.toRadians(90);
+				float camYaw = cam.getYRotation();
+				cam.getDistToLookPoint();
+				float camYawH = cam.getYRotation() + (float) Math.toRadians(90);
 				float dx = (float) Math.cos(camYaw) * distanceX;
 				float dz = (float) Math.sin(camYaw) * distanceX;
 				float dx1 = (float) Math.cos(camYawH) * distanceY;

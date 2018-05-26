@@ -22,7 +22,6 @@ public class GUIButton extends GUIComponent
 	protected GUIButton(int x, int y, int width, int height, String imageName)
 	{
 		super(x, y, width, height);
-		this.model = super.createCanvas();
 		this.image = SRCLoader.loadTexture(imageName);
 	}
 

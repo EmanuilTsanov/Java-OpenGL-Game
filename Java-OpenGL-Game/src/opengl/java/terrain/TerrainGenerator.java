@@ -7,8 +7,8 @@ import opengl.java.model.Model;
 
 public class TerrainGenerator
 {
-	private static final int VERTEX_SIZE = 128;
-	private static final int QUAD_SIZE = 2;
+	private static final int VERTEX_SIZE = 256;
+	private static final int QUAD_SIZE = 1;
 
 	private static Random rand = new Random();
 

@@ -90,6 +90,6 @@ public class Player
 			}
 		}
 		Camera.getInstance().move(new Vector3f(x, y, z));
-		Camera.getInstance().setRotation(new Vector3f(rotX, rotY, rotZ));
+		Camera.getInstance().rotate(new Vector3f(rotX, rotY, rotZ));
 	}
 }

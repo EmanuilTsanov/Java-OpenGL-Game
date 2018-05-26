@@ -8,18 +8,18 @@ public class Camera
 {
 	private Vector3f position;
 
-	private float pitch;
-	private float yaw;
-	private float roll;
+	private float xRotation;
+	private float yRotation;
+	private float zRotation;
 
 	private static Camera singleton = new Camera(new Vector3f(TerrainGenerator.getFullSize() / 2, 20, TerrainGenerator.getFullSize() / 2), 45f, 180f, 0f);
 
-	public Camera(Vector3f position, float pitch, float yaw, float roll)
+	public Camera(Vector3f position, float xRot, float yRot, float zRot)
 	{
 		this.position = position;
-		this.pitch = (float) Math.toRadians(pitch);
-		this.yaw = (float) Math.toRadians(yaw);
-		this.roll = (float) Math.toRadians(roll);
+		this.xRotation = (float) Math.toRadians(xRot);
+		this.yRotation = (float) Math.toRadians(yRot);
+		this.zRotation = (float) Math.toRadians(zRot);
 	}
 
 	public static Camera getInstance()
@@ -32,37 +32,29 @@ public class Camera
 		return position;
 	}
 
-	public float getPitch()
+	public float getXRotation()
 	{
-		return pitch;
+		return xRotation;
 	}
 
-	public float getYaw()
+	public float getYRotation()
 	{
-		return yaw;
+		return yRotation;
 	}
 
-	public float getRoll()
+	public float getZRotation()
 	{
-		return roll;
+		return zRotation;
 	}
 
 	public double getDistToLookPoint()
 	{
-		double botAngle = Math.toRadians(90 - pitch);
-		double dist = position.y / Math.sin(botAngle) * Math.sin(pitch);
-		return dist;
+		return position.y / Math.sin(Math.toRadians(90) - xRotation);
 	}
 
 	public void move(Vector3f position)
 	{
 		this.position = position;
-	}
-	
-	public void setRotation(Vector3f rotation) {
-		this.pitch = (float) Math.toRadians(rotation.x);
-		this.yaw = (float) Math.toRadians(rotation.y);
-		this.roll = (float) Math.toRadians(rotation.z);
 	}
 
 	public void moveBy(float x, float y, float z)
@@ -70,5 +62,19 @@ public class Camera
 		this.position.x += x;
 		this.position.y += y;
 		this.position.z += z;
+	}
+
+	public void rotate(Vector3f rotation)
+	{
+		this.xRotation = (float) Math.toRadians(rotation.x);
+		this.yRotation = (float) Math.toRadians(rotation.y);
+		this.zRotation = (float) Math.toRadians(rotation.z);
+	}
+
+	public void rotateBy(float x, float y, float z)
+	{
+		this.xRotation += (float) Math.toRadians(x);
+		this.yRotation += (float) Math.toRadians(y);
+		this.zRotation += (float) Math.toRadians(z);
 	}
 }

@@ -52,7 +52,8 @@ public class GameRenderer
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
-	private GUITexture texture = new GUITexture(100, 100, 200, 200, "font");
+	private GUITexture texture = new GUITexture(0, 0, Window.getWidth()/3, Window.getHeight(), "christmasTree");
+	private GUITexture texture1 = new GUITexture(100,100, 330, 220, "grass");
 
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
@@ -71,13 +72,15 @@ public class GameRenderer
 
 	private void initShaders()
 	{
+		texture.create();
+		texture1.setParent(texture);
+		texture1.create();
 		fontShader = new FontShader();
 		eShader = new BasicShader();
 		tShader = new TerrainShader();
 		pickShader = new PickShader();
 		cShader = new ColorfulShader();
 		shader = new GUIShader();
-
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		fontShader.stop();
@@ -96,9 +99,6 @@ public class GameRenderer
 		cShader.start();
 		cShader.loadProjectionMatrix();
 		cShader.stop();
-		shader.start();
-		shader.loadProjectionMatrix();
-		shader.stop();
 	}
 
 	public void bindBuffers(int width, int height)
@@ -325,8 +325,8 @@ public class GameRenderer
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
 		shader.start();
-		shader.loadViewMatrix(camera);
 		texture.render();
+		texture1.render();
 		shader.stop();
 	}
 }

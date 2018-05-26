@@ -4,17 +4,14 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.management.SRCLoader;
-import opengl.java.shader.GUIShader;
 
 public class GUITexture extends GUIComponent
 {
 	public GUITexture(int x, int y, int width, int height, String imageName)
 	{
 		super(x, y, width, height);
-		this.model = super.createCanvas();
 		this.image = SRCLoader.loadTexture(imageName);
 	}
 
