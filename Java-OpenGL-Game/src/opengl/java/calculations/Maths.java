@@ -116,6 +116,16 @@ public class Maths
 		return result;
 	}
 
+	public static float normalizeByWidth(int value)
+	{
+		return (float) value / (float) Window.getWidth();
+	}
+
+	public static float normalizeByHeight(int value)
+	{
+		return (float) value / (float) Window.getHeight();
+	}
+
 	public static float getImageValue(float value, float dimSize)
 	{
 		float pixel_size = 1f / dimSize;

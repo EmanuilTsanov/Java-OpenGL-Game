@@ -16,6 +16,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
+import opengl.java.gui.GUIComponent;
 import opengl.java.gui.GUITexture;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
@@ -52,8 +53,8 @@ public class GameRenderer
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
-	private GUITexture texture = new GUITexture(0, 0, Window.getWidth()/3, Window.getHeight(), "christmasTree");
-	private GUITexture texture1 = new GUITexture(100,100, 330, 220, "grass");
+	private GUIComponent texture = new GUITexture(Window.getWidth() / 3, Window.getHeight(), "christmasTree").setPosition(0, 0).create();
+	private GUIComponent texture1 = new GUITexture(100, 100, "christmasTree").setPosition(10, 10).setParent(texture).create();
 
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
@@ -70,11 +71,13 @@ public class GameRenderer
 		bindBuffers(Window.getWidth(), Window.getHeight());
 	}
 
+	public GUIComponent getTexture()
+	{
+		return texture;
+	}
+
 	private void initShaders()
 	{
-		texture.create();
-		texture1.setParent(texture);
-		texture1.create();
 		fontShader = new FontShader();
 		eShader = new BasicShader();
 		tShader = new TerrainShader();
@@ -325,8 +328,8 @@ public class GameRenderer
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
 		shader.start();
-		texture.render();
-		texture1.render();
+		texture.render(shader);
+		texture1.render(shader);
 		shader.stop();
 	}
 }

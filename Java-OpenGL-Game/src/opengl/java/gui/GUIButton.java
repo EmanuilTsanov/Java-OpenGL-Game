@@ -7,10 +7,10 @@ import org.lwjgl.opengl.GL30;
 
 import opengl.java.fonts.FontReader;
 import opengl.java.fonts.FontType;
-import opengl.java.fonts.Fonts;
 import opengl.java.fonts.GUIText;
 import opengl.java.management.SRCLoader;
 import opengl.java.render.GameRenderer;
+import opengl.java.shader.GUIShader;
 
 public class GUIButton extends GUIComponent
 {
@@ -19,9 +19,9 @@ public class GUIButton extends GUIComponent
 	private float fontSize;
 	private GUIText guiText;
 
-	protected GUIButton(int x, int y, int width, int height, String imageName)
+	protected GUIButton(int width, int height, String imageName)
 	{
-		super(x, y, width, height);
+		super(width, height);
 		this.image = SRCLoader.loadTexture(imageName);
 	}
 
@@ -38,8 +38,10 @@ public class GUIButton extends GUIComponent
 
 	public void reloadText()
 	{
-		guiText = new GUIText(x, y, text == null ? "" : text, font == null ? Fonts.FONTS_DEFAULT : font, fontSize, width);
-		guiText.setPosition(x + (width - (int) guiText.getTextDimensions().x) / 2, y + (height - (int) guiText.getTextDimensions().y) / 2);
+		// guiText = new GUIText(x, y, text == null ? "" : text, font == null ?
+		// Fonts.FONTS_DEFAULT : font, fontSize, width);
+		// guiText.setPosition(x + (width - (int) guiText.getTextDimensions().x) / 2, y
+		// + (height - (int) guiText.getTextDimensions().y) / 2);
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class GUIButton extends GUIComponent
 	}
 
 	@Override
-	public void render()
+	public void render(GUIShader shader)
 	{
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL30.glBindVertexArray(model.getVAOID());

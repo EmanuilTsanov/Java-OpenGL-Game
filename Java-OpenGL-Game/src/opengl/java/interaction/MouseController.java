@@ -12,6 +12,7 @@ import opengl.java.render.GameRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.terrain.TerrainGenerator;
 import opengl.java.view.Camera;
+import opengl.java.window.Window;
 
 public class MouseController
 {
@@ -22,6 +23,9 @@ public class MouseController
 	private int cursorStartX, cursorStartY;
 	private final float zoomLimit = 15;
 	private float currentZoom;
+	private boolean a;
+	private int ab = Window.getWidth() / 3;
+	private int b;
 
 	private MousePicker picker = MousePicker.getInstance();
 
@@ -74,30 +78,34 @@ public class MouseController
 				}
 			}
 			int a = Mouse.getDWheel();
-			if(a > 0) {
-				if(currentZoom < zoomLimit) {
-				double speed = 0.5f;
-				cam.moveBy((float) (speed * Math.sin(cam.getYRotation())), (float) -(speed * Math.sin(90-cam.getXRotation())), (float) -(speed * Math.cos(cam.getYRotation())));
-				cam.rotateBy(-0.5f, 0, 0);
-				currentZoom += speed;
-				if(currentZoom > zoomLimit)
-					currentZoom = zoomLimit;
+			if (a > 0)
+			{
+				if (currentZoom < zoomLimit)
+				{
+					double speed = 0.5f;
+					cam.moveBy((float) (speed * Math.sin(cam.getYRotation())), (float) -(speed * Math.sin(90 - cam.getXRotation())), (float) -(speed * Math.cos(cam.getYRotation())));
+					cam.rotateBy(-0.5f, 0, 0);
+					currentZoom += speed;
+					if (currentZoom > zoomLimit)
+						currentZoom = zoomLimit;
 				}
 			}
-			if(a < 0) {
-				if(currentZoom > 0) {
-				double speed = 0.5f;
-				cam.moveBy((float) -(speed * Math.sin(cam.getYRotation())), (float) (speed * Math.sin(90-cam.getXRotation())), (float) (speed * Math.cos(cam.getYRotation())));
-				cam.rotateBy(0.5f, 0, 0);
-				currentZoom -= speed;
-				if(currentZoom < 0)
-					currentZoom = 0;
+			if (a < 0)
+			{
+				if (currentZoom > 0)
+				{
+					double speed = 0.5f;
+					cam.moveBy((float) -(speed * Math.sin(cam.getYRotation())), (float) (speed * Math.sin(90 - cam.getXRotation())), (float) (speed * Math.cos(cam.getYRotation())));
+					cam.rotateBy(0.5f, 0, 0);
+					currentZoom -= speed;
+					if (currentZoom < 0)
+						currentZoom = 0;
 				}
 			}
 			if (RMBdown)
 			{
-				float distanceX = (cursorStartX - mouseX) * 0.1f / (currentZoom/5+1);
-				float distanceY = (cursorStartY - mouseY) * 0.1f / (currentZoom/5+1);
+				float distanceX = (cursorStartX - mouseX) * 0.1f / (currentZoom / 5 + 1);
+				float distanceY = (cursorStartY - mouseY) * 0.1f / (currentZoom / 5 + 1);
 				cursorStartX = mouseX;
 				cursorStartY = mouseY;
 				float camYaw = cam.getYRotation();
@@ -177,7 +185,18 @@ public class MouseController
 					if (entityHolder != null)
 						entityHolder = null;
 				}
+				if (Keyboard.getEventKey() == Keyboard.KEY_I)
+				{
+					a = true;
+				}
 			}
+		if (a)
+		{
+			b-=30;
+			if(b < -ab)
+				a=false;
+			GameRenderer.getInstance().getTexture().setPosition(b, 0);
+		}
 	}
 
 	public Entity getEntityHolder()

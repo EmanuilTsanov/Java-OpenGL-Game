@@ -3,31 +3,28 @@ package opengl.java.gui;
 import opengl.java.calculations.Maths;
 import opengl.java.loader.ModelLoader;
 import opengl.java.model.Model;
+import opengl.java.shader.GUIShader;
 import opengl.java.texture.ModelTexture;
 
 public abstract class GUIComponent
 {
-	protected int x, y;
+	protected float x, y;
 	protected int width, height;
 
 	protected Model model;
 	protected ModelTexture image;
 	protected GUIComponent parent;
 
-	protected GUIComponent(int x, int y, int width, int height)
+	protected GUIComponent(int width, int height)
 	{
-		this.x = x;
-		this.y = y;
 		this.width = width;
 		this.height = height;
 	}
 
-	public void create()
+	public GUIComponent create()
 	{
 		if (parent != null)
 		{
-			x += parent.getX();
-			y += parent.getY();
 			if (width < parent.getWidth() && height < parent.getHeight())
 			{
 				if (x < parent.getX())
@@ -60,34 +57,35 @@ public abstract class GUIComponent
 				height = parent.getHeight() / 2;
 			}
 		}
-		float x1 = Maths.toOpenGLWidth(x);
-		float y1 = Maths.toOpenGLHeight(y);
-		float width1 = Maths.toOpenGLWidth(x + width);
-		float height1 = Maths.toOpenGLHeight(y + height);
-		float[] vertices = { x1, height1, 0.0f, width1, height1, 0.0f, width1, y1, 0.0f, x1, y1, 0.0f };
+		float width1 = Maths.normalizeByWidth(width) * 2;
+		float height1 = Maths.normalizeByHeight(height) * 2;
+		float[] vertices = { 0, 0, 0, 0, -height1, 0, width1, -height1, 0, width1, 0, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
 		float[] normals = { 0 };
 		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
 		model = ModelLoader.getInstance().loadModel(vertices, indices, textureCoords, normals);
+		return this;
 	}
 
-	public void setParent(GUIComponent parent)
+	public GUIComponent setParent(GUIComponent parent)
 	{
 		this.parent = parent;
+		return this;
 	}
 
-	public void setPosition(int x, int y)
+	public GUIComponent setPosition(int x, int y)
 	{
-		this.x = x;
-		this.y = y;
+		this.x = Maths.toOpenGLWidth(x);
+		this.y = Maths.toOpenGLHeight(y);
+		return this;
 	}
 
-	public int getX()
+	public float getX()
 	{
 		return x;
 	}
 
-	public int getY()
+	public float getY()
 	{
 		return y;
 	}
@@ -104,5 +102,5 @@ public abstract class GUIComponent
 
 	public abstract void update();
 
-	public abstract void render();
+	public abstract void render(GUIShader shader);
 }
