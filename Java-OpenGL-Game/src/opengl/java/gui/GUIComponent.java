@@ -9,7 +9,7 @@ import opengl.java.texture.ModelTexture;
 public abstract class GUIComponent
 {
 	protected float x, y;
-	protected int width, height;
+	protected float width, height;
 
 	protected Model model;
 	protected ModelTexture image;
@@ -17,8 +17,8 @@ public abstract class GUIComponent
 
 	protected GUIComponent(int width, int height)
 	{
-		this.width = width;
-		this.height = height;
+		this.width = Maths.normalizeByWidth(width);
+		this.height = Maths.normalizeByHeight(height);
 	}
 
 	public GUIComponent create()
@@ -30,22 +30,24 @@ public abstract class GUIComponent
 				if (x < parent.getX())
 				{
 					x = parent.getX();
-					System.out.println("A GUI component wants to be displayed outside of it's parent. Changing properties.");
+					System.out.println("1A GUI component wants to be displayed outside of it's parent. Changing properties.");
 				}
-				if (y < parent.getY())
+				if (y > parent.getY())
 				{
 					y = parent.getY();
-					System.out.println("A GUI component wants to be displayed outside of it's parent. Changing properties.");
+					System.out.println("CHILD: " + y);
+					System.out.println("PARENT: " + parent.getY());
+					System.out.println("2A GUI component wants to be displayed outside of it's parent. Changing properties.");
 				}
 				if (x + width > parent.getX() + parent.getWidth())
 				{
 					x = parent.getX() + parent.getWidth() - width;
-					System.out.println("A GUI component wants to be displayed outside of it's parent. Changing properties.");
+					System.out.println("3A GUI component wants to be displayed outside of it's parent. Changing properties.");
 				}
-				if (y + height > parent.getY() + parent.getHeight())
+				if (y + height < parent.getY() + parent.getHeight())
 				{
 					y = parent.getY() + parent.getHeight() - height;
-					System.out.println("A GUI component wants to be displayed outside of it's parent. Changing properties.");
+					System.out.println("4A GUI component wants to be displayed outside of it's parent. Changing properties.");
 				}
 			}
 			if (width >= parent.getWidth() || height >= parent.getHeight())
@@ -57,8 +59,8 @@ public abstract class GUIComponent
 				height = parent.getHeight() / 2;
 			}
 		}
-		float width1 = Maths.normalizeByWidth(width) * 2;
-		float height1 = Maths.normalizeByHeight(height) * 2;
+		float width1 = width * 2;
+		float height1 = height * 2;
 		float[] vertices = { 0, 0, 0, 0, -height1, 0, width1, -height1, 0, width1, 0, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
 		float[] normals = { 0 };
@@ -90,12 +92,12 @@ public abstract class GUIComponent
 		return y;
 	}
 
-	public int getWidth()
+	public float getWidth()
 	{
 		return width;
 	}
 
-	public int getHeight()
+	public float getHeight()
 	{
 		return height;
 	}

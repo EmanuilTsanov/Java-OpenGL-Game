@@ -54,7 +54,7 @@ public class GameRenderer
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
 	private GUIComponent texture = new GUITexture(Window.getWidth() / 3, Window.getHeight(), "christmasTree").setPosition(0, 0).create();
-	private GUIComponent texture1 = new GUITexture(100, 100, "christmasTree").setPosition(10, 10).setParent(texture).create();
+	private GUIComponent texture1 = new GUITexture(100, 100, "grass").setPosition(100, 200).setParent(texture).create();
 
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
