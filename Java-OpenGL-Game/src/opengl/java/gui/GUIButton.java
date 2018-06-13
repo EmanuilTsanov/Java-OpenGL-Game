@@ -19,10 +19,9 @@ public class GUIButton extends GUIComponent
 	private float fontSize;
 	private GUIText guiText;
 
-	protected GUIButton(int width, int height, String imageName)
+	protected GUIButton(int width, int height)
 	{
 		super(width, height);
-		this.image = SRCLoader.loadTexture(imageName);
 	}
 
 	public void setText(String text)

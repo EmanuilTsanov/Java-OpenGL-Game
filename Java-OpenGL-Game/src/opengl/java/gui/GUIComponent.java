@@ -1,28 +1,29 @@
 package opengl.java.gui;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import opengl.java.calculations.Maths;
 import opengl.java.loader.ModelLoader;
+import opengl.java.management.SRCLoader;
 import opengl.java.model.Model;
 import opengl.java.shader.GUIShader;
 import opengl.java.texture.ModelTexture;
 
-public abstract class GUIComponent
-{
+public abstract class GUIComponent {
 	protected int x, y;
 	protected int width, height;
 	protected GUIComponent parent;
 
 	protected Model model;
+	protected Vector3f color = new Vector3f(0, 0, 0);
 	protected ModelTexture image;
 
-	protected GUIComponent(int width, int height)
-	{
+	protected GUIComponent(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
 
-	public GUIComponent create()
-	{
+	public GUIComponent create() {
 		float width1 = Maths.normalizeByWidth(width) * 2;
 		float height1 = Maths.normalizeByHeight(height) * 2;
 		float[] vertices = { 0, 0, 0, 0, -height1, 0, width1, -height1, 0, width1, 0, 0 };
@@ -30,42 +31,48 @@ public abstract class GUIComponent
 		float[] normals = { 0 };
 		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
 		model = ModelLoader.getInstance().loadModel(vertices, indices, textureCoords, normals);
-		if(parent != null) {
-			x+= parent.getX();
-			y+= parent.getY();
+		if (parent != null) {
+			x += parent.getX();
+			y += parent.getY();
+			System.out.println(parent.getX());
 		}
 		return this;
 	}
 
-	public GUIComponent setPosition(int x, int y)
-	{
+	public GUIComponent setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 		return this;
 	}
-	
+
 	public GUIComponent setParent(GUIComponent g) {
 		this.parent = g;
 		return this;
 	}
 
-	public float getX()
-	{
+	public GUIComponent setColor(Vector3f color) {
+		this.color = color;
+		return this;
+	}
+
+	public GUIComponent setImage(String name) {
+		this.image = SRCLoader.loadTexture(name);
+		return this;
+	}
+
+	public float getX() {
 		return x;
 	}
 
-	public float getY()
-	{
+	public float getY() {
 		return y;
 	}
 
-	public float getWidth()
-	{
+	public float getWidth() {
 		return width;
 	}
 
-	public float getHeight()
-	{
+	public float getHeight() {
 		return height;
 	}
 
