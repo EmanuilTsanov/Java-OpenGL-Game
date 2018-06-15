@@ -17,7 +17,7 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
 import opengl.java.gui.GUIComponent;
-import opengl.java.gui.GUITexture;
+import opengl.java.gui.GUICanvas;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
@@ -52,9 +52,9 @@ public class GameRenderer {
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
-	private GUIComponent texture = new GUITexture(Window.getWidth() / 3, Window.getHeight()).setPosition(100, 100)
-			.setColor(new Vector3f(160, 160, 0)).setPosition(0, 0).create();
-	private GUIComponent texture1 = new GUITexture(100, 100).setPosition(100, 200).setImage("grass").setParent(texture)
+	private GUIComponent texture = new GUICanvas(Window.getWidth() / 3, Window.getHeight()).setPosition(100, 100)
+			.setColor(new Vector3f(160, 160, 0)).setTextureSample(0).setPosition(0, 0).create();
+	private GUIComponent texture1 = new GUICanvas(100, 100).setTextureSample(1).setPosition(100, 200).setImage("grass").setParent(texture)
 			.create();
 
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
@@ -312,6 +312,7 @@ public class GameRenderer {
 		shader.start();
 		texture.render(shader);
 		texture1.render(shader);
+		texture1.update();
 		shader.stop();
 	}
 }
