@@ -12,7 +12,6 @@ import opengl.java.render.GameRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.terrain.TerrainGenerator;
 import opengl.java.view.Camera;
-import opengl.java.window.Window;
 
 public class MouseController
 {
