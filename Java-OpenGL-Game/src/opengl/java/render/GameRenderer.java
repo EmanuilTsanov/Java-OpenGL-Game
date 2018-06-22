@@ -309,10 +309,10 @@ public class GameRenderer {
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
-		shader.start();
-		texture.render(shader);
-		texture1.render(shader);
-		texture1.update();
-		shader.stop();
+//		shader.start();
+//		texture.render(shader);
+//		texture1.render(shader);
+//		texture1.update();
+//		shader.stop();
 	}
 }

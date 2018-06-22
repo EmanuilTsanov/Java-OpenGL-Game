@@ -14,7 +14,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class Window
 {
-	private static int fpsCap;
+	private static int fpsCap = 120;
 
 	private static int width = 1920;
 	private static int height = 1080;

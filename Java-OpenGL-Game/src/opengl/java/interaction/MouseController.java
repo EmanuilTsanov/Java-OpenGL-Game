@@ -18,14 +18,11 @@ public class MouseController
 {
 	private Entity entityHolder;
 	private boolean RMBdown;
-	Camera cam = Camera.getInstance();
+	private Camera cam = Camera.getInstance();
 
 	private int cursorStartX, cursorStartY;
 	private final float zoomLimit = 15;
 	private float currentZoom;
-	private boolean a;
-	private int ab = Window.getWidth() / 3;
-	private int b;
 
 	private MousePicker picker = MousePicker.getInstance();
 
@@ -185,18 +182,7 @@ public class MouseController
 					if (entityHolder != null)
 						entityHolder = null;
 				}
-				if (Keyboard.getEventKey() == Keyboard.KEY_I)
-				{
-					a = true;
-				}
 			}
-		if (a)
-		{
-			b-=30;
-			if(b < -ab)
-				a=false;
-			GameRenderer.getInstance().getTexture().setPosition(b, 0);
-		}
 	}
 
 	public Entity getEntityHolder()
