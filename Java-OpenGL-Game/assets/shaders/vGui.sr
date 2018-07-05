@@ -2,14 +2,9 @@
 
 in vec3 vertex;
 
-in vec2 texCoords;
-
 uniform mat4 modelMat;
-
-out vec2 textureCoords;
 
 void main()
 {
 	gl_Position = modelMat * vec4(vertex, 1.0f);
-	textureCoords = texCoords;
 }

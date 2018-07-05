@@ -11,7 +11,6 @@ public class GUIShader extends ShaderProgram
 
 	private int loc_modelMatrix;
 	private int loc_color;
-	private int loc_tSample;
 
 	public GUIShader()
 	{
@@ -22,7 +21,6 @@ public class GUIShader extends ShaderProgram
 	public void bindAllAttributes()
 	{
 		super.bindAttribute(0, "vertex");
-		super.bindAttribute(1, "texCoords");
 	}
 
 	@Override
@@ -30,7 +28,6 @@ public class GUIShader extends ShaderProgram
 	{
 		loc_modelMatrix = super.getUniformLocation("modelMat");
 		loc_color = super.getUniformLocation("inputColor");
-		loc_tSample = super.getUniformLocation("textureSample");
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
@@ -40,9 +37,5 @@ public class GUIShader extends ShaderProgram
 	
 	public void loadColor(Vector3f color) {
 		super.loadVector3f(loc_color, color);
-	}
-	
-	public void loadTextureSample(int tSample) {
-		super.loadInt(loc_tSample, tSample);
 	}
 }

@@ -1,17 +1,10 @@
 #version 330 core
 
-in vec2 textureCoords;
-
-uniform sampler2D textureSampler;
-uniform int textureSample;
 uniform vec3 inputColor;
 
 out vec4 finalColor;
 
 void main()
 {
-if(textureSample==0)
-	finalColor= vec4(inputColor, 1.0f);
-	else
-	finalColor = texture(textureSampler, textureCoords);
+	finalColor = vec4(inputColor, 1.0f);
 }
