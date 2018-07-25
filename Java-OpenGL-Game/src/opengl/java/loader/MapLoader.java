@@ -24,16 +24,16 @@ public class MapLoader
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 		try (DataInputStream stream = new DataInputStream(new FileInputStream("assets/maps/" + file + ".map")))
 		{
-			while (!(stream.available()==0))
+			while (!(stream.available() == 0))
 			{
-				Entity e = new Entity(stream.readInt()).setPosition(new Vector3f(stream.readFloat(), stream.readFloat(), stream.readFloat()))
-						.setRotationInRadians(new Vector3f(stream.readFloat(), stream.readFloat(), stream.readFloat())).getCopy();
+				Entity e = new Entity(stream.readInt())
+						.setPosition(new Vector3f(stream.readFloat(), stream.readFloat(), stream.readFloat()))
+						.setRotationInRadians(new Vector3f(stream.readFloat(), stream.readFloat(), stream.readFloat()))
+						.getCopy();
 				entities.add(e);
 			}
 		}
-		catch (
-
-		FileNotFoundException e)
+		catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
 		}

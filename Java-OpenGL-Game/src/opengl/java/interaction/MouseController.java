@@ -6,7 +6,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
-import opengl.java.loader.MapLoader;
 import opengl.java.management.EntityManager;
 import opengl.java.render.GameRenderer;
 import opengl.java.terrain.Terrain;
@@ -79,7 +78,9 @@ public class MouseController
 				if (currentZoom < zoomLimit)
 				{
 					double speed = 0.5f;
-					cam.moveBy((float) (speed * Math.sin(cam.getYRotation())), (float) -(speed * Math.sin(90 - cam.getXRotation())), (float) -(speed * Math.cos(cam.getYRotation())));
+					cam.moveBy((float) (speed * Math.sin(cam.getYRotation())),
+							(float) -(speed * Math.sin(90 - cam.getXRotation())),
+							(float) -(speed * Math.cos(cam.getYRotation())));
 					cam.rotateBy(-0.5f, 0, 0);
 					currentZoom += speed;
 					if (currentZoom > zoomLimit)
@@ -91,7 +92,9 @@ public class MouseController
 				if (currentZoom > 0)
 				{
 					double speed = 0.5f;
-					cam.moveBy((float) -(speed * Math.sin(cam.getYRotation())), (float) (speed * Math.sin(90 - cam.getXRotation())), (float) (speed * Math.cos(cam.getYRotation())));
+					cam.moveBy((float) -(speed * Math.sin(cam.getYRotation())),
+							(float) (speed * Math.sin(90 - cam.getXRotation())),
+							(float) (speed * Math.cos(cam.getYRotation())));
 					cam.rotateBy(0.5f, 0, 0);
 					currentZoom -= speed;
 					if (currentZoom < 0)
@@ -117,8 +120,10 @@ public class MouseController
 		if (entityHolder != null)
 		{
 			Vector3f vec = picker.getMapPosition();
-			Vector2f vec1 = Terrain.getInstance().getCellPosition(vec.x + entityHolder.getAdditionalXArea(), vec.z + entityHolder.getAdditionalZArea());
-			entityHolder.setPosition(new Vector3f((vec1.x + entityHolder.positionX()) * TerrainGenerator.getQuadSize(), 0f, (vec1.y + entityHolder.positionY()) * TerrainGenerator.getQuadSize()));
+			Vector2f vec1 = Terrain.getInstance().getCellPosition(vec.x + entityHolder.getAdditionalXArea(),
+					vec.z + entityHolder.getAdditionalZArea());
+			entityHolder.setPosition(new Vector3f((vec1.x + entityHolder.positionX()) * TerrainGenerator.getQuadSize(),
+					0f, (vec1.y + entityHolder.positionY()) * TerrainGenerator.getQuadSize()));
 		}
 		while (Keyboard.next())
 			if (Keyboard.getEventKeyState())
@@ -172,10 +177,10 @@ public class MouseController
 				{
 					entityHolder = Entity.table.getCopy();
 				}
-				else if (Keyboard.getEventKey() == Keyboard.KEY_S)
-				{
-					MapLoader.saveMap("new_map", EntityManager.getInstance().getEntityHashMap());
-				}
+				// else if (Keyboard.getEventKey() == Keyboard.KEY_S)
+				// {
+				// MapLoader.saveMap("new_map", EntityManager.getInstance().getEntityHashMap());
+				// }
 				else if (Keyboard.getEventKey() == Keyboard.KEY_D)
 				{
 					if (entityHolder != null)

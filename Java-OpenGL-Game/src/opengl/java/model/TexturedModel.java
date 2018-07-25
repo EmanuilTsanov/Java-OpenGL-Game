@@ -26,6 +26,7 @@ public class TexturedModel
 	public static final TexturedModel CHRISTMAS_TREE = new TexturedModel(9, SRCLoader.loadModel("christmasTree"), SRCLoader.loadTexture("christmasTree"));
 	public static final TexturedModel SNOWMAN = new TexturedModel(10, SRCLoader.loadModel("snowman"), SRCLoader.loadTexture("snowman"));
 	public static final TexturedModel HUT = new TexturedModel(11, SRCLoader.loadModel("hut"), SRCLoader.loadTexture("hut"));
+	public static final TexturedModel CAR = new TexturedModel(12, SRCLoader.loadModel("untitled"), SRCLoader.loadTexture("grass"));
 
 	public TexturedModel(int id, Model model, ModelTexture texture)
 	{

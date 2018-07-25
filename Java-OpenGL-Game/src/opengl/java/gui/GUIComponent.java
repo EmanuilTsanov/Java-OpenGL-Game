@@ -29,8 +29,8 @@ public abstract class GUIComponent
 
 	public GUIComponent create()
 	{
-		float width1 = Maths.normalizeByWidth(width) * 2;
-		float height1 = Maths.normalizeByHeight(height) * 2;
+		float width1 = Maths.normalizeByWidth(width * 2);
+		float height1 = Maths.normalizeByHeight(height * 2);
 		float[] vertices = { 0, 0, 0, 0, -height1, 0, width1, -height1, 0, width1, 0, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
 		float[] normals = { 0 };
@@ -40,7 +40,9 @@ public abstract class GUIComponent
 		{
 			x = xAdv + parent.getX();
 			y = yAdv + parent.getY();
-		} else {
+		}
+		else
+		{
 			x = xAdv;
 			y = yAdv;
 		}
@@ -68,8 +70,8 @@ public abstract class GUIComponent
 
 	public GUIComponent setColor(int r, int g, int b)
 	{
-		float a = 1f/255f;
-		this.color = new Vector3f(a*r, a*g, a*b);
+		float a = 1f / 255f;
+		this.color = new Vector3f(a * r, a * g, a * b);
 		return this;
 	}
 

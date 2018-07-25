@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
@@ -53,12 +54,12 @@ public class GameRenderer
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
-	private GUIComponent texture = new GUICanvas(Window.getWidth() / 3, Window.getHeight()).setPosition(100, 100)
-			.setColor(150,150,150).setPosition(0, 0);
-	private GUIComponent texture1 = new GUICanvas(100, 100).setPosition(100, 200).setColor(178, 255, 89)
-			.setParent(0, texture);
-	private GUIComponent texture2 = new GUICanvas(100, 150).setPosition(500, 300).setColor(178, 255, 89)
-			.setParent(1, texture);
+	private GUIComponent texture = new GUICanvas(Display.getWidth() / 3, Display.getHeight()).setPosition(100, 100)
+			.setColor(150, 150, 150).setPosition(0, 0);
+	private GUIComponent texture1 = new GUICanvas(100, 100).setPosition(100, 200).setColor(178, 255, 89).setParent(0,
+			texture);
+	private GUIComponent texture2 = new GUICanvas(400, 400).setPosition(400, 300).setColor(178, 255, 89).setParent(1,
+			texture);
 
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
@@ -72,7 +73,7 @@ public class GameRenderer
 		enableCulling();
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		bindBuffers(Window.getWidth(), Window.getHeight());
+		bindBuffers(Display.getWidth(), Display.getHeight());
 		texture.create();
 		texture1.create();
 		texture2.create();

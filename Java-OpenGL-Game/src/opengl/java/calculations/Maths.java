@@ -104,26 +104,26 @@ public class Maths
 
 	public static float toOpenGLWidth(float value)
 	{
-		float halfWidth = Window.getWidth() / 2;
+		float halfWidth = Display.getWidth() / 2;
 		float result = (halfWidth - value) / -halfWidth;
 		return result;
 	}
 
 	public static float toOpenGLHeight(float value)
 	{
-		float halfHeight = Window.getHeight() / 2;
+		float halfHeight = Display.getHeight() / 2;
 		float result = (halfHeight - value) / halfHeight;
 		return result;
 	}
 
 	public static float normalizeByWidth(int value)
 	{
-		return (float) value / (float) Window.getWidth();
+		return (float) value / (float) Display.getWidth();
 	}
 
 	public static float normalizeByHeight(int value)
 	{
-		return (float) value / (float) Window.getHeight();
+		return (float) value / (float) Display.getHeight();
 	}
 
 	public static float getImageValue(float value, float dimSize)

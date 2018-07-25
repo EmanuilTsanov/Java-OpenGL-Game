@@ -34,8 +34,8 @@ public class GUIShader extends ShaderProgram
 	{
 		super.loadMatrix(loc_modelMatrix, Maths.createTransMat(position, rotation, scale));
 	}
-	
-	public void loadColor(Vector3f color) {
+	public void loadColor(Vector3f color)
+	{
 		super.loadVector3f(loc_color, color);
 	}
 }

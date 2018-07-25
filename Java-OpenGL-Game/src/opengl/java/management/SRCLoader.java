@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
@@ -28,7 +29,6 @@ import opengl.java.logger.Logger;
 import opengl.java.model.Model;
 import opengl.java.render.GameRenderer;
 import opengl.java.texture.ModelTexture;
-import opengl.java.window.Window;
 
 public class SRCLoader
 {
@@ -37,7 +37,8 @@ public class SRCLoader
 	{
 		ArrayList<String> lines = new ArrayList<String>();
 
-		try (BufferedReader stream = new BufferedReader(new FileReader(new File(path + fileName + FileSRC.DOT + extension))))
+		try (BufferedReader stream = new BufferedReader(
+				new FileReader(new File(path + fileName + FileSRC.DOT + extension))))
 		{
 			String line;
 			while ((line = stream.readLine()) != null)
@@ -93,7 +94,8 @@ public class SRCLoader
 			else if (line.startsWith("vn "))
 			{
 				String[] tokens = line.split("\\s+");
-				Vector3f normal = new Vector3f(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3]));
+				Vector3f normal = new Vector3f(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]),
+						Float.parseFloat(tokens[3]));
 				normals.add(normal);
 			}
 			else if (line.startsWith("f "))
@@ -139,7 +141,8 @@ public class SRCLoader
 		return ModelLoader.getInstance().loadModel(verticesArr, indicesArr, texturesArr, normalsArr);
 	}
 
-	public static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords, float[] texturesArr, ArrayList<Vector3f> normals, float[] normalsArr)
+	public static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords,
+			float[] texturesArr, ArrayList<Vector3f> normals, float[] normalsArr)
 	{
 		int vertexPointer = Integer.parseInt(vertexData[0]) - 1;
 		indices.add(vertexPointer);
@@ -157,14 +160,17 @@ public class SRCLoader
 		Texture tex = null;
 		try
 		{
-			tex = TextureLoader.getTexture("PNG", new FileInputStream(FileSRC.TEXTURES_FOLDER + fileName + "." + FileSRC.TEXTURE_EXTENSION));
+			tex = TextureLoader.getTexture("PNG",
+					new FileInputStream(FileSRC.TEXTURES_FOLDER + fileName + "." + FileSRC.TEXTURE_EXTENSION));
 			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, 0);
 			if (GLContext.getCapabilities().GL_EXT_texture_filter_anisotropic)
 			{
-				float amount = Math.min(4f, GL11.glGetFloat(EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
-				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, amount);
+				float amount = Math.min(4f,
+						GL11.glGetFloat(EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
+				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT,
+						amount);
 			}
 			else
 			{
@@ -183,7 +189,8 @@ public class SRCLoader
 		Texture tex = null;
 		try
 		{
-			tex = org.newdawn.slick.opengl.TextureLoader.getTexture("png", new FileInputStream(path + fileName + "." + FileSRC.TEXTURE_EXTENSION));
+			tex = org.newdawn.slick.opengl.TextureLoader.getTexture("png",
+					new FileInputStream(path + fileName + "." + FileSRC.TEXTURE_EXTENSION));
 		}
 		catch (IOException e)
 		{
@@ -194,10 +201,11 @@ public class SRCLoader
 
 	public static void saveScreenshot()
 	{
-		int width = Window.getWidth();
-		int height = Window.getHeight();
+		int width = Display.getWidth();
+		int height = Display.getHeight();
 		ByteBuffer buffer = GameRenderer.getInstance().readScreen(0, 0, width, height);
-		File file = new File(Logger.getDate() + "_" + Logger.getFormattedTime() + FileSRC.DOT + FileSRC.TEXTURE_EXTENSION);
+		File file = new File(
+				Logger.getDate() + "_" + Logger.getFormattedTime() + FileSRC.DOT + FileSRC.TEXTURE_EXTENSION);
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 		for (int x = 0; x < width; x++)
