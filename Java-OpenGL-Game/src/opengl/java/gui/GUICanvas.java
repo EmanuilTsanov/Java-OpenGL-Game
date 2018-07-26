@@ -10,9 +10,8 @@ import opengl.java.shader.GUIShader;
 
 public class GUICanvas extends GUIComponent
 {
-	public GUICanvas(int width, int height)
+	public GUICanvas()
 	{
-		super(width, height);
 	}
 
 	@Override

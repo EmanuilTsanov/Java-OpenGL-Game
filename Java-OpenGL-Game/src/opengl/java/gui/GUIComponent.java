@@ -15,10 +15,8 @@ public abstract class GUIComponent
 	protected Model model;
 	protected Vector3f color = new Vector3f(0, 0, 0);
 
-	protected GUIComponent(int width, int height)
+	protected GUIComponent()
 	{
-		this.width = width;
-		this.height = height;
 	}
 
 	public GUIComponent create()
@@ -37,6 +35,13 @@ public abstract class GUIComponent
 	{
 		this.x = x;
 		this.y = y;
+		return this;
+	}
+
+	public GUIComponent setSize(int width, int height)
+	{
+		this.width = width;
+		this.height = height;
 		return this;
 	}
 

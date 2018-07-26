@@ -18,7 +18,7 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
 import opengl.java.gui.GUICanvas;
-import opengl.java.gui.GUIComponent;
+import opengl.java.gui.GUIWindow;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
@@ -37,7 +37,6 @@ import opengl.java.terrain.Terrain;
 import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
-import opengl.java.window.Window;
 
 public class GameRenderer
 {
@@ -54,17 +53,65 @@ public class GameRenderer
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
-	private GUIComponent texture = new GUICanvas(Display.getWidth() / 3, Display.getHeight()).setPosition(100, 100)
-			.setColor(150, 150, 150).setPosition(0, 0);
-	private GUIComponent texture1 = new GUICanvas(100, 100).setPosition(100, 200).setColor(178, 255, 89).setParent(0,
-			texture);
-	private GUIComponent texture2 = new GUICanvas(400, 400).setPosition(400, 300).setColor(178, 255, 89).setParent(1,
-			texture);
 
 	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
 	private Light sun = LightManager.getInstance().getSun();
 
 	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
+
+	private GUICanvas g1 = new GUICanvas();
+	private GUICanvas g2 = new GUICanvas();
+	private GUICanvas g3 = new GUICanvas();
+	private GUICanvas g4 = new GUICanvas();
+	private GUICanvas g5 = new GUICanvas();
+	private GUICanvas g6 = new GUICanvas();
+	private GUICanvas g7 = new GUICanvas();
+	private GUICanvas g8 = new GUICanvas();
+	private GUICanvas g9 = new GUICanvas();
+	private GUICanvas g10 = new GUICanvas();
+	private GUICanvas g11 = new GUICanvas();
+	private GUICanvas g12 = new GUICanvas();
+	private GUICanvas g13 = new GUICanvas();
+	private GUICanvas g14 = new GUICanvas();
+	private GUICanvas g15 = new GUICanvas();
+	private GUICanvas g16 = new GUICanvas();
+	private GUICanvas g17 = new GUICanvas();
+	private GUICanvas g18 = new GUICanvas();
+	private GUICanvas g19 = new GUICanvas();
+	private GUICanvas g20 = new GUICanvas();
+	private GUICanvas g21 = new GUICanvas();
+	private GUICanvas g22 = new GUICanvas();
+	private GUICanvas g23 = new GUICanvas();
+	private GUICanvas g24 = new GUICanvas();
+	private GUICanvas gg1 = new GUICanvas();
+	private GUICanvas gg2 = new GUICanvas();
+	private GUICanvas gg3 = new GUICanvas();
+	private GUICanvas gg4 = new GUICanvas();
+	private GUICanvas gg5 = new GUICanvas();
+	private GUICanvas gg6 = new GUICanvas();
+	private GUICanvas gg7 = new GUICanvas();
+	private GUICanvas gg8 = new GUICanvas();
+	private GUICanvas gg9 = new GUICanvas();
+	private GUICanvas gg10 = new GUICanvas();
+	private GUICanvas gg11 = new GUICanvas();
+	private GUICanvas gg12 = new GUICanvas();
+	private GUICanvas gg13 = new GUICanvas();
+	private GUICanvas gg14 = new GUICanvas();
+	private GUICanvas gg15 = new GUICanvas();
+	private GUICanvas gg16 = new GUICanvas();
+	private GUICanvas gg17 = new GUICanvas();
+	private GUICanvas gg18 = new GUICanvas();
+	private GUICanvas gg19 = new GUICanvas();
+	private GUICanvas gg20 = new GUICanvas();
+	private GUICanvas gg21 = new GUICanvas();
+	private GUICanvas gg22 = new GUICanvas();
+	private GUICanvas gg23 = new GUICanvas();
+	private GUICanvas gg24 = new GUICanvas();
+	private GUIWindow window = new GUIWindow(0, 0, Display.getWidth() / 3, Display.getHeight(), 4, 8).addChild(g1)
+			.addChild(g2).addChild(g3).addChild(g4).addChild(g5).addChild(g6).addChild(g7).addChild(g8).addChild(g9)
+			.addChild(g10).addChild(g11).addChild(g12).addChild(g13).addChild(g14).addChild(g15).addChild(g16)
+			.addChild(g17).addChild(g18).addChild(g19).addChild(g20).addChild(g21).addChild(g22).addChild(g23)
+			.addChild(gg24);
 
 	private static GameRenderer singleton = new GameRenderer();
 
@@ -74,14 +121,6 @@ public class GameRenderer
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
-		texture.create();
-		texture1.create();
-		texture2.create();
-	}
-
-	public GUIComponent getTexture()
-	{
-		return texture;
 	}
 
 	private void initShaders()
@@ -341,8 +380,7 @@ public class GameRenderer
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
 		shader.start();
-		texture.update();
-		texture.render(shader);
+		window.render(shader);
 		shader.stop();
 	}
 }
