@@ -6,12 +6,25 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
+import opengl.java.model.Model;
 import opengl.java.shader.GUIShader;
 
 public class GUICanvas extends GUIComponent
 {
-	public GUICanvas()
+	public Model model;
+
+	public Vector3f color = new Vector3f(0, 0, 0);
+
+	public GUICanvas(int x, int y, int width, int height)
 	{
+		super(x, y, width, height);
+		model = Maths.createPlane(width, height);
+	}
+
+	public GUICanvas setColor(Vector3f color)
+	{
+		this.color = color;
+		return this;
 	}
 
 	@Override

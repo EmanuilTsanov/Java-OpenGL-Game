@@ -4,6 +4,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.loader.ModelLoader;
+import opengl.java.model.Model;
 import opengl.java.view.Camera;
 
 public class Maths
@@ -72,6 +74,17 @@ public class Maths
 	public static void deleteProjectionMatrix()
 	{
 		projectionMatrix = null;
+	}
+
+	public static Model createPlane(int width, int height)
+	{
+		float width1 = Maths.normalizeByWidth(width * 2);
+		float height1 = Maths.normalizeByHeight(height * 2);
+		float[] vertices = { 0, 0, 0, 0, -height1, 0, width1, -height1, 0, width1, 0, 0 };
+		int[] indices = { 0, 1, 3, 3, 1, 2 };
+		float[] normals = { 0 };
+		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
+		return ModelLoader.getInstance().loadModel(vertices, indices, textureCoords, normals);
 	}
 
 	public static float getScreenValue(float value, int type)
