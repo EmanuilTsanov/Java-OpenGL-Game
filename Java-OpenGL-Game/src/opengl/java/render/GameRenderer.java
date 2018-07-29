@@ -83,35 +83,11 @@ public class GameRenderer
 	private GUICanvas g22 = new GUICanvas();
 	private GUICanvas g23 = new GUICanvas();
 	private GUICanvas g24 = new GUICanvas();
-	private GUICanvas gg1 = new GUICanvas();
-	private GUICanvas gg2 = new GUICanvas();
-	private GUICanvas gg3 = new GUICanvas();
-	private GUICanvas gg4 = new GUICanvas();
-	private GUICanvas gg5 = new GUICanvas();
-	private GUICanvas gg6 = new GUICanvas();
-	private GUICanvas gg7 = new GUICanvas();
-	private GUICanvas gg8 = new GUICanvas();
-	private GUICanvas gg9 = new GUICanvas();
-	private GUICanvas gg10 = new GUICanvas();
-	private GUICanvas gg11 = new GUICanvas();
-	private GUICanvas gg12 = new GUICanvas();
-	private GUICanvas gg13 = new GUICanvas();
-	private GUICanvas gg14 = new GUICanvas();
-	private GUICanvas gg15 = new GUICanvas();
-	private GUICanvas gg16 = new GUICanvas();
-	private GUICanvas gg17 = new GUICanvas();
-	private GUICanvas gg18 = new GUICanvas();
-	private GUICanvas gg19 = new GUICanvas();
-	private GUICanvas gg20 = new GUICanvas();
-	private GUICanvas gg21 = new GUICanvas();
-	private GUICanvas gg22 = new GUICanvas();
-	private GUICanvas gg23 = new GUICanvas();
-	private GUICanvas gg24 = new GUICanvas();
 	private GUIWindow window = new GUIWindow(0, 0, Display.getWidth() / 3, Display.getHeight(), 4, 8).addChild(g1)
 			.addChild(g2).addChild(g3).addChild(g4).addChild(g5).addChild(g6).addChild(g7).addChild(g8).addChild(g9)
 			.addChild(g10).addChild(g11).addChild(g12).addChild(g13).addChild(g14).addChild(g15).addChild(g16)
 			.addChild(g17).addChild(g18).addChild(g19).addChild(g20).addChild(g21).addChild(g22).addChild(g23)
-			.addChild(gg24);
+			.addChild(g24);
 
 	private static GameRenderer singleton = new GameRenderer();
 

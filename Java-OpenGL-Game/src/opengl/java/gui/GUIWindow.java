@@ -10,7 +10,6 @@ public class GUIWindow
 	private int width, height;
 	private int gridWidth, gridHeight;
 	private int childWidth;
-	private int childHeight;
 
 	private static final int gridSpace = 10;
 
@@ -25,7 +24,6 @@ public class GUIWindow
 		this.gridWidth = gridWidth;
 		this.gridHeight = gridHeight;
 		this.childWidth = (width - ((gridWidth + 1) * gridSpace)) / gridWidth;
-		this.childHeight = (height - ((gridHeight + 1) * gridSpace)) / gridHeight;
 		children = new ArrayList<GUIComponent>();
 	}
 
@@ -34,12 +32,12 @@ public class GUIWindow
 		int x1 = (children.size() % gridWidth);
 		int x2 = x1 * childWidth + (x1 + 1) * gridSpace;
 		int y1 = (int) (children.size() / gridWidth);
-		int y2 = y1 * childHeight + (y1 + 1) * gridSpace;
+		int y2 = y1 * childWidth+ (y1 + 1) * gridSpace;
 		child.setPosition(x2, y2);
-		child.setSize(childWidth, childHeight);
+		child.setSize(childWidth, childWidth);
 		child.create();
 		children.add(child);
-		System.out.println(childWidth+" / " + childHeight);
+		System.out.println(childWidth+" / " + childWidth);
 		System.out.println(x2+" / " + y2);
 		return this;
 	}
