@@ -17,7 +17,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
-import opengl.java.gui.GUICanvas;
 import opengl.java.gui.GUIWindow;
 import opengl.java.interaction.MouseController;
 import opengl.java.lighting.Light;
@@ -58,36 +57,7 @@ public class GameRenderer
 	private Light sun = LightManager.getInstance().getSun();
 
 	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
-
-	private GUICanvas g1 = new GUICanvas();
-	private GUICanvas g2 = new GUICanvas();
-	private GUICanvas g3 = new GUICanvas();
-	private GUICanvas g4 = new GUICanvas();
-	private GUICanvas g5 = new GUICanvas();
-	private GUICanvas g6 = new GUICanvas();
-	private GUICanvas g7 = new GUICanvas();
-	private GUICanvas g8 = new GUICanvas();
-	private GUICanvas g9 = new GUICanvas();
-	private GUICanvas g10 = new GUICanvas();
-	private GUICanvas g11 = new GUICanvas();
-	private GUICanvas g12 = new GUICanvas();
-	private GUICanvas g13 = new GUICanvas();
-	private GUICanvas g14 = new GUICanvas();
-	private GUICanvas g15 = new GUICanvas();
-	private GUICanvas g16 = new GUICanvas();
-	private GUICanvas g17 = new GUICanvas();
-	private GUICanvas g18 = new GUICanvas();
-	private GUICanvas g19 = new GUICanvas();
-	private GUICanvas g20 = new GUICanvas();
-	private GUICanvas g21 = new GUICanvas();
-	private GUICanvas g22 = new GUICanvas();
-	private GUICanvas g23 = new GUICanvas();
-	private GUICanvas g24 = new GUICanvas();
-	private GUIWindow window = new GUIWindow(0, 0, Display.getWidth() / 3, Display.getHeight(), 4, 8).addChild(g1)
-			.addChild(g2).addChild(g3).addChild(g4).addChild(g5).addChild(g6).addChild(g7).addChild(g8).addChild(g9)
-			.addChild(g10).addChild(g11).addChild(g12).addChild(g13).addChild(g14).addChild(g15).addChild(g16)
-			.addChild(g17).addChild(g18).addChild(g19).addChild(g20).addChild(g21).addChild(g22).addChild(g23)
-			.addChild(g24);
+	private GUIWindow window = new GUIWindow(0, 0, Display.getWidth() / 3, Display.getHeight(), 4, 8);
 
 	private static GameRenderer singleton = new GameRenderer();
 

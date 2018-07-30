@@ -1,14 +1,11 @@
 package opengl.java.gui;
 
-import java.util.ArrayList;
-
 import opengl.java.shader.GUIShader;
 
 public class GUIWindow
 {
 	private int x, y;
 	private int width, height;
-	private int childWidth;
 
 	public GUIWindow(int x, int y, int width, int height, int gridWidth, int gridHeight)
 	{
@@ -25,9 +22,5 @@ public class GUIWindow
 
 	public void render(GUIShader shader)
 	{
-		for (GUIComponent component : children)
-		{
-			component.render(shader);
-		}
 	}
 }
