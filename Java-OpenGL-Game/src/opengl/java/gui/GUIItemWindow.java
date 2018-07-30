@@ -1,8 +1,6 @@
 package opengl.java.gui;
 
-import opengl.java.shader.GUIShader;
-
-public class GUIItemWindow extends GUIComponent
+public class GUIItemWindow extends GUICanvas
 {
 
 	public GUIItemWindow(int x, int y, int width, int height)
@@ -10,14 +8,10 @@ public class GUIItemWindow extends GUIComponent
 		super(x, y, width, height);
 	}
 
-	@Override
-	public void update()
+	public GUIItemWindow setImage(String image)
 	{
-	}
 
-	@Override
-	public void render(GUIShader shader)
-	{
+		return this;
 	}
 
 }

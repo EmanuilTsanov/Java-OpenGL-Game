@@ -23,7 +23,7 @@ public class GUICanvas extends GUIComponent
 
 	public GUICanvas setColor(Vector3f color)
 	{
-		this.color = color;
+		this.color = new Vector3f(color.x / 255f, color.y / 255f, color.z / 255f);
 		return this;
 	}
 

@@ -7,7 +7,7 @@ import opengl.java.shader.GUIShader;
 
 public class GUIItemList extends GUIComponent
 {
-	private int gridWidth, gridHeight;
+	private int gridWidth;
 	private int itemWinWidth;
 
 	private static final int gridSpace = 10;
@@ -29,14 +29,21 @@ public class GUIItemList extends GUIComponent
 		return this;
 	}
 
-	public GUIItemList addChild(GUIComponent child)
+	public GUIItemList addChild(String image)
 	{
 		int x1 = (itemPages.get(currentPage).size() % gridWidth);
 		int x2 = x1 * itemWinWidth + (x1 + 1) * gridSpace;
 		int y1 = (int) (itemPages.get(currentPage).size() / gridWidth);
 		int y2 = y1 * itemWinWidth + (y1 + 1) * gridSpace;
-		child.setPosition(x2, y2);
-		child.setSize(itemWinWidth, itemWinWidth);
+		if (y2 + itemWinWidth < y + height)
+		{
+			GUIItemWindow item = new GUIItemWindow(x2, y2, itemWinWidth, itemWinWidth).setImage(image);
+			if (itemPages.get(currentPage) == null)
+				itemPages.put(currentPage, new ArrayList<GUIItemWindow>());
+			itemPages.get(currentPage).add(item);
+		}
+		else
+			currentPage++;
 		return this;
 	}
 
