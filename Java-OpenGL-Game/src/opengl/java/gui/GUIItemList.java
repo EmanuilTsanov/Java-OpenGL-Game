@@ -2,6 +2,7 @@ package opengl.java.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import opengl.java.shader.GUIShader;
 
@@ -16,9 +17,10 @@ public class GUIItemList extends GUIComponent
 
 	private int currentPage = 0;
 
-	public GUIItemList(int x, int y, int width, int height)
+	public GUIItemList(int x, int y, int width, int height, int gridWidth)
 	{
 		super(x, y, width, height);
+		this.gridWidth = gridWidth;
 		this.itemWinWidth = (width - ((gridWidth + 1) * gridSpace)) / gridWidth;
 		itemPages = new HashMap<Integer, ArrayList<GUIItemWindow>>();
 	}
@@ -31,15 +33,16 @@ public class GUIItemList extends GUIComponent
 
 	public GUIItemList addChild(String image)
 	{
-		int x1 = (itemPages.get(currentPage).size() % gridWidth);
+		if (itemPages.get(currentPage) == null)
+			itemPages.put(currentPage, new ArrayList<GUIItemWindow>());
+		ArrayList<GUIItemWindow> arr = itemPages.get(currentPage);
+		int x1 = (arr.size() % gridWidth);
 		int x2 = x1 * itemWinWidth + (x1 + 1) * gridSpace;
-		int y1 = (int) (itemPages.get(currentPage).size() / gridWidth);
+		int y1 = (int) (arr.size() / gridWidth);
 		int y2 = y1 * itemWinWidth + (y1 + 1) * gridSpace;
 		if (y2 + itemWinWidth < y + height)
 		{
 			GUIItemWindow item = new GUIItemWindow(x2, y2, itemWinWidth, itemWinWidth).setImage(image);
-			if (itemPages.get(currentPage) == null)
-				itemPages.put(currentPage, new ArrayList<GUIItemWindow>());
 			itemPages.get(currentPage).add(item);
 		}
 		else
@@ -50,10 +53,24 @@ public class GUIItemList extends GUIComponent
 	@Override
 	public void update()
 	{
+		for (Map.Entry<Integer, ArrayList<GUIItemWindow>> entry : itemPages.entrySet())
+		{
+			for (GUIItemWindow g : entry.getValue())
+			{
+				g.update();
+			}
+		}
 	}
 
 	@Override
 	public void render(GUIShader shader)
 	{
+		for (Map.Entry<Integer, ArrayList<GUIItemWindow>> entry : itemPages.entrySet())
+		{
+			for (GUIItemWindow g : entry.getValue())
+			{
+				g.render(shader);
+			}
+		}
 	}
 }
