@@ -57,7 +57,6 @@ public class GameRenderer
 	private Light sun = LightManager.getInstance().getSun();
 
 	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
-	private GUIInventory inv = new GUIInventory();
 
 	private static GameRenderer singleton = new GameRenderer();
 
@@ -320,9 +319,5 @@ public class GameRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
-		shader.start();
-		inv.update();
-		inv.render(shader);
-		shader.stop();
 	}
 }

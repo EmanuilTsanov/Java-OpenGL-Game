@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
+import opengl.java.loader.MapLoader;
 import opengl.java.management.EntityManager;
 import opengl.java.render.GameRenderer;
 import opengl.java.terrain.Terrain;
@@ -55,6 +56,7 @@ public class MouseController
 					else
 					{
 						EntityManager.getInstance().addEntity(entityHolder);
+						MapLoader.saveEntity("new_map", entityHolder);
 						entityHolder = null;
 					}
 				}

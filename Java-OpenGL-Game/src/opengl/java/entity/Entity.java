@@ -10,8 +10,8 @@ import opengl.java.terrain.TerrainGenerator;
 
 public class Entity
 {
-	protected int id;
-	protected int asset;
+	protected int uniqueID;
+	protected int assetID;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
@@ -19,13 +19,9 @@ public class Entity
 
 	protected float scale = 1;
 
-	private static int nextEntityID = 0;
-
 	private static HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>();
 
 	private Vector3f color;
-	private static Vector3f globalColor = new Vector3f(0, 0, 0);
-	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
 	public static Entity pineTree = new Entity(TexturedModel.PINE_TREE.getID());
 	public static Entity bench = new Entity(TexturedModel.BENCH.getID());
@@ -42,16 +38,16 @@ public class Entity
 
 	public Entity(int asset)
 	{
-		this.asset = asset;
-		entities.put(id, this);
+		System.out.println(EntityManager.getNextUniqueID());
+		this.assetID = asset;
+		entities.put(uniqueID, this);
 	}
 
 	public Entity setup()
 	{
-		this.id = nextEntityID++;
-		color = manageColor(globalColor);
-		colorArray.put(color.x + "/" + color.y + "/" + color.z, id);
-		entities.put(id, this);
+		this.uniqueID = EntityManager.getNextUniqueID();
+		color = EntityManager.getNextUniqueColor(uniqueID);
+		entities.put(uniqueID, this);
 		return this;
 	}
 
@@ -83,7 +79,8 @@ public class Entity
 
 	public Entity setRotationInDegrees(Vector3f degreesVec)
 	{
-		this.rotation = new Vector3f((float) Math.toRadians(degreesVec.x), (float) Math.toRadians(degreesVec.y), (float) Math.toRadians(degreesVec.z));
+		this.rotation = new Vector3f((float) Math.toRadians(degreesVec.x), (float) Math.toRadians(degreesVec.y),
+				(float) Math.toRadians(degreesVec.z));
 		return this;
 	}
 
@@ -105,37 +102,14 @@ public class Entity
 		this.areaRequired = area;
 	}
 
-	private Vector3f manageColor(Vector3f color)
-	{
-		int r = (int) color.x;
-		int g = (int) color.y;
-		int b = (int) color.z;
-		Vector3f col = new Vector3f(r, g, b);
-		if (b < 255)
-		{
-			color.z++;
-		}
-		else if (b == 255 && g != 255)
-		{
-			color.y++;
-			color.z = 0;
-		}
-		else if (g == 255 && b == 255)
-		{
-			color.x++;
-			color.y = color.z = 0;
-		}
-		return col;
-	}
-
 	public int getID()
 	{
-		return id;
+		return uniqueID;
 	}
 
 	public int getAsset()
 	{
-		return asset;
+		return assetID;
 	}
 
 	public Vector3f getPosition()
@@ -192,12 +166,14 @@ public class Entity
 
 	public Entity getCopy()
 	{
-		return new Entity(asset).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
+		return new Entity(assetID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
 	}
 
 	public static Entity getEntityByColor(Vector3f color)
 	{
-		Entity entity = entities.get(colorArray.get(color.x + "/" + color.y + "/" + color.z));
+		int uniqueID = EntityManager.getUniqueIDByColor(color.x + "/" + color.y + "/" + color.z);
+		if(uniqueID==-1) return null;
+		Entity entity = entities.get(uniqueID);
 		return entity;
 	}
 }
