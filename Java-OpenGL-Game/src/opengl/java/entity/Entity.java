@@ -2,20 +2,17 @@ package opengl.java.entity;
 
 import java.util.HashMap;
 
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.model.TexturedModel;
-import opengl.java.terrain.TerrainGenerator;
 
 public class Entity
 {
 	protected int uniqueID;
-	protected int assetID;
+	protected int asset;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
-	protected Vector2f areaRequired = new Vector2f(1, 1);
 
 	protected float scale = 1;
 
@@ -39,7 +36,7 @@ public class Entity
 	public Entity(int asset)
 	{
 		System.out.println(EntityManager.getNextUniqueID());
-		this.assetID = asset;
+		this.asset = asset;
 		entities.put(uniqueID, this);
 	}
 
@@ -97,11 +94,6 @@ public class Entity
 		return this;
 	}
 
-	public void setArea(Vector2f area)
-	{
-		this.areaRequired = area;
-	}
-
 	public int getID()
 	{
 		return uniqueID;
@@ -109,7 +101,7 @@ public class Entity
 
 	public int getAsset()
 	{
-		return assetID;
+		return asset;
 	}
 
 	public Vector3f getPosition()
@@ -132,31 +124,6 @@ public class Entity
 		return scale;
 	}
 
-	public Vector2f getArea()
-	{
-		return areaRequired;
-	}
-
-	public float getAdditionalXArea()
-	{
-		return areaRequired.x % 2 == 0 ? TerrainGenerator.getQuadSize() / 2f : 0f;
-	}
-
-	public float getAdditionalZArea()
-	{
-		return areaRequired.y % 2 == 0 ? TerrainGenerator.getQuadSize() / 2f : 0f;
-	}
-
-	public float positionX()
-	{
-		return areaRequired.x % 2 != 0 ? areaRequired.x / 2 : 0f;
-	}
-
-	public float positionY()
-	{
-		return areaRequired.y % 2 != 0 ? areaRequired.y / 2 : 0f;
-	}
-
 	public void rotate(float x, float y, float z)
 	{
 		rotation.x += Math.toRadians(x);
@@ -166,13 +133,14 @@ public class Entity
 
 	public Entity getCopy()
 	{
-		return new Entity(assetID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
+		return new Entity(asset).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
 	}
 
 	public static Entity getEntityByColor(Vector3f color)
 	{
 		int uniqueID = EntityManager.getUniqueIDByColor(color.x + "/" + color.y + "/" + color.z);
-		if(uniqueID==-1) return null;
+		if (uniqueID == -1)
+			return null;
 		Entity entity = entities.get(uniqueID);
 		return entity;
 	}

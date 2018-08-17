@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -58,18 +61,17 @@ public class MapLoader
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.newDocument();
 
-			// root element
 			Element rootElement = doc.createElement("entities");
 			doc.appendChild(rootElement);
 
-			// supercars element
 			Element entity = doc.createElement("entity");
+			entity.setAttribute("ID", "" + ent.getID());
+			entity.setAttribute("asset", "" + ent.getAsset());
 			rootElement.appendChild(entity);
-			
+
 			Element position = doc.createElement("position");
 			entity.appendChild(position);
 
-			// setting attribute to element
 			Attr x = doc.createAttribute("x");
 			x.setValue("1");
 			position.setAttributeNode(x);
@@ -80,31 +82,34 @@ public class MapLoader
 			z.setValue("3");
 			position.setAttributeNode(z);
 
-			// carname element
-			Element carname = doc.createElement("carname");
-			Attr attrType = doc.createAttribute("type");
-			attrType.setValue("formula one");
-			carname.setAttributeNode(attrType);
-			carname.appendChild(doc.createTextNode("Ferrari 101"));
-			entity.appendChild(carname);
+			Element rotation = doc.createElement("rotation");
+			entity.appendChild(rotation);
 
-			Element carname1 = doc.createElement("carname");
-			Attr attrType1 = doc.createAttribute("type");
-			attrType1.setValue("sports");
-			carname1.setAttributeNode(attrType1);
-			carname1.appendChild(doc.createTextNode("Ferrari 202"));
-			entity.appendChild(carname1);
+			Attr x1 = doc.createAttribute("x");
+			x1.setValue("4");
+			rotation.setAttributeNode(x1);
+			Attr y1 = doc.createAttribute("y");
+			y1.setValue("5");
+			rotation.setAttributeNode(y1);
+			Attr z1 = doc.createAttribute("z");
+			z1.setValue("6");
+			rotation.setAttributeNode(z1);
 
-			// write the content into xml file
+			Element scale = doc.createElement("scale");
+			entity.appendChild(scale);
+
+			Attr s = doc.createAttribute("s");
+			s.setValue("1");
+			scale.setAttributeNode(s);
+
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File("assets/maps/new_map.xml"));
 			transformer.transform(source, result);
-
-			// Output to console for testing
-			StreamResult consoleResult = new StreamResult(System.out);
-			transformer.transform(source, consoleResult);
 		}
 		catch (Exception e)
 		{

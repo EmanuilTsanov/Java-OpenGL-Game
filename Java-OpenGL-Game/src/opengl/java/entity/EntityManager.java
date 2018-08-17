@@ -13,6 +13,7 @@ public class EntityManager
 
 	public static int getNextUniqueID()
 	{
+		System.out.println(nextUniqueID);
 		return EntityManager.nextUniqueID++;
 	}
 
