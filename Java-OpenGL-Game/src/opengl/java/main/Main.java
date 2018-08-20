@@ -1,6 +1,7 @@
 package opengl.java.main;
 
 import opengl.java.interaction.MouseLogic;
+import opengl.java.logger.Logger;
 import opengl.java.render.GameRenderer;
 import opengl.java.window.Window;
 
