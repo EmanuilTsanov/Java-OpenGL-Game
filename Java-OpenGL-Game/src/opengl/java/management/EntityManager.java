@@ -35,16 +35,16 @@ public class EntityManager
 	public boolean addEntity(Entity entity)
 	{
 		Entity e = entity.getCopy();
-		if (entities.get(entity.getAsset()) == null)
+		if (entities.get(e.getAsset()) == null)
 		{
 			HashMap<Integer, Entity> batch = new HashMap<Integer, Entity>();
 			batch.put(e.getID(), e);
-			entities.put(entity.getAsset(), batch);
+			entities.put(e.getAsset(), batch);
 			return true;
 		}
 		else
 		{
-			entities.get(entity.getAsset()).put(entity.getID(), entity);
+			entities.get(e.getAsset()).put(e.getID(), e);
 			return true;
 		}
 	}

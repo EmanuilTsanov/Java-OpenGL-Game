@@ -35,7 +35,6 @@ public class Entity
 
 	public Entity(int asset)
 	{
-		System.out.println(EntityManager.getNextUniqueID());
 		this.asset = asset;
 		entities.put(uniqueID, this);
 	}
@@ -102,6 +101,11 @@ public class Entity
 	public int getAsset()
 	{
 		return asset;
+	}
+
+	public void setAsset(int asset)
+	{
+		this.asset = asset;
 	}
 
 	public Vector3f getPosition()

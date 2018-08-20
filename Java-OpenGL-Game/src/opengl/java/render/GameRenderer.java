@@ -17,8 +17,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
-import opengl.java.gui.GUIInventory;
-import opengl.java.interaction.MouseController;
+import opengl.java.interaction.MouseLogic;
+import opengl.java.interaction.MousePicker;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
 import opengl.java.management.LightManager;
@@ -28,7 +28,6 @@ import opengl.java.model.TexturedModel;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
-import opengl.java.shader.GUIShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
@@ -48,7 +47,6 @@ public class GameRenderer
 	private PickShader pickShader;
 	private FontShader fontShader;
 	private ColorfulShader cShader;
-	private GUIShader shader;
 
 	private Camera camera = Camera.getInstance();
 	private Terrain terrain = Terrain.getInstance();
@@ -75,7 +73,6 @@ public class GameRenderer
 		tShader = new TerrainShader();
 		pickShader = new PickShader();
 		cShader = new ColorfulShader();
-		shader = new GUIShader();
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		fontShader.stop();
@@ -106,13 +103,16 @@ public class GameRenderer
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
 
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);
-		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT,
+				(java.nio.ByteBuffer) null);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID,
+				0);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, renderBufferID);
 		GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL14.GL_DEPTH_COMPONENT24, width, height);
-		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, renderBufferID);
+		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER,
+				renderBufferID);
 		unbindBuffers();
 	}
 
@@ -152,7 +152,8 @@ public class GameRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
+				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
+						currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			enableCulling();
@@ -230,7 +231,8 @@ public class GameRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
+				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
+						currentEntity.getScale());
 				pickShader.loadColor(currentEntity.getColor());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -309,7 +311,13 @@ public class GameRenderer
 		eShader.loadLight(sun);
 		eShader.loadViewMatrix(camera);
 		renderEntities();
-		MouseController.getInstance().render();
+		if (MouseLogic.getInstance().shouldRenderHolder())
+		{
+			Entity e = MouseLogic.getInstance().getHolder();
+			Vector3f v = MousePicker.getInstance().getMapPosition();
+			e.setPosition(v.x,0,v.z);
+			renderEntity(e);
+		}
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);

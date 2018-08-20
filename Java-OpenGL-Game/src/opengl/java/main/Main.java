@@ -1,7 +1,6 @@
 package opengl.java.main;
 
-import opengl.java.interaction.MouseController;
-import opengl.java.interaction.MousePicker;
+import opengl.java.interaction.MouseLogic;
 import opengl.java.render.GameRenderer;
 import opengl.java.window.Window;
 
@@ -21,8 +20,7 @@ public class Main
 
 	private static void update()
 	{
-		MouseController.getInstance().update();
-		MousePicker.getInstance().update();
+		MouseLogic.getInstance().update();
 	}
 
 	private static void render()

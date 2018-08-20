@@ -11,7 +11,6 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
-import opengl.java.interaction.MouseController;
 import opengl.java.model.Model;
 import opengl.java.model.TexturedModel;
 import opengl.java.shader.ShadowShader;
@@ -48,25 +47,14 @@ public class ShadowMapEntityRenderer
 		{
 			for (Map.Entry<Integer, Entity> innerEntry : entry.getValue().entrySet())
 			{
-				Model rawModel = TexturedModel.getTexturedModel
-						(innerEntry
-								.getValue()
-								.getAsset())
-						.getModel();
+				Model rawModel = TexturedModel.getTexturedModel(innerEntry.getValue().getAsset()).getModel();
 				bindModel(rawModel);
 				GL13.glActiveTexture(GL13.GL_TEXTURE0);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, TexturedModel.getTexturedModel(innerEntry.getValue().getAsset()).getTexture().getID());
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D,
+						TexturedModel.getTexturedModel(innerEntry.getValue().getAsset()).getTexture().getID());
 				prepareInstance(innerEntry.getValue());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
-		}
-		if (MouseController.getInstance().getEntityHolder() != null)
-		{
-
-			Model rawModel = TexturedModel.getTexturedModel(MouseController.getInstance().getEntityHolder().getAsset()).getModel();
-			bindModel(rawModel);
-			prepareInstance(MouseController.getInstance().getEntityHolder());
-			GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		}
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
