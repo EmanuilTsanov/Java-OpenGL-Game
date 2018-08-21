@@ -315,7 +315,8 @@ public class GameRenderer
 		{
 			Entity e = MouseLogic.getInstance().getHolder();
 			Vector3f v = MousePicker.getInstance().getMapPosition();
-			e.setPosition(v.x,0,v.z);
+			Vector2f v1 =Terrain.getInstance().getCellPosition(v.x,v.z);
+			e.setPosition(v1.x, 0, v1.y);
 			renderEntity(e);
 		}
 		eShader.stop();

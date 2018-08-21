@@ -108,10 +108,61 @@ public class MouseLogic
 				cam.moveBy(dx - dx1, 0, dz - dz1);
 			}
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_1))
+		while (Keyboard.next())
 		{
-			shouldRenderHolder = true;
-			itemHolder.setAsset(TexturedModel.BENCH.getID());
+			if (Keyboard.isKeyDown(Keyboard.KEY_1))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.BENCH.getID());
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_2))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.CAMPFIRE.getID());
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_3))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.ROCK.getID());
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_4))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.CHRISTMAS_TREE.getID());
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_5))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.GRASS.getID());
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_6))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.TABLE.getID());
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_7))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.MUSHROOM1.getID());
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_8))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.MUSHROOM2.getID());
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_9))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.PINE_TREE.getID());
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_0))
+			{
+				shouldRenderHolder = true;
+				itemHolder.setAsset(TexturedModel.PLATE.getID());
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_R)) {
+				itemHolder.increaseRotation(0, 90, 0);
+			}
 		}
 	}
 
