@@ -1,7 +1,6 @@
 package opengl.java.main;
 
 import opengl.java.interaction.MouseLogic;
-import opengl.java.logger.Logger;
 import opengl.java.render.GameRenderer;
 import opengl.java.window.Window;
 
@@ -13,19 +12,17 @@ public class Main
 		while (Window.isOpened())
 		{
 			Window.update();
-			update();
-			render();
+			MouseLogic.getInstance().update();
+			GameRenderer.getInstance().render();
 		}
 		Window.destroy();
 	}
 
 	private static void update()
 	{
-		MouseLogic.getInstance().update();
 	}
 
 	private static void render()
 	{
-		GameRenderer.getInstance().render();
 	}
 }
