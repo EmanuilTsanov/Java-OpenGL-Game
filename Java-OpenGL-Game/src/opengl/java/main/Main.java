@@ -17,12 +17,4 @@ public class Main
 		}
 		Window.destroy();
 	}
-
-	private static void update()
-	{
-	}
-
-	private static void render()
-	{
-	}
 }

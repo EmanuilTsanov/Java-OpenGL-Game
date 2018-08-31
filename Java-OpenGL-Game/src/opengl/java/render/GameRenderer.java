@@ -38,25 +38,23 @@ import opengl.java.window.FPSCounter;
 
 public class GameRenderer
 {
-	private int framebufferID;
-	private int colorTextureID;
-	private int renderBufferID;
+	private static int framebufferID;
+	private static int colorTextureID;
+	private static int renderBufferID;
 
-	private BasicShader eShader;
-	private TerrainShader tShader;
-	private PickShader pickShader;
-	private FontShader fontShader;
-	private ColorfulShader cShader;
+	private static BasicShader eShader;
+	private static TerrainShader tShader;
+	private static PickShader pickShader;
+	private static FontShader fontShader;
+	private static ColorfulShader cShader;
 
-	private Camera camera = Camera.getInstance();
-	private Terrain terrain = Terrain.getInstance();
+	private static Camera camera = Camera.getInstance();
+	private static Terrain terrain = Terrain.getInstance();
 
-	private HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
-	private Light sun = LightManager.getInstance().getSun();
+	private static HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getInstance().getEntityHashMap();
+	private static Light sun = LightManager.getInstance().getSun();
 
-	private ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
-
-	private static GameRenderer singleton = new GameRenderer();
+	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
 	public GameRenderer()
 	{
@@ -93,7 +91,7 @@ public class GameRenderer
 		cShader.stop();
 	}
 
-	public void bindBuffers(int width, int height)
+	private static void bindBuffers(int width, int height)
 	{
 		framebufferID = GL30.glGenFramebuffers();
 		colorTextureID = GL11.glGenTextures();
@@ -103,30 +101,22 @@ public class GameRenderer
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
 
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT,
-				(java.nio.ByteBuffer) null);
-		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID,
-				0);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, renderBufferID);
 		GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL14.GL_DEPTH_COMPONENT24, width, height);
-		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER,
-				renderBufferID);
+		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, renderBufferID);
 		unbindBuffers();
 	}
 
-	public void unbindBuffers()
+	private static void unbindBuffers()
 	{
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 	}
 
-	public static GameRenderer getInstance()
-	{
-		return singleton;
-	}
-
-	public void prepareScreen(float r, float g, float b)
+	private static void prepareScreen(float r, float g, float b)
 	{
 		GL11.glClearColor(r, g, b, 0);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -134,7 +124,7 @@ public class GameRenderer
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, getShadowMapTexture());
 	}
 
-	public void renderEntities()
+	private void renderEntities()
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
@@ -152,8 +142,7 @@ public class GameRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			enableCulling();
@@ -164,7 +153,7 @@ public class GameRenderer
 		}
 	}
 
-	public void renderEntity(Entity e)
+	public static void renderEntity(Entity e)
 	{
 		Model model = TexturedModel.getTexturedModel(e.getAsset()).getModel();
 		ModelTexture texture = TexturedModel.getTexturedModel(e.getAsset()).getTexture();
@@ -181,11 +170,8 @@ public class GameRenderer
 		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
 	}
-
-	/**
-	 * Renders the terrain.
-	 */
-	public void renderTerrain(Matrix4f toShadowSpace)
+	
+	private void renderTerrain(Matrix4f toShadowSpace)
 	{
 		tShader.loadToShadowMapSpace(toShadowSpace);
 		GL30.glBindVertexArray(terrain.getMesh().getVAOID());
@@ -221,7 +207,7 @@ public class GameRenderer
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
-	public void renderOffScreen()
+	private void renderOffScreen()
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
@@ -231,8 +217,7 @@ public class GameRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				pickShader.loadColor(currentEntity.getColor());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -284,7 +269,7 @@ public class GameRenderer
 		smmr.render(EntityManager.getInstance().getEntityHashMap(), sun);
 	}
 
-	public int getShadowMapTexture()
+	public static int getShadowMapTexture()
 	{
 		return smmr.getShadowMap();
 	}
@@ -315,7 +300,7 @@ public class GameRenderer
 		{
 			Entity e = MouseLogic.getInstance().getHolder();
 			Vector3f v = MousePicker.getInstance().getMapPosition();
-			Vector2f v1 =Terrain.getInstance().getCellPosition(v.x,v.z);
+			Vector2f v1 = Terrain.getInstance().getCellPosition(v.x, v.z);
 			e.setPosition(v1.x, 0, v1.y);
 			renderEntity(e);
 		}
