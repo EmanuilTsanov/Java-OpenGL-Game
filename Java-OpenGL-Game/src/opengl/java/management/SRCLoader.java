@@ -1,18 +1,13 @@
 package opengl.java.management;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
@@ -25,9 +20,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import opengl.java.files.FileSRC;
 import opengl.java.loader.ModelLoader;
-import opengl.java.logger.Logger;
 import opengl.java.model.Model;
-import opengl.java.render.GameRenderer;
 import opengl.java.texture.ModelTexture;
 
 public class SRCLoader
@@ -199,35 +192,38 @@ public class SRCLoader
 		return new ModelTexture(tex.getTextureID());
 	}
 
-	public static void saveScreenshot()
-	{
-		int width = Display.getWidth();
-		int height = Display.getHeight();
-		ByteBuffer buffer = GameRenderer.getInstance().readScreen(0, 0, width, height);
-		File file = new File(
-				Logger.getDate() + "_" + Logger.getFormattedTime() + FileSRC.DOT + FileSRC.TEXTURE_EXTENSION);
-		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-		for (int x = 0; x < width; x++)
-		{
-			for (int y = 0; y < height; y++)
-			{
-				int i = (x + (width * y)) * 4;
-				int r = buffer.get(i) & 0xFF;
-				int g = buffer.get(i + 1) & 0xFF;
-				int b = buffer.get(i + 2) & 0xFF;
-				image.setRGB(x, height - (y + 1), (0xFF << 24) | (r << 16) | (g << 8) | b);
-			}
-		}
-
-		try
-		{
-			ImageIO.write(image, FileSRC.TEXTURE_EXTENSION, file);
-			System.out.println("SCREENSHOT");
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
+	// public static void saveScreenshot()
+	// {
+	// int width = Display.getWidth();
+	// int height = Display.getHeight();
+	// ByteBuffer buffer = GameRenderer.getInstance().readScreen(0, 0, width,
+	// height);
+	// File file = new File(
+	// Logger.getDate() + "_" + Logger.getFormattedTime() + FileSRC.DOT +
+	// FileSRC.TEXTURE_EXTENSION);
+	// BufferedImage image = new BufferedImage(width, height,
+	// BufferedImage.TYPE_INT_RGB);
+	//
+	// for (int x = 0; x < width; x++)
+	// {
+	// for (int y = 0; y < height; y++)
+	// {
+	// int i = (x + (width * y)) * 4;
+	// int r = buffer.get(i) & 0xFF;
+	// int g = buffer.get(i + 1) & 0xFF;
+	// int b = buffer.get(i + 2) & 0xFF;
+	// image.setRGB(x, height - (y + 1), (0xFF << 24) | (r << 16) | (g << 8) | b);
+	// }
+	// }
+	//
+	// try
+	// {
+	// ImageIO.write(image, FileSRC.TEXTURE_EXTENSION, file);
+	// System.out.println("SCREENSHOT");
+	// }
+	// catch (IOException e)
+	// {
+	// e.printStackTrace();
+	// }
+	// }
 }

@@ -4,19 +4,21 @@ import java.util.HashMap;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.calculations.Maths;
+import opengl.java.management.EntityManager;
 import opengl.java.model.TexturedModel;
 
 public class Entity
 {
 	protected int uniqueID;
-	protected int asset;
+	protected int assetID;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
 
 	protected float scale = 1;
 
-	private static HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>();
+	private static HashMap<Integer, Integer> assetList = new HashMap<Integer, Integer>();
 
 	private Vector3f color;
 
@@ -35,15 +37,14 @@ public class Entity
 
 	public Entity(int asset)
 	{
-		this.asset = asset;
-		entities.put(uniqueID, this);
+		this.assetID = asset;
 	}
 
 	public Entity setup()
 	{
-		this.uniqueID = EntityManager.getNextUniqueID();
-		color = EntityManager.getNextUniqueColor(uniqueID);
-		entities.put(uniqueID, this);
+		this.uniqueID = Maths.getNextUniqueID();
+		assetList.put(uniqueID, assetID);
+		color = Maths.getNextUniqueColor(uniqueID);
 		return this;
 	}
 
@@ -100,12 +101,12 @@ public class Entity
 
 	public int getAsset()
 	{
-		return asset;
+		return assetID;
 	}
 
 	public void setAsset(int asset)
 	{
-		this.asset = asset;
+		this.assetID = asset;
 	}
 
 	public Vector3f getPosition()
@@ -137,15 +138,15 @@ public class Entity
 
 	public Entity getCopy()
 	{
-		return new Entity(asset).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
+		return new Entity(assetID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
 	}
 
 	public static Entity getEntityByColor(Vector3f color)
 	{
-		int uniqueID = EntityManager.getUniqueIDByColor(color.x + "/" + color.y + "/" + color.z);
+		int uniqueID = Maths.getUniqueIDByColor(color.x + "/" + color.y + "/" + color.z);
 		if (uniqueID == -1)
 			return null;
-		Entity entity = entities.get(uniqueID);
+		Entity entity = EntityManager.getEntityHashMap().get(assetList.get(uniqueID)).get(uniqueID);
 		return entity;
 	}
 }

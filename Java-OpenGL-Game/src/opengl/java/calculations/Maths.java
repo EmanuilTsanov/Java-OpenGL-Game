@@ -1,5 +1,7 @@
 package opengl.java.calculations;
 
+import java.util.HashMap;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
@@ -22,6 +24,11 @@ public class Maths
 	private static float pixel_height = (1f / (float) height) * 2;
 
 	private static Matrix4f projectionMatrix = null;
+
+	private static int nextUniqueID;
+
+	private static Vector3f nextUniqueColor = new Vector3f(0, 0, 0);
+	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
 	public static Matrix4f createTransMat(Vector3f position, Vector3f rotation, float scale)
 	{
@@ -151,5 +158,45 @@ public class Maths
 		float y = px * v.y;
 		float z = px * v.z;
 		return new Vector3f(x, y, z);
+	}
+
+	public static int getNextUniqueID()
+	{
+		System.out.println(nextUniqueID);
+		return nextUniqueID++;
+	}
+
+	public static Vector3f getNextUniqueColor(int uniqueID)
+	{
+		int r = (int) nextUniqueColor.x;
+		int g = (int) nextUniqueColor.y;
+		int b = (int) nextUniqueColor.z;
+		Vector3f col = new Vector3f(r, g, b);
+		if (b < 255)
+		{
+			nextUniqueColor.z++;
+		}
+		else if (g < 255)
+		{
+			nextUniqueColor.y++;
+			nextUniqueColor.z = 0;
+		}
+		else if (r < 255)
+		{
+			nextUniqueColor.x++;
+			nextUniqueColor.y = 0;
+			nextUniqueColor.z = 0;
+		}
+		colorArray.put(col.x + "/" + col.y + "/" + col.z, uniqueID);
+		return col;
+	}
+
+	public static int getUniqueIDByColor(String color)
+	{
+		if (colorArray.get(color) == null)
+		{
+			return -1;
+		}
+		return colorArray.get(color);
 	}
 }

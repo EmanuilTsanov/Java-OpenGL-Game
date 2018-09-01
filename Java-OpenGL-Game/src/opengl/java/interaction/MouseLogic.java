@@ -2,10 +2,12 @@ package opengl.java.interaction;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.management.EntityManager;
 import opengl.java.model.TexturedModel;
+import opengl.java.render.GameRenderer;
 import opengl.java.view.Camera;
 
 public class MouseLogic
@@ -45,8 +47,20 @@ public class MouseLogic
 				{
 					if (shouldRenderHolder)
 					{
-						EntityManager.getInstance().addEntity(itemHolder);
+						EntityManager.addEntity(itemHolder);
 						shouldRenderHolder = false;
+					}
+					else
+					{
+						Vector3f color = GameRenderer.pickColor(Mouse.getX(), Mouse.getY());
+						Entity e = Entity.getEntityByColor(color);
+						if (e != null)
+						{
+							itemHolder.setAsset(e.getAsset());
+							itemHolder.setPosition(e.getPosition()).setRotationInRadians(e.getRotation());
+							EntityManager.removeEntity(e);
+							shouldRenderHolder=true;
+						}
 					}
 				}
 				if (Mouse.getEventButton() == RIGHT_MOUSE_BUTTON)
@@ -160,7 +174,8 @@ public class MouseLogic
 				shouldRenderHolder = true;
 				itemHolder.setAsset(TexturedModel.PLATE.getID());
 			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_R)) {
+			if (Keyboard.isKeyDown(Keyboard.KEY_R))
+			{
 				itemHolder.increaseRotation(0, 90, 0);
 			}
 		}

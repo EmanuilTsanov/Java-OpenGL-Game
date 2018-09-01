@@ -8,22 +8,14 @@ import opengl.java.loader.MapLoader;
 
 public class EntityManager
 {
-	private HashMap<Integer, HashMap<Integer, Entity>> entities;
-
-	private static EntityManager singleton = new EntityManager();
+	private static HashMap<Integer, HashMap<Integer, Entity>> entities = new HashMap<Integer, HashMap<Integer, Entity>>();
 
 	public EntityManager()
 	{
-		entities = new HashMap<Integer, HashMap<Integer, Entity>>();
 		loadEntities();
 	}
 
-	public static EntityManager getInstance()
-	{
-		return singleton;
-	}
-
-	public void loadEntities()
+	public static void loadEntities()
 	{
 		ArrayList<Entity> entities1 = MapLoader.loadMap("new_map");
 		for (int i = 0; i < entities1.size(); i++)
@@ -32,7 +24,7 @@ public class EntityManager
 		}
 	}
 
-	public boolean addEntity(Entity entity)
+	public static boolean addEntity(Entity entity)
 	{
 		Entity e = entity.getCopy();
 		if (entities.get(e.getAsset()) == null)
@@ -49,7 +41,7 @@ public class EntityManager
 		}
 	}
 
-	public void removeEntity(Entity e)
+	public static void removeEntity(Entity e)
 	{
 		HashMap<Integer, Entity> ptr = entities.get(e.getAsset());
 		ptr.remove(e.getID());
@@ -59,7 +51,7 @@ public class EntityManager
 		}
 	}
 
-	public HashMap<Integer, HashMap<Integer, Entity>> getEntityHashMap()
+	public static HashMap<Integer, HashMap<Integer, Entity>> getEntityHashMap()
 	{
 		return entities;
 	}

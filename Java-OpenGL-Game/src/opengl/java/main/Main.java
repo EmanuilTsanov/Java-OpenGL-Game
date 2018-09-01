@@ -13,7 +13,7 @@ public class Main
 		{
 			Window.update();
 			MouseLogic.getInstance().update();
-			GameRenderer.getInstance().render();
+			GameRenderer.render();
 		}
 		Window.destroy();
 	}
