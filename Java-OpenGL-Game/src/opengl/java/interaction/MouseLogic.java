@@ -59,7 +59,7 @@ public class MouseLogic
 							itemHolder.setAsset(e.getAsset());
 							itemHolder.setPosition(e.getPosition()).setRotationInRadians(e.getRotation());
 							EntityManager.removeEntity(e);
-							shouldRenderHolder=true;
+							shouldRenderHolder = true;
 						}
 					}
 				}

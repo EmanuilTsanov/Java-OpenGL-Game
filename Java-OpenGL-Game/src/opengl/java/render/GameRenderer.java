@@ -21,7 +21,6 @@ import opengl.java.interaction.MouseLogic;
 import opengl.java.interaction.MousePicker;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
-import opengl.java.management.LightManager;
 import opengl.java.model.Model;
 import opengl.java.model.TexturedModel;
 import opengl.java.shader.BasicShader;
@@ -49,9 +48,9 @@ public class GameRenderer
 
 	private static Camera camera = Camera.getInstance();
 	private static Terrain terrain = Terrain.getInstance();
+	private static Light sun = new Light(new Vector3f(1000000, 1500000, -1000000), new Vector3f(1.0f, 1.0f, 1.0f));
 
 	private static HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getEntityHashMap();
-	private static Light sun = LightManager.getInstance().getSun();
 
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
