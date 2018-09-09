@@ -6,12 +6,12 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
-import opengl.java.model.Model;
+import opengl.java.model.RawModel;
 import opengl.java.shader.GUIShader;
 
 public class GUICanvas extends GUIComponent
 {
-	public Model model;
+	public RawModel model;
 
 	public Vector3f color = new Vector3f(0, 0, 0);
 

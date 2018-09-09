@@ -1,7 +1,9 @@
 package opengl.java.render;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.BufferUtils;
@@ -11,8 +13,6 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
@@ -20,8 +20,10 @@ import opengl.java.fonts.GUIText;
 import opengl.java.interaction.MouseLogic;
 import opengl.java.interaction.MousePicker;
 import opengl.java.lighting.Light;
+import opengl.java.loader.ModelLoader;
 import opengl.java.management.EntityManager;
-import opengl.java.model.Model;
+import opengl.java.management.SRCLoader;
+import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
@@ -30,11 +32,13 @@ import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
-import opengl.java.texture.ModelTexture;
+import opengl.java.terrain.TerrainTexture;
+import opengl.java.terrain.TerrainTexturepack;
+import opengl.java.texture.RawTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
 
-public class GameRenderer
+public class MainRenderer
 {
 	private static int framebufferID;
 	private static int colorTextureID;
@@ -47,7 +51,24 @@ public class GameRenderer
 	private static ColorfulShader cShader;
 
 	private static Camera camera = Camera.getInstance();
-	private static Terrain terrain = Terrain.getInstance();
+
+	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.loadTexture("grass").getID());
+	private static TerrainTexture rTexture = new TerrainTexture(SRCLoader.loadTexture("dirt").getID());
+	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.loadTexture("pavement").getID());
+	private static TerrainTexture bTexture = new TerrainTexture(SRCLoader.loadTexture("rocks").getID());
+
+	private static TerrainTexturepack texturepack = new TerrainTexturepack(backgroundTexture, rTexture, gTexture,
+			bTexture);
+
+	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.loadTexture("blendMap").getID());
+
+	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap);
+	private static Terrain terrain1 = new Terrain(0, 1, new ModelLoader(), texturepack, blendMap);
+
+	private static List<Terrain> terrains = new ArrayList<Terrain>();
+
+	private static TerrainRenderer renderer;
+
 	private static Light sun = new Light(new Vector3f(1000000, 1500000, -1000000), new Vector3f(1.0f, 1.0f, 1.0f));
 
 	private static HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getEntityHashMap();
@@ -58,8 +79,16 @@ public class GameRenderer
 	{
 		enableCulling();
 		initShaders();
+		renderer = new TerrainRenderer(tShader);
+		processTerrain(terrain);
+		processTerrain(terrain1);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
+	}
+
+	public static void processTerrain(Terrain terrain)
+	{
+		terrains.add(terrain);
 	}
 
 	private static void initShaders()
@@ -129,8 +158,8 @@ public class GameRenderer
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
-			Model model = TexturedModel.getTexturedModel(outer.getKey()).getModel();
-			ModelTexture texture = TexturedModel.getTexturedModel(outer.getKey()).getTexture();
+			RawModel model = TexturedModel.getTexturedModel(outer.getKey()).getRawModel();
+			RawTexture texture = TexturedModel.getTexturedModel(outer.getKey()).getTexture();
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
@@ -157,8 +186,8 @@ public class GameRenderer
 
 	public static void renderEntity(Entity e)
 	{
-		Model model = TexturedModel.getTexturedModel(e.getAsset()).getModel();
-		ModelTexture texture = TexturedModel.getTexturedModel(e.getAsset()).getTexture();
+		RawModel model = TexturedModel.getTexturedModel(e.getAsset()).getRawModel();
+		RawTexture texture = TexturedModel.getTexturedModel(e.getAsset()).getTexture();
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
@@ -170,24 +199,6 @@ public class GameRenderer
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(2);
-		GL30.glBindVertexArray(0);
-	}
-
-	private static void renderTerrain(Matrix4f toShadowSpace)
-	{
-		tShader.loadToShadowMapSpace(toShadowSpace);
-		GL30.glBindVertexArray(terrain.getMesh().getVAOID());
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getTexture().getID());
-		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
-		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-		Vector2f chPos = terrain.getPosition();
-		tShader.loadTransformationMatrix(new Vector3f(chPos.x, 0, chPos.y), new Vector3f(0f, 0f, 0f), 1f);
-		GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
 	}
 
@@ -213,7 +224,7 @@ public class GameRenderer
 	{
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
-			Model model = TexturedModel.getTexturedModel(outer.getKey()).getModel();
+			RawModel model = TexturedModel.getTexturedModel(outer.getKey()).getRawModel();
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
@@ -254,7 +265,8 @@ public class GameRenderer
 		renderEntities();
 		eShader.stop();
 		tShader.start();
-		renderTerrain(smmr.getToShadowMapSpaceMatrix());
+		tShader.loadToShadowMapSpace(smmr.getToShadowMapSpaceMatrix());
+
 		tShader.stop();
 		unbindBuffers();
 		// SRCLoader.saveScreenshot();
@@ -303,14 +315,14 @@ public class GameRenderer
 		{
 			Entity e = MouseLogic.getInstance().getHolder();
 			Vector3f v = MousePicker.getInstance().getMapPosition();
-			Vector2f v1 = Terrain.getInstance().getCellPosition(v.x, v.z);
-			e.setPosition(v1.x, 0, v1.y);
+			e.setPosition(v.x, 0, v.z);
 			renderEntity(e);
 		}
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);
-		renderTerrain(smmr.getToShadowMapSpaceMatrix());
+		tShader.loadToShadowMapSpace(smmr.getToShadowMapSpaceMatrix());
+		renderer.render(terrains);
 		tShader.stop();
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));

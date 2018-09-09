@@ -22,7 +22,7 @@ void main()
 	vec4 positionRelativeToCam = viewMat * worldPos;
 	shadowCoords = toShadowMapSpace * worldPos;
 	gl_Position = projectionMat * viewMat * worldPos;
-	textureCoords = texCoords * 160f;
+	textureCoords = texCoords;
 	
 	float distance = length(positionRelativeToCam);
 	distance = distance - (shadowDistance - transitionDistance);

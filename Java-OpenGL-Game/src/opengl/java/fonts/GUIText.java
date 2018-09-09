@@ -7,13 +7,13 @@ import org.lwjgl.util.vector.Vector2f;
 
 import opengl.java.calculations.Maths;
 import opengl.java.loader.ModelLoader;
-import opengl.java.model.Model;
+import opengl.java.model.RawModel;
 
 public class GUIText
 {
 	private int x, y;
 
-	private Model txtModel;
+	private RawModel txtModel;
 
 	private int imgID;
 
@@ -39,7 +39,7 @@ public class GUIText
 		txtModel = translateText(t, maxLineWidth, fontType, fontSize);
 	}
 
-	public Model translateText(String text, int maxLineWidth, FontType fontType, float fontSize)
+	public RawModel translateText(String text, int maxLineWidth, FontType fontType, float fontSize)
 	{
 		String[] tokens = text.split("\\s+");
 		HashMap<Integer, Character> chars = scaleFonts(fontType.getChars(), fontSize);
@@ -75,7 +75,7 @@ public class GUIText
 		return loadTextMesh(linesArr, fontType, fontSize);
 	}
 
-	public Model loadTextMesh(ArrayList<Line> lines, FontType ft, float fontSize)
+	public RawModel loadTextMesh(ArrayList<Line> lines, FontType ft, float fontSize)
 	{
 		int lineXAdvance = 0;
 		ArrayList<Float> vertices = new ArrayList<Float>();
@@ -156,7 +156,7 @@ public class GUIText
 		this.y = y;
 	}
 
-	public Model getModel()
+	public RawModel getModel()
 	{
 		return txtModel;
 	}

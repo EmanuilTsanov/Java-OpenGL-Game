@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.entity.Entity;
 import opengl.java.management.EntityManager;
 import opengl.java.model.TexturedModel;
-import opengl.java.render.GameRenderer;
+import opengl.java.render.MainRenderer;
 import opengl.java.view.Camera;
 
 public class MouseLogic
@@ -52,7 +52,7 @@ public class MouseLogic
 					}
 					else
 					{
-						Vector3f color = GameRenderer.pickColor(Mouse.getX(), Mouse.getY());
+						Vector3f color = MainRenderer.pickColor(Mouse.getX(), Mouse.getY());
 						Entity e = Entity.getEntityByColor(color);
 						if (e != null)
 						{
@@ -108,8 +108,8 @@ public class MouseLogic
 			}
 			if (RMBdown)
 			{
-				float distanceX = (cursorStartX - mouseX) * 0.1f / (currentZoom / 5 + 1);
-				float distanceY = (cursorStartY - mouseY) * 0.1f / (currentZoom / 5 + 1);
+				float distanceX = (cursorStartX - mouseX) * 0.5f / (currentZoom / 5 + 1);
+				float distanceY = (cursorStartY - mouseY) * 0.5f / (currentZoom / 5 + 1);
 				cursorStartX = mouseX;
 				cursorStartY = mouseY;
 				float camYaw = cam.getYRotation();
@@ -177,6 +177,30 @@ public class MouseLogic
 			if (Keyboard.isKeyDown(Keyboard.KEY_R))
 			{
 				itemHolder.increaseRotation(0, 90, 0);
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_W))
+			{
+				Camera.getInstance().moveBy(0,0,5);
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_S))
+			{
+				Camera.getInstance().moveBy(0,0,-5);
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_A))
+			{
+				Camera.getInstance().moveBy(5,0,0);
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_D))
+			{
+				Camera.getInstance().moveBy(-5,0,0);
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_Q))
+			{
+				Camera.getInstance().moveBy(0,5,0);
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_E))
+			{
+				Camera.getInstance().moveBy(0,-5,0);
 			}
 		}
 	}

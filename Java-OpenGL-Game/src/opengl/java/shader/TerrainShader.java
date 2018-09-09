@@ -19,6 +19,11 @@ public class TerrainShader extends ShaderProgram
 	private int locShadowMap;
 	private int locShadowDistance;
 	private int loc_mapSize;
+	private int loc_backgroundTexture;
+	private int loc_rTexture;
+	private int loc_gTexture;
+	private int loc_bTexture;
+	private int loc_blendMap;
 
 	public TerrainShader()
 	{
@@ -42,6 +47,20 @@ public class TerrainShader extends ShaderProgram
 		locShadowMap = super.getUniformLocation("shadowMap");
 		locShadowDistance = super.getUniformLocation("shadowDistance");
 		loc_mapSize = super.getUniformLocation("mapSize");
+		loc_backgroundTexture = super.getUniformLocation("backgroundTexture");
+		loc_rTexture = super.getUniformLocation("rTexture");
+		loc_gTexture = super.getUniformLocation("gTexture");
+		loc_bTexture = super.getUniformLocation("bTexture");
+		loc_blendMap = super.getUniformLocation("blendMap");
+	}
+
+	public void connectTextureUnits()
+	{
+		super.loadInt(loc_backgroundTexture, 0);
+		super.loadInt(loc_rTexture, 1);
+		super.loadInt(loc_gTexture, 2);
+		super.loadInt(loc_bTexture, 3);
+		super.loadInt(loc_blendMap, 4);
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)

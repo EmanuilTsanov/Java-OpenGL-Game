@@ -1,74 +1,95 @@
 package opengl.java.terrain;
 
-import java.util.HashMap;
-
-import org.lwjgl.util.vector.Vector2f;
-
-import opengl.java.management.SRCLoader;
-import opengl.java.model.Model;
-import opengl.java.texture.ModelTexture;
+import opengl.java.loader.ModelLoader;
+import opengl.java.model.RawModel;
+import opengl.java.texture.RawTexture;
 
 public class Terrain
 {
-	private Vector2f position;
+	private static final float SIZE = 512.0f;
+	// private static final float MAX_HEIGHT = 40.0f;
+	// private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
+	private static final int VERTEX_COUNT = 256;
 
-	private Model terrainMesh;
-	private ModelTexture terrainTexture;
+	private float x, z;
+	private RawModel model;
+	private TerrainTexturepack texturepack;
+	private TerrainTexture blendMap;
 
-	private HashMap<String, TerrainCell> cells;
-
-	private static Terrain singleton = new Terrain();
-
-	public Terrain()
+	public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturepack texturepack, TerrainTexture blendMap)
 	{
-		this.position = new Vector2f(0, 0);
-		this.terrainMesh = TerrainGenerator.getTerrainMesh();
-		terrainTexture = SRCLoader.loadTexture("grassT");
-		generateCells();
+		this.texturepack = texturepack;
+		this.blendMap = blendMap;
+		this.x = gridX * SIZE;
+		this.z = gridZ * SIZE;
+		this.model = generateTerrain(loader);
 	}
 
-	private void generateCells()
+	public float getX()
 	{
-		cells = new HashMap<String, TerrainCell>();
-		int s = TerrainGenerator.getVertexSize() / TerrainGenerator.getQuadSize();
-		for (int y = 0; y < s; y++)
+		return x;
+	}
+
+	public float getZ()
+	{
+		return z;
+	}
+
+	public RawModel getModel()
+	{
+		return model;
+	}
+
+	public TerrainTexturepack getTexturepack()
+	{
+		return texturepack;
+	}
+
+	public TerrainTexture getBlendMap()
+	{
+		return blendMap;
+	}
+
+	private RawModel generateTerrain(ModelLoader loader)
+	{
+		int count = VERTEX_COUNT * VERTEX_COUNT;
+		float[] vertices = new float[count * 3];
+		float[] normals = new float[count * 3];
+		float[] textureCoords = new float[count * 2];
+		int[] indices = new int[6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT - 1)];
+		int vertexPointer = 0;
+		for (int i = 0; i < VERTEX_COUNT; i++)
 		{
-			for (int x = 0; x < s; x++)
+			for (int j = 0; j < VERTEX_COUNT; j++)
 			{
-				TerrainCell cell = new TerrainCell();
-				cells.put(formKey(x, y), cell);
+				vertices[vertexPointer * 3] = (float) j / ((float) VERTEX_COUNT - 1) * SIZE;
+				vertices[vertexPointer * 3 + 1] = 0;
+				vertices[vertexPointer * 3 + 2] = (float) i / ((float) VERTEX_COUNT - 1) * SIZE;
+				normals[vertexPointer * 3] = 0;
+				normals[vertexPointer * 3 + 1] = 1;
+				normals[vertexPointer * 3 + 2] = 0;
+				textureCoords[vertexPointer * 2] = (float) j / ((float) VERTEX_COUNT - 1);
+				textureCoords[vertexPointer * 2 + 1] = (float) i / ((float) VERTEX_COUNT - 1);
+				vertexPointer++;
 			}
 		}
-	}
-
-	private String formKey(int x, int y)
-	{
-		return x + "/" + y;
-	}
-
-	public static Terrain getInstance()
-	{
-		return singleton;
-	}
-
-	public Vector2f getCellPosition(float x, float y)
-	{
-		Vector2f vec = new Vector2f((int) (x / TerrainGenerator.getQuadSize()), (int) (y / TerrainGenerator.getQuadSize()));
-		return vec;
-	}
-
-	public Vector2f getPosition()
-	{
-		return position;
-	}
-
-	public Model getMesh()
-	{
-		return terrainMesh;
-	}
-
-	public ModelTexture getTexture()
-	{
-		return terrainTexture;
+		int pointer = 0;
+		for (int gz = 0; gz < VERTEX_COUNT - 1; gz++)
+		{
+			for (int gx = 0; gx < VERTEX_COUNT - 1; gx++)
+			{
+				int topLeft = (gz * VERTEX_COUNT) + gx;
+				int topRight = topLeft + 1;
+				int bottomLeft = ((gz + 1) * VERTEX_COUNT) + gx;
+				int bottomRight = bottomLeft + 1;
+				indices[pointer++] = topLeft;
+				indices[pointer++] = bottomLeft;
+				indices[pointer++] = topRight;
+				indices[pointer++] = topRight;
+				indices[pointer++] = bottomLeft;
+				indices[pointer++] = bottomRight;
+			}
+		}
+		return loader.loadModel(vertices, indices, textureCoords, normals);
 	}
 }

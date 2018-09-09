@@ -2,8 +2,6 @@ package opengl.java.view;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.terrain.TerrainGenerator;
-
 public class Camera
 {
 	private Vector3f position;
@@ -12,7 +10,7 @@ public class Camera
 	private float yRotation;
 	private float zRotation;
 
-	private static Camera singleton = new Camera(new Vector3f(TerrainGenerator.getFullSize() / 2, 20, TerrainGenerator.getFullSize() / 2), 45f, 180f, 0f);
+	private static Camera singleton = new Camera(new Vector3f(0, 20, 0), 45f, 180f, 0f);
 
 	public Camera(Vector3f position, float xRot, float yRot, float zRot)
 	{

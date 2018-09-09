@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.loader.ModelLoader;
-import opengl.java.model.Model;
+import opengl.java.model.RawModel;
 import opengl.java.view.Camera;
 
 public class Maths
@@ -83,7 +83,7 @@ public class Maths
 		projectionMatrix = null;
 	}
 
-	public static Model createPlane(int width, int height)
+	public static RawModel createPlane(int width, int height)
 	{
 		float width1 = Maths.normalizeByWidth(width * 2);
 		float height1 = Maths.normalizeByHeight(height * 2);

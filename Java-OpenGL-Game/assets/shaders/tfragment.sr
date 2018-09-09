@@ -3,8 +3,12 @@
 in vec2 textureCoords;
 in vec4 shadowCoords;
 
-uniform sampler2D sampler;
 uniform sampler2D shadowMap;
+uniform sampler2D backgroundTexture;
+uniform sampler2D rTexture;
+uniform sampler2D gTexture;
+uniform sampler2D bTexture;
+uniform sampler2D blendMap;
 
 uniform float mapSize;
 
@@ -15,6 +19,17 @@ const float totalTexels = (pcfCount * 2.0f + 1.0f) * (pcfCount * 2.0f + 1.0f);
 
 void main()
 {
+	vec4 blendMapColor = texture(blendMap, textureCoords);
+	
+	float backTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
+	vec2 tiledCoords = textureCoords * 80f;
+	vec4 backgroundTextureColor = texture(backgroundTexture, tiledCoords) * backTextureAmount;
+	vec4 rTextureColor = texture(rTexture, tiledCoords) * blendMapColor.r;
+	vec4 gTextureColor = texture(gTexture, tiledCoords) * blendMapColor.g;
+	vec4 bTextureColor = texture(bTexture, tiledCoords) * blendMapColor.b;
+	
+	vec4 totalColor = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
+
 	float texelSize = 1.0f / mapSize;
 	float total = 0.0f;
 	
@@ -33,5 +48,5 @@ void main()
 	
 	float lightFactor = 1.0f - (total * shadowCoords.w) * 0.5f;
 	
-	finalColor = texture(sampler, textureCoords) * vec4(1.0f,1.0f,1.0f,1.0f) * lightFactor;
+	finalColor = totalColor * vec4(1.0f,1.0f,1.0f,1.0f) * lightFactor;
 }

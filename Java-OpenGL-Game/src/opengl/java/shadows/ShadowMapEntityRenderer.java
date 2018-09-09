@@ -11,7 +11,7 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
-import opengl.java.model.Model;
+import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
 import opengl.java.shader.ShadowShader;
 
@@ -47,7 +47,7 @@ public class ShadowMapEntityRenderer
 		{
 			for (Map.Entry<Integer, Entity> innerEntry : entry.getValue().entrySet())
 			{
-				Model rawModel = TexturedModel.getTexturedModel(innerEntry.getValue().getAsset()).getModel();
+				RawModel rawModel = TexturedModel.getTexturedModel(innerEntry.getValue().getAsset()).getRawModel();
 				bindModel(rawModel);
 				GL13.glActiveTexture(GL13.GL_TEXTURE0);
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D,
@@ -69,7 +69,7 @@ public class ShadowMapEntityRenderer
 	 * @param rawModel
 	 *            - the model to be bound.
 	 */
-	private void bindModel(Model rawModel)
+	private void bindModel(RawModel rawModel)
 	{
 		GL30.glBindVertexArray(rawModel.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
