@@ -54,7 +54,7 @@ public class MainRenderer
 
 	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.loadTexture("grass").getID());
 	private static TerrainTexture rTexture = new TerrainTexture(SRCLoader.loadTexture("dirt").getID());
-	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.loadTexture("pavement").getID());
+	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.loadTexture("path").getID());
 	private static TerrainTexture bTexture = new TerrainTexture(SRCLoader.loadTexture("rocks").getID());
 
 	private static TerrainTexturepack texturepack = new TerrainTexturepack(backgroundTexture, rTexture, gTexture,
@@ -62,8 +62,8 @@ public class MainRenderer
 
 	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.loadTexture("blendMap").getID());
 
-	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap);
-	private static Terrain terrain1 = new Terrain(0, 1, new ModelLoader(), texturepack, blendMap);
+	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap, "heightMap");
+	private static Terrain terrain1 = new Terrain(0, 1, new ModelLoader(), texturepack, blendMap, "heightMap");
 
 	private static List<Terrain> terrains = new ArrayList<Terrain>();
 

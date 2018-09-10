@@ -38,7 +38,6 @@ public class TerrainRenderer
 	public void bindTexture(Terrain terrain)
 	{
 		TerrainTexturepack texturepack = terrain.getTexturepack();
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturepack.getBackgroundTexture().getTextureID());
 		GL13.glActiveTexture(GL13.GL_TEXTURE1);
