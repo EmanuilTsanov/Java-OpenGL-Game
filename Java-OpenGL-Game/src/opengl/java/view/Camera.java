@@ -10,7 +10,7 @@ public class Camera
 	private float yRotation;
 	private float zRotation;
 
-	private static Camera singleton = new Camera(new Vector3f(0, 20, 0), 45f, 180f, 0f);
+	private static Camera singleton = new Camera(new Vector3f(0, 50, 0), 45f, 180f, 0f);
 
 	public Camera(Vector3f position, float xRot, float yRot, float zRot)
 	{
