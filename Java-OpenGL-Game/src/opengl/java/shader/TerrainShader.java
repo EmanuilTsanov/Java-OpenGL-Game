@@ -4,6 +4,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
+import opengl.java.lighting.Light;
 import opengl.java.shadows.ShadowBox;
 import opengl.java.view.Camera;
 
@@ -24,6 +25,8 @@ public class TerrainShader extends ShaderProgram
 	private int loc_gTexture;
 	private int loc_bTexture;
 	private int loc_blendMap;
+	private int loc_lightPosition;
+	private int loc_lightColor;
 
 	public TerrainShader()
 	{
@@ -35,6 +38,7 @@ public class TerrainShader extends ShaderProgram
 	{
 		super.bindAttribute(0, "vertex");
 		super.bindAttribute(1, "texCoords");
+		super.bindAttribute(2, "normal");
 	}
 
 	@Override
@@ -52,6 +56,9 @@ public class TerrainShader extends ShaderProgram
 		loc_gTexture = super.getUniformLocation("gTexture");
 		loc_bTexture = super.getUniformLocation("bTexture");
 		loc_blendMap = super.getUniformLocation("blendMap");
+
+		loc_lightPosition = super.getUniformLocation("lightPosition");
+		loc_lightColor = super.getUniformLocation("lightColor");
 	}
 
 	public void connectTextureUnits()
@@ -86,6 +93,12 @@ public class TerrainShader extends ShaderProgram
 	public void loadShadowMap()
 	{
 		super.loadInt(locShadowMap, 5);
+	}
+
+	public void loadLight(Light light)
+	{
+		super.loadVector3f(loc_lightPosition, light.getPosition());
+		super.loadVector3f(loc_lightColor, light.getColor());
 	}
 
 	public void loadShadowDistance()

@@ -321,6 +321,7 @@ public class MainRenderer
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);
+		tShader.loadLight(sun);
 		tShader.loadToShadowMapSpace(smmr.getToShadowMapSpaceMatrix());
 		renderer.render(terrains);
 		tShader.stop();

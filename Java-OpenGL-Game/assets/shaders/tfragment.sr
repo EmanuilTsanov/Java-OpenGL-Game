@@ -2,6 +2,9 @@
 
 in vec2 textureCoords;
 in vec4 shadowCoords;
+in vec3 surfaceNormal;
+
+in vec3 toLightVector;
 
 uniform sampler2D shadowMap;
 uniform sampler2D backgroundTexture;
@@ -9,6 +12,8 @@ uniform sampler2D rTexture;
 uniform sampler2D gTexture;
 uniform sampler2D bTexture;
 uniform sampler2D blendMap;
+
+uniform vec3 lightColor;
 
 uniform float mapSize;
 
@@ -48,5 +53,13 @@ void main()
 	
 	float lightFactor = 1.0f - (total * shadowCoords.w) * 0.5f;
 	
-	finalColor = totalColor * vec4(1.0f,1.0f,1.0f,1.0f) * lightFactor;
+	vec3 unitNormal = normalize(surfaceNormal);
+	vec3 unitToLightVector = normalize(toLightVector);
+	
+	float dotProduct = dot(unitNormal, unitToLightVector);
+	float brightness = max(dotProduct, 0.3);
+	
+	vec3 diffuse = lightColor * brightness;
+	
+	finalColor = vec4(diffuse, 1.0) * totalColor * vec4(1.0f,1.0f,1.0f,1.0f) * lightFactor;
 }

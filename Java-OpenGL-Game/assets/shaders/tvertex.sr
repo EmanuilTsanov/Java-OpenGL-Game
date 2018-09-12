@@ -2,30 +2,39 @@
 
 in vec3 vertex;
 in vec2 texCoords;
+in vec3 normal;
 
 uniform mat4 modelMat;
 uniform mat4 projectionMat;
 uniform mat4 viewMat;
 
 uniform float shadowDistance;
-
 uniform mat4 toShadowMapSpace;
+
+uniform vec3 lightPosition;
 
 const float transitionDistance = 10.0f;
 
 out vec2 textureCoords;
+out vec3 surfaceNormal;
+
 out vec4 shadowCoords;
+
+out vec3 toLightVector;
 
 void main()
 {
 	vec4 worldPos = modelMat * vec4(vertex, 1.0f);
 	vec4 positionRelativeToCam = viewMat * worldPos;
-	shadowCoords = toShadowMapSpace * worldPos;
 	gl_Position = projectionMat * viewMat * worldPos;
 	textureCoords = texCoords;
+	surfaceNormal = normal;
 	
 	float distance = length(positionRelativeToCam);
 	distance = distance - (shadowDistance - transitionDistance);
 	distance = distance / transitionDistance;
+	shadowCoords = toShadowMapSpace * worldPos;
 	shadowCoords.w = clamp(1.0f-distance, 0.0f, 1.0f);
+	
+	toLightVector = lightPosition - worldPos.xyz;
 }
