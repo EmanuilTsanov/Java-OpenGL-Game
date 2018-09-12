@@ -1,34 +1,35 @@
 #version 330 core
 
-in vec3 in_position;
-in vec2 in_textureCoords;
-in vec3 in_normal;
+in vec3 vertex;
+in vec2 texCoords;
+in vec3 normal;
 
-uniform mat4 modelMatrix;
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+uniform mat4 modelMat;
+uniform mat4 projectionMat;
+uniform mat4 viewMat;
 
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
 
 uniform float useFakeLighting;
 
-out vec3 normal;
+out vec3 surfaceNormal;
 out vec2 textureCoords;
+
 out vec3 toLightVector;
 out vec3 toCameraVector;
 
 void main()
 {
-	vec4 worldPosition = modelMatrix * vec4(in_position, 1.0);
-	gl_Position = projectionMatrix * viewMatrix * worldPosition;
-	textureCoords = in_textureCoords;
-	vec3 actualNormal = in_normal;
+	vec4 worldPosition = modelMat * vec4(vertex, 1.0);
+	gl_Position = projectionMat * viewMat * worldPosition;
+	textureCoords = texCoords;
+	vec3 actualNormal = normal;
 	if(useFakeLighting > 0.5)
 	{
 		actualNormal = vec3(0.0, 1.0, 0.0);
 	}
-	normal = (modelMatrix * vec4(actualNormal, 0.0)).xyz;
+	surfaceNormal = (modelMat * vec4(actualNormal, 0.0)).xyz;
 	toLightVector = lightPosition - worldPosition.xyz;
-	toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
+	toCameraVector = (inverse(viewMat) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
 }

@@ -33,17 +33,17 @@ public class BasicShader extends ShaderProgram
 	@Override
 	public void bindAllAttributes()
 	{
-		super.bindAttribute(0, "in_position");
-		super.bindAttribute(1, "in_textureCoords");
-		super.bindAttribute(2, "in_normal");
+		super.bindAttribute(0, "vertex");
+		super.bindAttribute(1, "texCoords");
+		super.bindAttribute(2, "normal");
 	}
 
 	@Override
 	public void getAllUniformLocations()
 	{
-		loc_modelMatrix = super.getUniformLocation("modelMatrix");
-		loc_projectionMatrix = super.getUniformLocation("projectionMatrix");
-		loc_viewMatrix = super.getUniformLocation("viewMatrix");
+		loc_modelMatrix = super.getUniformLocation("modelMat");
+		loc_projectionMatrix = super.getUniformLocation("projectionMat");
+		loc_viewMatrix = super.getUniformLocation("viewMat");
 
 		loc_lightPosition = super.getUniformLocation("lightPosition");
 		loc_lightColor = super.getUniformLocation("lightColor");

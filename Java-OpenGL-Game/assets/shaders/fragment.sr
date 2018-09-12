@@ -1,6 +1,6 @@
 #version 330 core
 
-in vec3 normal;
+in vec3 surfaceNormal;
 in vec2 textureCoords;
 in vec3 toLightVector;
 in vec3 toCameraVector;
@@ -15,7 +15,7 @@ out vec4 pixelColor;
 
 void main(void)
 {
-	vec3 unitNormal = normalize(normal);
+	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitToLightVector = normalize(toLightVector);
 	
 	float dotProduct = dot(unitNormal, unitToLightVector);

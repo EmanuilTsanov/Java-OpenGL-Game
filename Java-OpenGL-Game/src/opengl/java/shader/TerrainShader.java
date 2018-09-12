@@ -25,6 +25,7 @@ public class TerrainShader extends ShaderProgram
 	private int loc_gTexture;
 	private int loc_bTexture;
 	private int loc_blendMap;
+	
 	private int loc_lightPosition;
 	private int loc_lightColor;
 
