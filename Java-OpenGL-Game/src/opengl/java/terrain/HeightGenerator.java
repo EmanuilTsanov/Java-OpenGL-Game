@@ -5,6 +5,8 @@ import java.util.Random;
 public class HeightGenerator
 {
 	private static final float AMPLITUDE = 70f;
+	private static final int OCTAVES = 3;
+	private static final float ROUGHNESS = 0.1f;
 
 	private Random rand = new Random();
 	private int seed;
@@ -16,7 +18,15 @@ public class HeightGenerator
 
 	public float generateHeight(int x, int z)
 	{
-		return getInterpolatedNoise(x / 8f, z / 8f) * AMPLITUDE;
+		float total = 0;
+		float d = (float) Math.pow(2, OCTAVES - 1);
+		for (int i = 0; i < OCTAVES; i++)
+		{
+			float freq = (float) (Math.pow(2, i) / d);
+			float amp = (float) Math.pow(ROUGHNESS, i) * AMPLITUDE;
+			total += getInterpolatedNoise(x * freq, z * freq) * amp;
+		}
+		return total;
 	}
 
 	private float getInterpolatedNoise(float x, float z)
@@ -44,8 +54,7 @@ public class HeightGenerator
 
 	public float getSmoothNoise(int x, int z)
 	{
-		float corners = (getNoise(x - 1, z - 1) + getNoise(x + 1, z - 1) + getNoise(x - 1, z + 1)
-				+ getNoise(x + 1, z + 1)) / 16f;
+		float corners = (getNoise(x - 1, z - 1) + getNoise(x + 1, z - 1) + getNoise(x - 1, z + 1) + getNoise(x + 1, z + 1)) / 16f;
 		float sides = (getNoise(x - 1, z) + getNoise(x + 1, z) + getNoise(x, z - 1) + getNoise(x, z + 1)) / 8f;
 		float center = getNoise(x, z) / 4f;
 		return corners + sides + center;

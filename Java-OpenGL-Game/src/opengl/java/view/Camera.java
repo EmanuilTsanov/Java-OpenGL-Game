@@ -50,9 +50,9 @@ public class Camera
 		return position.y / Math.sin(Math.toRadians(90) - xRotation);
 	}
 
-	public void move(Vector3f position)
+	public void move(float x, float y, float z)
 	{
-		this.position = position;
+		this.position = new Vector3f(x, y, z);
 	}
 
 	public void moveBy(float x, float y, float z)

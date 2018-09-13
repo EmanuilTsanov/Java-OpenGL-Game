@@ -83,9 +83,7 @@ public class MouseLogic
 				if (currentZoom < zoomLimit)
 				{
 					double speed = 0.5f;
-					cam.moveBy((float) (speed * Math.sin(cam.getYRotation())),
-							(float) -(speed * Math.sin(90 - cam.getXRotation())),
-							(float) -(speed * Math.cos(cam.getYRotation())));
+					cam.moveBy((float) (speed * Math.sin(cam.getYRotation())), (float) -(speed * Math.sin(90 - cam.getXRotation())), (float) -(speed * Math.cos(cam.getYRotation())));
 					cam.rotateBy(-0.5f, 0, 0);
 					currentZoom += speed;
 					if (currentZoom > zoomLimit)
@@ -97,9 +95,7 @@ public class MouseLogic
 				if (currentZoom > 0)
 				{
 					double speed = 0.5f;
-					cam.moveBy((float) -(speed * Math.sin(cam.getYRotation())),
-							(float) (speed * Math.sin(90 - cam.getXRotation())),
-							(float) (speed * Math.cos(cam.getYRotation())));
+					cam.moveBy((float) -(speed * Math.sin(cam.getYRotation())), (float) (speed * Math.sin(90 - cam.getXRotation())), (float) (speed * Math.cos(cam.getYRotation())));
 					cam.rotateBy(0.5f, 0, 0);
 					currentZoom -= speed;
 					if (currentZoom < 0)
@@ -113,7 +109,6 @@ public class MouseLogic
 				cursorStartX = mouseX;
 				cursorStartY = mouseY;
 				float camYaw = cam.getYRotation();
-				cam.getDistToLookPoint();
 				float camYawH = cam.getYRotation() + (float) Math.toRadians(90);
 				float dx = (float) Math.cos(camYaw) * distanceX;
 				float dz = (float) Math.sin(camYaw) * distanceX;
@@ -177,30 +172,6 @@ public class MouseLogic
 			if (Keyboard.isKeyDown(Keyboard.KEY_R))
 			{
 				itemHolder.increaseRotation(0, 90, 0);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_W))
-			{
-				Camera.getInstance().moveBy(0,0,5);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_S))
-			{
-				Camera.getInstance().moveBy(0,0,-5);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_A))
-			{
-				Camera.getInstance().moveBy(5,0,0);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_D))
-			{
-				Camera.getInstance().moveBy(-5,0,0);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_Q))
-			{
-				Camera.getInstance().moveBy(0,5,0);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_E))
-			{
-				Camera.getInstance().moveBy(0,-5,0);
 			}
 		}
 	}
