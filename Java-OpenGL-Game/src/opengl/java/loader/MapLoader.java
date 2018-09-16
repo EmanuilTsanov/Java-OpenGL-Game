@@ -35,7 +35,7 @@ public class MapLoader
 			{
 				Entity e = new Entity(stream.readInt())
 						.setPosition(new Vector3f(stream.readFloat(), stream.readFloat(), stream.readFloat()))
-						.setRotationInRadians(new Vector3f(stream.readFloat(), stream.readFloat(), stream.readFloat()))
+						.setRotation(new Vector3f(stream.readFloat(), stream.readFloat(), stream.readFloat()))
 						.getCopy();
 				entities.add(e);
 			}

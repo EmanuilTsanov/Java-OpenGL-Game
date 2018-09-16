@@ -1,51 +1,43 @@
 package opengl.java.entity;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.model.TexturedModel;
 import opengl.java.terrain.Terrain;
-import opengl.java.view.Camera;
 
-public class Player
+public class Player extends Entity
 {
-	private float x, y, z;
-	private float xR, yR, zR;
+	public Player()
+	{
+		super(TexturedModel.PLAYER.getID());
+	}
 
 	private static final float speed = 0.2f;
 
-	public Player(float x, float y, float z)
+	public void update(Terrain terrain)
 	{
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-
-	public void update(Camera camera, Terrain terrain)
-	{
-		float camYaw = camera.getYRotation()+ (float)Math.toRadians(90);
-		float dx = (float) Math.cos(camYaw) * speed;
-		float dz = (float) Math.sin(camYaw) * speed;
+		float camYaw = (float) Math.toRadians(rotation.y);
+		float dx = (float) Math.sin(camYaw) * speed;
+		float dz = (float) Math.cos(camYaw) * speed;
 		if (Keyboard.isKeyDown(Keyboard.KEY_W))
 		{
-			x -= dx;
-			z -= dz;
+			position.x += dx;
+			position.z += dz;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_S))
 		{
-			x += dx;
-			z += dz;
+			position.x -= dx;
+			position.z -= dz;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
-
-			yR -= 1;
+			rotate(0, 1, 0);
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
 
-			yR += 1;
+			rotate(0, -1, 0);
 		}
-		camera.move(x, terrain.getHeightOfTerrain(x, z)+5, z);
-		camera.rotate(new Vector3f(xR, yR, zR));
+		position.y = terrain.getHeightOfTerrain(position.x, position.z);
 	}
 }

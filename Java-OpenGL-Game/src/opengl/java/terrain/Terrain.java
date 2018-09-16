@@ -9,7 +9,7 @@ import opengl.java.model.RawModel;
 
 public class Terrain
 {
-	private static final float SIZE = 512.0f;
+	private static final float SIZE = 1024.0f;
 
 	private float x, z;
 	private RawModel model;
@@ -81,7 +81,7 @@ public class Terrain
 	{
 		HeightGenerator generator = new HeightGenerator();
 
-		int vertexCount = 128;
+		int vertexCount = 256;
 		heights = new float[vertexCount][vertexCount];
 		int count = vertexCount * vertexCount;
 		float[] vertices = new float[count * 3];

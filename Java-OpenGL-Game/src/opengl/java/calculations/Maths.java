@@ -36,9 +36,9 @@ public class Maths
 		Matrix4f matrix = new Matrix4f();
 		matrix.setIdentity();
 		Matrix4f.translate(position, matrix, matrix);
-		Matrix4f.rotate(rotation.x, new Vector3f(1, 0, 0), matrix, matrix);
-		Matrix4f.rotate(rotation.y, new Vector3f(0, 1, 0), matrix, matrix);
-		Matrix4f.rotate(rotation.z, new Vector3f(0, 0, 1), matrix, matrix);
+		Matrix4f.rotate((float)Math.toRadians(rotation.x), new Vector3f(1, 0, 0), matrix, matrix);
+		Matrix4f.rotate((float)Math.toRadians(rotation.y), new Vector3f(0, 1, 0), matrix, matrix);
+		Matrix4f.rotate((float)Math.toRadians(rotation.z), new Vector3f(0, 0, 1), matrix, matrix);
 		Matrix4f.scale(new Vector3f(scale, scale, scale), matrix, matrix);
 		return matrix;
 	}
@@ -64,8 +64,8 @@ public class Maths
 		Camera camera = Camera.getInstance();
 		Matrix4f matrix = new Matrix4f();
 		matrix.setIdentity();
-		Matrix4f.rotate(camera.getXRotation(), new Vector3f(1, 0, 0), matrix, matrix);
-		Matrix4f.rotate(camera.getYRotation(), new Vector3f(0, 1, 0), matrix, matrix);
+		Matrix4f.rotate((float)Math.toRadians(camera.getRotation().x), new Vector3f(1, 0, 0), matrix, matrix);
+		Matrix4f.rotate((float)Math.toRadians(camera.getRotation().y), new Vector3f(0, 1, 0), matrix, matrix);
 		Vector3f camPos = camera.getPosition();
 		Vector3f negativeCamPos = new Vector3f(-camPos.x, -camPos.y, -camPos.z);
 		Matrix4f.translate(negativeCamPos, matrix, matrix);

@@ -48,7 +48,7 @@ public class Entity
 		return this;
 	}
 
-	public Entity increasePosition(float x, float y, float z)
+	public Entity move(float x, float y, float z)
 	{
 		this.position.x += x;
 		this.position.y += y;
@@ -62,30 +62,17 @@ public class Entity
 		return this;
 	}
 
-	public Entity setPosition(float x, float y, float z)
+	public Entity setRotation(Vector3f rotation)
 	{
-		position = new Vector3f(x, y, z);
+		this.rotation = rotation;
 		return this;
 	}
 
-	public Entity setRotationInRadians(Vector3f radiansVec)
+	public void rotate(float x, float y, float z)
 	{
-		this.rotation = new Vector3f(radiansVec.x, radiansVec.y, radiansVec.z);
-		return this;
-	}
-
-	public Entity setRotationInDegrees(Vector3f degreesVec)
-	{
-		this.rotation = new Vector3f((float) Math.toRadians(degreesVec.x), (float) Math.toRadians(degreesVec.y),
-				(float) Math.toRadians(degreesVec.z));
-		return this;
-	}
-
-	public void increaseRotation(float xRot, float yRot, float zRot)
-	{
-		this.rotation.x += Math.toRadians(xRot);
-		this.rotation.y += Math.toRadians(yRot);
-		this.rotation.z += Math.toRadians(zRot);
+		this.rotation.x += x;
+		this.rotation.y += y;
+		this.rotation.z += z;
 	}
 
 	public Entity setScale(float scale)
@@ -129,16 +116,9 @@ public class Entity
 		return scale;
 	}
 
-	public void rotate(float x, float y, float z)
-	{
-		rotation.x += Math.toRadians(x);
-		rotation.y += Math.toRadians(y);
-		rotation.z += Math.toRadians(z);
-	}
-
 	public Entity getCopy()
 	{
-		return new Entity(assetID).setPosition(position).setRotationInRadians(rotation).setScale(scale).setup();
+		return new Entity(assetID).setPosition(position).setRotation(rotation).setScale(scale).setup();
 	}
 
 	public static Entity getEntityByColor(Vector3f color)
