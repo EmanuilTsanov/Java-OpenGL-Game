@@ -321,7 +321,7 @@ public class MainRenderer
 			renderEntity(e);
 		}
 		renderEntity(player);
-		player.update(terrain);
+		player.update(camera, terrain);
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);

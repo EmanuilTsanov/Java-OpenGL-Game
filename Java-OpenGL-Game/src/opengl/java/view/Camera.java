@@ -14,8 +14,8 @@ public class Camera
 
 	private int mode;
 
-	private static final int FIRST_PERSON = 0;
-	private static final int THIRD_PERSON = 1;
+	public static final int FIRST_PERSON = 0;
+	public static final int THIRD_PERSON = 1;
 
 	private float mouseX = Window.getWidth() / 2, mouseY = Window.getHeight() / 2;
 
@@ -25,7 +25,7 @@ public class Camera
 //	private static final float maxZoom = 100f;
 //	private static final float minZoom = 0f;
 
-	private static Camera singleton = new Camera(new Vector3f(0, 200, 0), new Vector3f(45, 180, 0))
+	private static Camera singleton = new Camera(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0))
 			.setMode(FIRST_PERSON);
 
 	public Camera(Vector3f position, Vector3f rotation)
@@ -87,6 +87,10 @@ public class Camera
 	{
 		this.mode = mode;
 		return this;
+	}
+	
+	public int getMode() {
+		return mode;
 	}
 
 	public void move(float x, float y, float z)
