@@ -19,7 +19,7 @@ public class Client
 	{
 		try
 		{
-			socket = new Socket("192.168.1.149", 1342);
+			socket = new Socket("192.168.1.185", 1342);
 			scanner = new Scanner(socket.getInputStream());
 			stream = new PrintStream(socket.getOutputStream());
 		}
@@ -35,9 +35,9 @@ public class Client
 		float x = pos.x;
 		float y = pos.y;
 		float z = pos.z;
-		stream.println(x);
-		stream.println(y);
-		stream.println(z);
+		stream.print(x);
+		stream.print(y);
+		stream.print(z);
 	}
 
 	public void read(Player player)

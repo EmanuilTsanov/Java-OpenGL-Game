@@ -36,9 +36,9 @@ public class Server
 				x = scanner.nextFloat();
 				y = scanner.nextFloat();
 				z = scanner.nextFloat();
-				stream.println(x);
-				stream.println(y);
-				stream.println(z);
+				stream.print(x);
+				stream.print(y);
+				stream.print(z);
 			}
 		}
 		catch (IOException e)
