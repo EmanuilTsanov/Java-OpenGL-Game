@@ -26,6 +26,7 @@ import opengl.java.management.EntityManager;
 import opengl.java.management.SRCLoader;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
+import opengl.java.networking.Client;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
@@ -77,6 +78,9 @@ public class MainRenderer
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
 	private static Player player = new Player();
+	private static Player player2 = new Player();
+
+	private static Client client = new Client();
 
 	static
 	{
@@ -320,8 +324,10 @@ public class MainRenderer
 			e.setPosition(new Vector3f(v.x, terrain.getHeightOfTerrain(v.x, v.z), v.z));
 			renderEntity(e);
 		}
-		renderEntity(player);
+		renderEntity(player2);
 		player.update(camera, terrain);
+		client.update(player);
+		client.read(player2);
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);

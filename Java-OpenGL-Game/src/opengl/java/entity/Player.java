@@ -8,6 +8,9 @@ import opengl.java.view.Camera;
 
 public class Player extends Entity
 {
+	private boolean jumping;
+	private int jumpSpeed;
+
 	public Player()
 	{
 		super(TexturedModel.PLAYER.getID());
@@ -42,9 +45,11 @@ public class Player extends Entity
 				rotate(0, -1, 0);
 			}
 			position.y = terrain.getHeightOfTerrain(position.x, position.z);
-		} else if(camera.getMode() == Camera.FIRST_PERSON) {
+		}
+		else if (camera.getMode() == Camera.FIRST_PERSON)
+		{
 
-			float camYaw = (float) Math.toRadians(camera.getRotation().y+90);
+			float camYaw = (float) Math.toRadians(camera.getRotation().y + 90);
 			float dx = (float) Math.cos(camYaw) * speed;
 			float dz = (float) Math.sin(camYaw) * speed;
 			if (Keyboard.isKeyDown(Keyboard.KEY_W))
@@ -67,7 +72,7 @@ public class Player extends Entity
 			}
 			if (Keyboard.isKeyDown(Keyboard.KEY_D))
 			{
-				float rot = (float) Math.toRadians(camera.getRotation().y-180);
+				float rot = (float) Math.toRadians(camera.getRotation().y - 180);
 				float dx1 = (float) Math.cos(rot) * speed;
 				float dz1 = (float) Math.sin(rot) * speed;
 				position.x -= dx1;

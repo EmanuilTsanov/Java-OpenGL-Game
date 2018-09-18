@@ -69,7 +69,7 @@ public class Camera
 		else if (mode == FIRST_PERSON)
 		{
 			this.setPosition(player.getPosition().x,
-					terrain.getHeightOfTerrain(player.getPosition().x, player.getPosition().z) + 2,
+					terrain.getHeightOfTerrain(player.getPosition().x, player.getPosition().z) + 2.5f,
 					player.getPosition().z);
 			rotation.y += (Mouse.getX() - mouseX) * 0.1f;
 			rotation.x -= (Mouse.getY() - mouseY) * 0.1f;
