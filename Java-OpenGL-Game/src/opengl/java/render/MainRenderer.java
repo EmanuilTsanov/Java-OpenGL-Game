@@ -26,7 +26,7 @@ import opengl.java.management.EntityManager;
 import opengl.java.management.SRCLoader;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
-import opengl.java.networking.Client;
+import opengl.java.networking.Thread1;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
@@ -79,11 +79,7 @@ public class MainRenderer
 
 	private static Player player = new Player();
 
-	private static long onlinePlayers = 0;
-
-	private static Client client = new Client();
-
-	private static ArrayList<Player> players = new ArrayList<Player>();
+	private static Thread1 thread = new Thread1(player);
 
 	static
 	{
@@ -126,6 +122,7 @@ public class MainRenderer
 		cShader.start();
 		cShader.loadProjectionMatrix();
 		cShader.stop();
+		thread.start();
 	}
 
 	private static void bindBuffers(int width, int height)
@@ -328,27 +325,9 @@ public class MainRenderer
 			renderEntity(e);
 		}
 		player.update(camera, terrain);
-		client.update(player);
-		onlinePlayers = client.getOnlinePlayers();
-		if (players.size() < onlinePlayers - 1)
+		for (int i = 0; i < thread.getPlayers().size(); i++)
 		{
-			for (int i = 0; i < onlinePlayers - 1 - players.size(); i++)
-			{
-				Player player = new Player();
-				players.add(player);
-			}
-		}
-		else if (players.size() > onlinePlayers - 1)
-		{
-			for (int i = 0; i < players.size() - onlinePlayers - 1; i++)
-			{
-				players.remove(i);
-			}
-		}
-		for (int i = 0; i < players.size(); i++)
-		{
-			client.read(players.get(i));
-			renderEntity(players.get(i));
+			renderEntity(thread.getPlayers().get(i));
 		}
 		eShader.stop();
 		tShader.start();
