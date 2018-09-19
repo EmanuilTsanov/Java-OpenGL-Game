@@ -64,8 +64,8 @@ public class MainRenderer
 
 	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.loadTexture("blendMap").getID());
 
-	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap, "heightMap");
-	private static Terrain terrain1 = new Terrain(0, 1, new ModelLoader(), texturepack, blendMap, "heightMap");
+	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap);
+	private static Terrain terrain1 = new Terrain(0, 1, new ModelLoader(), texturepack, blendMap);
 
 	private static List<Terrain> terrains = new ArrayList<Terrain>();
 
@@ -78,9 +78,12 @@ public class MainRenderer
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
 	private static Player player = new Player();
-	private static Player player2 = new Player();
+
+	private static long onlinePlayers = 0;
 
 	private static Client client = new Client();
+
+	private static ArrayList<Player> players = new ArrayList<Player>();
 
 	static
 	{
@@ -324,9 +327,29 @@ public class MainRenderer
 			e.setPosition(new Vector3f(v.x, terrain.getHeightOfTerrain(v.x, v.z), v.z));
 			renderEntity(e);
 		}
-		renderEntity(player2);
 		player.update(camera, terrain);
 		client.update(player);
+		onlinePlayers = client.getOnlinePlayers();
+		if (players.size() < onlinePlayers - 1)
+		{
+			for (int i = 0; i < onlinePlayers - 1 - players.size(); i++)
+			{
+				Player player = new Player();
+				players.add(player);
+			}
+		}
+		else if (players.size() > onlinePlayers - 1)
+		{
+			for (int i = 0; i < players.size() - onlinePlayers - 1; i++)
+			{
+				players.remove(i);
+			}
+		}
+		for (int i = 0; i < players.size(); i++)
+		{
+			client.read(players.get(i));
+			renderEntity(players.get(i));
+		}
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);

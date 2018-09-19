@@ -18,7 +18,7 @@ public class Terrain
 
 	private float[][] heights;
 
-	public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturepack texturepack, TerrainTexture blendMap, String heightMap)
+	public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturepack texturepack, TerrainTexture blendMap)
 	{
 		this.texturepack = texturepack;
 		this.blendMap = blendMap;

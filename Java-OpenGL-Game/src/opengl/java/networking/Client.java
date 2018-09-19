@@ -1,9 +1,10 @@
 package opengl.java.networking;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.Socket;
-import java.util.Scanner;
+import java.rmi.UnknownHostException;
 
 import org.lwjgl.util.vector.Vector3f;
 
@@ -12,16 +13,21 @@ import opengl.java.entity.Player;
 public class Client
 {
 	private Socket socket;
-	private Scanner scanner;
-	private PrintStream stream;
+	private DataInputStream input;
+	private DataOutputStream output;
 
 	public Client()
 	{
 		try
 		{
-			socket = new Socket("192.168.1.185", 1342);
-			scanner = new Scanner(socket.getInputStream());
-			stream = new PrintStream(socket.getOutputStream());
+			socket = new Socket("localhost", 1342);
+			input = new DataInputStream(socket.getInputStream());
+			output = new DataOutputStream(socket.getOutputStream());
+
+		}
+		catch (UnknownHostException e)
+		{
+			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
@@ -35,17 +41,47 @@ public class Client
 		float x = pos.x;
 		float y = pos.y;
 		float z = pos.z;
-		stream.print(x);
-		stream.print(y);
-		stream.print(z);
+		try
+		{
+			output.writeFloat(x);
+			output.writeFloat(y);
+			output.writeFloat(z);
+			output.flush();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void read(Player player)
 	{
-		float x = scanner.nextFloat();
-		float y = scanner.nextFloat();
-		float z = scanner.nextFloat();
-		Vector3f position = new Vector3f(x, y, z);
-		player.setPosition(position);
+		try
+		{
+			float x = input.readFloat();
+			float y = input.readFloat();
+			float z = input.readFloat();
+			System.out.println(x + " / " + y + " / " + z);
+			Vector3f position = new Vector3f(x, y, z);
+			player.setPosition(position);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public long getOnlinePlayers()
+	{
+		long players = 0;
+		try
+		{
+			players = input.readLong();
+		}
+		catch (IOException e)
+		{
+
+		}
+		return players;
 	}
 }
