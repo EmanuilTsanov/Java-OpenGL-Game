@@ -61,7 +61,6 @@ public class Client
 			float x = input.readFloat();
 			float y = input.readFloat();
 			float z = input.readFloat();
-			System.out.println(x + " / " + y + " / " + z);
 			Vector3f position = new Vector3f(x, y, z);
 			player.setPosition(position);
 		}

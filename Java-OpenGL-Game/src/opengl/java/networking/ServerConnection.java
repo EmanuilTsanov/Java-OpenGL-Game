@@ -23,34 +23,24 @@ public class ServerConnection extends Thread
 		this.id = id;
 		this.socket = socket;
 		this.server = server;
+		try
+		{
+			input = new DataInputStream(socket.getInputStream());
+			output = new DataOutputStream(socket.getOutputStream());
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void sendPosToOthers(float x, float y, float z)
 	{
-		try
-		{
-			output.writeLong(server.getConnectionsList().size());
-			output.flush();
-		}
-		catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
 		for (Map.Entry<Integer, ServerConnection> entry : server.getConnectionsList().entrySet())
 		{
 			if (entry.getKey() != id)
 			{
-				try
-				{
-					output.writeFloat(x);
-					output.writeFloat(y);
-					output.writeFloat(z);
-					output.flush();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
+				entry.getValue().sendPosition(x, y, z);
 			}
 		}
 	}
@@ -60,8 +50,6 @@ public class ServerConnection extends Thread
 	{
 		try
 		{
-			input = new DataInputStream(socket.getInputStream());
-			output = new DataOutputStream(socket.getOutputStream());
 			while (running)
 			{
 				while (input.available() == 0)
@@ -78,12 +66,27 @@ public class ServerConnection extends Thread
 				float x = input.readFloat();
 				float y = input.readFloat();
 				float z = input.readFloat();
-				System.out.println("INPUT: " + x + "/" + y + "/" + z);
 				sendPosToOthers(x, y, z);
 			}
 			input.close();
 			output.close();
 			socket.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void sendPosition(float x, float y, float z)
+	{
+		try
+		{
+			output.writeLong(server.getConnectionsList().size());
+			output.writeFloat(x);
+			output.writeFloat(y);
+			output.writeFloat(z);
+			output.flush();
 		}
 		catch (IOException e)
 		{
