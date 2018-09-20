@@ -16,11 +16,13 @@ public class Client
 	private DataInputStream input;
 	private DataOutputStream output;
 
+	private float pastX, pastY, pastZ;
+
 	public Client()
 	{
 		try
 		{
-			socket = new Socket("localhost", 1342);
+			socket = new Socket("212.75.28.156", 1342);
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
 
@@ -61,8 +63,10 @@ public class Client
 			float x = input.readFloat();
 			float y = input.readFloat();
 			float z = input.readFloat();
-			Vector3f position = new Vector3f(x, y, z);
-			player.setPosition(position);
+			player.move(x - pastX, y - pastY, z - pastZ);
+			pastX = x;
+			pastY = y;
+			pastZ = z;
 		}
 		catch (IOException e)
 		{

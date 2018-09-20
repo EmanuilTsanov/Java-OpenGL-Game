@@ -52,17 +52,6 @@ public class ServerConnection extends Thread
 		{
 			while (running)
 			{
-				while (input.available() == 0)
-				{
-					try
-					{
-						Thread.sleep(1);
-					}
-					catch (InterruptedException e)
-					{
-						e.printStackTrace();
-					}
-				}
 				float x = input.readFloat();
 				float y = input.readFloat();
 				float z = input.readFloat();

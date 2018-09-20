@@ -29,7 +29,7 @@ public class Server
 				ServerConnection sConnection = new ServerConnection(nextID, socket, this);
 				sConnection.start();
 				connections.put(nextID, sConnection);
-				System.out.println("A new user connected! " + connections.size() + " players online." );
+				System.out.println("A new user connected! " + connections.size() + " players online.");
 				nextID++;
 			}
 		}
