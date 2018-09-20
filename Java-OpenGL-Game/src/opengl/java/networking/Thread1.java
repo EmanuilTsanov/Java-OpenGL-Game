@@ -2,6 +2,8 @@ package opengl.java.networking;
 
 import java.util.ArrayList;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import opengl.java.entity.Player;
 
 public class Thread1 extends Thread
@@ -52,5 +54,15 @@ public class Thread1 extends Thread
 	public ArrayList<Player> getPlayers()
 	{
 		return players;
+	}
+
+	public Vector3f getPostion()
+	{
+		return client.getPosition();
+	}
+
+	public Vector3f getPastPostion()
+	{
+		return client.getPastPosition();
 	}
 }

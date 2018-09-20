@@ -16,6 +16,7 @@ public class Client
 	private DataInputStream input;
 	private DataOutputStream output;
 
+	private float x, y, z;
 	private float pastX, pastY, pastZ;
 
 	public Client()
@@ -60,13 +61,15 @@ public class Client
 	{
 		try
 		{
-			float x = input.readFloat();
-			float y = input.readFloat();
-			float z = input.readFloat();
-			player.move(x - pastX, y - pastY, z - pastZ);
-			pastX = x;
-			pastY = y;
-			pastZ = z;
+			x = input.readFloat();
+			y = input.readFloat();
+			z = input.readFloat();
+			while (input.available() != 0)
+			{
+				pastX = x;
+				pastY = y;
+				pastZ = z;
+			}
 		}
 		catch (IOException e)
 		{
@@ -86,5 +89,15 @@ public class Client
 
 		}
 		return players;
+	}
+
+	public Vector3f getPosition()
+	{
+		return new Vector3f(x, y, z);
+	}
+
+	public Vector3f getPastPosition()
+	{
+		return new Vector3f(pastX, pastY, pastZ);
 	}
 }
