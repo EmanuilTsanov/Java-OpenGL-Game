@@ -61,15 +61,12 @@ public class Client
 	{
 		try
 		{
+			pastX = x;
+			pastY = y;
+			pastZ = z;
 			x = input.readFloat();
 			y = input.readFloat();
 			z = input.readFloat();
-			while (input.available() != 0)
-			{
-				pastX = x;
-				pastY = y;
-				pastZ = z;
-			}
 		}
 		catch (IOException e)
 		{
