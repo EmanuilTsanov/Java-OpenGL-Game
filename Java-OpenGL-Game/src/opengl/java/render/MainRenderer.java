@@ -39,7 +39,6 @@ import opengl.java.terrain.TerrainTexturepack;
 import opengl.java.texture.RawTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
-import opengl.java.window.WindowFrameController;
 
 public class MainRenderer
 {
@@ -330,9 +329,8 @@ public class MainRenderer
 		{
 			Vector3f pos = thread.getPostion();
 			Vector3f pPos = thread.getPastPostion();
-			thread.getPlayers().get(i).move((pos.x - pPos.x) * WindowFrameController.getFrameTimeSeconds(),
-					(pos.y - pPos.y) * WindowFrameController.getFrameTimeSeconds(),
-					(pos.z - pPos.z) * WindowFrameController.getFrameTimeSeconds());
+			int fps = 100 / (1000 / FPSCounter.getFPS());
+			thread.getPlayers().get(i).move((pos.x - pPos.x) / fps, (pos.y - pPos.y) / fps, (pos.z - pPos.z) / fps);
 			renderEntity(thread.getPlayers().get(i));
 		}
 		eShader.stop();
