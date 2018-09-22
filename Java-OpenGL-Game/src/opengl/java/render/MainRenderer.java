@@ -329,7 +329,7 @@ public class MainRenderer
 		{
 			Vector3f pos = thread.getPostion();
 			Vector3f pPos = thread.getPastPostion();
-			float fps = 100f / (1000f / (float) FPSCounter.getFPS());
+			float fps = FPSCounter.getFPS();
 			thread.getPlayers().get(i).move((pos.x - pPos.x) / fps, (pos.y - pPos.y) / fps, (pos.z - pPos.z) / fps);
 			renderEntity(thread.getPlayers().get(i));
 		}

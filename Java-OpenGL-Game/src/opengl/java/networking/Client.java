@@ -15,6 +15,7 @@ public class Client
 	private Socket socket;
 	private DataInputStream input;
 	private DataOutputStream output;
+	long start, elapsed;
 
 	private float x, y, z;
 	private float pastX, pastY, pastZ;
@@ -61,12 +62,15 @@ public class Client
 	{
 		try
 		{
+			start = System.currentTimeMillis();
 			pastX = x;
 			pastY = y;
 			pastZ = z;
 			x = input.readFloat();
 			y = input.readFloat();
 			z = input.readFloat();
+			elapsed = System.currentTimeMillis();
+			long timeElapsed = elapsed - start;
 		}
 		catch (IOException e)
 		{
