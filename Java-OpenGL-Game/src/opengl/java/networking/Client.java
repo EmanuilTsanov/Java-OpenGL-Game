@@ -15,7 +15,8 @@ public class Client
 	private Socket socket;
 	private DataInputStream input;
 	private DataOutputStream output;
-	long start, elapsed;
+	private long start, elapsed;
+	private long timeElapsed;
 
 	private float x, y, z;
 	private float pastX, pastY, pastZ;
@@ -70,7 +71,7 @@ public class Client
 			y = input.readFloat();
 			z = input.readFloat();
 			elapsed = System.currentTimeMillis();
-			long timeElapsed = elapsed - start;
+			timeElapsed = elapsed - start;
 		}
 		catch (IOException e)
 		{
@@ -100,5 +101,10 @@ public class Client
 	public Vector3f getPastPosition()
 	{
 		return new Vector3f(pastX, pastY, pastZ);
+	}
+
+	public long getElapsedTime()
+	{
+		return timeElapsed;
 	}
 }

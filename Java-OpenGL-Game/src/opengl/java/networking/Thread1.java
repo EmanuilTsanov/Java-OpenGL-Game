@@ -56,13 +56,18 @@ public class Thread1 extends Thread
 		return players;
 	}
 
-	public Vector3f getPostion()
+	public Vector3f getPosition()
 	{
 		return client.getPosition();
 	}
 
-	public Vector3f getPastPostion()
+	public Vector3f getPastPosition()
 	{
 		return client.getPastPosition();
+	}
+
+	public long getTimeElapsed()
+	{
+		return client.getElapsedTime();
 	}
 }
