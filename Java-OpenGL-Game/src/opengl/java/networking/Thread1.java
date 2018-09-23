@@ -47,7 +47,7 @@ public class Thread1 extends Thread
 			for (int i = 0; i < players.size(); i++)
 			{
 				client.read(players.get(i));
-				players.get(i).setPosition(client.getPastPosition());
+				players.get(i).setPosition(client.getPosition());
 			}
 		}
 	}
