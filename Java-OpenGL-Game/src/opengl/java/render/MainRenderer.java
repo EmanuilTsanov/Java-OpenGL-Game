@@ -327,6 +327,12 @@ public class MainRenderer
 		player.update(camera, terrain);
 		for (int i = 0; i < thread.getPlayers().size(); i++)
 		{
+			Vector3f pos = thread.getPosition();
+			Vector3f pastPos = thread.getPastPosition();
+			float fps = thread.getTimeElapsed() * 2 / (1000 / FPSCounter.getFPS());
+			thread.getPlayers().get(i).move((pos.x - pastPos.x) / fps, (pos.y - pastPos.y) / fps,
+					(pos.z - pastPos.z) / fps);
+			System.out.println(pos.x-pastPos.x);
 			renderEntity(thread.getPlayers().get(i));
 		}
 		eShader.stop();

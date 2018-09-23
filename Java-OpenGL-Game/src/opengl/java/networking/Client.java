@@ -19,6 +19,7 @@ public class Client
 	private long timeElapsed;
 
 	private float x, y, z;
+	private float tempX, tempY, tempZ;
 	private float pastX, pastY, pastZ;
 
 	public Client()
@@ -64,12 +65,16 @@ public class Client
 		try
 		{
 			start = System.currentTimeMillis();
-			pastX = x;
-			pastY = y;
-			pastZ = z;
+			tempX = x;
+			tempY = y;
+			tempZ = z;
 			x = input.readFloat();
 			y = input.readFloat();
 			z = input.readFloat();
+			pastX = tempX;
+			pastY = tempY;
+			pastZ = tempZ;
+			System.out.println(x + " / " + pastX);
 			elapsed = System.currentTimeMillis();
 			timeElapsed = elapsed - start;
 		}
@@ -95,8 +100,7 @@ public class Client
 
 	public Vector3f getPosition()
 	{
-		return new Vector3f(x, y, z);
-	}
+		return new Vector3f(x, y, z);	}
 
 	public Vector3f getPastPosition()
 	{
