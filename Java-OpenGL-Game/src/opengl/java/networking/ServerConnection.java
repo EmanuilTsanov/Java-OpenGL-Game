@@ -36,6 +36,7 @@ public class ServerConnection extends Thread
 
 	public void sendPosToOthers(float x, float y, float z)
 	{
+		sendOnlinePlayers();
 		for (Map.Entry<Integer, ServerConnection> entry : server.getConnectionsList().entrySet())
 		{
 			if (entry.getKey() != id)
@@ -71,10 +72,22 @@ public class ServerConnection extends Thread
 	{
 		try
 		{
-			output.writeLong(server.getConnectionsList().size());
 			output.writeFloat(x);
 			output.writeFloat(y);
 			output.writeFloat(z);
+			output.flush();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void sendOnlinePlayers()
+	{
+		try
+		{
+			output.writeLong(server.getConnectionsList().size());
 			output.flush();
 		}
 		catch (IOException e)

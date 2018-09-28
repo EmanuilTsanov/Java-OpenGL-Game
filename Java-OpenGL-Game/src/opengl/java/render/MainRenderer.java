@@ -26,6 +26,7 @@ import opengl.java.management.EntityManager;
 import opengl.java.management.SRCLoader;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
+import opengl.java.networking.Client;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
@@ -58,8 +59,7 @@ public class MainRenderer
 	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.loadTexture("path").getID());
 	private static TerrainTexture bTexture = new TerrainTexture(SRCLoader.loadTexture("rocks").getID());
 
-	private static TerrainTexturepack texturepack = new TerrainTexturepack(backgroundTexture, rTexture, gTexture,
-			bTexture);
+	private static TerrainTexturepack texturepack = new TerrainTexturepack(backgroundTexture, rTexture, gTexture, bTexture);
 
 	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.loadTexture("blendMap").getID());
 
@@ -78,6 +78,12 @@ public class MainRenderer
 
 	private static Player player = new Player();
 
+	private static HashMap<Integer, Vector3f> distances = new HashMap<Integer, Vector3f>();
+
+	private static ArrayList<Player> otherPlayers = new ArrayList<Player>();
+
+	public static Client client = new Client();
+
 	static
 	{
 		enableCulling();
@@ -87,6 +93,7 @@ public class MainRenderer
 		processTerrain(terrain1);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
+		client.start();
 	}
 
 	public static void processTerrain(Terrain terrain)
@@ -131,16 +138,13 @@ public class MainRenderer
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
 
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT,
-				(java.nio.ByteBuffer) null);
-		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID,
-				0);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, renderBufferID);
 		GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL14.GL_DEPTH_COMPONENT24, width, height);
-		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER,
-				renderBufferID);
+		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, renderBufferID);
 		unbindBuffers();
 	}
 
@@ -175,8 +179,7 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			enableCulling();
@@ -233,8 +236,7 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				pickShader.loadColor(currentEntity.getColor());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -319,6 +321,23 @@ public class MainRenderer
 			Vector3f v = MousePicker.getInstance().getMapPosition();
 			e.setPosition(new Vector3f(v.x, terrain.getHeightOfTerrain(v.x, v.z), v.z));
 			renderEntity(e);
+		}
+		client.update(player);
+		for (int i = 0; i < client.getOnlinePlayers() - 1 - otherPlayers.size(); i++)
+		{
+			otherPlayers.add(new Player());
+		}
+		if (client.hasUpdate())
+		{
+			Map<Integer, Vector3f> previousPos = client.getPreviousPosMap();
+			Map<Integer, Vector3f> currentPos = client.getCurrentPosMap();
+			for (int i = 0; i < client.getOnlinePlayers() - 1; i++)
+			{
+				Vector3f cVec = currentPos.get(i);
+				Vector3f pVec = previousPos.get(i);
+				distances.put(i, new Vector3f(cVec.x - pVec.x, cVec.y - pVec.y, cVec.z - pVec.z));
+				otherPlayers.get(i).setPosition(pVec);
+			}
 		}
 		player.update(camera, terrain);
 		eShader.stop();

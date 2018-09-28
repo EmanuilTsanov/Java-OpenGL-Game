@@ -21,10 +21,16 @@ public class Client extends Thread
 	private PacketSender sender;
 	private PacketReceiver receiver;
 
-	private long onlinePlayers;
-	private Vector3f position;
+	private boolean hasUpdate;
 
-	private Map<Vector3f, Vector3f> otherPlayers = new HashMap<Vector3f, Vector3f>();
+	private long onlinePlayers;
+	private Vector3f myPosition;
+
+	private Map<Integer, Vector3f> previousPos = new HashMap<Integer, Vector3f>();
+	private Map<Integer, Vector3f> currentPos = new HashMap<Integer, Vector3f>();
+	private Map<Integer, Vector3f> bufferPos = new HashMap<Integer, Vector3f>();
+	private Map<Integer, Long> startTimes = new HashMap<Integer, Long>();
+	private Map<Integer, Long> timeBetweenUpdates = new HashMap<Integer, Long>();
 
 	private boolean running = true;
 
@@ -51,7 +57,7 @@ public class Client extends Thread
 
 	public void update(Player player)
 	{
-		this.position = player.getPosition();
+		this.myPosition = player.getPosition();
 	}
 
 	@Override
@@ -59,7 +65,48 @@ public class Client extends Thread
 	{
 		while (running)
 		{
-			sender.sendPosition(position);
+			sender.sendPosition(myPosition);
+			onlinePlayers = receiver.getOnlinePlayers();
+			for (int i = 0; i < onlinePlayers - 1; i++)
+			{
+				bufferPos.put(i, currentPos.get(i));
+				Vector3f position = receiver.getPlayerPosition();
+				currentPos.put(i, position);
+				previousPos.put(i, bufferPos.get(i));
+				timeBetweenUpdates.put(i, System.currentTimeMillis() - startTimes.get(i));
+				startTimes.put(i, System.currentTimeMillis());
+			}
+			hasUpdate = true;
 		}
+	}
+
+	public boolean hasUpdate()
+	{
+		return hasUpdate;
+	}
+
+	public void setUpdateState(boolean state)
+	{
+		hasUpdate = state;
+	}
+
+	public long getOnlinePlayers()
+	{
+		return onlinePlayers;
+	}
+
+	public Map<Integer, Vector3f> getPreviousPosMap()
+	{
+		return previousPos;
+	}
+
+	public Map<Integer, Vector3f> getCurrentPosMap()
+	{
+		return currentPos;
+	}
+
+	public Map<Integer, Long> getTimeBetweenUpdatesMap()
+	{
+		return timeBetweenUpdates;
 	}
 }
