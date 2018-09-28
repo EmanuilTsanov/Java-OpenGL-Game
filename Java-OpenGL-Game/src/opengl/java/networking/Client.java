@@ -5,6 +5,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import opengl.java.entity.Player;
 
 public class Client extends Thread
 {
@@ -14,6 +20,11 @@ public class Client extends Thread
 
 	private PacketSender sender;
 	private PacketReceiver receiver;
+
+	private long onlinePlayers;
+	private Vector3f position;
+
+	private Map<Vector3f, Vector3f> otherPlayers = new HashMap<Vector3f, Vector3f>();
 
 	private boolean running = true;
 
@@ -38,12 +49,17 @@ public class Client extends Thread
 		receiver = new PacketReceiver(input);
 	}
 
+	public void update(Player player)
+	{
+		this.position = player.getPosition();
+	}
+
 	@Override
 	public void run()
 	{
 		while (running)
 		{
-			
+			sender.sendPosition(position);
 		}
 	}
 }

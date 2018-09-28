@@ -5,8 +5,6 @@ import java.io.IOException;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.entity.Player;
-
 public class PacketSender
 {
 	private DataOutputStream output;
@@ -16,9 +14,8 @@ public class PacketSender
 		this.output = output;
 	}
 
-	public void sendPlayerLocation(Player player)
+	public void sendPosition(Vector3f position)
 	{
-		Vector3f position = player.getPosition();
 		try
 		{
 			output.writeFloat(position.getX());
