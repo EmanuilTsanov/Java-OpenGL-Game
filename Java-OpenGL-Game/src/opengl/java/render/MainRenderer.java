@@ -344,7 +344,6 @@ public class MainRenderer
 			float a = FPSCounter.getFPS() / time;
 			player2.move(x / a, y / a, z / a);
 		}
-
 		renderEntity(player2);
 		player.update(camera, terrain);
 		eShader.stop();
