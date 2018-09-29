@@ -79,6 +79,7 @@ public class Camera
 				rotation.x = -90;
 			Mouse.setGrabbed(true);
 			Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
+			player.setRotation(rotation);
 		}
 
 	}

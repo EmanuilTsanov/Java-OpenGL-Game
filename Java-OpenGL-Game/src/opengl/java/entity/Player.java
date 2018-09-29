@@ -48,7 +48,6 @@ public class Player extends Entity
 		}
 		else if (camera.getMode() == Camera.FIRST_PERSON)
 		{
-
 			float camYaw = (float) Math.toRadians(camera.getRotation().y + 90);
 			float dx = (float) Math.cos(camYaw) * speed;
 			float dz = (float) Math.sin(camYaw) * speed;
