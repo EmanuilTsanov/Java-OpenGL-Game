@@ -59,8 +59,7 @@ public class MainRenderer
 	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.loadTexture("path").getID());
 	private static TerrainTexture bTexture = new TerrainTexture(SRCLoader.loadTexture("rocks").getID());
 
-	private static TerrainTexturepack texturepack = new TerrainTexturepack(backgroundTexture, rTexture, gTexture,
-			bTexture);
+	private static TerrainTexturepack texturepack = new TerrainTexturepack(backgroundTexture, rTexture, gTexture, bTexture);
 
 	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.loadTexture("blendMap").getID());
 
@@ -79,9 +78,7 @@ public class MainRenderer
 
 	private static Player player = new Player();
 
-	private static HashMap<Integer, Vector3f> distances = new HashMap<Integer, Vector3f>();
-
-	private static ArrayList<Player> otherPlayers = new ArrayList<Player>();
+	private static Player player2 = new Player();
 
 	public static Client client = new Client();
 
@@ -139,16 +136,13 @@ public class MainRenderer
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
 
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT,
-				(java.nio.ByteBuffer) null);
-		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID,
-				0);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, renderBufferID);
 		GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL14.GL_DEPTH_COMPONENT24, width, height);
-		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER,
-				renderBufferID);
+		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, renderBufferID);
 		unbindBuffers();
 	}
 
@@ -183,8 +177,7 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			enableCulling();
@@ -241,8 +234,7 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				pickShader.loadColor(currentEntity.getColor());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -329,21 +321,19 @@ public class MainRenderer
 			renderEntity(e);
 		}
 		client.update(player);
-		for (int i = 0; i < client.getOnlinePlayers() - 1 - otherPlayers.size(); i++)
-		{
-			otherPlayers.add(new Player());
-		}
+		Vector3f cPos = client.getCurrentFrame();
+		Vector3f pPos = client.getCurrentFrame();
 		if (client.hasUpdate())
 		{
-			Vector3f cPos = client.getCurrentFrame();
-			Vector3f pPos = client.getCurrentFrame();
-			float x = cPos.x - pPos.x;
-			float y = cPos.y - pPos.y;
-			float z = cPos.z - pPos.z;
-			long time = client.getTimeBetweenUpdates();
-			float a = FPSCounter.getFPS()/time;
-			
+			player2.setPosition(pPos);
 		}
+		float x = cPos.x - pPos.x;
+		float y = cPos.y - pPos.y;
+		float z = cPos.z - pPos.z;
+		long time = client.getTimeBetweenUpdates();
+		float a = FPSCounter.getFPS() / time;
+		player2.move(x/a, y/a, z/a);
+		renderEntity(player2);
 		player.update(camera, terrain);
 		eShader.stop();
 		tShader.start();

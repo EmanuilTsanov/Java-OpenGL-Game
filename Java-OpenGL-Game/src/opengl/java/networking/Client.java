@@ -24,7 +24,7 @@ public class Client extends Thread
 	private long onlinePlayers;
 	private Vector3f myPosition = new Vector3f(0, 0, 0);
 
-	private long start, timeBetween;
+	private long start, timeBetween = 1;
 
 	private Vector3f previousFrame = new Vector3f(0, 0, 0);
 	private Vector3f currentFrame = new Vector3f(0, 0, 0);
@@ -36,7 +36,7 @@ public class Client extends Thread
 	{
 		try
 		{
-			socket = new Socket("212.75.28.156", 1342);
+			socket = new Socket("192.168.1.185", 1342);
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
 
@@ -68,7 +68,7 @@ public class Client extends Thread
 			bufferFrame = new Vector3f(currentFrame);
 			currentFrame = new Vector3f(receiver.getPlayerPosition());
 			previousFrame = new Vector3f(bufferFrame);
-			timeBetween = System.currentTimeMillis() - start;
+			timeBetween = System.currentTimeMillis() - start+1;
 			start = System.currentTimeMillis();
 			hasUpdate = true;
 		}
