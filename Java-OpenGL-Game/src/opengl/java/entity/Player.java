@@ -1,15 +1,19 @@
 package opengl.java.entity;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import opengl.java.model.TexturedModel;
 import opengl.java.terrain.Terrain;
 import opengl.java.view.Camera;
+import opengl.java.window.Window;
 
 public class Player extends Entity
 {
 //	 private boolean jumping;
 //	 private int jumpSpeed;
+
+	private float mouseX = Window.getWidth() / 2, mouseY = Window.getHeight() / 2;
 
 	public Player()
 	{
@@ -44,7 +48,6 @@ public class Player extends Entity
 
 				rotate(0, -1, 0);
 			}
-			position.y = terrain.getHeightOfTerrain(position.x, position.z);
 		}
 		else if (camera.getMode() == Camera.FIRST_PERSON)
 		{
@@ -78,6 +81,14 @@ public class Player extends Entity
 				position.z -= dz1;
 			}
 			position.y = terrain.getHeightOfTerrain(position.x, position.z);
+			rotation.y += (Mouse.getX() - mouseX) * 0.1f;
+			rotation.x -= (Mouse.getY() - mouseY) * 0.1f;
+			if (rotation.x > 90)
+				rotation.x = 90;
+			if (rotation.x < -90)
+				rotation.x = -90;
+			Mouse.setGrabbed(true);
+			Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
 		}
 	}
 }
