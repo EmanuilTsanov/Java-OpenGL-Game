@@ -27,10 +27,9 @@ public class Server
 			{
 				Socket socket = sSocket.accept();
 				ServerConnection sConnection = new ServerConnection(nextID, socket, this);
-				System.out.println("NEW PLAYER");
 				sConnection.start();
 				connections.put(nextID, sConnection);
-				System.out.println("A new user connected! " + connections.size() + " players online.");
+				System.out.println("A new user has connected! Players online: " + connections.size());
 				nextID++;
 			}
 		}

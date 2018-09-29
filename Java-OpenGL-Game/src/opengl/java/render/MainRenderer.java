@@ -335,18 +335,14 @@ public class MainRenderer
 		}
 		if (client.hasUpdate())
 		{
-			Map<Integer, Vector3f> previousPos = client.getPreviousPosMap();
-			Map<Integer, Vector3f> currentPos = client.getCurrentPosMap();
-			for (int i = 0; i < client.getOnlinePlayers() - 1; i++)
-			{
-				Vector3f cVec = currentPos.get(i);
-				Vector3f pVec = previousPos.get(i);
-				if (cVec != null && pVec != null)
-				{
-					distances.put(i, new Vector3f(cVec.x - pVec.x, cVec.y - pVec.y, cVec.z - pVec.z));
-					otherPlayers.get(i).setPosition(pVec);
-				}
-			}
+			Vector3f cPos = client.getCurrentFrame();
+			Vector3f pPos = client.getCurrentFrame();
+			float x = cPos.x - pPos.x;
+			float y = cPos.y - pPos.y;
+			float z = cPos.z - pPos.z;
+			long time = client.getTimeBetweenUpdates();
+			float a = FPSCounter.getFPS()/time;
+			
 		}
 		player.update(camera, terrain);
 		eShader.stop();

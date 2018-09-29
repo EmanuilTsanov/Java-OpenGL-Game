@@ -5,8 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.lwjgl.util.vector.Vector3f;
 
@@ -26,11 +24,11 @@ public class Client extends Thread
 	private long onlinePlayers;
 	private Vector3f myPosition = new Vector3f(0, 0, 0);
 
-	private Map<Integer, Vector3f> previousPos = new HashMap<Integer, Vector3f>();
-	private Map<Integer, Vector3f> currentPos = new HashMap<Integer, Vector3f>();
-	private Map<Integer, Vector3f> bufferPos = new HashMap<Integer, Vector3f>();
-	private Map<Integer, Long> startTimes = new HashMap<Integer, Long>();
-	private Map<Integer, Long> timeBetweenUpdates = new HashMap<Integer, Long>();
+	private long start, timeBetween;
+
+	private Vector3f previousFrame = new Vector3f(0, 0, 0);
+	private Vector3f currentFrame = new Vector3f(0, 0, 0);
+	private Vector3f bufferFrame = new Vector3f(0, 0, 0);
 
 	private boolean running = true;
 
@@ -67,16 +65,11 @@ public class Client extends Thread
 		{
 			sender.sendPosition(myPosition);
 			onlinePlayers = receiver.getOnlinePlayers();
-			for (int i = 0; i < onlinePlayers - 1; i++)
-			{
-				bufferPos.put(i, currentPos.get(i));
-				Vector3f position = receiver.getPlayerPosition();
-				currentPos.put(i, position);
-				previousPos.put(i, bufferPos.get(i));
-				timeBetweenUpdates.put(i,
-						System.currentTimeMillis() - (startTimes.get(i) == null ? 0 : startTimes.get(i)));
-				startTimes.put(i, System.currentTimeMillis());
-			}
+			bufferFrame = new Vector3f(currentFrame);
+			currentFrame = new Vector3f(receiver.getPlayerPosition());
+			previousFrame = new Vector3f(bufferFrame);
+			timeBetween = System.currentTimeMillis() - start;
+			start = System.currentTimeMillis();
 			hasUpdate = true;
 		}
 	}
@@ -96,18 +89,18 @@ public class Client extends Thread
 		return onlinePlayers;
 	}
 
-	public Map<Integer, Vector3f> getPreviousPosMap()
+	public long getTimeBetweenUpdates()
 	{
-		return previousPos;
+		return timeBetween;
 	}
 
-	public Map<Integer, Vector3f> getCurrentPosMap()
+	public Vector3f getCurrentFrame()
 	{
-		return currentPos;
+		return currentFrame;
 	}
 
-	public Map<Integer, Long> getTimeBetweenUpdatesMap()
+	public Vector3f getPreviousFrame()
 	{
-		return timeBetweenUpdates;
+		return previousFrame;
 	}
 }
