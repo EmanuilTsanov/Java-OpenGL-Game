@@ -21,12 +21,11 @@ public class Camera
 
 	private static float distanceFromPlayer = 20f;
 
-//	private static int zoom;
-//	private static final float maxZoom = 100f;
-//	private static final float minZoom = 0f;
+	// private static int zoom;
+	// private static final float maxZoom = 100f;
+	// private static final float minZoom = 0f;
 
-	private static Camera singleton = new Camera(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0))
-			.setMode(FIRST_PERSON);
+	private static Camera singleton = new Camera(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0)).setMode(FIRST_PERSON);
 
 	public Camera(Vector3f position, Vector3f rotation)
 	{
@@ -79,7 +78,7 @@ public class Camera
 				rotation.x = -90;
 			Mouse.setGrabbed(true);
 			Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
-			player.rotate(0,rotation.y, 0);
+			player.setRotation(new Vector3f(0, rotation.y, 0));
 		}
 
 	}
@@ -89,8 +88,9 @@ public class Camera
 		this.mode = mode;
 		return this;
 	}
-	
-	public int getMode() {
+
+	public int getMode()
+	{
 		return mode;
 	}
 
