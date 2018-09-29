@@ -343,7 +343,7 @@ public class MainRenderer
 			yR = cRPos.y - pRPos.y;
 			zR = cRPos.z - pRPos.z;
 		}
-		if (x != 0 || y != 0 || z != 0)
+		if (x != 0 || y != 0 || z != 0 || xR != 0 || yR != 0 || zR != 0)
 		{
 			long time = client.getTimeBetweenUpdates();
 			try
