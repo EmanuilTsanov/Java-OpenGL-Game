@@ -32,6 +32,24 @@ public class PacketReceiver
 		return position;
 	}
 
+	public Vector3f getPlayerRotation()
+	{
+		Vector3f rotation = null;
+
+		try
+		{
+			float x = input.readFloat();
+			float y = input.readFloat();
+			float z = input.readFloat();
+			rotation = new Vector3f(x, y, z);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return rotation;
+	}
+
 	public long getOnlinePlayers()
 	{
 		long players = 0;

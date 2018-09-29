@@ -34,7 +34,7 @@ public class ServerConnection extends Thread
 		}
 	}
 
-	public void sendPosToOthers(float x, float y, float z)
+	public void sendPosToOthers(float x, float y, float z,float xR, float yR, float zR)
 	{
 		sendOnlinePlayers();
 		for (Map.Entry<Integer, ServerConnection> entry : server.getConnectionsList().entrySet())
@@ -42,6 +42,7 @@ public class ServerConnection extends Thread
 			if (entry.getKey() != id)
 			{
 				entry.getValue().sendPosition(x, y, z);
+				entry.getValue().sendPosition(xR, yR, zR);
 			}
 		}
 	}
@@ -56,7 +57,10 @@ public class ServerConnection extends Thread
 				float x = input.readFloat();
 				float y = input.readFloat();
 				float z = input.readFloat();
-				sendPosToOthers(x, y, z);
+				float xR = input.readFloat();
+				float yR = input.readFloat();
+				float zR = input.readFloat();
+				sendPosToOthers(x, y, z, xR, yR, zR);
 			}
 			input.close();
 			output.close();

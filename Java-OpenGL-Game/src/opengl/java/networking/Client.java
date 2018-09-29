@@ -30,6 +30,10 @@ public class Client extends Thread
 	private Vector3f currentFrame = new Vector3f(0, 0, 0);
 	private Vector3f bufferFrame = new Vector3f(0, 0, 0);
 
+	private Vector3f prevRotFrame = new Vector3f(0, 0, 0);
+	private Vector3f currentRotFrame = new Vector3f(0, 0, 0);
+	private Vector3f bufferRotFrame = new Vector3f(0, 0, 0);
+
 	private boolean running = true;
 
 	public Client()
@@ -68,7 +72,10 @@ public class Client extends Thread
 			bufferFrame = new Vector3f(currentFrame);
 			currentFrame = new Vector3f(receiver.getPlayerPosition());
 			previousFrame = new Vector3f(bufferFrame);
-			timeBetween = System.currentTimeMillis() - start+1;
+			bufferRotFrame = new Vector3f(currentRotFrame);
+			currentRotFrame = new Vector3f(receiver.getPlayerRotation());
+			prevRotFrame = new Vector3f(bufferRotFrame);
+			timeBetween = System.currentTimeMillis() - start + 1;
 			start = System.currentTimeMillis();
 			hasUpdate = true;
 		}
@@ -102,5 +109,15 @@ public class Client extends Thread
 	public Vector3f getPreviousFrame()
 	{
 		return previousFrame;
+	}
+
+	public Vector3f getCurrentRotFrame()
+	{
+		return currentRotFrame;
+	}
+
+	public Vector3f getPrevRotFrame()
+	{
+		return prevRotFrame;
 	}
 }

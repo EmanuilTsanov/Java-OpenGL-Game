@@ -8,8 +8,8 @@ import opengl.java.view.Camera;
 
 public class Player extends Entity
 {
-	// private boolean jumping;
-	// private int jumpSpeed;
+//	 private boolean jumping;
+//	 private int jumpSpeed;
 
 	public Player()
 	{
