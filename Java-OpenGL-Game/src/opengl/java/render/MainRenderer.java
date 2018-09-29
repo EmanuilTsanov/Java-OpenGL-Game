@@ -346,9 +346,16 @@ public class MainRenderer
 		if (x != 0 || y != 0 || z != 0)
 		{
 			long time = client.getTimeBetweenUpdates();
-			float a = FPSCounter.getFPS() / (1000 / time);
-			player2.move(x / a, y / a, z / a);
-			player2.rotate(xR / a, yR / a, zR / a);
+			try
+			{
+				float a = FPSCounter.getFPS() / (1000 / time);
+				player2.move(x / a, y / a, z / a);
+				player2.rotate(xR / a, yR / a, zR / a);
+			}
+			catch (ArithmeticException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		renderEntity(player2);
 		player.update(camera, terrain);
