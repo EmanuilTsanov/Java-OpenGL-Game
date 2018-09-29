@@ -39,6 +39,7 @@ public class PacketReceiver
 		try
 		{
 			players = input.readLong();
+			System.out.println(players + " RECEIVER");
 		}
 		catch (IOException e)
 		{
