@@ -23,6 +23,7 @@ public class Client extends Thread
 
 	private long onlinePlayers;
 	private Vector3f myPosition = new Vector3f(0, 0, 0);
+	private Vector3f myRotation = new Vector3f(0, 0, 0);
 
 	private long start, timeBetween = 1;
 
@@ -60,6 +61,7 @@ public class Client extends Thread
 	public void update(Player player)
 	{
 		this.myPosition = player.getPosition();
+		this.myRotation = player.getRotation();
 	}
 
 	@Override
@@ -68,6 +70,7 @@ public class Client extends Thread
 		while (running)
 		{
 			sender.sendPosition(myPosition);
+			sender.sendPosition(myRotation);
 			onlinePlayers = receiver.getOnlinePlayers();
 			bufferFrame = new Vector3f(currentFrame);
 			currentFrame = new Vector3f(receiver.getPlayerPosition());
