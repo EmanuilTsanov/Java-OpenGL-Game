@@ -335,6 +335,7 @@ public class MainRenderer
 			Vector3f cRPos = client.getCurrentRotFrame();
 			Vector3f pRPos = client.getPrevRotFrame();
 			player2.setPosition(pPos);
+			player2.setRotation(pRPos);
 			client.setUpdateState(false);
 			x = cPos.x - pPos.x;
 			y = cPos.y - pPos.y;
