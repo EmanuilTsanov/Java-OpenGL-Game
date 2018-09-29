@@ -43,6 +43,15 @@ public class ServerConnection extends Thread
 			{
 				entry.getValue().sendPosition(x, y, z);
 				entry.getValue().sendPosition(xR, yR, zR);
+				try
+				{
+					output.flush();
+				}
+				catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -79,7 +88,6 @@ public class ServerConnection extends Thread
 			output.writeFloat(x);
 			output.writeFloat(y);
 			output.writeFloat(z);
-			output.flush();
 		}
 		catch (IOException e)
 		{
@@ -92,7 +100,6 @@ public class ServerConnection extends Thread
 		try
 		{
 			output.writeLong(server.getConnectionsList().size());
-			output.flush();
 		}
 		catch (IOException e)
 		{
