@@ -326,13 +326,18 @@ public class MainRenderer
 		if (client.hasUpdate())
 		{
 			player2.setPosition(pPos);
+			client.setUpdateState(false);
 		}
 		float x = cPos.x - pPos.x;
 		float y = cPos.y - pPos.y;
 		float z = cPos.z - pPos.z;
-		long time = client.getTimeBetweenUpdates();
-		float a = FPSCounter.getFPS() / time;
-		player2.move(x/a, y/a, z/a);
+		if (x != 0 || y != 0 || z != 0)
+		{
+			long time = client.getTimeBetweenUpdates();
+			float a = FPSCounter.getFPS() / time;
+			player2.move(x / a, y / a, z / a);
+		}
+
 		renderEntity(player2);
 		player.update(camera, terrain);
 		eShader.stop();
