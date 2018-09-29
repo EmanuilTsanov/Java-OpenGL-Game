@@ -36,7 +36,7 @@ public class Client extends Thread
 	{
 		try
 		{
-			socket = new Socket("localhost", 1342);
+			socket = new Socket("212.75.28.156", 1342);
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
 
