@@ -26,6 +26,12 @@ public class Client extends Thread
 	private long onlinePlayers;
 	private Vector3f myPosition = new Vector3f(0, 0, 0);
 
+	private Map<Integer, Vector3f> previousPos = new HashMap<Integer, Vector3f>();
+	private Map<Integer, Vector3f> currentPos = new HashMap<Integer, Vector3f>();
+	private Map<Integer, Vector3f> bufferPos = new HashMap<Integer, Vector3f>();
+	private Map<Integer, Long> startTimes = new HashMap<Integer, Long>();
+	private Map<Integer, Long> timeBetweenUpdates = new HashMap<Integer, Long>();
+
 	private boolean running = true;
 
 	public Client()
@@ -59,6 +65,18 @@ public class Client extends Thread
 	{
 		while (running)
 		{
+			sender.sendPosition(myPosition);
+			onlinePlayers = receiver.getOnlinePlayers();
+			for (int i = 0; i < onlinePlayers - 1; i++)
+			{
+				bufferPos.put(i, currentPos.get(i));
+				Vector3f position = receiver.getPlayerPosition();
+				currentPos.put(i, position);
+				previousPos.put(i, bufferPos.get(i));
+				timeBetweenUpdates.put(i,
+						System.currentTimeMillis() - (startTimes.get(i) == null ? 0 : startTimes.get(i)));
+				startTimes.put(i, System.currentTimeMillis());
+			}
 			hasUpdate = true;
 		}
 	}
@@ -76,5 +94,20 @@ public class Client extends Thread
 	public long getOnlinePlayers()
 	{
 		return onlinePlayers;
+	}
+
+	public Map<Integer, Vector3f> getPreviousPosMap()
+	{
+		return previousPos;
+	}
+
+	public Map<Integer, Vector3f> getCurrentPosMap()
+	{
+		return currentPos;
+	}
+
+	public Map<Integer, Long> getTimeBetweenUpdatesMap()
+	{
+		return timeBetweenUpdates;
 	}
 }
