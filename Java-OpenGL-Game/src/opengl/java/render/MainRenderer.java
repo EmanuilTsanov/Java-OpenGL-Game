@@ -51,6 +51,7 @@ public class MainRenderer
 	private static PickShader pickShader;
 	private static FontShader fontShader;
 	private static ColorfulShader cShader;
+	private static float x = 0, y = 0, z = 0;
 
 	private static Camera camera = Camera.getInstance();
 
@@ -327,11 +328,10 @@ public class MainRenderer
 			renderEntity(e);
 		}
 		client.update(player);
-		float x = 0, y = 0, z = 0;
 		if (client.hasUpdate())
 		{
 			Vector3f cPos = client.getCurrentFrame();
-			Vector3f pPos = client.getCurrentFrame();
+			Vector3f pPos = client.getPreviousFrame();
 			player2.setPosition(pPos);
 			client.setUpdateState(false);
 			x = cPos.x - pPos.x;
@@ -341,8 +341,9 @@ public class MainRenderer
 		if (x != 0 || y != 0 || z != 0)
 		{
 			long time = client.getTimeBetweenUpdates();
-			float a = FPSCounter.getFPS() / time;
+			float a = FPSCounter.getFPS() / (1000 / time);
 			player2.move(x / a, y / a, z / a);
+			System.out.println(x / a);
 		}
 		renderEntity(player2);
 		player.update(camera, terrain);
