@@ -1,9 +1,11 @@
 package opengl.java.view;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Player;
 import opengl.java.terrain.Terrain;
+import opengl.java.window.Window;
 
 public class Camera
 {
@@ -56,13 +58,22 @@ public class Camera
 		{
 			float x = distanceFromPlayer * (float) Math.sin(Math.toRadians(player.getRotation().y));
 			float z = distanceFromPlayer * (float) Math.cos(Math.toRadians(player.getRotation().y));
-			this.setPosition(player.getPosition().x - x, terrain.getHeightOfTerrain(player.getPosition().x, player.getPosition().z) + 30, player.getPosition().z - z);
+			this.setPosition(player.getPosition().x - x,
+					terrain.getHeightOfTerrain(player.getPosition().x, player.getPosition().z) + 30,
+					player.getPosition().z - z);
 			rotation.y = 180 - player.getRotation().y;
 		}
 		else if (mode == FIRST_PERSON)
 		{
-			this.setPosition(player.getPosition().x, terrain.getHeightOfTerrain(player.getPosition().x, player.getPosition().z) + 2.5f, player.getPosition().z);
-			rotation = player.getRotation();
+			this.setPosition(player.getPosition().x,
+					terrain.getHeightOfTerrain(player.getPosition().x, player.getPosition().z) + 2.5f,
+					player.getPosition().z);
+			rotation.y = 180 - player.getRotation().y;
+			rotation.x -= (Mouse.getY() - Window.getHeight() / 2) * 0.1f;
+			if (rotation.x > 90)
+				rotation.x = 90;
+			if (rotation.x < -90)
+				rotation.x = -90;
 		}
 
 	}

@@ -7,30 +7,30 @@ import java.util.HashMap;
 
 public class Server
 {
-	private ServerSocket sSocket;
-	private HashMap<Integer, ServerConnection> connections = new HashMap<Integer, ServerConnection>();
+	private ServerSocket serverSocket;
+	
 	private boolean running = true;
-	private static int nextID = 0;
+	
+	private HashMap<Integer, ServerConnection> connections = new HashMap<Integer, ServerConnection>();
 
 	public static void main(String args[])
 	{
-		new Server();
+		new Server(1342);
 	}
 
-	public Server()
+	public Server(int port)
 	{
 		try
 		{
-			sSocket = new ServerSocket(1342);
+			serverSocket = new ServerSocket(port);
 			System.out.println("Server is ready to establish connection.");
 			while (running)
 			{
-				Socket socket = sSocket.accept();
-				ServerConnection sConnection = new ServerConnection(nextID, socket, this);
+				Socket socket = serverSocket.accept();
+				ServerConnection sConnection = new ServerConnection(socket.getPort(), socket, this);
 				sConnection.start();
-				connections.put(nextID, sConnection);
+				connections.put(socket.getPort(), sConnection);
 				System.out.println("A new user has connected! Players online: " + connections.size());
-				nextID++;
 			}
 		}
 		catch (IOException e)

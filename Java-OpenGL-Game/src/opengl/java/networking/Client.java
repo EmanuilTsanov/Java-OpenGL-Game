@@ -82,6 +82,17 @@ public class Client extends Thread
 			start = System.currentTimeMillis();
 			hasUpdate = true;
 		}
+		try
+		{
+			input.close();
+			output.close();
+			socket.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
 	}
 
 	public boolean hasUpdate()

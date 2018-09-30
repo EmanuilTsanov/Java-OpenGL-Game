@@ -10,10 +10,11 @@ import opengl.java.window.Window;
 
 public class Player extends Entity
 {
-//	 private boolean jumping;
-//	 private int jumpSpeed;
+	private boolean jumping;
+	private float jumpSpeed;
+	private static final float maxJumpSpeed = 5f;
 
-	private float mouseX = Window.getWidth() / 2, mouseY = Window.getHeight() / 2;
+	private float mouseX = Window.getWidth() / 2;
 
 	public Player()
 	{
@@ -80,15 +81,24 @@ public class Player extends Entity
 				position.x -= dx1;
 				position.z -= dz1;
 			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE))
+			{
+				if (!jumping)
+					jumping = true;
+				jumpSpeed = maxJumpSpeed;
+			}
+			if(!jumping)
 			position.y = terrain.getHeightOfTerrain(position.x, position.z);
-			rotation.y += (Mouse.getX() - mouseX) * 0.1f;
-			rotation.x -= (Mouse.getY() - mouseY) * 0.1f;
-			if (rotation.x > 90)
-				rotation.x = 90;
-			if (rotation.x < -90)
-				rotation.x = -90;
+			rotation.y -= (Mouse.getX() - mouseX) * 0.1f;
 			Mouse.setGrabbed(true);
 			Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
+			position.y += jumpSpeed;
+			if (position.y > terrain.getHeightOfTerrain(position.x, position.z))
+			{
+				jumpSpeed -= 0.1f;
+			}
+			else if(position.y <= terrain.getHeightOfTerrain(position.x, position.z))
+				jumping = false;
 		}
 	}
 }

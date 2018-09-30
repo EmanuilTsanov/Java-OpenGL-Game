@@ -8,8 +8,6 @@ import java.util.Map;
 
 public class ServerConnection extends Thread
 {
-	private int id;
-
 	private Socket socket;
 	private Server server;
 	private DataInputStream input;
@@ -20,7 +18,6 @@ public class ServerConnection extends Thread
 	public ServerConnection(int id, Socket socket, Server server)
 	{
 		super("ConnectionThread");
-		this.id = id;
 		this.socket = socket;
 		this.server = server;
 		try
@@ -39,19 +36,10 @@ public class ServerConnection extends Thread
 		sendOnlinePlayers();
 		for (Map.Entry<Integer, ServerConnection> entry : server.getConnectionsList().entrySet())
 		{
-			if (entry.getKey() != id)
+			if (entry.getKey() != socket.getPort())
 			{
 				entry.getValue().sendPosition(x, y, z);
 				entry.getValue().sendPosition(xR, yR, zR);
-				try
-				{
-					output.flush();
-				}
-				catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 		}
 	}
@@ -88,6 +76,7 @@ public class ServerConnection extends Thread
 			output.writeFloat(x);
 			output.writeFloat(y);
 			output.writeFloat(z);
+			output.flush();
 		}
 		catch (IOException e)
 		{
@@ -100,6 +89,7 @@ public class ServerConnection extends Thread
 		try
 		{
 			output.writeLong(server.getConnectionsList().size());
+			output.flush();
 		}
 		catch (IOException e)
 		{
