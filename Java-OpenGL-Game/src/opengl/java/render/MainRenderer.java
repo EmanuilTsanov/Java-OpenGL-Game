@@ -80,10 +80,6 @@ public class MainRenderer
 
 	private static Player player = new Player();
 
-	private static Player player2 = new Player();
-
-	public static Client client = new Client();
-
 	static
 	{
 		enableCulling();
@@ -93,7 +89,6 @@ public class MainRenderer
 		processTerrain(terrain1);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
-		client.start();
 	}
 
 	public static void processTerrain(Terrain terrain)
@@ -327,38 +322,6 @@ public class MainRenderer
 			e.setPosition(new Vector3f(v.x, terrain.getHeightOfTerrain(v.x, v.z), v.z));
 			renderEntity(e);
 		}
-		client.update(player);
-		if (client.hasUpdate())
-		{
-			Vector3f cPos = client.getCurrentFrame();
-			Vector3f pPos = client.getPreviousFrame();
-			Vector3f cRPos = client.getCurrentRotFrame();
-			Vector3f pRPos = client.getPrevRotFrame();
-			player2.setPosition(pPos);
-			player2.setRotation(new Vector3f(0, pRPos.y, 0));
-			client.setUpdateState(false);
-			x = cPos.x - pPos.x;
-			y = cPos.y - pPos.y;
-			z = cPos.z - pPos.z;
-			xR = cRPos.x - pRPos.x;
-			yR = cRPos.y - pRPos.y;
-			zR = cRPos.z - pRPos.z;
-		}
-		if (x != 0 || y != 0 || z != 0 || xR != 0 || yR != 0 || zR != 0)
-		{
-			long time = client.getTimeBetweenUpdates();
-			try
-			{
-				float a = FPSCounter.getFPS() / (1000 / time);
-				player2.move(x / a, y / a, z / a);
-				player2.rotate(xR / a, yR / a, zR / a);
-			}
-			catch (ArithmeticException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		renderEntity(player2);
 		player.update(camera, terrain);
 		eShader.stop();
 		tShader.start();

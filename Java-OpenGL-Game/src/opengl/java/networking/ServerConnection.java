@@ -33,7 +33,6 @@ public class ServerConnection extends Thread
 
 	public void sendPosToOthers(float x, float y, float z,float xR, float yR, float zR)
 	{
-		sendOnlinePlayers();
 		for (Map.Entry<Integer, ServerConnection> entry : server.getConnectionsList().entrySet())
 		{
 			if (entry.getKey() != socket.getPort())
