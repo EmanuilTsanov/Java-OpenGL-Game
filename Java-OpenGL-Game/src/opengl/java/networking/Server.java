@@ -30,7 +30,7 @@ public class Server
 				ServerConnection sConnection = new ServerConnection(socket.getPort(), socket, this);
 				sConnection.start();
 				connections.put(socket.getPort(), sConnection);
-				System.out.println("A new user has connected! Players online: " + connections.size());
+				System.out.println("A player has joined the game. Players online: " + connections.size() + ".");
 			}
 		}
 		catch (IOException e)

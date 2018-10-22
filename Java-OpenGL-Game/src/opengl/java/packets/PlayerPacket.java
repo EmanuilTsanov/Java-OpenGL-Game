@@ -1,10 +1,12 @@
 package opengl.java.packets;
 
+import java.io.Serializable;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Player;
 
-public class PlayerPacket extends Packet
+public class PlayerPacket implements Serializable
 {
 	private Vector3f position;
 	private Vector3f rotation;
@@ -45,7 +47,6 @@ public class PlayerPacket extends Packet
 		return rotation;
 	}
 
-	@Override
 	public PlayerPacket getCopy()
 	{
 		return new PlayerPacket().setPosition(position).setRotation(rotation);

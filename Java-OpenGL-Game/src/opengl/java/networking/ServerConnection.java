@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Map;
 
 public class ServerConnection extends Thread
@@ -37,7 +38,7 @@ public class ServerConnection extends Thread
 		{
 			if (entry.getKey() != socket.getPort())
 			{
-				sendObject(obj);
+				entry.getValue().sendObject(obj);
 			}
 		}
 	}
@@ -57,8 +58,8 @@ public class ServerConnection extends Thread
 	{
 		try
 		{
-			input.close();
 			output.close();
+			input.close();
 			socket.close();
 		}
 		catch (IOException e)
@@ -74,6 +75,12 @@ public class ServerConnection extends Thread
 		{
 			obj = input.readObject();
 		}
+		catch (SocketException e)
+		{
+			server.getConnectionsList().remove(socket.getPort());
+			running = false;
+			System.out.println("A player has left the game. " + "Players online: " + server.getConnectionsList().size() + ".");
+		}
 		catch (ClassNotFoundException | IOException e)
 		{
 			e.printStackTrace();
@@ -86,7 +93,12 @@ public class ServerConnection extends Thread
 		try
 		{
 			output.writeObject(obj);
+			output.reset();
 			output.flush();
+		}
+		catch (SocketException e)
+		{
+			running = false;
 		}
 		catch (IOException e)
 		{

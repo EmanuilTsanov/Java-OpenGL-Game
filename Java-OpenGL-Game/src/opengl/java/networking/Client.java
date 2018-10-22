@@ -6,37 +6,33 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.UnknownHostException;
 
+import opengl.java.entity.Player;
 import opengl.java.packets.PlayerPacket;
 
 public class Client extends Thread
 {
 	private Socket socket;
 
-	private PacketInput input;
-	private PacketOutput output;
+	private ObjectInputStream input;
+	private ObjectOutputStream output;
 
-	private ObjectInputStream inStream;
-	private ObjectOutputStream outStream;
-
-	private PlayerPacket myPacket;
+	private PlayerPacket pPacket;
 
 	private PlayerPacket p2PrevPacket;
 	private PlayerPacket p2Packet;
 
 	private boolean hasUpdate;
 
-	private long start, elapsed;
-
 	private boolean running = true;
 
 	public Client(PlayerPacket packet)
 	{
-		this.myPacket = packet;
+		this.pPacket = packet;
 		try
 		{
 			socket = new Socket("localhost", 1342);
-			outStream = new ObjectOutputStream(socket.getOutputStream());
-			inStream = new ObjectInputStream(socket.getInputStream());
+			output = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
 
 		}
 		catch (UnknownHostException e)
@@ -47,8 +43,6 @@ public class Client extends Thread
 		{
 			System.out.println("An error occured while trying to establish a connection with the server.");
 		}
-		input = new PacketInput(inStream);
-		output = new PacketOutput(outStream);
 	}
 
 	@Override
@@ -56,35 +50,28 @@ public class Client extends Thread
 	{
 		while (running)
 		{
-			output.sendPacket(myPacket);
-			start = System.currentTimeMillis();
-			handleIncoming();
-			elapsed = System.currentTimeMillis() - start;
+			sendObject(pPacket.getCopy());
+			handleIncomingData();
 		}
 		closeConnection();
 	}
-
-	public void handleIncoming()
-	{
-		Object o = input.getObject();
-		if (o instanceof PlayerPacket)
-		{
-			PlayerPacket temp = null;
-			if (p2PrevPacket != null)
-				temp = p2PrevPacket.getCopy();
-			p2PrevPacket = (PlayerPacket) o;
-			if (temp != null)
-				p2Packet = temp.getCopy();
+	
+	public void handleIncomingData() {
+		PlayerPacket temp = null;
+		if (p2PrevPacket != null) {
+			temp = p2PrevPacket;
 			hasUpdate = true;
 		}
+		p2PrevPacket = (PlayerPacket) receiveObject();
+		p2Packet = temp;
 	}
 
 	public void closeConnection()
 	{
 		try
 		{
-			inStream.close();
-			outStream.close();
+			output.close();
+			input.close();
 			socket.close();
 		}
 		catch (IOException e)
@@ -93,17 +80,41 @@ public class Client extends Thread
 		}
 	}
 
-	public boolean hasUpdate()
+	public void sendObject(Object obj)
 	{
-		return hasUpdate;
+		try
+		{
+			output.writeObject(obj);
+			output.reset();
+			output.flush();
+		}
+		catch (IOException e)
+		{
+			System.out.println("An error occured while sending data to the server.");
+		}
 	}
 
-	public void setHasUpdate(boolean b)
+	public Object receiveObject()
 	{
-		hasUpdate = b;
+		Object obj = null;
+		try
+		{
+			obj = input.readObject();
+		}
+		catch (ClassNotFoundException | IOException e)
+		{
+			System.out.println("An error occured while receiving data from the server.");
+		}
+		return obj;
 	}
-	
-	public PlayerPacket getPacket() {
-		return p2PrevPacket;
+
+	public synchronized void movePlayer(Player player)
+	{
+		if (hasUpdate)
+		{
+			player.setPosition(p2Packet.getPosition());
+			player.setRotation(p2Packet.getRotation());
+			hasUpdate = false;
+		}
 	}
 }
