@@ -1,8 +1,8 @@
 package opengl.java.networking;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Map;
 
@@ -10,8 +10,8 @@ public class ServerConnection extends Thread
 {
 	private Socket socket;
 	private Server server;
-	private DataInputStream input;
-	private DataOutputStream output;
+	private ObjectInputStream input;
+	private ObjectOutputStream output;
 
 	private boolean running = true;
 
@@ -22,8 +22,8 @@ public class ServerConnection extends Thread
 		this.server = server;
 		try
 		{
-			input = new DataInputStream(socket.getInputStream());
-			output = new DataOutputStream(socket.getOutputStream());
+			output = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
 		}
 		catch (IOException e)
 		{
@@ -31,14 +31,13 @@ public class ServerConnection extends Thread
 		}
 	}
 
-	public void sendPosToOthers(float x, float y, float z,float xR, float yR, float zR)
+	public void sendObjectToOthers(Object obj)
 	{
 		for (Map.Entry<Integer, ServerConnection> entry : server.getConnectionsList().entrySet())
 		{
 			if (entry.getKey() != socket.getPort())
 			{
-				entry.getValue().sendPosition(x, y, z);
-				entry.getValue().sendPosition(xR, yR, zR);
+				sendObject(obj);
 			}
 		}
 	}
@@ -46,18 +45,18 @@ public class ServerConnection extends Thread
 	@Override
 	public void run()
 	{
+		while (running)
+		{
+			Object obj = readObject();
+			sendObjectToOthers(obj);
+		}
+		closeConnnection();
+	}
+
+	public void closeConnnection()
+	{
 		try
 		{
-			while (running)
-			{
-				float x = input.readFloat();
-				float y = input.readFloat();
-				float z = input.readFloat();
-				float xR = input.readFloat();
-				float yR = input.readFloat();
-				float zR = input.readFloat();
-				sendPosToOthers(x, y, z, xR, yR, zR);
-			}
 			input.close();
 			output.close();
 			socket.close();
@@ -68,26 +67,25 @@ public class ServerConnection extends Thread
 		}
 	}
 
-	public void sendPosition(float x, float y, float z)
+	public Object readObject()
 	{
+		Object obj = null;
 		try
 		{
-			output.writeFloat(x);
-			output.writeFloat(y);
-			output.writeFloat(z);
-			output.flush();
+			obj = input.readObject();
 		}
-		catch (IOException e)
+		catch (ClassNotFoundException | IOException e)
 		{
 			e.printStackTrace();
 		}
+		return obj;
 	}
 
-	public void sendOnlinePlayers()
+	public void sendObject(Object obj)
 	{
 		try
 		{
-			output.writeLong(server.getConnectionsList().size());
+			output.writeObject(obj);
 			output.flush();
 		}
 		catch (IOException e)

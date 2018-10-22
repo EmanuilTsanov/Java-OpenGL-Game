@@ -27,6 +27,7 @@ import opengl.java.management.SRCLoader;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
 import opengl.java.networking.Client;
+import opengl.java.packets.PlayerPacket;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
@@ -51,7 +52,6 @@ public class MainRenderer
 	private static PickShader pickShader;
 	private static FontShader fontShader;
 	private static ColorfulShader cShader;
-	private static float x = 0, y = 0, z = 0, xR = 0, yR = 0, zR = 0;
 
 	private static Camera camera = Camera.getInstance();
 
@@ -80,6 +80,12 @@ public class MainRenderer
 
 	private static Player player = new Player();
 
+	private static Player player2 = new Player();
+
+	private static PlayerPacket packet = new PlayerPacket();
+
+	private static Client client = new Client(packet);
+
 	static
 	{
 		enableCulling();
@@ -89,6 +95,7 @@ public class MainRenderer
 		processTerrain(terrain1);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
+		client.start();
 	}
 
 	public static void processTerrain(Terrain terrain)
@@ -323,6 +330,9 @@ public class MainRenderer
 			renderEntity(e);
 		}
 		player.update(camera, terrain);
+		packet.update(player);
+		movePlayer(player2);
+		renderEntity(player2);
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);
@@ -334,5 +344,17 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
+	}
+
+	public static void movePlayer(Player player)
+	{
+		if (client.hasUpdate())
+		{
+			player.setPosition(client.getPacket().getPosition());
+			player.setRotation(client.getPacket().getRotation());
+			System.out.println(client.getPacket().getPosition());
+			client.setHasUpdate(false);
+		}
+
 	}
 }

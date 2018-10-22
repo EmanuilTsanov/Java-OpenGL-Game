@@ -22,7 +22,9 @@ public class Client extends Thread
 
 	private PlayerPacket p2PrevPacket;
 	private PlayerPacket p2Packet;
-	
+
+	private boolean hasUpdate;
+
 	private long start, elapsed;
 
 	private boolean running = true;
@@ -33,8 +35,8 @@ public class Client extends Thread
 		try
 		{
 			socket = new Socket("localhost", 1342);
-			inStream = new ObjectInputStream(socket.getInputStream());
 			outStream = new ObjectOutputStream(socket.getOutputStream());
+			inStream = new ObjectInputStream(socket.getInputStream());
 
 		}
 		catch (UnknownHostException e)
@@ -56,14 +58,25 @@ public class Client extends Thread
 		{
 			output.sendPacket(myPacket);
 			start = System.currentTimeMillis();
-			Object o = input.getObject();
-			elapsed = System.currentTimeMillis()-start;
-			PlayerPacket temp = p2PrevPacket.getCopy();
-			if (o instanceof PlayerPacket)
-				p2PrevPacket = (PlayerPacket) o;
-			p2Packet = temp.getCopy();
+			handleIncoming();
+			elapsed = System.currentTimeMillis() - start;
 		}
 		closeConnection();
+	}
+
+	public void handleIncoming()
+	{
+		Object o = input.getObject();
+		if (o instanceof PlayerPacket)
+		{
+			PlayerPacket temp = null;
+			if (p2PrevPacket != null)
+				temp = p2PrevPacket.getCopy();
+			p2PrevPacket = (PlayerPacket) o;
+			if (temp != null)
+				p2Packet = temp.getCopy();
+			hasUpdate = true;
+		}
 	}
 
 	public void closeConnection()
@@ -78,5 +91,19 @@ public class Client extends Thread
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public boolean hasUpdate()
+	{
+		return hasUpdate;
+	}
+
+	public void setHasUpdate(boolean b)
+	{
+		hasUpdate = b;
+	}
+	
+	public PlayerPacket getPacket() {
+		return p2PrevPacket;
 	}
 }
