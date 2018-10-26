@@ -326,8 +326,8 @@ public class MainRenderer
 		player.update(camera, terrain);
 		packet.update(player);
 		if(client.hasUpdate()) {
-				player.setPosition(client.getPlayerPacket().getPosition());
-				player.setRotation(client.getPlayerPacket().getRotation());
+				player2.setPosition(client.getPlayerPacket().getPosition());
+				player2.setRotation(client.getPlayerPacket().getRotation());
 				client.setHasUpdate(false);
 		}
 		renderEntity(player2);
