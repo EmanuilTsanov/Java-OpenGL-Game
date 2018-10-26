@@ -121,6 +121,6 @@ public class Client extends Thread
 
 	public PlayerPacket getPlayerPacket()
 	{
-		return pPacket;
+		return p2Packet;
 	}
 }
