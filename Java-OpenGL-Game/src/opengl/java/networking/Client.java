@@ -21,12 +21,13 @@ public class Client extends Thread
 
 	private PlayerPacket pPacket;
 
-	private long start, elapsed=1;
+	private long start = System.currentTimeMillis(), elapsed = 1;
 
 	private PlayerPacket p2PrevPacket;
 	private PlayerPacket p2Packet;
 
 	private boolean hasUpdate;
+	private Vector3f b;
 
 	private boolean running = true;
 
@@ -63,16 +64,12 @@ public class Client extends Thread
 
 	public void handleIncomingData()
 	{
-		PlayerPacket temp = null;
-		if (p2PrevPacket != null)
-		{
-			temp = p2PrevPacket;
-			hasUpdate = true;
-		}
-		p2PrevPacket = (PlayerPacket) receiveObject();
+		PlayerPacket temp = p2Packet;
+		p2Packet = (PlayerPacket) receiveObject();
+		p2PrevPacket = temp;
 		elapsed = System.currentTimeMillis() - start + 1;
 		start = System.currentTimeMillis();
-		p2Packet = temp;
+		hasUpdate = true;
 	}
 
 	public void closeConnection()
@@ -119,20 +116,18 @@ public class Client extends Thread
 
 	public synchronized void movePlayer(Player player)
 	{
-			if (p2Packet != null)
+		if (p2PrevPacket != null)
+			if (hasUpdate)
 			{
-				if (hasUpdate)
-				{
-				player.setPosition(p2Packet.getPosition());
-				player.setRotation(p2Packet.getRotation());
+				player.setPosition(p2PrevPacket.getPosition());
+				player.setRotation(p2PrevPacket.getRotation());
 				hasUpdate = false;
-				}
-				
-				float a = FPSCounter.getFPS() / (1000 / elapsed);
-				Vector3f b = new Vector3f(p2Packet.getPosition().getX() - p2PrevPacket.getPosition().getX(),
+				b = new Vector3f(p2Packet.getPosition().getX() - p2PrevPacket.getPosition().getX(),
 						p2Packet.getPosition().getY() - p2PrevPacket.getPosition().getY(),
 						p2Packet.getPosition().getZ() - p2PrevPacket.getPosition().getZ());
-				player.move(b.x/a, b.y/a, b.z/a);
-		}
+			}
+		float a = FPSCounter.getFPS() / (1000 / elapsed);
+		if (b != null)
+			player.move(b.x / a, b.y / a, b.z / a);
 	}
 }
