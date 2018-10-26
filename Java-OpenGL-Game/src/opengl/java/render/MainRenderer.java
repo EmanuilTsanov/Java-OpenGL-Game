@@ -331,16 +331,7 @@ public class MainRenderer
 		}
 		player.update(camera, terrain);
 		packet.update(player);
-		if (client.hasUpdate())
-		{
-			PlayerPacket packet = client.getPlayerPacket();
-			if (packet != null)
-			{
-				player2.setPosition(packet.getPosition());
-				player2.setRotation(packet.getRotation());
-				client.setHasUpdate(false);
-			}
-		}
+		client.movePlayer(player2);
 		renderEntity(player2);
 		eShader.stop();
 		tShader.start();

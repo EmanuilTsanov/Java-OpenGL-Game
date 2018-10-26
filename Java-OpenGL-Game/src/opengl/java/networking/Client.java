@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.UnknownHostException;
 
+import opengl.java.entity.Player;
 import opengl.java.packets.PlayerPacket;
 
 public class Client extends Thread
@@ -109,18 +110,17 @@ public class Client extends Thread
 		return obj;
 	}
 
-	public boolean hasUpdate()
+	public synchronized void movePlayer(Player player)
 	{
-		return hasUpdate;
-	}
 
-	public void setHasUpdate(boolean b)
-	{
-		hasUpdate = b;
-	}
-
-	public PlayerPacket getPlayerPacket()
-	{
-		return p2Packet;
+		if (hasUpdate)
+		{
+			if (p2Packet != null)
+			{
+				player.setPosition(p2Packet.getPosition());
+				player.setRotation(p2Packet.getRotation());
+				hasUpdate = false;
+			}
+		}
 	}
 }
