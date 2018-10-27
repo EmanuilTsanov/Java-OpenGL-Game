@@ -36,7 +36,7 @@ public class Client extends Thread
 		this.pPacket = packet;
 		try
 		{
-			socket = new Socket("localhost", 1342);
+			socket = new Socket("212.75.28.190", 1342);
 			output = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 
