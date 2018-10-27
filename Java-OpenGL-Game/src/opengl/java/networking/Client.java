@@ -126,7 +126,7 @@ public class Client extends Thread
 						p2Packet.getPosition().getY() - p2PrevPacket.getPosition().getY(),
 						p2Packet.getPosition().getZ() - p2PrevPacket.getPosition().getZ());
 			}
-		float a = FPSCounter.getFPS() / (1000 / elapsed);
+		float a = FPSCounter.getFPS() / (1000f / elapsed);
 		if (b != null)
 			player.move(b.x / a, b.y / a, b.z / a);
 	}
