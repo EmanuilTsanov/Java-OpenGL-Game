@@ -27,16 +27,24 @@ public class Client extends Thread
 	private PlayerPacket p2Packet;
 
 	private boolean hasUpdate;
-	private Vector3f b;
+	private Vector3f bDist;
 
 	private boolean running = true;
 
 	public Client(PlayerPacket packet)
 	{
 		this.pPacket = packet;
+		p2PrevPacket = new PlayerPacket();
+		p2Packet = new PlayerPacket();
+		bDist = new Vector3f(0,0,0);
+		connectToServer("localhost", 1342);
+	}
+
+	private void connectToServer(String address, int port)
+	{
 		try
 		{
-			socket = new Socket("212.75.28.190", 1342);
+			socket = new Socket(address, port);
 			output = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 
@@ -67,7 +75,7 @@ public class Client extends Thread
 		PlayerPacket temp = p2Packet;
 		p2Packet = (PlayerPacket) receiveObject();
 		p2PrevPacket = temp;
-		elapsed = System.currentTimeMillis() - start + 1;
+		elapsed = System.currentTimeMillis() - start;
 		start = System.currentTimeMillis();
 		hasUpdate = true;
 	}
@@ -116,18 +124,14 @@ public class Client extends Thread
 
 	public synchronized void movePlayer(Player player)
 	{
-		if (p2PrevPacket != null)
-			if (hasUpdate)
-			{
-				player.setPosition(p2PrevPacket.getPosition());
-				player.setRotation(p2PrevPacket.getRotation());
-				hasUpdate = false;
-				b = new Vector3f(p2Packet.getPosition().getX() - p2PrevPacket.getPosition().getX(),
-						p2Packet.getPosition().getY() - p2PrevPacket.getPosition().getY(),
-						p2Packet.getPosition().getZ() - p2PrevPacket.getPosition().getZ());
-			}
+		if (hasUpdate)
+		{
+			player.setPosition(p2PrevPacket.getPosition());
+			player.setRotation(p2PrevPacket.getRotation());
+			hasUpdate = false;
+			bDist = new Vector3f(p2Packet.getPosition().getX() - p2PrevPacket.getPosition().getX(), p2Packet.getPosition().getY() - p2PrevPacket.getPosition().getY(), p2Packet.getPosition().getZ() - p2PrevPacket.getPosition().getZ());
+		}
 		float a = FPSCounter.getFPS() / (1000 / elapsed);
-		if (b != null)
-			player.move(b.x / a, b.y / a, b.z / a);
+			player.move(bDist.x / a, bDist.y / a, bDist.z / a);
 	}
 }
