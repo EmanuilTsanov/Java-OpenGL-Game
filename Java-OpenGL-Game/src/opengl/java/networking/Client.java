@@ -6,11 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.UnknownHostException;
 
-import org.lwjgl.util.vector.Vector3f;
-
-import opengl.java.entity.Player;
 import opengl.java.packets.PlayerPacket;
-import opengl.java.window.FPSCounter;
 
 public class Client extends Thread
 {
@@ -18,26 +14,15 @@ public class Client extends Thread
 
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-
-	private PlayerPacket pPacket;
-
-	private long start = System.currentTimeMillis(), elapsed = 1;
-
-	private PlayerPacket p2PrevPacket;
-	private PlayerPacket p2Packet;
-
-	private boolean hasUpdate;
-	private Vector3f bDist;
+	
+	private NetworkMaster netMaster;
 
 	private boolean running = true;
 
 	public Client(PlayerPacket packet)
 	{
-		this.pPacket = packet;
-		p2PrevPacket = new PlayerPacket();
-		p2Packet = new PlayerPacket();
-		bDist = new Vector3f(0,0,0);
 		connectToServer("localhost", 1342);
+		netMaster = new NetworkMaster();
 	}
 
 	private void connectToServer(String address, int port)
@@ -55,7 +40,7 @@ public class Client extends Thread
 		}
 		catch (IOException e)
 		{
-			System.out.println("An error occured while trying to establish a connection with the server.");
+			System.out.println("An error occured while trying to establish connection with the server.");
 		}
 	}
 
@@ -64,20 +49,10 @@ public class Client extends Thread
 	{
 		while (running)
 		{
-			sendObject(pPacket.getCopy());
-			handleIncomingData();
+			Object obj = receiveObject();
+			netMaster.process(obj);
 		}
 		closeConnection();
-	}
-
-	public void handleIncomingData()
-	{
-		PlayerPacket temp = p2Packet;
-		p2Packet = (PlayerPacket) receiveObject();
-		p2PrevPacket = temp;
-		elapsed = System.currentTimeMillis() - start;
-		start = System.currentTimeMillis();
-		hasUpdate = true;
 	}
 
 	public void closeConnection()
@@ -120,18 +95,5 @@ public class Client extends Thread
 			System.out.println("An error occured while receiving data from the server.");
 		}
 		return obj;
-	}
-
-	public synchronized void movePlayer(Player player)
-	{
-		if (hasUpdate)
-		{
-			player.setPosition(p2PrevPacket.getPosition());
-			player.setRotation(p2PrevPacket.getRotation());
-			hasUpdate = false;
-			bDist = new Vector3f(p2Packet.getPosition().getX() - p2PrevPacket.getPosition().getX(), p2Packet.getPosition().getY() - p2PrevPacket.getPosition().getY(), p2Packet.getPosition().getZ() - p2PrevPacket.getPosition().getZ());
-		}
-		float a = FPSCounter.getFPS() / (1000 / elapsed);
-			player.move(bDist.x / a, bDist.y / a, bDist.z / a);
 	}
 }
