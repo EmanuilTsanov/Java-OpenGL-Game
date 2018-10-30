@@ -15,14 +15,15 @@ public class Client extends Thread
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 
-	private NetworkMaster netMaster;
-
 	private boolean running = true;
+
+	private PlayerPacket packet;
 
 	public Client(PlayerPacket packet)
 	{
 		connectToServer("localhost", 1342);
-		netMaster = new NetworkMaster();
+		this.packet = packet;
+		this.packet.setPort(socket.getLocalPort());
 	}
 
 	private void connectToServer(String address, int port)
@@ -50,7 +51,7 @@ public class Client extends Thread
 		while (running)
 		{
 			Object obj = receiveObject();
-			netMaster.process(obj);
+			process(obj);
 		}
 		closeConnection();
 	}
@@ -95,5 +96,18 @@ public class Client extends Thread
 			System.out.println("An error occured while receiving data from the server.");
 		}
 		return obj;
+	}
+
+	public void process(Object obj)
+	{
+		if (obj instanceof PlayerPacket)
+		{
+			processPlayerPacket((PlayerPacket) obj);
+		}
+	}
+
+	private void processPlayerPacket(PlayerPacket packet)
+	{
+
 	}
 }

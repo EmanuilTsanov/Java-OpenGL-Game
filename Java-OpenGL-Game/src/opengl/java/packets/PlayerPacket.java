@@ -8,6 +8,8 @@ import opengl.java.entity.Player;
 
 public class PlayerPacket implements Serializable
 {
+	private int port;
+	
 	private Vector3f position;
 	private Vector3f rotation;
 
@@ -35,6 +37,14 @@ public class PlayerPacket implements Serializable
 	{
 		this.rotation = rotation;
 		return this;
+	}
+	
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
+	public int getPort() {
+		return port;
 	}
 
 	public Vector3f getPosition()
