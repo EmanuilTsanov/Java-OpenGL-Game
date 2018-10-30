@@ -6,11 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.UnknownHostException;
 
-import org.lwjgl.util.vector.Vector3f;
-
-import opengl.java.entity.Player;
 import opengl.java.packets.PlayerPacket;
-import opengl.java.window.FPSCounter;
 
 public class Client extends Thread
 {
@@ -19,24 +15,21 @@ public class Client extends Thread
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 
-	private PlayerPacket pPacket;
-
-	private long start = System.currentTimeMillis(), elapsed = 1;
-
-	private PlayerPacket p2PrevPacket;
-	private PlayerPacket p2Packet;
-
-	private boolean hasUpdate;
-	private Vector3f b;
+	private NetworkMaster netMaster;
 
 	private boolean running = true;
 
 	public Client(PlayerPacket packet)
 	{
-		this.pPacket = packet;
+		connectToServer("localhost", 1342);
+		netMaster = new NetworkMaster();
+	}
+
+	private void connectToServer(String address, int port)
+	{
 		try
 		{
-			socket = new Socket("212.75.28.190", 1342);
+			socket = new Socket(address, port);
 			output = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 
@@ -47,7 +40,7 @@ public class Client extends Thread
 		}
 		catch (IOException e)
 		{
-			System.out.println("An error occured while trying to establish a connection with the server.");
+			System.out.println("An error occured while trying to establish connection with the server.");
 		}
 	}
 
@@ -56,20 +49,10 @@ public class Client extends Thread
 	{
 		while (running)
 		{
-			sendObject(pPacket.getCopy());
-			handleIncomingData();
+			Object obj = receiveObject();
+			netMaster.process(obj);
 		}
 		closeConnection();
-	}
-
-	public void handleIncomingData()
-	{
-		PlayerPacket temp = p2Packet;
-		p2Packet = (PlayerPacket) receiveObject();
-		p2PrevPacket = temp;
-		elapsed = System.currentTimeMillis() - start + 1;
-		start = System.currentTimeMillis();
-		hasUpdate = true;
 	}
 
 	public void closeConnection()
@@ -112,22 +95,5 @@ public class Client extends Thread
 			System.out.println("An error occured while receiving data from the server.");
 		}
 		return obj;
-	}
-
-	public synchronized void movePlayer(Player player)
-	{
-		if (p2PrevPacket != null)
-			if (hasUpdate)
-			{
-				player.setPosition(p2PrevPacket.getPosition());
-				player.setRotation(p2PrevPacket.getRotation());
-				hasUpdate = false;
-				b = new Vector3f(p2Packet.getPosition().getX() - p2PrevPacket.getPosition().getX(),
-						p2Packet.getPosition().getY() - p2PrevPacket.getPosition().getY(),
-						p2Packet.getPosition().getZ() - p2PrevPacket.getPosition().getZ());
-			}
-		float a = FPSCounter.getFPS() / (1000f / elapsed);
-		if (b != null)
-			player.move(b.x / a, b.y / a, b.z / a);
 	}
 }
