@@ -17,13 +17,15 @@ public class Client extends Thread
 
 	private boolean running = true;
 
-	private PlayerPacket packet;
+	private PlayerPacket packetOut;
+
+	private PlayerPacket packetIn;
 
 	public Client(PlayerPacket packet)
 	{
 		connectToServer("localhost", 1342);
-		this.packet = packet;
-		this.packet.setPort(socket.getLocalPort());
+		this.packetOut = packet;
+		this.packetOut.setPort(socket.getLocalPort());
 	}
 
 	private void connectToServer(String address, int port)
@@ -50,6 +52,7 @@ public class Client extends Thread
 	{
 		while (running)
 		{
+			sendObject(packetOut);
 			Object obj = receiveObject();
 			process(obj);
 		}
@@ -68,6 +71,11 @@ public class Client extends Thread
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public PlayerPacket getNewPacket()
+	{
+		return packetIn;
 	}
 
 	public void sendObject(Object obj)
@@ -108,6 +116,6 @@ public class Client extends Thread
 
 	private void processPlayerPacket(PlayerPacket packet)
 	{
-
+		packetIn = packet;
 	}
 }

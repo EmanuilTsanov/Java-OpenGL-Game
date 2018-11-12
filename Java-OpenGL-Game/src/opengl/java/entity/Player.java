@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import opengl.java.model.TexturedModel;
+import opengl.java.packets.PlayerPacket;
 import opengl.java.terrain.Terrain;
 import opengl.java.view.Camera;
 import opengl.java.window.Window;
@@ -99,6 +100,13 @@ public class Player extends Entity
 			}
 			else if(position.y <= terrain.getHeightOfTerrain(position.x, position.z))
 				jumping = false;
+		}
+	}
+	
+	public void insert(PlayerPacket packet) {
+		if(packet!=null) {
+		this.position = packet.getPosition();
+		this.rotation = packet.getRotation();
 		}
 	}
 }

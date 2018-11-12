@@ -7,12 +7,16 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Map;
 
+import opengl.java.packets.PlayerPacket;
+
 public class ServerConnection extends Thread
 {
 	private Socket socket;
 	private Server server;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
+
+	private Object packet;
 
 	private boolean running = true;
 
@@ -48,8 +52,8 @@ public class ServerConnection extends Thread
 	{
 		while (running)
 		{
-			Object obj = readObject();
-			sendObjectToOthers(obj);
+			packet = readObject();
+			sendObjectToOthers(packet);
 		}
 		closeConnnection();
 	}
@@ -79,7 +83,8 @@ public class ServerConnection extends Thread
 		{
 			server.getConnectionsList().remove(socket.getPort());
 			running = false;
-			System.out.println("A player has left the game. " + "Players online: " + server.getConnectionsList().size() + ".");
+			System.out.println(
+					"A player has left the game. " + "Players online: " + server.getConnectionsList().size() + ".");
 		}
 		catch (ClassNotFoundException | IOException e)
 		{
