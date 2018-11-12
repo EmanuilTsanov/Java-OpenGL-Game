@@ -8,6 +8,7 @@ import opengl.java.packets.PlayerPacket;
 import opengl.java.terrain.Terrain;
 import opengl.java.view.Camera;
 import opengl.java.window.Window;
+import opengl.java.window.WindowFrameController;
 
 public class Player extends Entity
 {
@@ -26,6 +27,7 @@ public class Player extends Entity
 
 	public void update(Camera camera, Terrain terrain)
 	{
+		float a = speed *WindowFrameController.getFrameTimeSeconds();
 		if (camera.getMode() == Camera.THIRD_PERSON)
 		{
 			float camYaw = (float) Math.toRadians(rotation.y);
