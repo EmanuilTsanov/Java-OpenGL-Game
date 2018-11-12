@@ -23,7 +23,7 @@ public class Player extends Entity
 		super(TexturedModel.PLAYER.getID());
 	}
 
-	private static final float speed = 0.2f;
+	private static final float speed = 16f;
 
 	public void update(Camera camera, Terrain terrain)
 	{
