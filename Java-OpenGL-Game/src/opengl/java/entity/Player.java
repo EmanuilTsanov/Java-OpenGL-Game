@@ -31,8 +31,8 @@ public class Player extends Entity
 		if (camera.getMode() == Camera.THIRD_PERSON)
 		{
 			float camYaw = (float) Math.toRadians(rotation.y);
-			float dx = (float) Math.sin(camYaw) * speed;
-			float dz = (float) Math.cos(camYaw) * speed;
+			float dx = (float) Math.sin(camYaw) * a;
+			float dz = (float) Math.cos(camYaw) * a;
 			if (Keyboard.isKeyDown(Keyboard.KEY_W))
 			{
 				position.x += dx;
@@ -56,8 +56,8 @@ public class Player extends Entity
 		else if (camera.getMode() == Camera.FIRST_PERSON)
 		{
 			float camYaw = (float) Math.toRadians(camera.getRotation().y + 90);
-			float dx = (float) Math.cos(camYaw) * speed;
-			float dz = (float) Math.sin(camYaw) * speed;
+			float dx = (float) Math.cos(camYaw) * a;
+			float dz = (float) Math.sin(camYaw) * a;
 			if (Keyboard.isKeyDown(Keyboard.KEY_W))
 			{
 				position.x -= dx;
@@ -71,16 +71,16 @@ public class Player extends Entity
 			if (Keyboard.isKeyDown(Keyboard.KEY_A))
 			{
 				float rot = (float) Math.toRadians(camera.getRotation().y);
-				float dx1 = (float) Math.cos(rot) * speed;
-				float dz1 = (float) Math.sin(rot) * speed;
+				float dx1 = (float) Math.cos(rot) * a;
+				float dz1 = (float) Math.sin(rot) * a;
 				position.x -= dx1;
 				position.z -= dz1;
 			}
 			if (Keyboard.isKeyDown(Keyboard.KEY_D))
 			{
 				float rot = (float) Math.toRadians(camera.getRotation().y - 180);
-				float dx1 = (float) Math.cos(rot) * speed;
-				float dz1 = (float) Math.sin(rot) * speed;
+				float dx1 = (float) Math.cos(rot) * a;
+				float dz1 = (float) Math.sin(rot) * a;
 				position.x -= dx1;
 				position.z -= dz1;
 			}
