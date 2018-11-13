@@ -17,7 +17,7 @@ public class Player extends Entity
 	private boolean jumping;
 	private float jumpSpeed;
 	private float currentJumpHeight;
-	private static final float maxJumpSpeed = 5f;
+	private static final float maxJumpSpeed = 20f;
 
 	private float mouseX = Window.getWidth() / 2;
 
@@ -104,15 +104,14 @@ public class Player extends Entity
 			if (jumping)
 			{
 				currentJumpHeight+= jumpSpeed * WindowFrameController.getFrameTimeSeconds();
-				jumpSpeed -= 0.1f;
-				System.out.println(position.y);
+				System.out.println(WindowFrameController.getFrameTimeSeconds());
+				jumpSpeed -= 50f * WindowFrameController.getFrameTimeSeconds();
 				if(currentJumpHeight + position.y <= 0) {
 					jumping = false;
 					jumpSpeed = 0;
 					currentJumpHeight = 0;
 				}
 			}
-			System.out.println(position.y);
 			position.y = terrain.getHeightOfTerrain(position.x, position.z) + currentJumpHeight;
 		}
 	}
