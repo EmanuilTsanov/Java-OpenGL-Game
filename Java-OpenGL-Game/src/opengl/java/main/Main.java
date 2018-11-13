@@ -10,7 +10,7 @@ public class Main
 		Window.create("OpenGL Game");
 		while (Window.isOpened())
 		{
-			Window.update();
+			Window.update(); 
 			MainRenderer.render();
 		}
 		Window.destroy();

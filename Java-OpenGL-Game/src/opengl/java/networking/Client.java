@@ -20,8 +20,8 @@ public class Client extends Thread
 
 	private PlayerPacket packetOut;
 
-	private PlayerPacket newPacket;
-	private PlayerPacket previousPacket;
+	private PlayerPacket newPacket = new PlayerPacket();
+	private PlayerPacket previousPacket = new PlayerPacket();
 
 	private long start, elapsed;
 
