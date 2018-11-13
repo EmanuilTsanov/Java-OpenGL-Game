@@ -114,8 +114,8 @@ public class Player extends Entity
 	{
 		if (client.hasUpdate())
 		{
-			this.position = client.getNewPacket().getPosition();
-			this.rotation = client.getNewPacket().getRotation();
+			this.position = client.getPrevPacket().getPosition();
+			this.rotation = client.getPrevPacket().getRotation();
 			Vector3f newPos = client.getNewPacket().getPosition();
 			Vector3f prevPos = client.getPrevPacket().getPosition();
 			Vector3f newRot = client.getNewPacket().getRotation();

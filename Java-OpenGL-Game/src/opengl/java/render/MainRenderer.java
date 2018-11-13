@@ -278,7 +278,6 @@ public class MainRenderer
 		eShader.stop();
 		tShader.start();
 		tShader.loadToShadowMapSpace(smmr.getToShadowMapSpaceMatrix());
-
 		tShader.stop();
 		unbindBuffers();
 		// SRCLoader.saveScreenshot();
