@@ -9,7 +9,7 @@ import opengl.java.fonts.GUIText;
 public class FPSCounter
 {
 	private static int fps;
-	private static int stackFPS;
+	private static int stackFPS=1;
 	
 	private static long lastFPS = getTime();
 
