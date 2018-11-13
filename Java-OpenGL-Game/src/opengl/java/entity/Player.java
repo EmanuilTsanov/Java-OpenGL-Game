@@ -16,6 +16,7 @@ public class Player extends Entity
 {
 	private boolean jumping;
 	private float jumpSpeed;
+	private float currentJumpHeight;
 	private static final float maxJumpSpeed = 5f;
 
 	private float mouseX = Window.getWidth() / 2;
@@ -92,21 +93,27 @@ public class Player extends Entity
 			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE))
 			{
 				if (!jumping)
+				{
 					jumping = true;
-				jumpSpeed = maxJumpSpeed;
+					jumpSpeed = maxJumpSpeed;
+				}
 			}
-			if (!jumping)
-				position.y = terrain.getHeightOfTerrain(position.x, position.z);
 			rotation.y -= (Mouse.getX() - mouseX) * 0.1f;
 			Mouse.setGrabbed(true);
 			Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
-			position.y += jumpSpeed;
-			if (position.y > terrain.getHeightOfTerrain(position.x, position.z))
+			if (jumping)
 			{
+				currentJumpHeight+= jumpSpeed * WindowFrameController.getFrameTimeSeconds();
 				jumpSpeed -= 0.1f;
+				System.out.println(position.y);
+				if(currentJumpHeight + position.y <= 0) {
+					jumping = false;
+					jumpSpeed = 0;
+					currentJumpHeight = 0;
+				}
 			}
-			else if (position.y <= terrain.getHeightOfTerrain(position.x, position.z))
-				jumping = false;
+			System.out.println(position.y);
+			position.y = terrain.getHeightOfTerrain(position.x, position.z) + currentJumpHeight;
 		}
 	}
 

@@ -27,7 +27,7 @@ public class Client extends Thread
 
 	public Client(PlayerPacket packet)
 	{
-		connectToServer("212.75.28.190", 1342);
+		connectToServer("localhost", 1342);
 		this.packetOut = packet;
 		this.packetOut.setPort(socket.getLocalPort());
 	}
