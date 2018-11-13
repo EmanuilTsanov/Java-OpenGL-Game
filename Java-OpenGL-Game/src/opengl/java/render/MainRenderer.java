@@ -331,7 +331,8 @@ public class MainRenderer
 		}
 		player.update(camera, terrain);
 		packet.update(player);
-		player2.insert(client.getNewPacket());
+		player2.insert(client);
+		player2.move(client.getTime());
 		renderEntity(player2);
 		eShader.stop();
 		tShader.start();

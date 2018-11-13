@@ -16,6 +16,7 @@ public class Client extends Thread
 	private ObjectOutputStream output;
 
 	private boolean running = true;
+	private boolean hasUpdate;
 
 	private PlayerPacket packetOut;
 
@@ -58,6 +59,7 @@ public class Client extends Thread
 		{
 			sendObject(packetOut);
 			Object obj = receiveObject();
+			hasUpdate=true;
 			elapsed = System.currentTimeMillis() - start;
 			start = System.currentTimeMillis();
 			process(obj);
@@ -134,5 +136,13 @@ public class Client extends Thread
 		PlayerPacket temp = newPacket.getCopy();
 		newPacket = packet;
 		previousPacket = temp;
+	}
+	
+	public boolean hasUpdate() {
+		return hasUpdate;
+	}
+	
+	public void setHasUpdate(boolean b) {
+		hasUpdate = b;
 	}
 }

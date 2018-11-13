@@ -8,9 +8,9 @@ import java.util.HashMap;
 public class Server
 {
 	private ServerSocket serverSocket;
-	
+
 	private boolean running = true;
-	
+
 	private HashMap<Integer, ServerConnection> connections = new HashMap<Integer, ServerConnection>();
 
 	public static void main(String args[])

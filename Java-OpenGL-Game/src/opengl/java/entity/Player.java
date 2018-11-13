@@ -2,11 +2,13 @@ package opengl.java.entity;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.model.TexturedModel;
-import opengl.java.packets.PlayerPacket;
+import opengl.java.networking.Client;
 import opengl.java.terrain.Terrain;
 import opengl.java.view.Camera;
+import opengl.java.window.FPSCounter;
 import opengl.java.window.Window;
 import opengl.java.window.WindowFrameController;
 
@@ -17,6 +19,9 @@ public class Player extends Entity
 	private static final float maxJumpSpeed = 5f;
 
 	private float mouseX = Window.getWidth() / 2;
+
+	private Vector3f pDist = new Vector3f(0, 0, 0);
+	private Vector3f rDist = new Vector3f(0, 0, 0);
 
 	public Player()
 	{
@@ -105,16 +110,30 @@ public class Player extends Entity
 		}
 	}
 
-	public void insert(PlayerPacket packet)
+	public void insert(Client client)
 	{
-		if (packet != null)
+		if (client.hasUpdate())
 		{
-			this.position = packet.getPosition();
-			this.rotation = packet.getRotation();
+			this.position = client.getNewPacket().getPosition();
+			this.rotation = client.getNewPacket().getRotation();
+			Vector3f newPos = client.getNewPacket().getPosition();
+			Vector3f prevPos = client.getPrevPacket().getPosition();
+			Vector3f newRot = client.getNewPacket().getRotation();
+			Vector3f prevRot = client.getPrevPacket().getRotation();
+			pDist = new Vector3f(newPos.getX() - prevPos.getX(), newPos.getY() - prevPos.getY(), newPos.getZ() - prevPos.getZ());
+			rDist = new Vector3f(newRot.getX() - prevRot.getX(), newRot.getY() - prevRot.getY(), newRot.getZ() - prevRot.getZ());
+			client.setHasUpdate(false);
 		}
 	}
-	
-	public void move(PlayerPacket newPacket, PlayerPacket prevPacket) {
-		
+
+	public void move(long time)
+	{
+		int t = (int) (time / (1000 / FPSCounter.getFPS()));
+		this.position.x += pDist.getX() / t;
+		this.position.y += pDist.getY() / t;
+		this.position.z += pDist.getZ() / t;
+		this.rotation.x += rDist.getX() / t;
+		this.rotation.y += rDist.getY() / t;
+		this.rotation.z += rDist.getZ() / t;
 	}
 }
