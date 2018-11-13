@@ -19,7 +19,10 @@ public class Client extends Thread
 
 	private PlayerPacket packetOut;
 
-	private PlayerPacket packetIn;
+	private PlayerPacket newPacket;
+	private PlayerPacket previousPacket;
+
+	private long start, elapsed;
 
 	public Client(PlayerPacket packet)
 	{
@@ -50,10 +53,13 @@ public class Client extends Thread
 	@Override
 	public void run()
 	{
+		start = System.currentTimeMillis() - 1;
 		while (running)
 		{
 			sendObject(packetOut);
 			Object obj = receiveObject();
+			elapsed = System.currentTimeMillis() - start;
+			start = System.currentTimeMillis();
 			process(obj);
 		}
 		closeConnection();
@@ -75,7 +81,16 @@ public class Client extends Thread
 
 	public PlayerPacket getNewPacket()
 	{
-		return packetIn;
+		return newPacket;
+	}
+
+	public PlayerPacket getPrevPacket()
+	{
+		return previousPacket;
+	}
+	
+	public long getTime() {
+		return elapsed;
 	}
 
 	public void sendObject(Object obj)
@@ -116,6 +131,8 @@ public class Client extends Thread
 
 	private void processPlayerPacket(PlayerPacket packet)
 	{
-		packetIn = packet;
+		PlayerPacket temp = newPacket.getCopy();
+		newPacket = packet;
+		previousPacket = temp;
 	}
 }

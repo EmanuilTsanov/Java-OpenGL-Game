@@ -27,7 +27,7 @@ public class Player extends Entity
 
 	public void update(Camera camera, Terrain terrain)
 	{
-		float a = speed *WindowFrameController.getFrameTimeSeconds();
+		float a = speed * WindowFrameController.getFrameTimeSeconds();
 		if (camera.getMode() == Camera.THIRD_PERSON)
 		{
 			float camYaw = (float) Math.toRadians(rotation.y);
@@ -90,8 +90,8 @@ public class Player extends Entity
 					jumping = true;
 				jumpSpeed = maxJumpSpeed;
 			}
-			if(!jumping)
-			position.y = terrain.getHeightOfTerrain(position.x, position.z);
+			if (!jumping)
+				position.y = terrain.getHeightOfTerrain(position.x, position.z);
 			rotation.y -= (Mouse.getX() - mouseX) * 0.1f;
 			Mouse.setGrabbed(true);
 			Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
@@ -100,15 +100,21 @@ public class Player extends Entity
 			{
 				jumpSpeed -= 0.1f;
 			}
-			else if(position.y <= terrain.getHeightOfTerrain(position.x, position.z))
+			else if (position.y <= terrain.getHeightOfTerrain(position.x, position.z))
 				jumping = false;
 		}
 	}
-	
-	public void insert(PlayerPacket packet) {
-		if(packet!=null) {
-		this.position = packet.getPosition();
-		this.rotation = packet.getRotation();
+
+	public void insert(PlayerPacket packet)
+	{
+		if (packet != null)
+		{
+			this.position = packet.getPosition();
+			this.rotation = packet.getRotation();
 		}
+	}
+	
+	public void move(PlayerPacket newPacket, PlayerPacket prevPacket) {
+		
 	}
 }
