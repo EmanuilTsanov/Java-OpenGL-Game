@@ -133,7 +133,7 @@ public class Client extends Thread
 
 	private void processPlayerPacket(PlayerPacket packet)
 	{
-		PlayerPacket temp = newPacket.getCopy();
+		PlayerPacket temp = newPacket;
 		newPacket = packet;
 		previousPacket = temp;
 	}
