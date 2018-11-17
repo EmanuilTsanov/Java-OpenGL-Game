@@ -34,32 +34,7 @@ public class Player extends Entity
 	public void update(Camera camera, Terrain terrain)
 	{
 		float a = speed * WindowFrameController.getFrameTimeSeconds();
-		if (camera.getMode() == Camera.THIRD_PERSON)
-		{
-			float camYaw = (float) Math.toRadians(rotation.y);
-			float dx = (float) Math.sin(camYaw) * a;
-			float dz = (float) Math.cos(camYaw) * a;
-			if (Keyboard.isKeyDown(Keyboard.KEY_W))
-			{
-				position.x += dx;
-				position.z += dz;
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_S))
-			{
-				position.x -= dx;
-				position.z -= dz;
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_A))
-			{
-				rotate(0, 1, 0);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_D))
-			{
-
-				rotate(0, -1, 0);
-			}
-		}
-		else if (camera.getMode() == Camera.FIRST_PERSON)
+		if (camera.getMode() == Camera.FIRST_PERSON)
 		{
 			float camYaw = (float) Math.toRadians(camera.getRotation().y + 90);
 			float dx = (float) Math.cos(camYaw) * a;
@@ -99,20 +74,44 @@ public class Player extends Entity
 				}
 			}
 			rotation.y -= (Mouse.getX() - mouseX) * 0.1f;
-			Mouse.setGrabbed(true);
-			Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
-			if (jumping)
+		}
+		else if (camera.getMode() == Camera.SCOPE)
+		{
+			if (Keyboard.isKeyDown(Keyboard.KEY_W))
 			{
-				currentJumpHeight+= jumpSpeed * WindowFrameController.getFrameTimeSeconds();
-				System.out.println(WindowFrameController.getFrameTimeSeconds());
-				jumpSpeed -= 50f * WindowFrameController.getFrameTimeSeconds();
-				if(currentJumpHeight + position.y <= 0) {
-					jumping = false;
-					jumpSpeed = 0;
-					currentJumpHeight = 0;
-				}
+				camera.zoom(0.2f);
 			}
-			position.y = terrain.getHeightOfTerrain(position.x, position.z) + currentJumpHeight;
+			if (Keyboard.isKeyDown(Keyboard.KEY_S))
+			{
+				camera.zoom(-0.2f);
+			}
+			rotation.y -= (Mouse.getX() - mouseX) / camera.getZoom();
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_Q))
+		{
+			camera.zoom(0.1f);
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_E))
+		{
+			camera.zoom(-0.1f);
+		}
+		Mouse.setGrabbed(true);
+		Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
+		if (jumping)
+		{
+			currentJumpHeight += jumpSpeed * WindowFrameController.getFrameTimeSeconds();
+			jumpSpeed -= 50f * WindowFrameController.getFrameTimeSeconds();
+			if (currentJumpHeight + position.y <= 0)
+			{
+				jumping = false;
+				jumpSpeed = 0;
+				currentJumpHeight = 0;
+			}
+		}
+		position.y = terrain.getHeightOfTerrain(position.x, position.z) + currentJumpHeight;
+		if (Keyboard.isKeyDown(Keyboard.KEY_U))
+		{
+			camera.setMode(Camera.SCOPE);
 		}
 	}
 
@@ -126,8 +125,10 @@ public class Player extends Entity
 			Vector3f prevPos = client.getPrevPacket().getPosition();
 			Vector3f newRot = client.getNewPacket().getRotation();
 			Vector3f prevRot = client.getPrevPacket().getRotation();
-			pDist = new Vector3f(newPos.getX() - prevPos.getX(), newPos.getY() - prevPos.getY(), newPos.getZ() - prevPos.getZ());
-			rDist = new Vector3f(newRot.getX() - prevRot.getX(), newRot.getY() - prevRot.getY(), newRot.getZ() - prevRot.getZ());
+			pDist = new Vector3f(newPos.getX() - prevPos.getX(), newPos.getY() - prevPos.getY(),
+					newPos.getZ() - prevPos.getZ());
+			rDist = new Vector3f(newRot.getX() - prevRot.getX(), newRot.getY() - prevRot.getY(),
+					newRot.getZ() - prevRot.getZ());
 			client.setHasUpdate(false);
 		}
 	}

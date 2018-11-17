@@ -12,10 +12,13 @@ public class Camera
 	private Vector3f position;
 	private Vector3f rotation;
 
-	private int mode;
-
 	public static final int FIRST_PERSON = 0;
 	public static final int THIRD_PERSON = 1;
+	public static final int SCOPE = 2;
+
+	private int mode;
+
+	public float scopeZoom = 10f;
 
 	private static float distanceFromPlayer = 20f;
 
@@ -23,13 +26,13 @@ public class Camera
 	// private static final float maxZoom = 100f;
 	// private static final float minZoom = 0f;
 
-	private static Camera singleton = new Camera(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0)).setMode(FIRST_PERSON);
+	private static Camera singleton = new Camera(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0));
 
 	public Camera(Vector3f position, Vector3f rotation)
 	{
 		this.position = position;
 		this.rotation = rotation;
-		mode = THIRD_PERSON;
+		mode = FIRST_PERSON;
 	}
 
 	public static Camera getInstance()
@@ -65,13 +68,27 @@ public class Camera
 		}
 		else if (mode == FIRST_PERSON)
 		{
-			this.setPosition(player.getPosition().x,
-					player.getPosition().y + 2.5f,
-					player.getPosition().z);
+			this.setPosition(player.getPosition().x, player.getPosition().y + 2.5f, player.getPosition().z);
 			rotation.y = 180 - player.getRotation().y;
 			rotation.x -= (Mouse.getY() - Window.getHeight() / 2) * 0.1f;
 			if (rotation.x > 90)
 				rotation.x = 90;
+			if (rotation.x < -90)
+				rotation.x = -90;
+		}
+		else if (mode == SCOPE)
+		{
+			float dx = scopeZoom * (float) Math.sin(Math.toRadians(rotation.y));
+			float dz = scopeZoom * (float) Math.cos(Math.toRadians(rotation.y));
+			float dx1 = scopeZoom * (float) Math.sin(Math.toRadians(rotation.x));
+			this.setPosition(player.getPosition().getX() + dx, -dx1,
+					player.getPosition().getZ() - dz);
+			if(position.y <= 1)
+				position.y = 1;
+			rotation.y = 180 - player.getRotation().y;
+			rotation.x -= (Mouse.getY() - Window.getHeight() / 2) / (scopeZoom);
+			if (rotation.x > 0)
+				rotation.x = 0;
 			if (rotation.x < -90)
 				rotation.x = -90;
 		}
@@ -113,5 +130,13 @@ public class Camera
 		rotation.x = x;
 		rotation.y = y;
 		rotation.z = z;
+	}
+	
+	public void zoom(float scopeZoom) {
+		this.scopeZoom += scopeZoom;
+	}
+	
+	public float getZoom() {
+		return scopeZoom;
 	}
 }

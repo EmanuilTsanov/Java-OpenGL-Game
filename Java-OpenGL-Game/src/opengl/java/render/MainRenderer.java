@@ -18,8 +18,8 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.entity.Entity;
 import opengl.java.entity.Player;
 import opengl.java.fonts.GUIText;
+import opengl.java.gui.Scope;
 import opengl.java.interaction.MouseLogic;
-import opengl.java.interaction.MousePicker;
 import opengl.java.lighting.Light;
 import opengl.java.loader.ModelLoader;
 import opengl.java.management.EntityManager;
@@ -31,6 +31,7 @@ import opengl.java.packets.PlayerPacket;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
+import opengl.java.shader.GUIShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
@@ -52,6 +53,7 @@ public class MainRenderer
 	private static PickShader pickShader;
 	private static FontShader fontShader;
 	private static ColorfulShader cShader;
+	private static GUIShader gShader;
 
 	private static Camera camera = Camera.getInstance();
 
@@ -86,6 +88,8 @@ public class MainRenderer
 
 	private static Client client = new Client(packet);
 
+	private static Scope scope = new Scope();
+
 	static
 	{
 		enableCulling();
@@ -110,6 +114,8 @@ public class MainRenderer
 		tShader = new TerrainShader();
 		pickShader = new PickShader();
 		cShader = new ColorfulShader();
+		gShader = new GUIShader();
+
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		fontShader.stop();
@@ -321,18 +327,12 @@ public class MainRenderer
 		eShader.loadLight(sun);
 		eShader.loadViewMatrix(camera);
 		renderEntities();
-		if (MouseLogic.getInstance().shouldRenderHolder())
-		{
-			Entity e = MouseLogic.getInstance().getHolder();
-			Vector3f v = MousePicker.getInstance().getMapPosition();
-			e.setPosition(new Vector3f(v.x, terrain.getHeightOfTerrain(v.x, v.z), v.z));
-			renderEntity(e);
-		}
 		player.update(camera, terrain);
 		packet.update(player);
 		player2.insert(client);
 		player2.move(client.getTime());
 		renderEntity(player2);
+		renderEntity(player);
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);
@@ -344,5 +344,12 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
+		if (camera.getMode() == Camera.SCOPE)
+		{
+			gShader.start();
+			gShader.loadTransformationMatrix(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 1);
+			scope.render(gShader);
+			gShader.stop();
+		}
 	}
 }

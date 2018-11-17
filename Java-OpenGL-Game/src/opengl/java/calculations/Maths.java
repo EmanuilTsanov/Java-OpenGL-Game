@@ -93,11 +93,9 @@ public class Maths
 		projectionMatrix = null;
 	}
 
-	public static RawModel createPlane(int width, int height)
+	public static RawModel createPlane(int x, int y, int width, int height)
 	{
-		float width1 = Maths.normalizeByWidth(width * 2);
-		float height1 = Maths.normalizeByHeight(height * 2);
-		float[] vertices = { 0, 0, 0, 0, -height1, 0, width1, -height1, 0, width1, 0, 0 };
+		float[] vertices = { toOpenGLWidth(x)+1, toOpenGLHeight(y)-1, 0, toOpenGLWidth(x)+1, toOpenGLHeight(y+height)-1, 0, toOpenGLWidth(x+width)+1, toOpenGLHeight(y+height)-1, 0, toOpenGLWidth(x+width)+1, toOpenGLHeight(y)-1, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
 		float[] normals = { 0 };
 		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
