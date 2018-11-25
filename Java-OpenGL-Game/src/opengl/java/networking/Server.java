@@ -9,9 +9,9 @@ public class Server
 {
 	private ServerSocket serverSocket;
 
-	private boolean running = true;
-
 	private HashMap<Integer, ServerConnection> connections = new HashMap<Integer, ServerConnection>();
+
+	private boolean running = true;
 
 	public static void main(String args[])
 	{

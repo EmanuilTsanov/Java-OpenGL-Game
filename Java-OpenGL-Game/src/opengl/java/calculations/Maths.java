@@ -13,16 +13,11 @@ import opengl.java.view.Camera;
 
 public class Maths
 {
-	public static float FOV = 70;
-	public static final float NEAR_PLANE = 0.1f;
-	public static final float FAR_PLANE = 1000;
+	private static final float NEAR_PLANE = 0.1f;
+	private static final float FAR_PLANE = 1000;
 
-	private static int width = Display.getWidth();
-	private static int height = Display.getHeight();
-	private static float width_half = width / 2;
-	private static float height_half = height / 2;
-	private static float pixel_width = (1f / (float) width) * 2;
-	private static float pixel_height = (1f / (float) height) * 2;
+	private static float defaultFOV = 70;
+	private static float FOV = 70;
 
 	private static Matrix4f projectionMatrix = null;
 
@@ -36,9 +31,9 @@ public class Maths
 		Matrix4f matrix = new Matrix4f();
 		matrix.setIdentity();
 		Matrix4f.translate(position, matrix, matrix);
-		Matrix4f.rotate((float)Math.toRadians(rotation.x), new Vector3f(1, 0, 0), matrix, matrix);
-		Matrix4f.rotate((float)Math.toRadians(rotation.y), new Vector3f(0, 1, 0), matrix, matrix);
-		Matrix4f.rotate((float)Math.toRadians(rotation.z), new Vector3f(0, 0, 1), matrix, matrix);
+		Matrix4f.rotate((float) Math.toRadians(rotation.x), new Vector3f(1, 0, 0), matrix, matrix);
+		Matrix4f.rotate((float) Math.toRadians(rotation.y), new Vector3f(0, 1, 0), matrix, matrix);
+		Matrix4f.rotate((float) Math.toRadians(rotation.z), new Vector3f(0, 0, 1), matrix, matrix);
 		Matrix4f.scale(new Vector3f(scale, scale, scale), matrix, matrix);
 		return matrix;
 	}
@@ -50,7 +45,6 @@ public class Maths
 		float y_scale = (float) (1f / Math.tan(Math.toRadians(FOV / 2f)));
 		float x_scale = y_scale / aspectRatio;
 		float frustum_len = FAR_PLANE - NEAR_PLANE;
-
 		projectionMatrix.m00 = x_scale;
 		projectionMatrix.m11 = y_scale;
 		projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_len);
@@ -59,13 +53,18 @@ public class Maths
 		projectionMatrix.m33 = 0;
 	}
 
+	public static void deleteProjectionMatrix()
+	{
+		projectionMatrix = null;
+	}
+
 	public static Matrix4f createViewMatrix()
 	{
 		Camera camera = Camera.getInstance();
 		Matrix4f matrix = new Matrix4f();
 		matrix.setIdentity();
-		Matrix4f.rotate((float)Math.toRadians(camera.getRotation().x), new Vector3f(1, 0, 0), matrix, matrix);
-		Matrix4f.rotate((float)Math.toRadians(camera.getRotation().y), new Vector3f(0, 1, 0), matrix, matrix);
+		Matrix4f.rotate((float) Math.toRadians(camera.getRotation().x), new Vector3f(1, 0, 0), matrix, matrix);
+		Matrix4f.rotate((float) Math.toRadians(camera.getRotation().y), new Vector3f(0, 1, 0), matrix, matrix);
 		Vector3f camPos = camera.getPosition();
 		Vector3f negativeCamPos = new Vector3f(-camPos.x, -camPos.y, -camPos.z);
 		Matrix4f.translate(negativeCamPos, matrix, matrix);
@@ -88,45 +87,15 @@ public class Maths
 		return projectionMatrix;
 	}
 
-	public static void deleteProjectionMatrix()
-	{
-		projectionMatrix = null;
-	}
-
 	public static RawModel createPlane(int x, int y, int width, int height)
 	{
-		float[] vertices = { toOpenGLWidth(x)+1, toOpenGLHeight(y)-1, 0, toOpenGLWidth(x)+1, toOpenGLHeight(y+height)-1, 0, toOpenGLWidth(x+width)+1, toOpenGLHeight(y+height)-1, 0, toOpenGLWidth(x+width)+1, toOpenGLHeight(y)-1, 0 };
+		float[] vertices = { toOpenGLWidth(x) + 1, toOpenGLHeight(y) - 1, 0, toOpenGLWidth(x) + 1,
+				toOpenGLHeight(y + height) - 1, 0, toOpenGLWidth(x + width) + 1, toOpenGLHeight(y + height) - 1, 0,
+				toOpenGLWidth(x + width) + 1, toOpenGLHeight(y) - 1, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
 		float[] normals = { 0 };
 		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
 		return ModelLoader.getInstance().loadModel(vertices, indices, textureCoords, normals);
-	}
-
-	public static float getScreenValue(float value, int type)
-	{
-		if (type == 0)
-		{
-			if (value < width_half)
-			{
-				return (-(width_half - value - 1)) * pixel_width;
-			}
-			else if (value > width_half)
-			{
-				return (value - width_half - 1) * pixel_width;
-			}
-		}
-		else if (type == 1)
-		{
-			if (value < height_half)
-			{
-				return (height_half - value + 1) * pixel_height;
-			}
-			else if (value > height_half)
-			{
-				return (-(value - height_half + 1)) * pixel_height;
-			}
-		}
-		return 0;
 	}
 
 	public static float toOpenGLWidth(float value)
@@ -170,7 +139,6 @@ public class Maths
 
 	public static int getNextUniqueID()
 	{
-		System.out.println(nextUniqueID);
 		return nextUniqueID++;
 	}
 
@@ -206,5 +174,26 @@ public class Maths
 			return -1;
 		}
 		return colorArray.get(color);
+	}
+	
+	public static float getNearPlane() {
+		return NEAR_PLANE;
+	}
+	
+	public static float getFarPlane() {
+		return FAR_PLANE;
+	}
+	
+	public static float getFOV() {
+		return FOV;
+	}
+	
+	public static float getDefaultFOV() {
+		return defaultFOV;
+	}
+
+	public static void setFOV(float fov)
+	{
+		Maths.FOV = fov;
 	}
 }

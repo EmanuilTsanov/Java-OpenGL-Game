@@ -8,9 +8,10 @@ out vec4 finalColor;
 
 void main()
 {
-	finalColor = texture(sampler, textureCoords);
-	if(finalColor.a < 0.5)
+	vec4 textureColor = texture(sampler, textureCoords);
+	if(textureColor.a < 0.9)
 	{
 		discard;
 	}
+	finalColor = textureColor;
 }

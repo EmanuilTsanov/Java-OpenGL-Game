@@ -3,7 +3,9 @@ package opengl.java.view;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.calculations.Maths;
 import opengl.java.entity.Player;
+import opengl.java.render.MainRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.window.Window;
 
@@ -15,10 +17,10 @@ public class Camera
 	public static final int FIRST_PERSON = 0;
 	public static final int THIRD_PERSON = 1;
 	public static final int SCOPE = 2;
+	
+	private float zoom;
 
 	private int mode;
-
-	public float scopeZoom = 10f;
 
 	private static float distanceFromPlayer = 20f;
 
@@ -62,7 +64,7 @@ public class Camera
 			float x = distanceFromPlayer * (float) Math.sin(Math.toRadians(player.getRotation().y));
 			float z = distanceFromPlayer * (float) Math.cos(Math.toRadians(player.getRotation().y));
 			this.setPosition(player.getPosition().x - x,
-					terrain.getHeightOfTerrain(player.getPosition().x, player.getPosition().z) + 30,
+					player.getPosition().y + 30,
 					player.getPosition().z - z);
 			rotation.y = 180 - player.getRotation().y;
 		}
@@ -78,27 +80,32 @@ public class Camera
 		}
 		else if (mode == SCOPE)
 		{
-			float dx = scopeZoom * (float) Math.sin(Math.toRadians(rotation.y));
-			float dz = scopeZoom * (float) Math.cos(Math.toRadians(rotation.y));
-			float dx1 = scopeZoom * (float) Math.sin(Math.toRadians(rotation.x));
-			this.setPosition(player.getPosition().getX() + dx, -dx1,
-					player.getPosition().getZ() - dz);
-			if(position.y <= 1)
-				position.y = 1;
+			this.setPosition(player.getPosition().x, player.getPosition().y + 2.5f, player.getPosition().z);
 			rotation.y = 180 - player.getRotation().y;
-			rotation.x -= (Mouse.getY() - Window.getHeight() / 2) / (scopeZoom);
-			if (rotation.x > 0)
-				rotation.x = 0;
+			rotation.x -= (Mouse.getY() - Window.getHeight() / 2) / Maths.getDefaultFOV() * zoom/10;
+			if (rotation.x > 90)
+				rotation.x = 90;
 			if (rotation.x < -90)
 				rotation.x = -90;
 		}
 
+	}
+	
+	public void setZoom(float zoom) {
+		this.zoom = zoom;
+		Maths.setFOV(zoom);
+		Maths.deleteProjectionMatrix();
+		MainRenderer.loadShaders();
 	}
 
 	public Camera setMode(int mode)
 	{
 		this.mode = mode;
 		return this;
+	}
+	
+	public float getZoom() {
+		return zoom;
 	}
 
 	public int getMode()
@@ -130,13 +137,5 @@ public class Camera
 		rotation.x = x;
 		rotation.y = y;
 		rotation.z = z;
-	}
-	
-	public void zoom(float scopeZoom) {
-		this.scopeZoom += scopeZoom;
-	}
-	
-	public float getZoom() {
-		return scopeZoom;
 	}
 }

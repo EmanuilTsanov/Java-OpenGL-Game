@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.calculations.Maths;
 import opengl.java.model.TexturedModel;
 import opengl.java.networking.Client;
 import opengl.java.terrain.Terrain;
@@ -14,10 +15,10 @@ import opengl.java.window.WindowFrameController;
 
 public class Player extends Entity
 {
+	private static final float maxJumpSpeed = 0.5f;
+
 	private boolean jumping;
 	private float jumpSpeed;
-	private float currentJumpHeight;
-	private static final float maxJumpSpeed = 20f;
 
 	private float mouseX = Window.getWidth() / 2;
 
@@ -33,86 +34,15 @@ public class Player extends Entity
 
 	public void update(Camera camera, Terrain terrain)
 	{
-		float a = speed * WindowFrameController.getFrameTimeSeconds();
 		if (camera.getMode() == Camera.FIRST_PERSON)
 		{
-			float camYaw = (float) Math.toRadians(camera.getRotation().y + 90);
-			float dx = (float) Math.cos(camYaw) * a;
-			float dz = (float) Math.sin(camYaw) * a;
-			if (Keyboard.isKeyDown(Keyboard.KEY_W))
-			{
-				position.x -= dx;
-				position.z -= dz;
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_S))
-			{
-				position.x += dx;
-				position.z += dz;
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_A))
-			{
-				float rot = (float) Math.toRadians(camera.getRotation().y);
-				float dx1 = (float) Math.cos(rot) * a;
-				float dz1 = (float) Math.sin(rot) * a;
-				position.x -= dx1;
-				position.z -= dz1;
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_D))
-			{
-				float rot = (float) Math.toRadians(camera.getRotation().y - 180);
-				float dx1 = (float) Math.cos(rot) * a;
-				float dz1 = (float) Math.sin(rot) * a;
-				position.x -= dx1;
-				position.z -= dz1;
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE))
-			{
-				if (!jumping)
-				{
-					jumping = true;
-					jumpSpeed = maxJumpSpeed;
-				}
-			}
 			rotation.y -= (Mouse.getX() - mouseX) * 0.1f;
 		}
 		else if (camera.getMode() == Camera.SCOPE)
 		{
-			if (Keyboard.isKeyDown(Keyboard.KEY_W))
-			{
-				camera.zoom(0.2f);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_S))
-			{
-				camera.zoom(-0.2f);
-			}
-			rotation.y -= (Mouse.getX() - mouseX) / camera.getZoom();
+			rotation.y -= (Mouse.getX() - mouseX) / Maths.getDefaultFOV() * camera.getZoom() / 10;
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_Q))
-		{
-			camera.zoom(0.1f);
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_E))
-		{
-			camera.zoom(-0.1f);
-		}
-		Mouse.setGrabbed(true);
-		Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
-		if (jumping)
-		{
-			currentJumpHeight += jumpSpeed * WindowFrameController.getFrameTimeSeconds();
-			jumpSpeed -= 50f * WindowFrameController.getFrameTimeSeconds();
-			if (currentJumpHeight + position.y <= 0)
-			{
-				jumping = false;
-				jumpSpeed = 0;
-				currentJumpHeight = 0;
-			}
-		}
-		position.y = terrain.getHeightOfTerrain(position.x, position.z) + currentJumpHeight;
-		if (Keyboard.isKeyDown(Keyboard.KEY_U))
-		{
-			camera.setMode(Camera.SCOPE);
-		}
+		handleKeyboardInput(camera, terrain);
 	}
 
 	public void insert(Client client)
@@ -125,12 +55,66 @@ public class Player extends Entity
 			Vector3f prevPos = client.getPrevPacket().getPosition();
 			Vector3f newRot = client.getNewPacket().getRotation();
 			Vector3f prevRot = client.getPrevPacket().getRotation();
-			pDist = new Vector3f(newPos.getX() - prevPos.getX(), newPos.getY() - prevPos.getY(),
-					newPos.getZ() - prevPos.getZ());
-			rDist = new Vector3f(newRot.getX() - prevRot.getX(), newRot.getY() - prevRot.getY(),
-					newRot.getZ() - prevRot.getZ());
+			pDist = new Vector3f(newPos.getX() - prevPos.getX(), newPos.getY() - prevPos.getY(), newPos.getZ() - prevPos.getZ());
+			rDist = new Vector3f(newRot.getX() - prevRot.getX(), newRot.getY() - prevRot.getY(), newRot.getZ() - prevRot.getZ());
 			client.setHasUpdate(false);
 		}
+	}
+
+	public void handleKeyboardInput(Camera camera, Terrain terrain)
+	{
+		float a = speed * WindowFrameController.getFrameTimeSeconds() * (camera.getMode() == Camera.SCOPE ? 0.1f : 1f);
+		float camYaw = (float) Math.toRadians(camera.getRotation().y + 90);
+		float dx = (float) Math.cos(camYaw) * a;
+		float dz = (float) Math.sin(camYaw) * a;
+		if (Keyboard.isKeyDown(Keyboard.KEY_W))
+		{
+			position.x -= dx;
+			position.z -= dz;
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_S))
+		{
+			position.x += dx;
+			position.z += dz;
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_A))
+		{
+			float rot = (float) Math.toRadians(camera.getRotation().y);
+			float dx1 = (float) Math.cos(rot) * a;
+			float dz1 = (float) Math.sin(rot) * a;
+			position.x -= dx1;
+			position.z -= dz1;
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_D))
+		{
+			float rot = (float) Math.toRadians(camera.getRotation().y - 180);
+			float dx1 = (float) Math.cos(rot) * a;
+			float dz1 = (float) Math.sin(rot) * a;
+			position.x -= dx1;
+			position.z -= dz1;
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE))
+		{
+			if (!jumping)
+			{
+				jumping = true;
+				jumpSpeed = maxJumpSpeed;
+			}
+		}
+		Mouse.setGrabbed(true);
+		Mouse.setCursorPosition(Window.getWidth() / 2, Window.getHeight() / 2);
+		if (jumping)
+		{
+			jumpSpeed -= 1f * WindowFrameController.getFrameTimeSeconds();
+			position.y += jumpSpeed;
+			if (position.y + jumpSpeed <= terrain.getHeightOfTerrain(position.x, position.z))
+			{
+				jumping = false;
+				jumpSpeed = 0;
+			}
+		}
+		else
+			position.y = terrain.getHeightOfTerrain(position.x, position.z);
 	}
 
 	public void move(long time)

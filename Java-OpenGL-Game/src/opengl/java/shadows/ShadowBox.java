@@ -39,7 +39,7 @@ public class ShadowBox
 		Vector3f toFar = new Vector3f(forwardVector);
 		toFar.scale(SHADOW_DISTANCE);
 		Vector3f toNear = new Vector3f(forwardVector);
-		toNear.scale(Maths.NEAR_PLANE);
+		toNear.scale(Maths.getNearPlane());
 		Vector3f centerNear = Vector3f.add(toNear, cam.getPosition(), null);
 		Vector3f centerFar = Vector3f.add(toFar, cam.getPosition(), null);
 
@@ -154,8 +154,8 @@ public class ShadowBox
 
 	private void calculateWidthsAndHeights()
 	{
-		farWidth = (float) (SHADOW_DISTANCE * Math.tan(Math.toRadians(Maths.FOV)));
-		nearWidth = (float) (Maths.NEAR_PLANE * Math.tan(Math.toRadians(Maths.FOV)));
+		farWidth = (float) (SHADOW_DISTANCE * Math.tan(Math.toRadians(Maths.getFOV())));
+		nearWidth = (float) (Maths.getNearPlane() * Math.tan(Math.toRadians(Maths.getFOV())));
 		farHeight = farWidth / getAspectRatio();
 		nearHeight = nearWidth / getAspectRatio();
 	}

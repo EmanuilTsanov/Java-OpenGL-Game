@@ -18,7 +18,6 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.entity.Entity;
 import opengl.java.entity.Player;
 import opengl.java.fonts.GUIText;
-import opengl.java.gui.Scope;
 import opengl.java.interaction.MouseLogic;
 import opengl.java.lighting.Light;
 import opengl.java.loader.ModelLoader;
@@ -31,7 +30,6 @@ import opengl.java.packets.PlayerPacket;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
-import opengl.java.shader.GUIShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
@@ -53,7 +51,6 @@ public class MainRenderer
 	private static PickShader pickShader;
 	private static FontShader fontShader;
 	private static ColorfulShader cShader;
-	private static GUIShader gShader;
 
 	private static Camera camera = Camera.getInstance();
 
@@ -62,13 +59,11 @@ public class MainRenderer
 	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.loadTexture("path").getID());
 	private static TerrainTexture bTexture = new TerrainTexture(SRCLoader.loadTexture("rocks").getID());
 
-	private static TerrainTexturepack texturepack = new TerrainTexturepack(backgroundTexture, rTexture, gTexture,
-			bTexture);
+	private static TerrainTexturepack texturepack = new TerrainTexturepack(backgroundTexture, rTexture, gTexture, bTexture);
 
 	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.loadTexture("blendMap").getID());
 
-	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap);
-	private static Terrain terrain1 = new Terrain(0, 1, new ModelLoader(), texturepack, blendMap);
+	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap, "Untitled");
 
 	private static List<Terrain> terrains = new ArrayList<Terrain>();
 
@@ -81,14 +76,11 @@ public class MainRenderer
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
 	private static Player player = new Player();
-
 	private static Player player2 = new Player();
 
 	private static PlayerPacket packet = new PlayerPacket();
 
 	private static Client client = new Client(packet);
-
-	private static Scope scope = new Scope();
 
 	static
 	{
@@ -96,7 +88,6 @@ public class MainRenderer
 		initShaders();
 		renderer = new TerrainRenderer(tShader);
 		processTerrain(terrain);
-		processTerrain(terrain1);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
 		client.start();
@@ -114,8 +105,11 @@ public class MainRenderer
 		tShader = new TerrainShader();
 		pickShader = new PickShader();
 		cShader = new ColorfulShader();
-		gShader = new GUIShader();
+		loadShaders();
+	}
 
+	public static void loadShaders()
+	{
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		fontShader.stop();
@@ -146,16 +140,13 @@ public class MainRenderer
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
 
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT,
-				(java.nio.ByteBuffer) null);
-		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID,
-				0);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, renderBufferID);
 		GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL14.GL_DEPTH_COMPONENT24, width, height);
-		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER,
-				renderBufferID);
+		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, renderBufferID);
 		unbindBuffers();
 	}
 
@@ -190,8 +181,7 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			enableCulling();
@@ -248,8 +238,7 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(),
-						currentEntity.getScale());
+				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				pickShader.loadColor(currentEntity.getColor());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -332,7 +321,6 @@ public class MainRenderer
 		player2.insert(client);
 		player2.move(client.getTime());
 		renderEntity(player2);
-		renderEntity(player);
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);
@@ -344,12 +332,5 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
-		if (camera.getMode() == Camera.SCOPE)
-		{
-			gShader.start();
-			gShader.loadTransformationMatrix(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 1);
-			scope.render(gShader);
-			gShader.stop();
-		}
 	}
 }

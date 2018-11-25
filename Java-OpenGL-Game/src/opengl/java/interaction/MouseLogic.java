@@ -2,6 +2,7 @@ package opengl.java.interaction;
 
 import org.lwjgl.input.Mouse;
 
+import opengl.java.calculations.Maths;
 import opengl.java.terrain.Terrain;
 import opengl.java.view.Camera;
 
@@ -34,16 +35,16 @@ public class MouseLogic
 				}
 				if (Mouse.getEventButton() == RIGHT_MOUSE_BUTTON)
 				{
-					if (cam.getMode() != Camera.SCOPE)
-						cam.setMode(Camera.SCOPE);
-					else
-						cam.setMode(Camera.FIRST_PERSON);
+					cam.setMode(Camera.SCOPE);
+					cam.setZoom(5);
 				}
 			}
 			else
 			{
 				if (Mouse.getEventButton() == RIGHT_MOUSE_BUTTON)
 				{
+					cam.setMode(Camera.FIRST_PERSON);
+					cam.setZoom(Maths.getDefaultFOV());
 				}
 			}
 		}

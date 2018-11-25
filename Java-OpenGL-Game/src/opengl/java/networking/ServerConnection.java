@@ -7,8 +7,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Map;
 
-import opengl.java.packets.PlayerPacket;
-
 public class ServerConnection extends Thread
 {
 	private Socket socket;
