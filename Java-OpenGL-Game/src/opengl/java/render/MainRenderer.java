@@ -16,6 +16,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
 import opengl.java.entity.NPC;
 import opengl.java.entity.Player;
@@ -242,6 +243,7 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
+				if(currentEntity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || player.getPosition().x - currentEntity.getPosition().x > Maths.getFarPlane()  || currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane() || player.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane()) continue;
 				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}

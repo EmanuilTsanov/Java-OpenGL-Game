@@ -2,31 +2,52 @@ package opengl.java.entity;
 
 import java.util.Random;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import opengl.java.window.WindowFrameController;
 
-public class NPC
+public class NPC extends Thread
 {
 	private static float speed = 6f;
+	private float direction;
+	private long start;
+	private boolean walking;
+	private long time;
+	private Random random = new Random();
 
-	private float angle = new Random().nextInt(90);
+	public NPC()
+	{
+		direction = random.nextFloat() * 360;
+		start = System.currentTimeMillis();
+		time = random.nextInt(10000);
+	}
 
 	public void control(Player player)
 	{
-		float a = speed * WindowFrameController.getFrameTimeSeconds();
-		float camYaw = (float) Math.toRadians(angle);
-		float dx = (float) Math.cos(camYaw) * a;
-		float dz = (float) Math.sin(camYaw) * a;
-		player.move(-dx, 0, -dz);
-		int r = new Random().nextInt(1000);
-		if (r <= 5)
+		if (walking)
 		{
-			angle += new Random().nextInt(90);
+			float a = speed * WindowFrameController.getFrameTimeSeconds();
+			float camYaw = (float) Math.toRadians(direction);
+			float dx = (float) Math.cos(camYaw) * a;
+			float dz = (float) Math.sin(camYaw) * a;
+			player.move(-dx, 0, -dz);
+			player.setRotation(new Vector3f(0, direction, 0));
+			if (System.currentTimeMillis() - start >= time)
+			{
+				start = System.currentTimeMillis();
+				time = random.nextInt(6000)+4000;
+				walking = false;
+			}
 		}
-		else if (r > 5 && r < 10)
+		else
 		{
-			if(speed != 0)
-			speed = 0;
-			else speed = 6f;
+			if (System.currentTimeMillis() - start >= time)
+			{
+				start = System.currentTimeMillis();
+				direction = new Random().nextFloat() * 360;
+				time = random.nextInt(6000) + 4000;
+				walking = true;
+			}
 		}
 	}
 }
