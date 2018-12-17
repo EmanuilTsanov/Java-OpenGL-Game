@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
@@ -16,6 +17,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
+import opengl.java.entity.NPC;
 import opengl.java.entity.Player;
 import opengl.java.fonts.GUIText;
 import opengl.java.interaction.MouseLogic;
@@ -63,7 +65,7 @@ public class MainRenderer
 
 	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.loadTexture("blendMap").getID());
 
-	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap, "Untitled");
+	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap, "heightmap");
 
 	private static List<Terrain> terrains = new ArrayList<Terrain>();
 
@@ -77,6 +79,8 @@ public class MainRenderer
 
 	private static Player player = new Player();
 	private static Player player2 = new Player();
+	private static Player player3 = new Player();
+	private static NPC npc = new NPC();
 
 	private static PlayerPacket packet = new PlayerPacket();
 
@@ -91,6 +95,63 @@ public class MainRenderer
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
 		client.start();
+		Random rand = new Random();
+		for (int i = 0; i < 10000; i++)
+		{
+			Entity e = Entity.pineTree.getCopy();
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
+			EntityManager.addEntity(e);
+		}
+		for (int i = 0; i < 10000; i++)
+		{
+			Entity e = Entity.grass.getCopy();
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
+			EntityManager.addEntity(e);
+		}
+		for (int i = 0; i < 1000; i++)
+		{
+			Entity e = Entity.rock.getCopy();
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
+			EntityManager.addEntity(e);
+		}
+		for (int i = 0; i < 3000; i++)
+		{
+			Entity e = Entity.mushroom.getCopy();
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
+			EntityManager.addEntity(e);
+		}
+		for (int i = 0; i < 3000; i++)
+		{
+			Entity e = Entity.mushroom1.getCopy();
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
+			EntityManager.addEntity(e);
+		}
+		for (int i = 0; i < 2000; i++)
+		{
+			Entity e = Entity.bench.getCopy();
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
+			EntityManager.addEntity(e);
+		}
+		for (int i = 0; i < 2000; i++)
+		{
+			Entity e = Entity.campfire.getCopy();
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
+			EntityManager.addEntity(e);
+		}
 	}
 
 	public static void processTerrain(Terrain terrain)
@@ -309,7 +370,6 @@ public class MainRenderer
 	public static void render()
 	{
 		MouseLogic.getInstance().update(terrain);
-		renderShadowMap();
 		prepareScreen(0, 1, 1);
 		camera.update(player, terrain);
 		eShader.start();
@@ -321,11 +381,13 @@ public class MainRenderer
 		player2.insert(client);
 		player2.move(client.getTime());
 		renderEntity(player2);
+		npc.control(player3);
+		renderEntity(player3);
+		System.out.println(player3.getPosition());
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);
 		tShader.loadLight(sun);
-		tShader.loadToShadowMapSpace(smmr.getToShadowMapSpaceMatrix());
 		renderer.render(terrains);
 		tShader.stop();
 		fontShader.start();
