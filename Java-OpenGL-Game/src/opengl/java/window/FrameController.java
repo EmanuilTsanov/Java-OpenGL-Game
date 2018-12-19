@@ -2,7 +2,7 @@ package opengl.java.window;
 
 import org.lwjgl.Sys;
 
-public class WindowFrameController
+public class FrameController
 {
 	private static long lastFrameTime = getCurrentTime();
 	private static float delta;

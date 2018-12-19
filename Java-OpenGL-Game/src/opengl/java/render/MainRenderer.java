@@ -243,7 +243,10 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				if(currentEntity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || player.getPosition().x - currentEntity.getPosition().x > Maths.getFarPlane()  || currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane() || player.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane()) continue;
+				if (currentEntity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || player.getPosition().x - currentEntity.getPosition().x > Maths.getFarPlane()
+						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane()
+						|| player.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
+					continue;
 				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -385,7 +388,6 @@ public class MainRenderer
 		renderEntity(player2);
 		npc.control(player3);
 		renderEntity(player3);
-		System.out.println(player3.getPosition());
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);

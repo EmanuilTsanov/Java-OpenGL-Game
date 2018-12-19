@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.window.WindowFrameController;
+import opengl.java.window.FrameController;
 
 public class NPC extends Thread
 {
@@ -26,7 +26,7 @@ public class NPC extends Thread
 	{
 		if (walking)
 		{
-			float a = speed * WindowFrameController.getFrameTimeSeconds();
+			float a = speed * FrameController.getFrameTimeSeconds();
 			float camYaw = (float) Math.toRadians(direction);
 			float dx = (float) Math.cos(camYaw) * a;
 			float dz = (float) Math.sin(camYaw) * a;

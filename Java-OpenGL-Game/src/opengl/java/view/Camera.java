@@ -70,7 +70,7 @@ public class Camera
 		}
 		else if (mode == FIRST_PERSON)
 		{
-			this.setPosition(player.getPosition().x, player.getPosition().y + 2.5f, player.getPosition().z);
+			this.setPosition(player.getPosition().x, player.getPosition().y + player.getHeight(), player.getPosition().z);
 			rotation.y = 180 - player.getRotation().y;
 			rotation.x -= (Mouse.getY() - Window.getHeight() / 2) * 0.1f;
 			if (rotation.x > 90)
@@ -80,7 +80,7 @@ public class Camera
 		}
 		else if (mode == SCOPE)
 		{
-			this.setPosition(player.getPosition().x, player.getPosition().y + 2.5f, player.getPosition().z);
+			this.setPosition(player.getPosition().x, player.getPosition().y + player.getHeight(), player.getPosition().z);
 			rotation.y = 180 - player.getRotation().y;
 			rotation.x -= (Mouse.getY() - Window.getHeight() / 2) / Maths.getDefaultFOV() * zoom/10;
 			if (rotation.x > 90)

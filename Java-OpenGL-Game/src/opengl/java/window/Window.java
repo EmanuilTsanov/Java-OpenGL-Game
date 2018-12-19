@@ -8,9 +8,11 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import opengl.java.logger.Logger;
+
 public class Window
 {
-	private static int fpsCap = 120;
+	private static int fpsCap =1500;
 
 	private static int width = 1920;
 	private static int height = 1080;
@@ -26,14 +28,16 @@ public class Window
 		frame.setVisible(true);
 		try
 		{
+			Logger.log("1");
 			Display.setDisplayMode(new DisplayMode(width, height));
+			Logger.log("1");
 			Display.setParent(canvas);
 			Display.create();
 		}
 		catch (LWJGLException e)
 		{
-			System.out.println("An error ocurred while creating the display.");
-			e.printStackTrace();
+			System.out.println("An error occured while initializing the display.");
+			Logger.log("An error occured while initializing the display.");
 		}
 	}
 
@@ -41,8 +45,8 @@ public class Window
 	{
 		Display.sync(fpsCap);
 		Display.update();
-		WindowFrameController.update();
 		FPSCounter.update();
+		FrameController.update();
 	}
 
 	public static void destroy()
