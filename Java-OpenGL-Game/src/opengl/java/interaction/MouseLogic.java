@@ -35,14 +35,14 @@ public class MouseLogic
 			handleClicks(camera);
 		}
 		float distance = (float) camera.getDistToLookPoint();
-		float dx = distance * (float) Math.sin(Math.toRadians(90-camera.getRotation().y));
-		float dy = distance * (float) Math.sin(Math.toRadians(camera.getRotation().y));
+		float dx = midPoint.x + (float) Math.cos(Math.toRadians(camera.getRotation().y+90));
+		float dy = midPoint.y + (float) Math.sin(Math.toRadians(camera.getRotation().y+90));
 		if (Mouse.isButtonDown(LEFT_MOUSE_BUTTON))
 		{
 			camera.rotate(0, 0.1f * FrameController.getFrameTimeSeconds() * mouseSpeed, 0);
 			if(camera.getRotation().y < 0.0f) camera.setRotationY(360);
 			else if(camera.getRotation().y >= 360.0f) camera.setRotationY(0);
-			camera.setPosition(midPoint.x + dx, 5, midPoint.y + dy);
+			camera.setPosition(dx, 50, dy);
 			System.out.println(camera.getPosition() + " / " + midPoint);
 		}
 	}
@@ -53,11 +53,11 @@ public class MouseLogic
 		{
 			if (Mouse.getEventButton() == LEFT_MOUSE_BUTTON)
 			{
-				float distance = camera.getDistToLookPoint();
-				float dx = distance * (float) Math.sin(Math.toRadians(90-camera.getRotation().y));
-				float dy = distance * (float) Math.sin(Math.toRadians(camera.getRotation().y));
-				midPoint = new Vector2f(camera.getPosition().x + dx, camera.getPosition().z + dy);
-				System.out.println(distance);
+				float distance = 20;
+				float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
+				float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
+				midPoint = new Vector2f(camera.getPosition().x + dx, camera.getPosition().z - dy);
+				System.out.println(midPoint);
 			}
 			if (Mouse.getEventButton() == RIGHT_MOUSE_BUTTON)
 			{

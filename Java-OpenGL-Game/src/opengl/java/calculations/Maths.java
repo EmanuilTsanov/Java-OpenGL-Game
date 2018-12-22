@@ -14,7 +14,7 @@ import opengl.java.view.Camera;
 public class Maths
 {
 	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 100;
+	private static final float FAR_PLANE = 200;
 
 	private static float defaultFOV = 70;
 	private static float FOV = 70;
