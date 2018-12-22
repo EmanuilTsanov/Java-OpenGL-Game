@@ -4,7 +4,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.calculations.Maths;
 import opengl.java.model.TexturedModel;
 import opengl.java.networking.Client;
 import opengl.java.terrain.Terrain;
@@ -19,7 +18,6 @@ public class Player extends Entity
 	private final float jumpSpeed = 40f;
 	private float currentJumpSpeed;
 	private boolean falling;
-	private float mouseX = Window.getWidth() / 2;
 
 	private static final float height = 2.5f;
 	private float currentHeight = height;
@@ -33,19 +31,6 @@ public class Player extends Entity
 	public Player()
 	{
 		super(TexturedModel.PLAYER.getID());
-	}
-
-	public void update(Camera camera, Terrain terrain)
-	{
-		if (camera.getMode() == Camera.FIRST_PERSON)
-		{
-			rotation.y -= (Mouse.getX() - mouseX) * 0.1f;
-		}
-		else if (camera.getMode() == Camera.SCOPE)
-		{
-			rotation.y -= (Mouse.getX() - mouseX) / Maths.getDefaultFOV() * camera.getZoom() / 10;
-		}
-		handleKeyboardInput(camera, terrain);
 	}
 
 	public void insert(Client client)
@@ -66,7 +51,7 @@ public class Player extends Entity
 
 	public void handleKeyboardInput(Camera camera, Terrain terrain)
 	{
-		float a = currentSpeed * FrameController.getFrameTimeSeconds() * (camera.getMode() == Camera.SCOPE ? 0.1f : 1f);
+		float a = currentSpeed * FrameController.getFrameTimeSeconds();
 		float camYaw = (float) Math.toRadians(camera.getRotation().y + 90);
 		float dx = (float) Math.cos(camYaw) * a;
 		float dz = (float) Math.sin(camYaw) * a;
@@ -123,7 +108,7 @@ public class Player extends Entity
 		if (jumping)
 		{
 			position.y += currentJumpSpeed * FrameController.getFrameTimeSeconds();
-			currentJumpSpeed /= 10f * FrameController.getFrameTimeSeconds()+1;
+			currentJumpSpeed /= 10f * FrameController.getFrameTimeSeconds() + 1;
 			if (currentJumpSpeed < 1f)
 			{
 				jumping = false;
@@ -133,8 +118,9 @@ public class Player extends Entity
 		else if (falling)
 		{
 			position.y -= currentJumpSpeed * FrameController.getFrameTimeSeconds();
-			if(currentJumpSpeed>20f) currentJumpSpeed = 20f;
-			currentJumpSpeed *= 10f * FrameController.getFrameTimeSeconds()+1;
+			if (currentJumpSpeed > 20f)
+				currentJumpSpeed = 20f;
+			currentJumpSpeed *= 10f * FrameController.getFrameTimeSeconds() + 1;
 			if (position.y < terrain.getHeightOfTerrain(position.x, position.z))
 				falling = false;
 		}

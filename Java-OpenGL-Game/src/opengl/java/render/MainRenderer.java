@@ -18,8 +18,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
-import opengl.java.entity.NPC;
-import opengl.java.entity.Player;
 import opengl.java.fonts.GUIText;
 import opengl.java.interaction.MouseLogic;
 import opengl.java.lighting.Light;
@@ -28,8 +26,6 @@ import opengl.java.management.EntityManager;
 import opengl.java.management.SRCLoader;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
-import opengl.java.networking.Client;
-import opengl.java.packets.PlayerPacket;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
@@ -78,15 +74,6 @@ public class MainRenderer
 
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
-	private static Player player = new Player();
-	private static Player player2 = new Player();
-	private static Player player3 = new Player();
-	private static NPC npc = new NPC();
-
-	private static PlayerPacket packet = new PlayerPacket();
-
-	private static Client client = new Client(packet);
-
 	static
 	{
 		enableCulling();
@@ -95,7 +82,6 @@ public class MainRenderer
 		processTerrain(terrain);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
-		client.start();
 		Random rand = new Random();
 		for (int i = 0; i < 10000; i++)
 		{
@@ -243,9 +229,9 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				if (currentEntity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || player.getPosition().x - currentEntity.getPosition().x > Maths.getFarPlane()
+				if (currentEntity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || camera.getPosition().x - currentEntity.getPosition().x > Maths.getFarPlane()
 						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane()
-						|| player.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
+						|| camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
 					continue;
 				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -374,20 +360,12 @@ public class MainRenderer
 
 	public static void render()
 	{
-		MouseLogic.getInstance().update(terrain);
+		MouseLogic.getInstance().update(camera);
 		prepareScreen(0, 1, 1);
-		camera.update(player, terrain);
 		eShader.start();
 		eShader.loadLight(sun);
 		eShader.loadViewMatrix(camera);
 		renderEntities();
-		player.update(camera, terrain);
-		packet.update(player);
-		player2.insert(client);
-		player2.move(client.getTime());
-		renderEntity(player2);
-		npc.control(player3);
-		renderEntity(player3);
 		eShader.stop();
 		tShader.start();
 		tShader.loadViewMatrix(camera);
