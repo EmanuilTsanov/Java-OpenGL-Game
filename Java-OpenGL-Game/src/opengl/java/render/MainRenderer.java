@@ -53,7 +53,7 @@ public class MainRenderer
 
 	private static Camera camera = Camera.getInstance();
 
-	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.loadTexture("grass").getID());
+	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.loadTexture("snowT").getID());
 	private static TerrainTexture rTexture = new TerrainTexture(SRCLoader.loadTexture("dirt").getID());
 	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.loadTexture("path").getID());
 	private static TerrainTexture bTexture = new TerrainTexture(SRCLoader.loadTexture("rocks").getID());
@@ -83,9 +83,9 @@ public class MainRenderer
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
 		Random rand = new Random();
-		for (int i = 0; i < 10000; i++)
+		for (int i = 0; i < 3000; i++)
 		{
-			Entity e = Entity.pineTree.getCopy();
+			Entity e = Entity.christmasTree.getCopy();
 			float x = rand.nextFloat() * terrain.getSize();
 			float z = rand.nextFloat() * terrain.getSize();
 			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
@@ -99,41 +99,9 @@ public class MainRenderer
 			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
 			EntityManager.addEntity(e);
 		}
-		for (int i = 0; i < 1000; i++)
-		{
-			Entity e = Entity.rock.getCopy();
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
-			EntityManager.addEntity(e);
-		}
-		for (int i = 0; i < 3000; i++)
-		{
-			Entity e = Entity.mushroom.getCopy();
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
-			EntityManager.addEntity(e);
-		}
-		for (int i = 0; i < 3000; i++)
-		{
-			Entity e = Entity.mushroom1.getCopy();
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
-			EntityManager.addEntity(e);
-		}
 		for (int i = 0; i < 2000; i++)
 		{
-			Entity e = Entity.bench.getCopy();
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
-			EntityManager.addEntity(e);
-		}
-		for (int i = 0; i < 2000; i++)
-		{
-			Entity e = Entity.campfire.getCopy();
+			Entity e = Entity.snowman.getCopy();
 			float x = rand.nextFloat() * terrain.getSize();
 			float z = rand.nextFloat() * terrain.getSize();
 			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
