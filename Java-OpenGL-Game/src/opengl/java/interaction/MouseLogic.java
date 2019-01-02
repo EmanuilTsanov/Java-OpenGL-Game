@@ -3,9 +3,8 @@ package opengl.java.interaction;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
-import opengl.java.calculations.Maths;
-import opengl.java.render.MainRenderer;
 import opengl.java.view.Camera;
+import opengl.java.window.FrameController;
 
 public class MouseLogic
 {
@@ -14,6 +13,12 @@ public class MouseLogic
 	private static final int LEFT_MOUSE_BUTTON = 0;
 	private static final int RIGHT_MOUSE_BUTTON = 1;
 	private static final int MIDDLE_MOUSE_BUTTON = 2;
+
+	private static final float MIN_ZOOM = 0;
+	private static final float MAX_ZOOM = 10;
+	private float zoom = MIN_ZOOM;
+
+	private float togo = 0;
 
 	private Vector2f axis = new Vector2f(0, 0);
 	private Vector2f mouseCoords = new Vector2f(0, 0);
@@ -46,12 +51,36 @@ public class MouseLogic
 			float distanceX = 0.2f * (Mouse.getX() - mouseCoords.getX());
 			float distanceY = 0.2f * (Mouse.getY() - mouseCoords.getY());
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
-			float dx = (float) (distanceX * Math.sin(Math.toRadians(camera.getRotation().y-90)));
-			float dy = (float) (distanceX * Math.cos(Math.toRadians(camera.getRotation().y-90)));
+			float dx = (float) (distanceX * Math.sin(Math.toRadians(camera.getRotation().y - 90)));
+			float dy = (float) (distanceX * Math.cos(Math.toRadians(camera.getRotation().y - 90)));
 			float dx1 = (float) (distanceY * Math.sin(Math.toRadians(camera.getRotation().y)));
 			float dy1 = (float) (distanceY * Math.cos(Math.toRadians(camera.getRotation().y)));
-			camera.move(dx-dx1, 0, -dy+dy1);
+			camera.move(dx - dx1, 0, -dy + dy1);
 		}
+		int dWheel = Mouse.getDWheel();
+		if (dWheel > 0)
+		{
+			if (zoom < MAX_ZOOM)
+			{
+				togo += dWheel / (20 + zoom);
+				zoom++;
+			}
+		}
+		else if (dWheel < 0)
+		{
+			if (zoom > MIN_ZOOM)
+			{
+				togo += dWheel / (20 + zoom);
+				zoom--;
+			}
+		}
+		System.out.println(zoom);
+		float distance = FrameController.getFrameTimeSeconds() * togo * 10;
+		togo -= distance;
+		mouseCoords.set(Mouse.getX(), Mouse.getY());
+		float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
+		float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
+		camera.move(dx, -(distance * (float) Math.sin(Math.toRadians(90 - camera.getRotation().getX()))), -dy);
 	}
 
 	public void handleClicks(Camera camera)
@@ -60,7 +89,7 @@ public class MouseLogic
 		{
 			if (Mouse.getEventButton() == LEFT_MOUSE_BUTTON)
 			{
-				
+
 			}
 			if (Mouse.getEventButton() == RIGHT_MOUSE_BUTTON)
 			{

@@ -83,9 +83,17 @@ public class MainRenderer
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
 		Random rand = new Random();
-		for (int i = 0; i < 3000; i++)
+		for (int i = 0; i < 1500; i++)
 		{
 			Entity e = Entity.christmasTree.getCopy();
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
+			EntityManager.addEntity(e);
+		}
+		for (int i = 0; i < 1500; i++)
+		{
+			Entity e = Entity.pineTree.getCopy();
 			float x = rand.nextFloat() * terrain.getSize();
 			float z = rand.nextFloat() * terrain.getSize();
 			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
