@@ -63,7 +63,7 @@ public class MouseLogic
 			if (zoom < MIN_ZOOM && dWheel < 0 || zoom > MAX_ZOOM && dWheel > 0)
 				dWheel = 0;
 			if(dWheel < 0) zoom--;
-			else if(dWheel > 0) zoom++;
+			else if(dWheel >\ 0) zoom++;
 			float distance = FrameController.getFrameTimeSeconds() * dWheel;
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
 			float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
