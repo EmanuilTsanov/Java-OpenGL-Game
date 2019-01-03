@@ -58,17 +58,17 @@ public class MouseLogic
 			camera.move(dx - dx1, 0, -dy + dy1);
 		}
 		int dWheel = Mouse.getDWheel();
-		if (dWheel != 0)
+		if (dWheel > 0)
 		{
-			if (zoom < MIN_ZOOM && dWheel < 0 || zoom > MAX_ZOOM && dWheel > 0)
-				dWheel = 0;
-			if(dWheel < 0) zoom--;
-			else if(dWheel >\ 0) zoom++;
-			float distance = FrameController.getFrameTimeSeconds() * dWheel;
-			mouseCoords.set(Mouse.getX(), Mouse.getY());
-			float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
-			float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
-			camera.move(dx, -(distance * (float) Math.sin(Math.toRadians(90 - camera.getRotation().getX()))), -dy);
+			if (zoom < MAX_ZOOM)
+			{
+				float distance = FrameController.getFrameTimeSeconds() * dWheel;
+				zoom++;
+				mouseCoords.set(Mouse.getX(), Mouse.getY());
+				float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
+				float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
+				camera.move(dx, -(distance * (float) Math.sin(Math.toRadians(90 - camera.getRotation().getX()))), -dy);
+			}
 		}
 	}
 
