@@ -7,7 +7,7 @@ public class Camera
 	private Vector3f position;
 	private Vector3f rotation;
 	
-	private static Camera singleton = new Camera(new Vector3f(500, 50f, 500), new Vector3f(45f, 0, 0));
+	private static Camera singleton = new Camera(new Vector3f(500, 50f, 500), new Vector3f(55f, 0, 0));
 
 	public Camera(Vector3f position, Vector3f rotation)
 	{
@@ -32,7 +32,7 @@ public class Camera
 
 	public float getDistToLookPoint()
 	{
-		return position.y / (float) Math.sin(Math.toRadians(rotation.x));
+		return position.y / (float) Math.sin(Math.toRadians(90-rotation.x));
 	}
 
 	public void move(float x, float y, float z)

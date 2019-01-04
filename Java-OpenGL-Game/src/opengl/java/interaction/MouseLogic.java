@@ -14,11 +14,11 @@ public class MouseLogic
 	private static final int RIGHT_MOUSE_BUTTON = 1;
 	private static final int MIDDLE_MOUSE_BUTTON = 2;
 
-	private static final float MIN_ZOOM = 0;
+	private static final float MIN_ZOOM = 1;
 	private static final float MAX_ZOOM = 10;
 	private float zoom = MIN_ZOOM;
 
-	private float togo = 0;
+	private float dist = 0;
 
 	private Vector2f axis = new Vector2f(0, 0);
 	private Vector2f mouseCoords = new Vector2f(0, 0);
@@ -60,15 +60,28 @@ public class MouseLogic
 		int dWheel = Mouse.getDWheel();
 		if (dWheel > 0)
 		{
-			if (zoom < MAX_ZOOM)
+			if (zoom < 6)
 			{
-				float distance = FrameController.getFrameTimeSeconds() * dWheel;
+				dist += 120 / zoom;
 				zoom++;
-				mouseCoords.set(Mouse.getX(), Mouse.getY());
-				float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
-				float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
-				camera.move(dx, -(distance * (float) Math.sin(Math.toRadians(90 - camera.getRotation().getX()))), -dy);
 			}
+		}
+		else if (dWheel < 0)
+		{
+			if (zoom > 1)
+			{
+				zoom--;
+				dist -= 120 / zoom;
+			}
+		}
+		if (Math.round(dist * 100.0) / 100.0 != 0)
+		{
+			dist -= dist * 0.1f;
+			float distance = FrameController.getFrameTimeSeconds() * dist;
+			mouseCoords.set(Mouse.getX(), Mouse.getY());
+			float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
+			float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
+			camera.move(dx, -(distance * (float) Math.sin(Math.toRadians(90 - camera.getRotation().getX()))), -dy);
 		}
 	}
 
