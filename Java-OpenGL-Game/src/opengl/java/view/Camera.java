@@ -32,7 +32,7 @@ public class Camera
 
 	public float getDistToLookPoint()
 	{
-		return position.y / (float) Math.sin(Math.toRadians(90-rotation.x));
+		return (position.y / (float) Math.sin(Math.toRadians(rotation.x))) * (float) Math.sin(Math.toRadians(90-rotation.x));
 	}
 
 	public void move(float x, float y, float z)
