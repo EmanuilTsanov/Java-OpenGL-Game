@@ -4,7 +4,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
 import opengl.java.view.Camera;
-import opengl.java.window.FrameController;
 
 public class MouseLogic
 {
@@ -13,20 +12,6 @@ public class MouseLogic
 	private static final int LEFT_MOUSE_BUTTON = 0;
 	private static final int RIGHT_MOUSE_BUTTON = 1;
 	private static final int MIDDLE_MOUSE_BUTTON = 2;
-
-	private static final float MIN_ZOOM = 1;
-	private static final float MAX_ZOOM = 10;
-	private float zoom = MIN_ZOOM;
-	
-	private static final int ZOOM_STEPS = 10;
-	private static final int MAX_ZOOM_STEPS = 9;
-	private static final int MIN_ZOOM_STEPS = 1;
-	private float currentStep;
-	
-	private float stepSize = Camera.getInstance().getDistToLookPoint();
-
-	private float dist = 0;
-
 	private Vector2f axis = new Vector2f(0, 0);
 	private Vector2f mouseCoords = new Vector2f(0, 0);
 
@@ -48,7 +33,7 @@ public class MouseLogic
 		{
 			camera.rotate(0, 0.2f * (Mouse.getX() - mouseCoords.getX()), 0);
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
-			float distance = camera.getDistToLookPoint();
+			float distance = camera.getDistance();
 			float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().getY())));
 			float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().getY())));
 			camera.setPosition(axis.getX() - dx, camera.getPosition().y, axis.getY() + dy);
@@ -65,27 +50,13 @@ public class MouseLogic
 			camera.move(dx - dx1, 0, -dy + dy1);
 		}
 		int dWheel = Mouse.getDWheel();
-		if (dWheel > 0)
-		{
-			if (currentStep < MAX_ZOOM_STEPS)
-			{
-				currentStep++;
-				mouseCoords.set(Mouse.getX(), Mouse.getY());
-				float dx = (float) (stepSize * Math.sin(Math.toRadians(camera.getRotation().y)));
-				float dy = (float) (stepSize * Math.cos(Math.toRadians(camera.getRotation().y)));
-				camera.move(dx, -(stepSize * (float) Math.sin(Math.toRadians(90 - camera.getRotation().getX()))), -dy);
-			}
-		}
-		else if (dWheel < 0)
-		{
-			if (currentStep > MIN_ZOOM_STEPS)
-			{
-				currentStep--;
-				mouseCoords.set(Mouse.getX(), Mouse.getY());
-				float dx = (float) (stepSize * Math.sin(Math.toRadians(camera.getRotation().y)));
-				float dy = (float) (stepSize * Math.cos(Math.toRadians(camera.getRotation().y)));
-				camera.move(-dx, (stepSize * (float) Math.sin(Math.toRadians(90 - camera.getRotation().getX()))), dy);
-			}
+		if(dWheel > 0) {
+			float distance = camera.getDistance() - 0.1f;
+			float dst = camera.getDistance() - (float) (distance * Math.sin(Math.toRadians(camera.getRotation().x)));
+			float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().x)));
+			float dx = (float) (dst * Math.sin(Math.toRadians(camera.getRotation().y)));
+			float dz = (float) (dst * Math.cos(Math.toRadians(camera.getRotation().y)));
+			camera.move(dx, -dy, -dz);
 		}
 	}
 
@@ -103,7 +74,7 @@ public class MouseLogic
 			}
 			if (Mouse.getEventButton() == MIDDLE_MOUSE_BUTTON)
 			{
-				float distance = camera.getDistToLookPoint();
+				float distance = camera.getDistance();
 				float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
 				float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
 				axis.set(camera.getPosition().x + dx, camera.getPosition().z - dy);

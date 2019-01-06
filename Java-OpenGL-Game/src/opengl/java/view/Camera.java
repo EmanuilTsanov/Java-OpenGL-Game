@@ -30,9 +30,12 @@ public class Camera
 		return rotation;
 	}
 
-	public float getDistToLookPoint()
+	/**
+	 * Returns the distance between the camera and the terrain depending on the x angle of the camera's rotation.
+	 */
+	public float getDistance()
 	{
-		return (position.y / (float) Math.sin(Math.toRadians(rotation.x))) * (float) Math.sin(Math.toRadians(90-rotation.x));
+		return position.y / (float) Math.cos(Math.toRadians(rotation.x-90));
 	}
 
 	public void move(float x, float y, float z)
