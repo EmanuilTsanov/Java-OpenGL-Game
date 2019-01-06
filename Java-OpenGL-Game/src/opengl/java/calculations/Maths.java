@@ -17,7 +17,7 @@ public class Maths
 	private static final float FAR_PLANE = 200;
 
 	private static float defaultFOV = 70;
-	private static float FOV = 70;
+	private static float FOV = 100;
 
 	private static Matrix4f projectionMatrix = null;
 
@@ -42,7 +42,7 @@ public class Maths
 	{
 		projectionMatrix = new Matrix4f();
 		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
-		float y_scale = (float) (1f / Math.tan(Math.toRadians(FOV / 2f)));
+		float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
 		float x_scale = y_scale / aspectRatio;
 		float frustum_len = FAR_PLANE - NEAR_PLANE;
 		projectionMatrix.m00 = x_scale;

@@ -51,9 +51,9 @@ public class MouseLogic
 		}
 		int dWheel = Mouse.getDWheel();
 		if(dWheel > 0) {
-			float distance = camera.getDistance() - 0.1f;
-			float dst = camera.getDistance() - (float) (distance * Math.sin(Math.toRadians(camera.getRotation().x)));
-			float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().x)));
+			float distance = 0.5f;
+			float dst = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().x)));
+			float dy = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().x)));
 			float dx = (float) (dst * Math.sin(Math.toRadians(camera.getRotation().y)));
 			float dz = (float) (dst * Math.cos(Math.toRadians(camera.getRotation().y)));
 			camera.move(dx, -dy, -dz);
