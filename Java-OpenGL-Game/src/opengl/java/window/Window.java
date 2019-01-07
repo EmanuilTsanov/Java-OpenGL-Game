@@ -12,7 +12,7 @@ import opengl.java.logger.Logger;
 
 public class Window
 {
-	private static int fpsCap = 1000;
+	private static int fpsCap = 300;
 
 	private static int width = 1920;
 	private static int height = 1080;
