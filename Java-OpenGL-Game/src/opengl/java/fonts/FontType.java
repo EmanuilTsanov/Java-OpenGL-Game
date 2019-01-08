@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
 
-import opengl.java.texture.RawTexture;
+import opengl.java.texture.ModelTexture;
 
 public class FontType
 {
 	private ArrayList<Character> chars;
 	private int lineHeight;
 	private int imgSize;
-	private RawTexture img;
+	private ModelTexture img;
 	private static String defaultFolder = "assets/textures/";
 	private static String defaultExtension = ".png";
 
@@ -35,7 +35,7 @@ public class FontType
 		return lineHeight;
 	}
 
-	public RawTexture getImg()
+	public ModelTexture getImg()
 	{
 		return img;
 	}
@@ -45,7 +45,7 @@ public class FontType
 		return imgSize;
 	}
 
-	public static RawTexture loadTexture(String file)
+	public static ModelTexture loadTexture(String file)
 	{
 		Texture tex = null;
 		try
@@ -64,6 +64,6 @@ public class FontType
 		{
 			e.printStackTrace();
 		}
-		return new RawTexture(tex.getTextureID());
+		return new ModelTexture(tex.getTextureID());
 	}
 }

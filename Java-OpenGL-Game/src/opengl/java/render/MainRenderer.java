@@ -19,6 +19,8 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
+import opengl.java.gui.GUIButton;
+import opengl.java.gui.GUIWindow;
 import opengl.java.interaction.MouseLogic;
 import opengl.java.lighting.Light;
 import opengl.java.loader.ModelLoader;
@@ -29,13 +31,14 @@ import opengl.java.model.TexturedModel;
 import opengl.java.shader.BasicShader;
 import opengl.java.shader.ColorfulShader;
 import opengl.java.shader.FontShader;
+import opengl.java.shader.GUIShader;
 import opengl.java.shader.PickShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.terrain.TerrainTexture;
 import opengl.java.terrain.TerrainTexturepack;
-import opengl.java.texture.RawTexture;
+import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
 
@@ -50,6 +53,7 @@ public class MainRenderer
 	private static PickShader pickShader;
 	private static FontShader fontShader;
 	private static ColorfulShader cShader;
+	private static GUIShader gShader;
 
 	private static Camera camera = Camera.getInstance();
 
@@ -73,6 +77,9 @@ public class MainRenderer
 	private static HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getEntityHashMap();
 
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
+
+	private static GUIWindow gWindow = new GUIWindow(0, 0, Display.getWidth() / 2, Display.getHeight());
+	private static GUIButton gButton = new GUIButton(25, 25, 100, 100);
 
 	static
 	{
@@ -115,6 +122,9 @@ public class MainRenderer
 			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
 			EntityManager.addEntity(e);
 		}
+		gWindow.setColor(110, 56, 97);
+		gButton.setColor(0, 0, 60);
+		gWindow.addComponent(gButton);
 	}
 
 	public static void processTerrain(Terrain terrain)
@@ -129,6 +139,7 @@ public class MainRenderer
 		tShader = new TerrainShader();
 		pickShader = new PickShader();
 		cShader = new ColorfulShader();
+		gShader = new GUIShader();
 		loadShaders();
 	}
 
@@ -192,7 +203,7 @@ public class MainRenderer
 		for (Map.Entry<Integer, HashMap<Integer, Entity>> outer : entityArray.entrySet())
 		{
 			RawModel model = TexturedModel.getTexturedModel(outer.getKey()).getRawModel();
-			RawTexture texture = TexturedModel.getTexturedModel(outer.getKey()).getTexture();
+			ModelTexture texture = TexturedModel.getTexturedModel(outer.getKey()).getTexture();
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
@@ -206,8 +217,7 @@ public class MainRenderer
 			{
 				Entity currentEntity = inner.getValue();
 				if (currentEntity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || camera.getPosition().x - currentEntity.getPosition().x > Maths.getFarPlane()
-						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane()
-						|| camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
+						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane() || camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
 					continue;
 				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -223,7 +233,7 @@ public class MainRenderer
 	public static void renderEntity(Entity e)
 	{
 		RawModel model = TexturedModel.getTexturedModel(e.getAsset()).getRawModel();
-		RawTexture texture = TexturedModel.getTexturedModel(e.getAsset()).getTexture();
+		ModelTexture texture = TexturedModel.getTexturedModel(e.getAsset()).getTexture();
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
@@ -352,5 +362,8 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
+		gShader.start();
+		gWindow.render(gShader);
+		gShader.stop();
 	}
 }

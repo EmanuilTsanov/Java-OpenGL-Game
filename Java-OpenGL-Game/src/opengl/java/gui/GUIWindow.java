@@ -10,29 +10,31 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.calculations.Maths;
 import opengl.java.shader.GUIShader;
 
-public class GUIWindow extends GUICanvas
+public class GUIWindow extends GUIComponent
 {
-	private ArrayList<GUIComponent> array;
+	public ArrayList<GUIComponent> components = new ArrayList<GUIComponent>();
 
 	public GUIWindow(int x, int y, int width, int height)
 	{
 		super(x, y, width, height);
-		setColor(new Vector3f(100, 100, 100));
-		array = new ArrayList<GUIComponent>();
 	}
 
-	public GUIWindow addChild(GUIComponent component)
+	public void addComponent(GUIComponent g)
 	{
-		array.add(component);
-		return this;
+		if (g.getWidth() > this.getWidth() || g.getHeight() > this.getHeight())
+		{
+			System.out.println("Component is bigger than the window.");
+		}
+		else
+		{
+			g.x += x;
+			g.y += y;
+			components.add(g);
+		}
 	}
 
 	public void update()
 	{
-		for (GUIComponent comp : array)
-		{
-			comp.update();
-		}
 	}
 
 	public void render(GUIShader shader)
@@ -40,16 +42,14 @@ public class GUIWindow extends GUICanvas
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
 		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x), Maths.toOpenGLHeight(y), 1), new Vector3f(0, 0, 0), 1);
+		shader.loadColor(color);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		for (GUIComponent comp : array)
-		{
-			comp.render(shader);
+		for(GUIComponent g : components) {
+			g.render(shader);
 		}
 	}
 }

@@ -1,11 +1,19 @@
 package opengl.java.gui;
 
+import org.lwjgl.util.vector.Vector3f;
+
+import opengl.java.calculations.Maths;
+import opengl.java.model.RawModel;
 import opengl.java.shader.GUIShader;
+import opengl.java.texture.ModelTexture;
 
 public abstract class GUIComponent
 {
 	protected int x, y;
 	protected int width, height;
+	protected RawModel model;
+	protected ModelTexture texture;
+	protected Vector3f color = new Vector3f(0, 0, 0);
 
 	public GUIComponent(int x, int y, int width, int height)
 	{
@@ -13,40 +21,27 @@ public abstract class GUIComponent
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		model = Maths.createPlane(x, y, width, height);
 	}
-
-	public GUIComponent setPosition(int x, int y)
-	{
-		this.x = x;
-		this.y = y;
-		return this;
-	}
-
-	public GUIComponent setSize(int width, int height)
-	{
-		this.width = width;
-		this.height = height;
-		return this;
-	}
-
-	public int getX()
-	{
+	
+	public float getX() {
 		return x;
 	}
-
-	public int getY()
-	{
+	
+	public float getY() {
 		return y;
 	}
-
-	public int getWidth()
-	{
+	
+	public float getWidth() {
 		return width;
 	}
-
-	public int getHeight()
-	{
+	
+	public float getHeight() {
 		return height;
+	}
+	
+	public void setColor(float r, float g, float b) {
+		color = new Vector3f(r/255f, g/255f, b/255f);
 	}
 
 	public abstract void update();

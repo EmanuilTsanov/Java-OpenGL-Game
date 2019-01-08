@@ -10,6 +10,7 @@ public class GUIShader extends ShaderProgram
 	private static final String BASIC_F_SHADER = "fGui";
 
 	private int loc_modelMatrix;
+	private int loc_color;
 
 	public GUIShader()
 	{
@@ -20,17 +21,21 @@ public class GUIShader extends ShaderProgram
 	public void bindAllAttributes()
 	{
 		super.bindAttribute(0, "vertex");
-		super.bindAttribute(1, "texCoords");
 	}
 
 	@Override
 	public void getAllUniformLocations()
 	{
 		loc_modelMatrix = super.getUniformLocation("modelMat");
+		loc_color = super.getUniformLocation("color");
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
 	{
 		super.loadMatrix(loc_modelMatrix, Maths.createTransMat(position, rotation, scale));
+	}
+	
+	public void loadColor(Vector3f color) {
+		super.loadVector3f(loc_color, color);
 	}
 }

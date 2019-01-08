@@ -3,14 +3,14 @@ package opengl.java.model;
 import java.util.HashMap;
 
 import opengl.java.management.SRCLoader;
-import opengl.java.texture.RawTexture;
+import opengl.java.texture.ModelTexture;
 
 public class TexturedModel
 {
 	private int id;
 
 	private RawModel model;
-	private RawTexture texture;
+	private ModelTexture texture;
 
 	private static HashMap<Integer, TexturedModel> models = new HashMap<Integer, TexturedModel>();
 
@@ -43,7 +43,7 @@ public class TexturedModel
 	public static final TexturedModel PLAYER = new TexturedModel(13, SRCLoader.loadModel("player"),
 			SRCLoader.loadTexture("grass"));
 
-	public TexturedModel(int id, RawModel model, RawTexture texture)
+	public TexturedModel(int id, RawModel model, ModelTexture texture)
 	{
 		this.id = id;
 		this.model = model;
@@ -61,7 +61,7 @@ public class TexturedModel
 		return model;
 	}
 
-	public RawTexture getTexture()
+	public ModelTexture getTexture()
 	{
 		return texture;
 	}

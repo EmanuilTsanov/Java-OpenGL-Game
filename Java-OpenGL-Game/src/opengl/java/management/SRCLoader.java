@@ -21,7 +21,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import opengl.java.files.FileSRC;
 import opengl.java.loader.ModelLoader;
 import opengl.java.model.RawModel;
-import opengl.java.texture.RawTexture;
+import opengl.java.texture.ModelTexture;
 
 public class SRCLoader
 {
@@ -145,7 +145,7 @@ public class SRCLoader
 		normalsArr[vertexPointer * 3 + 2] = normal.z;
 	}
 
-	public static RawTexture loadTexture(String fileName)
+	public static ModelTexture loadTexture(String fileName)
 	{
 		Texture tex = null;
 		try
@@ -168,10 +168,10 @@ public class SRCLoader
 		{
 			e.printStackTrace();
 		}
-		return new RawTexture(tex.getTextureID());
+		return new ModelTexture(tex.getTextureID());
 	}
 
-	public static RawTexture loadTexture(String path, String fileName)
+	public static ModelTexture loadTexture(String path, String fileName)
 	{
 		Texture tex = null;
 		try
@@ -182,7 +182,7 @@ public class SRCLoader
 		{
 			e.printStackTrace();
 		}
-		return new RawTexture(tex.getTextureID());
+		return new ModelTexture(tex.getTextureID());
 	}
 
 	// public static void saveScreenshot()

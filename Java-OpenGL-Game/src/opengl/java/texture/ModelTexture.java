@@ -1,6 +1,6 @@
 package opengl.java.texture;
 
-public class RawTexture
+public class ModelTexture
 {
 	private int textureID;
 
@@ -10,7 +10,7 @@ public class RawTexture
 	private boolean transparency;
 	private boolean useFakeLighting;
 
-	public RawTexture(int textureID)
+	public ModelTexture(int textureID)
 	{
 		this.textureID = textureID;
 	}
@@ -25,7 +25,7 @@ public class RawTexture
 		return shineDamper;
 	}
 
-	public RawTexture setShineDamper(float shineDamper)
+	public ModelTexture setShineDamper(float shineDamper)
 	{
 		this.shineDamper = shineDamper;
 		return this;
@@ -36,7 +36,7 @@ public class RawTexture
 		return reflectivity;
 	}
 
-	public RawTexture setReflectivity(float reflectivity)
+	public ModelTexture setReflectivity(float reflectivity)
 	{
 		this.reflectivity = reflectivity;
 		return this;
@@ -47,7 +47,7 @@ public class RawTexture
 		return transparency;
 	}
 
-	public RawTexture setTransparency(boolean transparency)
+	public ModelTexture setTransparency(boolean transparency)
 	{
 		this.transparency = transparency;
 		return this;
@@ -58,7 +58,7 @@ public class RawTexture
 		return useFakeLighting;
 	}
 
-	public RawTexture setUseFakeLighting(boolean useFakeLighting)
+	public ModelTexture setUseFakeLighting(boolean useFakeLighting)
 	{
 		this.useFakeLighting = useFakeLighting;
 		return this;

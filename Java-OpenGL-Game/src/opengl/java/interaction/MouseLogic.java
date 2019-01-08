@@ -52,9 +52,6 @@ public class MouseLogic
 			float distance = (float) (camera.getDistance() * Math.cos(Math.toRadians(camera.getRotation().x)));
 			float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().getY())));
 			float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().getY())));
-			float dx1 = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().getX())));
-			float dy1 = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().getX())));
-			//TODO
 			camera.setPosition(axis.getX() - dx, camera.getPosition().y, axis.getY() + dy);
 		}
 		else if (rmb)

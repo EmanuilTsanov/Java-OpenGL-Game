@@ -1,17 +1,10 @@
 #version 330 core
 
-in vec2 textureCoords;
-
-uniform sampler2D sampler;
+uniform vec3 color;
 
 out vec4 finalColor;
 
 void main()
 {
-	vec4 textureColor = texture(sampler, textureCoords);
-	if(textureColor.a < 0.9)
-	{
-		discard;
-	}
-	finalColor = textureColor;
+	finalColor = vec4(color, 1.0f);
 }

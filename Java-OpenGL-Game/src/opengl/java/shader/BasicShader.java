@@ -4,7 +4,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
 import opengl.java.lighting.Light;
-import opengl.java.texture.RawTexture;
+import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 
 public class BasicShader extends ShaderProgram
@@ -77,7 +77,7 @@ public class BasicShader extends ShaderProgram
 		super.loadVector3f(loc_lightColor, light.getColor());
 	}
 
-	public void loadTextureVariables(RawTexture texture)
+	public void loadTextureVariables(ModelTexture texture)
 	{
 		super.loadFloat(loc_shineDamper, texture.getShineDamper());
 		super.loadFloat(loc_reflectivity, texture.getReflectivity());
