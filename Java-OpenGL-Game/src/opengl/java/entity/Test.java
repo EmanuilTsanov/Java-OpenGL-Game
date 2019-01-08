@@ -1,5 +1,6 @@
 package opengl.java.entity;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -14,7 +15,7 @@ import opengl.java.shader.GUIShader;
 
 public class Test extends Entity
 {
-	static float[] vertices = { -1, 1, 0, -1, Maths.toOpenGLHeight(100), 0, Maths.toOpenGLWidth(100), Maths.toOpenGLHeight(100), 0, Maths.toOpenGLWidth(100), 1, 0 };
+	static float[] vertices = { -1, 1, 0, -1, Maths.toOpenGLHeight(Display.getHeight()), 0, Maths.toOpenGLWidth(Display.getWidth()/3), Maths.toOpenGLHeight(Display.getHeight()), 0, Maths.toOpenGLWidth(Display.getWidth()/3), 1, 0 };
 	static int[] indices = { 0, 1, 3, 3, 1, 2 };
 	static float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
 	static float[] normals = { 0 };
@@ -36,7 +37,7 @@ public class Test extends Entity
 		GL20.glEnableVertexAttribArray(1);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
-		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(100)+1,Maths.toOpenGLHeight(100)-1,0), new Vector3f(0, 0, 0), 1);
+		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(0)+1,Maths.toOpenGLHeight(0)-1,0), new Vector3f(0, 0, 0), 1);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
