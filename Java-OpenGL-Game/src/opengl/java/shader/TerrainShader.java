@@ -3,15 +3,15 @@ package opengl.java.shader;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.calculations.Maths;
 import opengl.java.lighting.Light;
+import opengl.java.maths.Maths;
 import opengl.java.shadows.ShadowBox;
 import opengl.java.view.Camera;
 
 public class TerrainShader extends ShaderProgram
 {
-	private static final String BASIC_V_SHADER = "tvertex";
-	private static final String BASIC_F_SHADER = "tfragment";
+	private static final String VERTEX_SHADER = "terrain-vertex";
+	private static final String FRAGMENT_SHADER = "terrain-fragment";
 
 	private int loc_mat_trans;
 	private int loc_mat_project;
@@ -31,7 +31,7 @@ public class TerrainShader extends ShaderProgram
 
 	public TerrainShader()
 	{
-		super(BASIC_V_SHADER, BASIC_F_SHADER);
+		super(VERTEX_SHADER, FRAGMENT_SHADER);
 	}
 
 	@Override

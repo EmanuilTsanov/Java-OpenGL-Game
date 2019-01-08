@@ -9,8 +9,8 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 
-import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
+import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
 import opengl.java.shader.ShadowShader;

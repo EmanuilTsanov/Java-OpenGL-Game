@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.calculations.Maths;
 import opengl.java.management.EntityManager;
+import opengl.java.maths.Maths;
 import opengl.java.model.TexturedModel;
 
 public class Entity

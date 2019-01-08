@@ -9,8 +9,8 @@ import javax.imageio.ImageIO;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.calculations.Maths;
 import opengl.java.loader.ModelLoader;
+import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 
 public class Terrain

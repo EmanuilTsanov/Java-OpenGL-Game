@@ -5,14 +5,14 @@ import org.lwjgl.util.vector.Matrix4f;
 public class ShadowShader extends ShaderProgram
 {
 
-	private static final String VERTEX_FILE = "shadowVertexShader";
-	private static final String FRAGMENT_FILE = "shadowFragmentShader";
+	private static final String VERTEX_SHADER = "shadow-vertex";
+	private static final String FRAGMENT_SHADER = "shadow-fragment";
 
 	private int location_mvpMatrix;
 
 	public ShadowShader()
 	{
-		super(VERTEX_FILE, FRAGMENT_FILE);
+		super(VERTEX_SHADER, FRAGMENT_SHADER);
 	}
 
 	@Override

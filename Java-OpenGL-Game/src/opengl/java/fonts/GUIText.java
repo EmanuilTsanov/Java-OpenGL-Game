@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 import org.lwjgl.util.vector.Vector2f;
 
-import opengl.java.calculations.Maths;
 import opengl.java.loader.ModelLoader;
+import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 
 public class GUIText

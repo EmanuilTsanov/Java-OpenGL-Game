@@ -1,4 +1,4 @@
-package opengl.java.calculations;
+package opengl.java.maths;
 
 import java.util.HashMap;
 
@@ -7,8 +7,6 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.loader.ModelLoader;
-import opengl.java.model.RawModel;
 import opengl.java.view.Camera;
 
 public class Maths
@@ -85,17 +83,6 @@ public class Maths
 		if (projectionMatrix == null)
 			createProjectMat();
 		return projectionMatrix;
-	}
-
-	public static RawModel createPlane(int x, int y, int width, int height)
-	{
-		float[] vertices = { toOpenGLWidth(x) + 1, toOpenGLHeight(y) - 1, 0, toOpenGLWidth(x) + 1,
-				toOpenGLHeight(y + height) - 1, 0, toOpenGLWidth(x + width) + 1, toOpenGLHeight(y + height) - 1, 0,
-				toOpenGLWidth(x + width) + 1, toOpenGLHeight(y) - 1, 0 };
-		int[] indices = { 0, 1, 3, 3, 1, 2 };
-		float[] normals = { 0 };
-		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
-		return ModelLoader.getInstance().loadModel(vertices, indices, textureCoords, normals);
 	}
 
 	public static float toOpenGLWidth(float value)
@@ -175,20 +162,24 @@ public class Maths
 		}
 		return colorArray.get(color);
 	}
-	
-	public static float getNearPlane() {
+
+	public static float getNearPlane()
+	{
 		return NEAR_PLANE;
 	}
-	
-	public static float getFarPlane() {
+
+	public static float getFarPlane()
+	{
 		return FAR_PLANE;
 	}
-	
-	public static float getFOV() {
+
+	public static float getFOV()
+	{
 		return FOV;
 	}
-	
-	public static float getDefaultFOV() {
+
+	public static float getDefaultFOV()
+	{
 		return defaultFOV;
 	}
 

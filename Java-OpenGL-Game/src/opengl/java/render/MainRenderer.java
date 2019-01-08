@@ -16,23 +16,19 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.calculations.Maths;
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
-import opengl.java.gui.GUIButton;
-import opengl.java.gui.GUIWindow;
 import opengl.java.interaction.MouseLogic;
 import opengl.java.lighting.Light;
 import opengl.java.loader.ModelLoader;
 import opengl.java.management.EntityManager;
 import opengl.java.management.SRCLoader;
+import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
-import opengl.java.shader.BasicShader;
-import opengl.java.shader.ColorfulShader;
+import opengl.java.shader.MainShader;
 import opengl.java.shader.FontShader;
-import opengl.java.shader.GUIShader;
-import opengl.java.shader.PickShader;
+import opengl.java.shader.OffscreenShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
@@ -48,12 +44,10 @@ public class MainRenderer
 	private static int colorTextureID;
 	private static int renderBufferID;
 
-	private static BasicShader eShader;
+	private static MainShader eShader;
 	private static TerrainShader tShader;
-	private static PickShader pickShader;
+	private static OffscreenShader pickShader;
 	private static FontShader fontShader;
-	private static ColorfulShader cShader;
-	private static GUIShader gShader;
 
 	private static Camera camera = Camera.getInstance();
 
@@ -77,9 +71,6 @@ public class MainRenderer
 	private static HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getEntityHashMap();
 
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
-
-	private static GUIWindow gWindow = new GUIWindow(0, 0, Display.getWidth() / 2, Display.getHeight());
-	private static GUIButton gButton = new GUIButton(25, 25, 100, 100);
 
 	static
 	{
@@ -122,9 +113,6 @@ public class MainRenderer
 			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
 			EntityManager.addEntity(e);
 		}
-		gWindow.setColor(110, 56, 97);
-		gButton.setColor(0, 0, 60);
-		gWindow.addComponent(gButton);
 	}
 
 	public static void processTerrain(Terrain terrain)
@@ -135,11 +123,9 @@ public class MainRenderer
 	private static void initShaders()
 	{
 		fontShader = new FontShader();
-		eShader = new BasicShader();
+		eShader = new MainShader();
 		tShader = new TerrainShader();
-		pickShader = new PickShader();
-		cShader = new ColorfulShader();
-		gShader = new GUIShader();
+		pickShader = new OffscreenShader();
 		loadShaders();
 	}
 
@@ -160,9 +146,6 @@ public class MainRenderer
 		pickShader.start();
 		pickShader.loadProjectionMatrix();
 		pickShader.stop();
-		cShader.start();
-		cShader.loadProjectionMatrix();
-		cShader.stop();
 	}
 
 	private static void bindBuffers(int width, int height)
@@ -362,8 +345,5 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
-		gShader.start();
-		gWindow.render(gShader);
-		gShader.stop();
 	}
 }

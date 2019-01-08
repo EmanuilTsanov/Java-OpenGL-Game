@@ -2,15 +2,15 @@ package opengl.java.shader;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.calculations.Maths;
 import opengl.java.lighting.Light;
+import opengl.java.maths.Maths;
 import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 
-public class BasicShader extends ShaderProgram
+public class MainShader extends ShaderProgram
 {
-	private static final String BASIC_V_SHADER = "vertex";
-	private static final String BASIC_F_SHADER = "fragment";
+	private static final String VERTEX_SHADER = "main-vertex";
+	private static final String FRAGMENT_SHADER = "main-fragment";
 
 	private int loc_modelMatrix;
 	private int loc_projectionMatrix;
@@ -25,9 +25,9 @@ public class BasicShader extends ShaderProgram
 
 	private int loc_cameraPosition;
 
-	public BasicShader()
+	public MainShader()
 	{
-		super(BASIC_V_SHADER, BASIC_F_SHADER);
+		super(VERTEX_SHADER, FRAGMENT_SHADER);
 	}
 
 	@Override

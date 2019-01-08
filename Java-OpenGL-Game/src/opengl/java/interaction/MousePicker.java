@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import opengl.java.calculations.Maths;
+import opengl.java.maths.Maths;
 import opengl.java.view.Camera;
 
 public class MousePicker

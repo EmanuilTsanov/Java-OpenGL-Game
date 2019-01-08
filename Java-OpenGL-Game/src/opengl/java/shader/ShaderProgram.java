@@ -15,8 +15,8 @@ import org.lwjgl.util.vector.Vector4f;
 public abstract class ShaderProgram
 {
 	private int programID;
-	private String defaultPath = "assets/shaders/";
-	private String defaultExtension = ".sr";
+	private static final String SHADERS_PATH = "assets/shaders/";
+	private static final String SHADER_EXTENSION = ".txt";
 
 	private FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
 
@@ -98,7 +98,7 @@ public abstract class ShaderProgram
 		try
 		{
 			String line;
-			BufferedReader reader = new BufferedReader(new FileReader(new File(defaultPath + fileName + defaultExtension)));
+			BufferedReader reader = new BufferedReader(new FileReader(new File(SHADERS_PATH + fileName + SHADER_EXTENSION)));
 			while ((line = reader.readLine()) != null)
 			{
 				builder.append(line).append("\n");

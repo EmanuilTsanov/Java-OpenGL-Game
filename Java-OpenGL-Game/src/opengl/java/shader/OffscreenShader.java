@@ -2,22 +2,22 @@ package opengl.java.shader;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.calculations.Maths;
+import opengl.java.maths.Maths;
 import opengl.java.view.Camera;
 
-public class PickShader extends ShaderProgram
+public class OffscreenShader extends ShaderProgram
 {
-	private static final String BASIC_V_SHADER = "pvertex";
-	private static final String BASIC_F_SHADER = "pfragment";
+	private static final String VERTEX_SHADER = "offscreen-vertex";
+	private static final String FRAGMENT_SHADER = "offscreen-fragment";
 
 	private int loc_mat_trans;
 	private int loc_mat_project;
 	private int loc_mat_view;
 	private int loc_vec_color;
 
-	public PickShader()
+	public OffscreenShader()
 	{
-		super(BASIC_V_SHADER, BASIC_F_SHADER);
+		super(VERTEX_SHADER, FRAGMENT_SHADER);
 	}
 
 	@Override

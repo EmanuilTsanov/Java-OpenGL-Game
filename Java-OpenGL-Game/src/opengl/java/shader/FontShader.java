@@ -5,14 +5,14 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class FontShader extends ShaderProgram
 {
-	private static final String BASIC_V_SHADER = "vertex2";
-	private static final String BASIC_F_SHADER = "fragment2";
+	private static final String VERTEX_SHADER = "font-vertex";
+	private static final String FRAGMENT_SHADER = "font-fragment";
 
 	private int color_loc;
 
 	public FontShader()
 	{
-		super(BASIC_V_SHADER, BASIC_F_SHADER);
+		super(VERTEX_SHADER, FRAGMENT_SHADER);
 	}
 
 	@Override
