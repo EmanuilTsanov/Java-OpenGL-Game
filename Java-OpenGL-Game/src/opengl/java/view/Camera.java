@@ -7,7 +7,7 @@ public class Camera
 	private Vector3f position;
 	private Vector3f rotation;
 	
-	private static Camera singleton = new Camera(new Vector3f(500, 50f, 500), new Vector3f(55f, 0, 0));
+	private static Camera singleton = new Camera(new Vector3f(500, 50f, 500), new Vector3f(42f, 0, 0));
 
 	public Camera(Vector3f position, Vector3f rotation)
 	{

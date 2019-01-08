@@ -13,6 +13,8 @@ public class MouseLogic
 	private static final int RIGHT_MOUSE_BUTTON = 1;
 	private static final int MIDDLE_MOUSE_BUTTON = 2;
 
+	private boolean lmb, rmb, mmb;
+
 	private static final int ZOOM_STEPS = 10;
 	private static final int FINAL_STEP = 8;
 	private static final int FIRST_STEP = 1;
@@ -42,19 +44,23 @@ public class MouseLogic
 		{
 			handleClicks(camera);
 		}
-		if (Mouse.isButtonDown(MIDDLE_MOUSE_BUTTON))
+		int dWheel = Mouse.getDWheel();
+		if (mmb)
 		{
 			camera.rotate(0, 0.2f * (Mouse.getX() - mouseCoords.getX()), 0);
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
 			float distance = (float) (camera.getDistance() * Math.cos(Math.toRadians(camera.getRotation().x)));
 			float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().getY())));
 			float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().getY())));
+			float dx1 = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().getX())));
+			float dy1 = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().getX())));
+			//TODO
 			camera.setPosition(axis.getX() - dx, camera.getPosition().y, axis.getY() + dy);
 		}
-		if (Mouse.isButtonDown(RIGHT_MOUSE_BUTTON))
+		else if (rmb)
 		{
-			float distanceX = 0.2f * (Mouse.getX() - mouseCoords.getX());
-			float distanceY = 0.2f * (Mouse.getY() - mouseCoords.getY());
+			float distanceX = 0.3f * (Mouse.getX() - mouseCoords.getX()) / currentStep;
+			float distanceY = 0.3f * (Mouse.getY() - mouseCoords.getY()) / currentStep;
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
 			float dx = (float) (distanceX * Math.sin(Math.toRadians(camera.getRotation().y - 90)));
 			float dy = (float) (distanceX * Math.cos(Math.toRadians(camera.getRotation().y - 90)));
@@ -62,21 +68,23 @@ public class MouseLogic
 			float dy1 = (float) (distanceY * Math.cos(Math.toRadians(camera.getRotation().y)));
 			camera.move(dx - dx1, 0, -dy + dy1);
 		}
-		int dWheel = Mouse.getDWheel();
-		if (dWheel > 0)
+		else if (!lmb && !rmb && !mmb)
 		{
-			if (currentStep < FINAL_STEP)
+			if (dWheel > 0)
 			{
-				currentStep++;
-				zoom(stepLength, camera);
+				if (currentStep < FINAL_STEP)
+				{
+					currentStep++;
+					zoom(stepLength, camera);
+				}
 			}
-		}
-		else if (dWheel < 0)
-		{
-			if (currentStep > FIRST_STEP)
+			else if (dWheel < 0)
 			{
-				currentStep--;
-				zoom(-stepLength, camera);
+				if (currentStep > FIRST_STEP)
+				{
+					currentStep--;
+					zoom(-stepLength, camera);
+				}
 			}
 		}
 	}
@@ -100,29 +108,38 @@ public class MouseLogic
 			}
 			if (Mouse.getEventButton() == RIGHT_MOUSE_BUTTON)
 			{
-				mouseCoords.set(Mouse.getX(), Mouse.getY());
+				if (!lmb && !mmb)
+				{
+					rmb = true;
+					mouseCoords.set(Mouse.getX(), Mouse.getY());
+				}
 			}
 			if (Mouse.getEventButton() == MIDDLE_MOUSE_BUTTON)
 			{
-				float distance = (float) (camera.getDistance() * Math.cos(Math.toRadians(camera.getRotation().x)));
-				float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
-				float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
-				axis.set(camera.getPosition().x + dx, camera.getPosition().z - dy);
-				mouseCoords.set(Mouse.getX(), Mouse.getY());
+				if (!lmb && !rmb)
+				{
+					mmb = true;
+					float distance = (float) (camera.getDistance() * Math.cos(Math.toRadians(camera.getRotation().x)));
+					float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
+					float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
+					axis.set(camera.getPosition().x + dx, camera.getPosition().z - dy);
+					mouseCoords.set(Mouse.getX(), Mouse.getY());
+				}
 			}
 		}
 		else
 		{
 			if (Mouse.getEventButton() == LEFT_MOUSE_BUTTON)
 			{
-
+				lmb = false;
 			}
 			if (Mouse.getEventButton() == RIGHT_MOUSE_BUTTON)
 			{
-
+				rmb = false;
 			}
 			if (Mouse.getEventButton() == MIDDLE_MOUSE_BUTTON)
 			{
+				mmb = false;
 			}
 		}
 	}
