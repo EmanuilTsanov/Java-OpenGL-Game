@@ -29,7 +29,6 @@ public class Window
 		try
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
-			Logger.log("1");
 			Display.setParent(canvas);
 			Display.create();
 		}
