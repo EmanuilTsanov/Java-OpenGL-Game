@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
+import opengl.java.entity.Test;
 import opengl.java.fonts.GUIText;
 import opengl.java.interaction.MouseLogic;
 import opengl.java.lighting.Light;
@@ -26,8 +27,8 @@ import opengl.java.management.SRCLoader;
 import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
-import opengl.java.shader.MainShader;
 import opengl.java.shader.FontShader;
+import opengl.java.shader.MainShader;
 import opengl.java.shader.OffscreenShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
@@ -71,6 +72,8 @@ public class MainRenderer
 	private static HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getEntityHashMap();
 
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
+
+	public static Test test = new Test();
 
 	static
 	{
@@ -200,7 +203,8 @@ public class MainRenderer
 			{
 				Entity currentEntity = inner.getValue();
 				if (currentEntity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || camera.getPosition().x - currentEntity.getPosition().x > Maths.getFarPlane()
-						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane() || camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
+						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane()
+						|| camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
 					continue;
 				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -345,5 +349,6 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
+		test.render();
 	}
 }
