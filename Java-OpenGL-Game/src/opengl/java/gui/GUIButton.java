@@ -6,30 +6,20 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.calculations.Maths;
-import opengl.java.model.RawModel;
 import opengl.java.shader.GUIShader;
 
-public class GUICanvas extends GUIComponent
+public class GUIButton extends GUIComponent
 {
-	public RawModel model;
 
-	public Vector3f color = new Vector3f(0, 0, 0);
-
-	public GUICanvas(int x, int y, int width, int height)
+	public GUIButton(int x, int y, int width, int height)
 	{
 		super(x, y, width, height);
-		model = Maths.createPlane(0,0, width, height);
-	}
-
-	public GUICanvas setColor(Vector3f color)
-	{
-		this.color = new Vector3f(color.x / 255f, color.y / 255f, color.z / 255f);
-		return this;
 	}
 
 	@Override
 	public void update()
 	{
+		
 	}
 
 	@Override
@@ -38,12 +28,12 @@ public class GUICanvas extends GUIComponent
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
 		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x), Maths.toOpenGLHeight(y), 1), new Vector3f(0, 0, 0), 1);
+		shader.loadColor(color);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
+
 }
