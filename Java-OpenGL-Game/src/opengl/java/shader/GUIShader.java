@@ -10,6 +10,8 @@ public class GUIShader extends ShaderProgram
 	private static final String FRAGMENT_SHADER = "gui-fragment";
 
 	private int loc_modelMatrix;
+	private int loc_mode;
+	private int loc_color;
 
 	public GUIShader()
 	{
@@ -27,10 +29,22 @@ public class GUIShader extends ShaderProgram
 	public void getAllUniformLocations()
 	{
 		loc_modelMatrix = super.getUniformLocation("modelMatrix");
+		loc_mode = super.getUniformLocation("mode");
+		loc_color = super.getUniformLocation("color");
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
 	{
 		super.loadMatrix(loc_modelMatrix, Maths.createTransMat(position, rotation, scale));
+	}
+
+	public void loadMode(int mode)
+	{
+		super.loadInt(loc_mode, mode);
+	}
+
+	public void loadColor(Vector3f color)
+	{
+		super.loadVector3f(loc_color, color);
 	}
 }

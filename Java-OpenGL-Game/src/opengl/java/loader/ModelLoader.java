@@ -15,17 +15,10 @@ import opengl.java.model.RawModel;
 
 public class ModelLoader
 {
-	private List<Integer> vaoList = new ArrayList<Integer>();
-	private List<Integer> vboList = new ArrayList<Integer>();
+	private static List<Integer> vaoList = new ArrayList<Integer>();
+	private static List<Integer> vboList = new ArrayList<Integer>();
 
-	private static ModelLoader singleton = new ModelLoader();
-
-	public static ModelLoader getInstance()
-	{
-		return singleton;
-	}
-
-	public RawModel loadFonts(float[] vertices, float[] textureCoords)
+	public static RawModel loadFonts(float[] vertices, float[] textureCoords)
 	{
 		int vaoID = createVAO();
 		storeFloatsInVBO(0, 2, vertices);
@@ -34,7 +27,7 @@ public class ModelLoader
 		return new RawModel(vaoID, vertices.length / 2);
 	}
 
-	public RawModel loadModel(float[] vertices, int[] indices, float[] textureCoords, float[] normals)
+	public static RawModel loadModel(float[] vertices, int[] indices, float[] textureCoords, float[] normals)
 	{
 		int vaoID = createVAO();
 		storeIntsInVBO(indices);
@@ -45,7 +38,7 @@ public class ModelLoader
 		return new RawModel(vaoID, indices.length);
 	}
 
-	public int createVAO()
+	private static int createVAO()
 	{
 		int vaoID = GL30.glGenVertexArrays();
 		vaoList.add(vaoID);
@@ -53,7 +46,7 @@ public class ModelLoader
 		return vaoID;
 	}
 
-	public void storeFloatsInVBO(int attribID, int attribSize, float[] data)
+	private static void storeFloatsInVBO(int attribID, int attribSize, float[] data)
 	{
 		int vboID = GL15.glGenBuffers();
 		vboList.add(vboID);
@@ -64,7 +57,7 @@ public class ModelLoader
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
 
-	public void storeIntsInVBO(int[] data)
+	private static void storeIntsInVBO(int[] data)
 	{
 		int vboID = GL15.glGenBuffers();
 		vboList.add(vboID);
@@ -73,7 +66,7 @@ public class ModelLoader
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, intBuffer, GL15.GL_STATIC_DRAW);
 	}
 
-	public FloatBuffer storeDataInFloatBuffer(float[] data)
+	private static FloatBuffer storeDataInFloatBuffer(float[] data)
 	{
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
 		buffer.put(data);
@@ -81,7 +74,7 @@ public class ModelLoader
 		return buffer;
 	}
 
-	public IntBuffer storeDataInIntBuffer(int[] data)
+	private static IntBuffer storeDataInIntBuffer(int[] data)
 	{
 		IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
 		buffer.put(data);
@@ -89,7 +82,7 @@ public class ModelLoader
 		return buffer;
 	}
 
-	public void destroy()
+	public static void destroy()
 	{
 		for (int vao : vaoList)
 			GL30.glDeleteVertexArrays(vao);
@@ -97,7 +90,7 @@ public class ModelLoader
 			GL15.glDeleteBuffers(vbo);
 	}
 
-	public void unbindVAO()
+	private static void unbindVAO()
 	{
 		GL30.glBindVertexArray(0);
 	}

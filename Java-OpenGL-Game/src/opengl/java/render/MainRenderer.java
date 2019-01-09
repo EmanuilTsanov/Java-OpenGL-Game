@@ -17,8 +17,8 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
-import opengl.java.entity.Test;
 import opengl.java.fonts.GUIText;
+import opengl.java.gui.GUIComponent;
 import opengl.java.interaction.MouseLogic;
 import opengl.java.lighting.Light;
 import opengl.java.loader.ModelLoader;
@@ -28,6 +28,7 @@ import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
 import opengl.java.shader.FontShader;
+import opengl.java.shader.GUIShader;
 import opengl.java.shader.MainShader;
 import opengl.java.shader.OffscreenShader;
 import opengl.java.shader.TerrainShader;
@@ -45,10 +46,11 @@ public class MainRenderer
 	private static int colorTextureID;
 	private static int renderBufferID;
 
-	private static MainShader eShader;
-	private static TerrainShader tShader;
-	private static OffscreenShader pickShader;
+	private static MainShader mainShader;
+	private static TerrainShader terrainShader;
+	private static OffscreenShader offscreenShader;
 	private static FontShader fontShader;
+	private static GUIShader guiShader;
 
 	private static Camera camera = Camera.getInstance();
 
@@ -73,13 +75,13 @@ public class MainRenderer
 
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
-	public static Test test = new Test();
+	public static GUIComponent test = new GUIComponent(0, 0, Display.getWidth() / 3, Display.getHeight());
 
 	static
 	{
 		enableCulling();
 		initShaders();
-		renderer = new TerrainRenderer(tShader);
+		renderer = new TerrainRenderer(terrainShader);
 		processTerrain(terrain);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		bindBuffers(Display.getWidth(), Display.getHeight());
@@ -116,6 +118,7 @@ public class MainRenderer
 			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
 			EntityManager.addEntity(e);
 		}
+		test.setColor(45, 137, 239);
 	}
 
 	public static void processTerrain(Terrain terrain)
@@ -126,9 +129,10 @@ public class MainRenderer
 	private static void initShaders()
 	{
 		fontShader = new FontShader();
-		eShader = new MainShader();
-		tShader = new TerrainShader();
-		pickShader = new OffscreenShader();
+		mainShader = new MainShader();
+		terrainShader = new TerrainShader();
+		offscreenShader = new OffscreenShader();
+		guiShader = new GUIShader();
 		loadShaders();
 	}
 
@@ -137,18 +141,18 @@ public class MainRenderer
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		fontShader.stop();
-		eShader.start();
-		eShader.loadProjectionMatrix();
-		eShader.stop();
-		tShader.start();
-		tShader.loadProjectionMatrix();
-		tShader.loadShadowMap();
-		tShader.loadShadowDistance();
-		tShader.loadMapSize(ShadowMapMasterRenderer.SHADOW_MAP_SIZE);
-		tShader.stop();
-		pickShader.start();
-		pickShader.loadProjectionMatrix();
-		pickShader.stop();
+		mainShader.start();
+		mainShader.loadProjectionMatrix();
+		mainShader.stop();
+		terrainShader.start();
+		terrainShader.loadProjectionMatrix();
+		terrainShader.loadShadowMap();
+		terrainShader.loadShadowDistance();
+		terrainShader.loadMapSize(ShadowMapMasterRenderer.SHADOW_MAP_SIZE);
+		terrainShader.stop();
+		offscreenShader.start();
+		offscreenShader.loadProjectionMatrix();
+		offscreenShader.stop();
 	}
 
 	private static void bindBuffers(int width, int height)
@@ -196,7 +200,7 @@ public class MainRenderer
 			GL20.glEnableVertexAttribArray(2);
 			if (texture.isTransparent())
 				disableCulling();
-			eShader.loadTextureVariables(texture);
+			mainShader.loadTextureVariables(texture);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
@@ -206,7 +210,7 @@ public class MainRenderer
 						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane()
 						|| camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
 					continue;
-				eShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
+				mainShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			enableCulling();
@@ -227,7 +231,7 @@ public class MainRenderer
 		GL20.glEnableVertexAttribArray(2);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
-		eShader.loadTransformationMatrix(e.getPosition(), e.getRotation(), e.getScale());
+		mainShader.loadTransformationMatrix(e.getPosition(), e.getRotation(), e.getScale());
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
@@ -263,8 +267,8 @@ public class MainRenderer
 			for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
 			{
 				Entity currentEntity = inner.getValue();
-				pickShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
-				pickShader.loadColor(currentEntity.getColor());
+				offscreenShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
+				offscreenShader.loadColor(currentEntity.getColor());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			GL20.glDisableVertexAttribArray(0);
@@ -275,11 +279,11 @@ public class MainRenderer
 	public static Vector3f pickColor(int x, int y)
 	{
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, framebufferID);
-		pickShader.start();
+		offscreenShader.start();
 		prepareScreen(1, 1, 1);
-		pickShader.loadViewMatrix(camera);
+		offscreenShader.loadViewMatrix(camera);
 		renderOffScreen();
-		pickShader.stop();
+		offscreenShader.stop();
 		ByteBuffer buffer = readScreen(x, y, 1, 1);
 		unbindBuffers();
 		int r = buffer.get(0) & 0xFF;
@@ -292,13 +296,13 @@ public class MainRenderer
 	public static void takeScreenshot()
 	{
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, framebufferID);
-		eShader.start();
+		mainShader.start();
 		prepareScreen(0, 1, 1);
 		renderEntities();
-		eShader.stop();
-		tShader.start();
-		tShader.loadToShadowMapSpace(smmr.getToShadowMapSpaceMatrix());
-		tShader.stop();
+		mainShader.stop();
+		terrainShader.start();
+		terrainShader.loadToShadowMapSpace(smmr.getToShadowMapSpaceMatrix());
+		terrainShader.stop();
 		unbindBuffers();
 		// SRCLoader.saveScreenshot();
 	}
@@ -335,20 +339,22 @@ public class MainRenderer
 	{
 		MouseLogic.getInstance().update(camera);
 		prepareScreen(0, 1, 1);
-		eShader.start();
-		eShader.loadLight(sun);
-		eShader.loadViewMatrix(camera);
+		mainShader.start();
+		mainShader.loadLight(sun);
+		mainShader.loadViewMatrix(camera);
 		renderEntities();
-		eShader.stop();
-		tShader.start();
-		tShader.loadViewMatrix(camera);
-		tShader.loadLight(sun);
+		mainShader.stop();
+		terrainShader.start();
+		terrainShader.loadViewMatrix(camera);
+		terrainShader.loadLight(sun);
 		renderer.render(terrains);
-		tShader.stop();
+		terrainShader.stop();
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
-		test.render();
+		guiShader.start();
+		test.render(guiShader);
+		guiShader.stop();
 	}
 }

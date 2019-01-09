@@ -129,7 +129,7 @@ public class SRCLoader
 		{
 			indicesArr[i] = indices.get(i);
 		}
-		return ModelLoader.getInstance().loadModel(verticesArr, indicesArr, texturesArr, normalsArr);
+		return ModelLoader.loadModel(verticesArr, indicesArr, texturesArr, normalsArr);
 	}
 
 	public static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords, float[] texturesArr, ArrayList<Vector3f> normals, float[] normalsArr)

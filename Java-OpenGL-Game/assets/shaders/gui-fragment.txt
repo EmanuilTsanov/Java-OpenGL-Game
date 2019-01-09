@@ -2,11 +2,24 @@
 
 in vec2 texCoords;
 
+uniform int mode;
+uniform vec3 color;
 uniform sampler2D sampler;
 
 out vec4 finalColor;
 
 void main()
 {
-	finalColor = texture(sampler, texCoords);
+	if(mode == 0)
+	{
+		finalColor = vec4(color, 1.0f);
+	}
+	else if(mode == 1)
+	{
+		finalColor = texture(sampler, texCoords);
+	}
+	else
+	{
+		finalColor = vec4(0.8f, 0.2f, 0.1f, 1.0f);
+	}
 }  

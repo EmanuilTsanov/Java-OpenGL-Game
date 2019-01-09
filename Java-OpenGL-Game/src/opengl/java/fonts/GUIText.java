@@ -137,7 +137,7 @@ public class GUIText
 			textureArr[i] = textureCoords.get(i);
 		}
 
-		return ModelLoader.getInstance().loadFonts(verticesArr, textureArr);
+		return ModelLoader.loadFonts(verticesArr, textureArr);
 	}
 
 	public HashMap<Integer, Character> scaleFonts(ArrayList<Character> chars, float fontSize)
