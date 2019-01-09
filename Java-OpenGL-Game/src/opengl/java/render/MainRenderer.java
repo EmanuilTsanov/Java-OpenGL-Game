@@ -18,7 +18,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
-import opengl.java.gui.GUIComponent;
+import opengl.java.gui.Inventory;
 import opengl.java.interaction.MouseLogic;
 import opengl.java.lighting.Light;
 import opengl.java.loader.ModelLoader;
@@ -28,7 +28,6 @@ import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.model.TexturedModel;
 import opengl.java.shader.FontShader;
-import opengl.java.shader.GUIShader;
 import opengl.java.shader.MainShader;
 import opengl.java.shader.OffscreenShader;
 import opengl.java.shader.TerrainShader;
@@ -50,7 +49,6 @@ public class MainRenderer
 	private static TerrainShader terrainShader;
 	private static OffscreenShader offscreenShader;
 	private static FontShader fontShader;
-	private static GUIShader guiShader;
 
 	private static Camera camera = Camera.getInstance();
 
@@ -75,8 +73,7 @@ public class MainRenderer
 
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
 
-	public static GUIComponent test = new GUIComponent(0, 0, Display.getWidth() / 3, Display.getHeight());
-
+	private static Inventory inv = new Inventory();
 	static
 	{
 		enableCulling();
@@ -118,7 +115,6 @@ public class MainRenderer
 			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
 			EntityManager.addEntity(e);
 		}
-		test.setColor(45, 137, 239);
 	}
 
 	public static void processTerrain(Terrain terrain)
@@ -132,7 +128,6 @@ public class MainRenderer
 		mainShader = new MainShader();
 		terrainShader = new TerrainShader();
 		offscreenShader = new OffscreenShader();
-		guiShader = new GUIShader();
 		loadShaders();
 	}
 
@@ -207,8 +202,7 @@ public class MainRenderer
 			{
 				Entity currentEntity = inner.getValue();
 				if (currentEntity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || camera.getPosition().x - currentEntity.getPosition().x > Maths.getFarPlane()
-						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane()
-						|| camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
+						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane() || camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
 					continue;
 				mainShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -353,8 +347,7 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
-		guiShader.start();
-		test.render(guiShader);
-		guiShader.stop();
+		inv.update();
+		inv.render();
 	}
 }
