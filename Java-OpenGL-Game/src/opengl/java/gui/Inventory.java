@@ -14,9 +14,9 @@ public class Inventory
 	public Inventory()
 	{
 		shader = new GUIShader();
-		window = new GUIWindow(200, 0, Display.getWidth() / 3, Display.getHeight());
+		window = new GUIWindow(0, 0, Display.getWidth() / 3, Display.getHeight());
 		window.setColor(45, 137, 239);
-		itemMenu = new GUIItemMenu(window.getX(),window.getY() + 30, window.getWidth(), window.getHeight()-60);
+		itemMenu = new GUIItemMenu(window.getX(),window.getY() + 30, window.getWidth(), window.getHeight()-60, 3);
 		window.addComponent(itemMenu);
 	}
 	

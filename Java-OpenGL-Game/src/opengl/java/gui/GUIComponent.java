@@ -1,5 +1,7 @@
 package opengl.java.gui;
 
+import java.awt.Button;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
@@ -26,6 +28,7 @@ public abstract class GUIComponent
 	protected Vector3f color;
 
 	protected RawModel model;
+	Button button = new Button();
 
 	public GUIComponent(int x, int y, int width, int height)
 	{
@@ -60,6 +63,12 @@ public abstract class GUIComponent
 		this.y = y;
 		this.glX = Maths.toOpenGLWidth(x);
 		this.glY = Maths.toOpenGLHeight(y);
+	}
+
+	public void setSize(int width, int height)
+	{
+		this.width = width;
+		this.height = height;
 	}
 
 	public int getX()

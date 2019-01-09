@@ -23,16 +23,16 @@ public class Terrain
 	private RawModel model;
 	private TerrainTexturepack texturepack;
 	private TerrainTexture blendMap;
-	
-	private float[][]heights;
 
-	public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturepack texturepack, TerrainTexture blendMap, String heightMap)
+	private float[][] heights;
+
+	public Terrain(int gridX, int gridZ, TerrainTexturepack texturepack, TerrainTexture blendMap, String heightMap)
 	{
 		this.texturepack = texturepack;
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;
 		this.z = gridZ * SIZE;
-		this.model = generateTerrain(loader, heightMap);
+		this.model = generateTerrain(heightMap);
 	}
 
 	public float getX()
@@ -87,7 +87,7 @@ public class Terrain
 		return answer;
 	}
 
-	private RawModel generateTerrain(ModelLoader loader, String heightMap)
+	private RawModel generateTerrain(String heightMap)
 	{
 		BufferedImage image = null;
 
@@ -143,7 +143,7 @@ public class Terrain
 				indices[pointer++] = bottomRight;
 			}
 		}
-		return loader.loadModel(vertices, indices, textureCoords, normals);
+		return ModelLoader.loadModel(vertices, indices, textureCoords, normals);
 	}
 
 	private Vector3f calculateNormal(int x, int z, BufferedImage image)
@@ -167,8 +167,9 @@ public class Terrain
 		height *= MAX_HEIGHT;
 		return height;
 	}
-	
-	public float getSize() {
+
+	public float getSize()
+	{
 		return SIZE;
 	}
 }

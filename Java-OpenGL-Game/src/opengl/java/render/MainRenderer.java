@@ -21,7 +21,6 @@ import opengl.java.fonts.GUIText;
 import opengl.java.gui.Inventory;
 import opengl.java.interaction.MouseLogic;
 import opengl.java.lighting.Light;
-import opengl.java.loader.ModelLoader;
 import opengl.java.management.EntityManager;
 import opengl.java.management.SRCLoader;
 import opengl.java.maths.Maths;
@@ -61,7 +60,7 @@ public class MainRenderer
 
 	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.loadTexture("blendMap").getID());
 
-	private static Terrain terrain = new Terrain(0, 0, new ModelLoader(), texturepack, blendMap, "heightmap");
+	private static Terrain terrain = new Terrain(0, 0, texturepack, blendMap, "heightmap");
 
 	private static List<Terrain> terrains = new ArrayList<Terrain>();
 
@@ -202,7 +201,8 @@ public class MainRenderer
 			{
 				Entity currentEntity = inner.getValue();
 				if (currentEntity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || camera.getPosition().x - currentEntity.getPosition().x > Maths.getFarPlane()
-						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane() || camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
+						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane()
+						|| camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
 					continue;
 				mainShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -217,6 +217,7 @@ public class MainRenderer
 
 	public static void renderEntity(Entity e)
 	{
+		mainShader.start();
 		RawModel model = TexturedModel.getTexturedModel(e.getAsset()).getRawModel();
 		ModelTexture texture = TexturedModel.getTexturedModel(e.getAsset()).getTexture();
 		GL30.glBindVertexArray(model.getVAOID());
@@ -231,6 +232,7 @@ public class MainRenderer
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
+		mainShader.stop();
 	}
 
 	public static void renderText(GUIText t)
