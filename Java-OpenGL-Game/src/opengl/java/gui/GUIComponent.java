@@ -1,7 +1,5 @@
 package opengl.java.gui;
 
-import java.awt.Button;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
@@ -16,8 +14,6 @@ public abstract class GUIComponent
 {
 	protected int x, y;
 
-	protected float glX, glY;
-
 	protected int width, height;
 
 	protected static final int COLOR = 0;
@@ -28,17 +24,9 @@ public abstract class GUIComponent
 	protected Vector3f color;
 
 	protected RawModel model;
-	Button button = new Button();
 
-	public GUIComponent(int x, int y, int width, int height)
+	public GUIComponent()
 	{
-		this.x = x;
-		this.y = y;
-		this.glX = Maths.toOpenGLWidth(x);
-		this.glY = Maths.toOpenGLHeight(y);
-		this.width = width;
-		this.height = height;
-		model = createMesh(width, height);
 		mode = COLOR;
 		color = new Vector3f(1f, 1f, 1f);
 	}
@@ -61,14 +49,13 @@ public abstract class GUIComponent
 	{
 		this.x = x;
 		this.y = y;
-		this.glX = Maths.toOpenGLWidth(x);
-		this.glY = Maths.toOpenGLHeight(y);
 	}
 
 	public void setSize(int width, int height)
 	{
 		this.width = width;
 		this.height = height;
+		model = createMesh(width, height);
 	}
 
 	public int getX()
@@ -98,7 +85,7 @@ public abstract class GUIComponent
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
-		shader.loadTransformationMatrix(new Vector3f(glX + 1, glY - 1, 0), new Vector3f(0, 0, 0), 1);
+		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x) + 1, Maths.toOpenGLHeight(y)- 1, 0), new Vector3f(0, 0, 0), 1);
 		shader.loadMode(mode);
 		shader.loadColor(color);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);

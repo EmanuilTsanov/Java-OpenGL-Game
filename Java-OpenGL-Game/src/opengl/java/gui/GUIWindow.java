@@ -8,11 +8,6 @@ public class GUIWindow extends GUIComponent
 {
 	private ArrayList<GUIComponent> components = new ArrayList<GUIComponent>();
 
-	public GUIWindow(int x, int y, int width, int height)
-	{
-		super(x, y, width, height);
-	}
-
 	public void addComponent(GUIComponent component)
 	{
 		if (component.getWidth() > width || component.getHeight() > height || component.getX() + component.getWidth() > x + width || component.getY() + component.getHeight() > y + height)

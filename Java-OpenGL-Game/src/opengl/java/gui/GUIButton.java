@@ -13,7 +13,6 @@ import opengl.java.shader.GUIShader;
 
 public class GUIButton extends GUIComponent
 {
-
 	private RawModel bigModel;
 	private float bmX, bmY;
 
@@ -21,26 +20,28 @@ public class GUIButton extends GUIComponent
 
 	private ActionInterface action;
 
-	public GUIButton(int x, int y, int width, int height)
-	{
-		super(x, y, width, height);
-		int a = (int) (width * 1.2f);
-		int b = (int) (height * 1.2f);
-		bigModel = createMesh(a, b);
-		bmX = Maths.toOpenGLWidth((a - width) / 2f);
-		bmY = Maths.toOpenGLHeight((b - height) / 2f);
-	}
-
 	public void addAction(ActionInterface action)
 	{
 		this.action = action;
 	}
 
 	@Override
+	public void setSize(int width, int height)
+	{
+		super.setSize(width, height);
+		int a = (int) (width * 1.2f);
+		int b = (int) (height * 1.2f);
+		bigModel = createMesh(a, b);
+		bmX = (a - width) / 2f;
+		bmY = (b - height) / 2f;
+	}
+
+	@Override
 	public void update()
 	{
 		isHovering();
-		if(isHovering && Mouse.isButtonDown(0)) {
+		if (isHovering && Mouse.isButtonDown(0))
+		{
 			action.onClick();
 		}
 	}
@@ -53,7 +54,7 @@ public class GUIButton extends GUIComponent
 			GL30.glBindVertexArray(bigModel.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
-			shader.loadTransformationMatrix(new Vector3f(glX - bmX, glY - bmY, 0), new Vector3f(0, 0, 0), 1);
+			shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x-bmX), Maths.toOpenGLHeight(y-bmY), 0), new Vector3f(0, 0, 0), 1);
 			shader.loadMode(mode);
 			shader.loadColor(color);
 			GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
