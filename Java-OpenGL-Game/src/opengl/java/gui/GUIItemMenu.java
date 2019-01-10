@@ -1,59 +1,109 @@
 package opengl.java.gui;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import opengl.java.shader.GUIShader;
 
 public class GUIItemMenu extends GUIComponent
 {
+	private int rowLength;
+	private int colLength;
+
+	private int page;
+
 	private int margin;
 	private int buttonWidth;
-	
-	private int rowSize;
 
-	private ArrayList<GUIButton> buttons = new ArrayList<GUIButton>();
+	private HashMap<Integer, HashMap<Integer, GUIButton>> buttons = new HashMap<Integer, HashMap<Integer, GUIButton>>();
 
-	public GUIItemMenu(int row)
+	public GUIItemMenu(int x, int y, int width, int height, int rowLength)
 	{
-		rowSize = row;
+		super(x, y, width, height);
+		this.rowLength = rowLength;
+		calculateDimensions();
 	}
 
-	public void addButton(GUIButton button, int gridX, int gridY)
+	public void calculateDimensions()
 	{
-		button.setPosition(x + gridX * buttonWidth + (gridX + 1) * margin, y + gridY * buttonWidth + (gridY + 1) * margin);
-		button.setSize(buttonWidth, buttonWidth);
-		if (button.getWidth() > width || button.getHeight() > height || button.getX() + button.getWidth() > x + width || button.getY() + button.getHeight() > y + height)
+		margin = width / (5 * this.rowLength);
+		buttonWidth = (width - ((this.rowLength + 1) * margin)) / this.rowLength;
+		colLength = height / (buttonWidth + margin);
+	}
+
+	public GUIButton addButton()
+	{
+		if (buttons.get(page) == null)
 		{
-			System.out.println("There was a problem adding a component.");
+			HashMap<Integer, GUIButton> inner = new HashMap<Integer, GUIButton>();
+			buttons.put(page, inner);
+		}
+		if (buttons.get(page).size() < rowLength * colLength)
+		{
+			int x = (buttons.get(page).size() - ((buttons.get(page).size() / rowLength) * rowLength));
+			int y = buttons.get(page).size() / rowLength;
+			GUIButton button = new GUIButton(getCellX(x), getCellY(y), buttonWidth, buttonWidth);
+			buttons.get(page).put(buttons.get(page).size(), button);
+			return button;
 		}
 		else
 		{
-			buttons.add(button);
+			page++;
+			return addButton();
 		}
-	}
-	
-	@Override
-	public void setPosition(int width, int height) {
-		super.setPosition(width, height);
-		margin = width / (5 * rowSize);
-		buttonWidth = (width - ((rowSize + 1) * margin)) / rowSize;
 	}
 
-	@Override
-	public void render(GUIShader shader)
+	public int getButtonWidth()
 	{
-		for (GUIButton button : buttons)
+		return buttonWidth;
+	}
+
+	public int getMargin()
+	{
+		return margin;
+	}
+
+	public int getCellX(int x)
+	{
+		if (x >= rowLength)
 		{
-			button.render(shader);
+			System.out.println("Invalid cell position.");
+			return 0;
 		}
+		return this.x + x * buttonWidth + (x + 1) * margin;
+	}
+
+	public int getCellY(int y)
+	{
+		if (y >= colLength)
+		{
+			System.out.println("Invalid cell position.");
+			return 0;
+		}
+		return this.y + y * buttonWidth + (y + 1) * margin;
 	}
 
 	@Override
 	public void update()
 	{
-		for (GUIButton button : buttons)
+		for (Map.Entry<Integer, HashMap<Integer, GUIButton>> item : buttons.entrySet())
 		{
-			button.update();
+			for (Map.Entry<Integer, GUIButton> button : item.getValue().entrySet())
+			{
+				button.getValue().update();
+			}
+		}
+	}
+
+	@Override
+	public void render(GUIShader shader)
+	{
+		for (Map.Entry<Integer, HashMap<Integer, GUIButton>> item : buttons.entrySet())
+		{
+			for (Map.Entry<Integer, GUIButton> button : item.getValue().entrySet())
+			{
+				button.getValue().render(shader);
+			}
 		}
 	}
 }

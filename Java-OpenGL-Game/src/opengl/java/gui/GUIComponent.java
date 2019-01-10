@@ -1,8 +1,5 @@
 package opengl.java.gui;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.loader.ModelLoader;
@@ -16,18 +13,17 @@ public abstract class GUIComponent
 
 	protected int width, height;
 
-	protected static final int COLOR = 0;
-	protected static final int TEXTURE = 1;
-
-	protected int mode;
-
 	protected Vector3f color;
 
 	protected RawModel model;
 
-	public GUIComponent()
+	public GUIComponent(int x, int y, int width, int height)
 	{
-		mode = COLOR;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		model = createMesh(width, height);
 		color = new Vector3f(1f, 1f, 1f);
 	}
 
@@ -43,19 +39,6 @@ public abstract class GUIComponent
 	public void setColor(float r, float g, float b)
 	{
 		color = Maths.normalizeColor(new Vector3f(r, g, b));
-	}
-
-	public void setPosition(int x, int y)
-	{
-		this.x = x;
-		this.y = y;
-	}
-
-	public void setSize(int width, int height)
-	{
-		this.width = width;
-		this.height = height;
-		model = createMesh(width, height);
 	}
 
 	public int getX()
@@ -80,17 +63,5 @@ public abstract class GUIComponent
 
 	public abstract void update();
 
-	public void render(GUIShader shader)
-	{
-		GL30.glBindVertexArray(model.getVAOID());
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x) + 1, Maths.toOpenGLHeight(y)- 1, 0), new Vector3f(0, 0, 0), 1);
-		shader.loadMode(mode);
-		shader.loadColor(color);
-		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-		GL30.glBindVertexArray(0);
-	}
+	public abstract void render(GUIShader shader);
 }

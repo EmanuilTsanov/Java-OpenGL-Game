@@ -13,6 +13,7 @@ import opengl.java.shader.GUIShader;
 
 public class GUIButton extends GUIComponent
 {
+
 	private RawModel bigModel;
 	private float bmX, bmY;
 
@@ -20,20 +21,19 @@ public class GUIButton extends GUIComponent
 
 	private ActionInterface action;
 
-	public void addAction(ActionInterface action)
+	public GUIButton(int x, int y, int width, int height)
 	{
-		this.action = action;
-	}
-
-	@Override
-	public void setSize(int width, int height)
-	{
-		super.setSize(width, height);
+		super(x, y, width, height);
 		int a = (int) (width * 1.2f);
 		int b = (int) (height * 1.2f);
 		bigModel = createMesh(a, b);
 		bmX = (a - width) / 2f;
 		bmY = (b - height) / 2f;
+	}
+
+	public void addAction(ActionInterface action)
+	{
+		this.action = action;
 	}
 
 	@Override
@@ -54,8 +54,7 @@ public class GUIButton extends GUIComponent
 			GL30.glBindVertexArray(bigModel.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
-			shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x-bmX), Maths.toOpenGLHeight(y-bmY), 0), new Vector3f(0, 0, 0), 1);
-			shader.loadMode(mode);
+			shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x - bmX) + 1, Maths.toOpenGLHeight(y - bmY) - 1, 0), new Vector3f(0, 0, 0), 1);
 			shader.loadColor(color);
 			GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			GL20.glDisableVertexAttribArray(0);
@@ -63,7 +62,18 @@ public class GUIButton extends GUIComponent
 			GL30.glBindVertexArray(0);
 		}
 		else
-			super.render(shader);
+		{
+			GL30.glBindVertexArray(model.getVAOID());
+			GL20.glEnableVertexAttribArray(0);
+			GL20.glEnableVertexAttribArray(1);
+			shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x)+1, Maths.toOpenGLHeight(y)-1, 0), new Vector3f(0, 0, 0), 1);
+			shader.loadColor(color);
+			GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			GL20.glDisableVertexAttribArray(0);
+			GL20.glDisableVertexAttribArray(1);
+			GL30.glBindVertexArray(0);
+		}
+
 	}
 
 	public void isHovering()
