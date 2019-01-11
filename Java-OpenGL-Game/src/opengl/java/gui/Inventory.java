@@ -1,5 +1,6 @@
 package opengl.java.gui;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -15,12 +16,12 @@ public class Inventory
 
 	private GUIButton buttonInv;
 
-	private boolean isOpened = true;
+	private boolean isOpened;
 
 	public Inventory()
 	{
 		shader = new GUIShader();
-		window = new GUIWindow(0, 0, Display.getWidth() / 3, Display.getHeight(), null);
+		window = new GUIWindow(-Display.getWidth() / 3, 0, Display.getWidth() / 3, Display.getHeight(), null);
 		window.setColor(45, 147, 239);
 		setupItemMenu();
 		window.addComponent(menu);
@@ -30,7 +31,8 @@ public class Inventory
 	{
 		menu = new GUIItemMenu(window.getX(), window.getY() + 30, window.getWidth(), window.getHeight() - 60, window, 3);
 		button = menu.addButton();
-		button.addAction(new ActionInterface() {
+		button.addAction(new ActionInterface()
+		{
 
 			@Override
 			public void onClick()
@@ -54,7 +56,8 @@ public class Inventory
 		button13 = menu.addButton();
 		button14 = menu.addButton();
 		button15 = menu.addButton();
-		button15.addAction(new ActionInterface() {
+		button15.addAction(new ActionInterface()
+		{
 
 			@Override
 			public void onClick()
@@ -65,7 +68,8 @@ public class Inventory
 		});
 
 		buttonInv = new GUIButton(10, 10, 50, 50, null);
-		buttonInv.addAction(new ActionInterface() {
+		buttonInv.addAction(new ActionInterface()
+		{
 
 			@Override
 			public void onClick()
@@ -96,16 +100,35 @@ public class Inventory
 			window.update();
 			if (isOpened && window.getX() < 0)
 			{
-				window.moveByX((int)FrameController.getFrameTimeSeconds() * 1000);
-				System.out.println(1);
+				window.moveByX((int) (FrameController.getFrameTimeSeconds() * 3000));
+				if (window.getX() > 0)
+					window.moveByX(-window.x);
 			}
 			else if (!isOpened && window.getX() + window.getWidth() > 0)
 			{
-				window.moveByX((int)-(FrameController.getFrameTimeSeconds() * 1000));
-				System.out.println(1);
+				window.moveByX((int) -(FrameController.getFrameTimeSeconds() * 3000));
+				System.out.println(2);
 			}
 		}
 		buttonInv.update();
+		while (Keyboard.next())
+		{
+			if (Keyboard.getEventKeyState())
+			{
+			}
+			else
+			{
+
+				if (Keyboard.getEventKey() == Keyboard.KEY_I)
+				{
+					if (isOpened)
+						close();
+					else
+						open();
+					System.out.println(isOpened);
+				}
+			}
+		}
 	}
 
 	public void render()

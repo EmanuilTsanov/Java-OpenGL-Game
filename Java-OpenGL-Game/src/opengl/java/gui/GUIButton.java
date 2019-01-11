@@ -40,7 +40,6 @@ public class GUIButton extends GUIComponent
 	public void update()
 	{
 		isHovering();
-		System.out.println(2);
 		while (Mouse.next())
 		{
 			if (Mouse.getEventButtonState())
@@ -52,7 +51,6 @@ public class GUIButton extends GUIComponent
 						if (action != null)
 							action.onClick();
 					}
-					System.out.println(1);
 				}
 			}
 		}
