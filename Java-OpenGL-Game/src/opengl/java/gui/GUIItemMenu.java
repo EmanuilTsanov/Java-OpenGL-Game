@@ -13,12 +13,12 @@ public class GUIItemMenu extends GUIComponent
 	private int page;
 	private int currentPage;
 
-	private int margin;
-	private int buttonWidth;
+	private float margin;
+	private float buttonWidth;
 
 	private HashMap<Integer, HashMap<Integer, GUIButton>> buttons = new HashMap<Integer, HashMap<Integer, GUIButton>>();
 
-	public GUIItemMenu(int x, int y, int width, int height, GUIComponent parent, int rowLength)
+	public GUIItemMenu(float x, float y, float width, float height, GUIComponent parent, int rowLength)
 	{
 		super(x, y, width, height, parent);
 		this.rowLength = rowLength;
@@ -29,7 +29,7 @@ public class GUIItemMenu extends GUIComponent
 	{
 		margin = width / (5 * this.rowLength);
 		buttonWidth = (width - ((this.rowLength + 1) * margin)) / this.rowLength;
-		colLength = height / (buttonWidth + margin);
+		colLength = (int)(height / (buttonWidth + margin));
 	}
 
 	public GUIButton addButton()
@@ -54,17 +54,17 @@ public class GUIItemMenu extends GUIComponent
 		}
 	}
 
-	public int getButtonWidth()
+	public float getButtonWidth()
 	{
 		return buttonWidth;
 	}
 
-	public int getMargin()
+	public float getMargin()
 	{
 		return margin;
 	}
 
-	public int getCellX(int x)
+	public float getCellX(int x)
 	{
 		if (x >= rowLength)
 		{
@@ -74,7 +74,7 @@ public class GUIItemMenu extends GUIComponent
 		return this.x + x * buttonWidth + (x + 1) * margin;
 	}
 
-	public int getCellY(int y)
+	public float getCellY(int y)
 	{
 		if (y >= colLength)
 		{
@@ -85,7 +85,7 @@ public class GUIItemMenu extends GUIComponent
 	}
 
 	@Override
-	public void moveByX(int distance)
+	public void moveByX(float distance)
 	{
 		super.moveByX(distance);
 		for (Map.Entry<Integer, GUIButton> button : buttons.get(currentPage).entrySet())
@@ -95,7 +95,7 @@ public class GUIItemMenu extends GUIComponent
 	}
 
 	@Override
-	public void moveByY(int distance)
+	public void moveByY(float distance)
 	{
 		super.moveByY(distance);
 		for (Map.Entry<Integer, GUIButton> button : buttons.get(currentPage).entrySet())

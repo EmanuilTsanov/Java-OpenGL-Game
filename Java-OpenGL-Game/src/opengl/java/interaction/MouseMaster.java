@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import opengl.java.view.Camera;
 
-public class MouseLogic
+public class MouseMaster
 {
 	private MousePicker picker = MousePicker.getInstance();
 
@@ -24,15 +24,15 @@ public class MouseLogic
 	private Vector2f axis = new Vector2f(0, 0);
 	private Vector2f mouseCoords = new Vector2f(0, 0);
 
-	private static MouseLogic singleton = new MouseLogic();
+	private static MouseMaster singleton = new MouseMaster();
 
-	private MouseLogic()
+	private MouseMaster()
 	{
 		currentStep = FIRST_STEP;
 		stepLength = Camera.getInstance().getDistance() / (float) ZOOM_STEPS;
 	}
 
-	public static MouseLogic getInstance()
+	public static MouseMaster getInstance()
 	{
 		return singleton;
 	}

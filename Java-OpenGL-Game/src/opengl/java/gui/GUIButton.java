@@ -21,7 +21,7 @@ public class GUIButton extends GUIComponent
 
 	private ActionInterface action;
 
-	public GUIButton(int x, int y, int width, int height, GUIComponent parent)
+	public GUIButton(float x, float y, float width, float height, GUIComponent parent)
 	{
 		super(x, y, width, height, parent);
 		int a = (int) (width * 1.2f);
@@ -40,10 +40,21 @@ public class GUIButton extends GUIComponent
 	public void update()
 	{
 		isHovering();
-		if (isHovering && Mouse.isButtonDown(0))
+		System.out.println(2);
+		while (Mouse.next())
 		{
-			if (action != null)
-				action.onClick();
+			if (Mouse.getEventButtonState())
+			{
+				if (Mouse.getEventButton() == 0)
+				{
+					if (isHovering)
+					{
+						if (action != null)
+							action.onClick();
+					}
+					System.out.println(1);
+				}
+			}
 		}
 	}
 

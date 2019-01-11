@@ -97,6 +97,7 @@ public class Inventory
 			if (isOpened && window.getX() < 0)
 			{
 				window.moveByX((int)FrameController.getFrameTimeSeconds() * 1000);
+				System.out.println(1);
 			}
 			else if (!isOpened && window.getX() + window.getWidth() > 0)
 			{

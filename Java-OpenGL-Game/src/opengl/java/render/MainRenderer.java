@@ -19,7 +19,7 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
 import opengl.java.gui.Inventory;
-import opengl.java.interaction.MouseLogic;
+import opengl.java.interaction.MouseMaster;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
 import opengl.java.management.SRCLoader;
@@ -333,7 +333,7 @@ public class MainRenderer
 
 	public static void render()
 	{
-		MouseLogic.getInstance().update(camera);
+		MouseMaster.getInstance().update(camera);
 		prepareScreen(0, 1, 1);
 		mainShader.start();
 		mainShader.loadLight(sun);

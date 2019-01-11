@@ -32,7 +32,7 @@ public class GUIWindow extends GUIComponent
 	}
 
 	@Override
-	public void moveByX(int distance)
+	public void moveByX(float distance)
 	{
 		super.moveByX(distance);
 		for (GUIComponent component : components)
@@ -42,7 +42,7 @@ public class GUIWindow extends GUIComponent
 	}
 
 	@Override
-	public void moveByY(int distance)
+	public void moveByY(float distance)
 	{
 		super.moveByY(distance);
 		for (GUIComponent component : components)

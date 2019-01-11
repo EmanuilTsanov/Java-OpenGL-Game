@@ -9,15 +9,15 @@ import opengl.java.shader.GUIShader;
 
 public abstract class GUIComponent
 {
-	protected int x, y;
+	protected float x, y;
 
-	protected int width, height;
+	protected float width, height;
 
 	protected Vector3f color;
 
 	protected RawModel model;
 
-	public GUIComponent(int x, int y, int width, int height, GUIComponent parent)
+	public GUIComponent(float x, float y, float width, float height, GUIComponent parent)
 	{
 		this.x = x;
 		this.y = y;
@@ -27,7 +27,7 @@ public abstract class GUIComponent
 		color = new Vector3f(1f, 1f, 1f);
 	}
 
-	public RawModel createMesh(int width, int height)
+	public RawModel createMesh(float width, float height)
 	{
 		float[] vertices = { -1, 1, 0, -1, Maths.toOpenGLHeight(height), 0, Maths.toOpenGLWidth(width), Maths.toOpenGLHeight(height), 0, Maths.toOpenGLWidth(width), 1, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
@@ -41,32 +41,32 @@ public abstract class GUIComponent
 		color = Maths.normalizeColor(new Vector3f(r, g, b));
 	}
 
-	public void moveByX(int distance)
+	public void moveByX(float distance)
 	{
 		x += distance;
 	}
 
-	public void moveByY(int distance)
+	public void moveByY(float distance)
 	{
 		y += distance;
 	}
 
-	public int getX()
+	public float getX()
 	{
 		return x;
 	}
 
-	public int getY()
+	public float getY()
 	{
 		return y;
 	}
 
-	public int getWidth()
+	public float getWidth()
 	{
 		return width;
 	}
 
-	public int getHeight()
+	public float getHeight()
 	{
 		return height;
 	}
