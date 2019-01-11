@@ -10,19 +10,24 @@ import opengl.java.shader.GUIShader;
 public abstract class GUIComponent
 {
 	protected int x, y;
+	
+	protected int renderX, renderY;
 
 	protected int width, height;
 
 	protected Vector3f color;
 
 	protected RawModel model;
+	
+	protected GUIComponent parent;
 
-	public GUIComponent(int x, int y, int width, int height)
+	public GUIComponent(int x, int y, int width, int height, GUIComponent parent)
 	{
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.parent = parent;
 		model = createMesh(width, height);
 		color = new Vector3f(1f, 1f, 1f);
 	}
@@ -49,6 +54,13 @@ public abstract class GUIComponent
 	public int getY()
 	{
 		return y;
+	}
+	
+	public int getRenderX() {
+		return renderX;
+	}
+	public int getRenderY() {
+		return renderY;
 	}
 
 	public int getWidth()

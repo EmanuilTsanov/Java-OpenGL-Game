@@ -11,15 +11,16 @@ public class GUIItemMenu extends GUIComponent
 	private int colLength;
 
 	private int page;
+	private int currentPage;
 
 	private int margin;
 	private int buttonWidth;
 
 	private HashMap<Integer, HashMap<Integer, GUIButton>> buttons = new HashMap<Integer, HashMap<Integer, GUIButton>>();
 
-	public GUIItemMenu(int x, int y, int width, int height, int rowLength)
+	public GUIItemMenu(int x, int y, int width, int height, GUIComponent parent, int rowLength)
 	{
-		super(x, y, width, height);
+		super(x, y, width, height, parent);
 		this.rowLength = rowLength;
 		calculateDimensions();
 	}
@@ -42,7 +43,7 @@ public class GUIItemMenu extends GUIComponent
 		{
 			int x = (buttons.get(page).size() - ((buttons.get(page).size() / rowLength) * rowLength));
 			int y = buttons.get(page).size() / rowLength;
-			GUIButton button = new GUIButton(getCellX(x), getCellY(y), buttonWidth, buttonWidth);
+			GUIButton button = new GUIButton(getCellX(x), getCellY(y), buttonWidth, buttonWidth, this);
 			buttons.get(page).put(buttons.get(page).size(), button);
 			return button;
 		}
@@ -83,27 +84,36 @@ public class GUIItemMenu extends GUIComponent
 		return this.y + y * buttonWidth + (y + 1) * margin;
 	}
 
+	public void changePage(int page)
+	{
+		this.currentPage = page;
+	}
+
 	@Override
 	public void update()
 	{
-		for (Map.Entry<Integer, HashMap<Integer, GUIButton>> item : buttons.entrySet())
+		if (parent != null)
 		{
-			for (Map.Entry<Integer, GUIButton> button : item.getValue().entrySet())
-			{
-				button.getValue().update();
-			}
+			renderX = parent.getRenderX() + x;
+			renderY = parent.getRenderY() + y;
+		}
+		else
+		{
+			renderX = x;
+			renderY = y;
+		}
+		for (Map.Entry<Integer, GUIButton> button : buttons.get(currentPage).entrySet())
+		{
+			button.getValue().update();
 		}
 	}
 
 	@Override
 	public void render(GUIShader shader)
 	{
-		for (Map.Entry<Integer, HashMap<Integer, GUIButton>> item : buttons.entrySet())
+		for (Map.Entry<Integer, GUIButton> button : buttons.get(currentPage).entrySet())
 		{
-			for (Map.Entry<Integer, GUIButton> button : item.getValue().entrySet())
-			{
-				button.getValue().render(shader);
-			}
+			button.getValue().render(shader);
 		}
 	}
 }
