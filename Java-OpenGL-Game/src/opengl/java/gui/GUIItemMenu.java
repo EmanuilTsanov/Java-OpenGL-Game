@@ -84,6 +84,26 @@ public class GUIItemMenu extends GUIComponent
 		return this.y + y * buttonWidth + (y + 1) * margin;
 	}
 
+	@Override
+	public void moveByX(int distance)
+	{
+		super.moveByX(distance);
+		for (Map.Entry<Integer, GUIButton> button : buttons.get(currentPage).entrySet())
+		{
+			button.getValue().moveByX(distance);
+		}
+	}
+
+	@Override
+	public void moveByY(int distance)
+	{
+		super.moveByY(distance);
+		for (Map.Entry<Integer, GUIButton> button : buttons.get(currentPage).entrySet())
+		{
+			button.getValue().moveByY(distance);
+		}
+	}
+
 	public void changePage(int page)
 	{
 		this.currentPage = page;
@@ -92,16 +112,6 @@ public class GUIItemMenu extends GUIComponent
 	@Override
 	public void update()
 	{
-		if (parent != null)
-		{
-			renderX = parent.getRenderX() + x;
-			renderY = parent.getRenderY() + y;
-		}
-		else
-		{
-			renderX = x;
-			renderY = y;
-		}
 		for (Map.Entry<Integer, GUIButton> button : buttons.get(currentPage).entrySet())
 		{
 			button.getValue().update();

@@ -21,7 +21,7 @@ public class GUIButton extends GUIComponent
 
 	private ActionInterface action;
 
-	public GUIButton(int x, int y, int width, int height,GUIComponent parent)
+	public GUIButton(int x, int y, int width, int height, GUIComponent parent)
 	{
 		super(x, y, width, height, parent);
 		int a = (int) (width * 1.2f);
@@ -39,21 +39,11 @@ public class GUIButton extends GUIComponent
 	@Override
 	public void update()
 	{
-		if (parent != null)
-		{
-			renderX = parent.getRenderX() + x;
-			renderY = parent.getRenderY() + y;
-		}
-		else
-		{
-			renderX = x;
-			renderY = y;
-		}
 		isHovering();
 		if (isHovering && Mouse.isButtonDown(0))
 		{
-			if(action!=null)
-			action.onClick();
+			if (action != null)
+				action.onClick();
 		}
 	}
 
@@ -65,7 +55,7 @@ public class GUIButton extends GUIComponent
 			GL30.glBindVertexArray(bigModel.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
-			shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(renderX - bmX) + 1, Maths.toOpenGLHeight(renderY - bmY) - 1, 0), new Vector3f(0, 0, 0), 1);
+			shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x - bmX) + 1, Maths.toOpenGLHeight(y - bmY) - 1, 0), new Vector3f(0, 0, 0), 1);
 			shader.loadColor(color);
 			GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			GL20.glDisableVertexAttribArray(0);
@@ -77,7 +67,7 @@ public class GUIButton extends GUIComponent
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
-			shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(renderX) + 1, Maths.toOpenGLHeight(renderY) - 1, 0), new Vector3f(0, 0, 0), 1);
+			shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x) + 1, Maths.toOpenGLHeight(y) - 1, 0), new Vector3f(0, 0, 0), 1);
 			shader.loadColor(color);
 			GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			GL20.glDisableVertexAttribArray(0);
@@ -89,7 +79,7 @@ public class GUIButton extends GUIComponent
 
 	public void isHovering()
 	{
-		if (Mouse.getX() >= renderX && Mouse.getX() <= renderX + width && Display.getHeight() - Mouse.getY() >= renderY && Display.getHeight() - Mouse.getY() < renderY + height)
+		if (Mouse.getX() >= x && Mouse.getX() <= x + width && Display.getHeight() - Mouse.getY() >= y && Display.getHeight() - Mouse.getY() < y + height)
 			isHovering = true;
 		else
 			isHovering = false;
