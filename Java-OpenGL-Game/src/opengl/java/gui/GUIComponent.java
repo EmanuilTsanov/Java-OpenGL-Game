@@ -1,5 +1,7 @@
 package opengl.java.gui;
 
+import java.util.ArrayList;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.loader.ModelLoader;
@@ -17,6 +19,8 @@ public abstract class GUIComponent
 
 	protected RawModel model;
 
+	private static ArrayList<GUIComponent> components = new ArrayList<GUIComponent>();
+
 	public GUIComponent(float x, float y, float width, float height, GUIComponent parent)
 	{
 		this.x = x;
@@ -25,9 +29,10 @@ public abstract class GUIComponent
 		this.height = height;
 		model = createMesh(width, height);
 		color = new Vector3f(1f, 1f, 1f);
+		components.add(this);
 	}
 
-	public RawModel createMesh(float width, float height)
+	protected RawModel createMesh(float width, float height)
 	{
 		float[] vertices = { -1, 1, 0, -1, Maths.toOpenGLHeight(height), 0, Maths.toOpenGLWidth(width), Maths.toOpenGLHeight(height), 0, Maths.toOpenGLWidth(width), 1, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
@@ -69,6 +74,11 @@ public abstract class GUIComponent
 	public float getHeight()
 	{
 		return height;
+	}
+
+	public ArrayList<GUIComponent> getComponents()
+	{
+		return components;
 	}
 
 	public abstract void update();
