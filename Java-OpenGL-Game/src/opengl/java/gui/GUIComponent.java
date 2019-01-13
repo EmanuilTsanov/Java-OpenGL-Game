@@ -19,6 +19,8 @@ public abstract class GUIComponent
 
 	protected RawModel model;
 
+	private static ArrayList<GUIComponent> clickableComponents = new ArrayList<GUIComponent>();
+
 	private static ArrayList<GUIComponent> components = new ArrayList<GUIComponent>();
 
 	public GUIComponent(float x, float y, float width, float height, GUIComponent parent)
@@ -76,9 +78,14 @@ public abstract class GUIComponent
 		return height;
 	}
 
-	public ArrayList<GUIComponent> getComponents()
+	public static ArrayList<GUIComponent> getAllComponents()
 	{
 		return components;
+	}
+
+	public static ArrayList<GUIComponent> getClickableComponents()
+	{
+		return clickableComponents;
 	}
 
 	public abstract void update();

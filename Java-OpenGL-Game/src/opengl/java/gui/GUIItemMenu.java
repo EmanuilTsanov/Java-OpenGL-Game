@@ -29,7 +29,7 @@ public class GUIItemMenu extends GUIComponent
 	{
 		margin = width / (5 * this.rowLength);
 		buttonWidth = (width - ((this.rowLength + 1) * margin)) / this.rowLength;
-		colLength = (int)(height / (buttonWidth + margin));
+		colLength = (int) (height / (buttonWidth + margin));
 	}
 
 	public GUIButton addButton()
@@ -45,6 +45,7 @@ public class GUIItemMenu extends GUIComponent
 			int y = buttons.get(page).size() / rowLength;
 			GUIButton button = new GUIButton(getCellX(x), getCellY(y), buttonWidth, buttonWidth, this);
 			buttons.get(page).put(buttons.get(page).size(), button);
+			System.out.println(buttons.get(page).size());
 			return button;
 		}
 		else
@@ -88,9 +89,12 @@ public class GUIItemMenu extends GUIComponent
 	public void moveByX(float distance)
 	{
 		super.moveByX(distance);
-		for (Map.Entry<Integer, GUIButton> button : buttons.get(currentPage).entrySet())
+		for (Map.Entry<Integer, HashMap<Integer, GUIButton>> component : buttons.entrySet())
 		{
-			button.getValue().moveByX(distance);
+			for (Map.Entry<Integer, GUIButton> button : component.getValue().entrySet())
+			{
+				button.getValue().moveByX(distance);
+			}
 		}
 	}
 
@@ -98,9 +102,12 @@ public class GUIItemMenu extends GUIComponent
 	public void moveByY(float distance)
 	{
 		super.moveByY(distance);
-		for (Map.Entry<Integer, GUIButton> button : buttons.get(currentPage).entrySet())
+		for (Map.Entry<Integer, HashMap<Integer, GUIButton>> component : buttons.entrySet())
 		{
-			button.getValue().moveByY(distance);
+			for (Map.Entry<Integer, GUIButton> button : component.getValue().entrySet())
+			{
+				button.getValue().moveByY(distance);
+			}
 		}
 	}
 

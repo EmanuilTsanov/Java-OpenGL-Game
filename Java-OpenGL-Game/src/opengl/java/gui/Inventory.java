@@ -56,7 +56,7 @@ public class Inventory
 		button13 = menu.addButton();
 		button14 = menu.addButton();
 		button15 = menu.addButton();
-		button15.addAction(new ActionInterface()
+		button13.addAction(new ActionInterface()
 		{
 
 			@Override
@@ -83,6 +83,16 @@ public class Inventory
 		});
 	}
 
+	public static void click()
+	{
+		for (GUIComponent g : GUIComponent.getClickableComponents())
+		{
+			GUIButton g1 = (GUIButton) g;
+			if (g1.isHovering())
+				g1.click();
+		}
+	}
+
 	public void open()
 	{
 		isOpened = true;
@@ -107,7 +117,6 @@ public class Inventory
 			else if (!isOpened && window.getX() + window.getWidth() > 0)
 			{
 				window.moveByX((int) -(FrameController.getFrameTimeSeconds() * 3000));
-				System.out.println(2);
 			}
 		}
 		buttonInv.update();
@@ -125,7 +134,6 @@ public class Inventory
 						close();
 					else
 						open();
-					System.out.println(isOpened);
 				}
 			}
 		}

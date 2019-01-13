@@ -17,8 +17,6 @@ public class GUIButton extends GUIComponent
 	private RawModel bigModel;
 	private float bmX, bmY;
 
-	private boolean isHovering;
-
 	private ActionInterface action;
 
 	public GUIButton(float x, float y, float width, float height, GUIComponent parent)
@@ -29,6 +27,7 @@ public class GUIButton extends GUIComponent
 		bigModel = createMesh(a, b);
 		bmX = (a - width) / 2f;
 		bmY = (b - height) / 2f;
+		super.getClickableComponents().add(this);
 	}
 
 	public void addAction(ActionInterface action)
@@ -39,27 +38,12 @@ public class GUIButton extends GUIComponent
 	@Override
 	public void update()
 	{
-		isHovering();
-		while (Mouse.next())
-		{
-			if (Mouse.getEventButtonState())
-			{
-				if (Mouse.getEventButton() == 0)
-				{
-					if (isHovering)
-					{
-						if (action != null)
-							action.onClick();
-					}
-				}
-			}
-		}
 	}
 
 	@Override
 	public void render(GUIShader shader)
 	{
-		if (isHovering)
+		if (isHovering())
 		{
 			GL30.glBindVertexArray(bigModel.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
@@ -78,7 +62,6 @@ public class GUIButton extends GUIComponent
 			GL20.glEnableVertexAttribArray(1);
 			shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x) + 1, Maths.toOpenGLHeight(y) - 1, 0), new Vector3f(0, 0, 0), 1);
 			shader.loadColor(color);
-			System.out.println(x);
 			GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			GL20.glDisableVertexAttribArray(0);
 			GL20.glDisableVertexAttribArray(1);
@@ -87,11 +70,17 @@ public class GUIButton extends GUIComponent
 
 	}
 
-	public void isHovering()
+	public void click()
+	{
+		if (action != null)
+			action.onClick();
+	}
+
+	public boolean isHovering()
 	{
 		if (Mouse.getX() >= x && Mouse.getX() <= x + width && Display.getHeight() - Mouse.getY() >= y && Display.getHeight() - Mouse.getY() < y + height)
-			isHovering = true;
+			return true;
 		else
-			isHovering = false;
+			return false;
 	}
 }
