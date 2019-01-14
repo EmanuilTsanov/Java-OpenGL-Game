@@ -44,13 +44,6 @@ public class MouseMaster
 		while (Mouse.next())
 		{
 			handleClicks(camera);
-			if (Mouse.getEventButtonState())
-			{
-				if (Mouse.getEventButton() == 0)
-				{
-					Inventory.click();
-				}
-			}
 		}
 		int dWheel = Mouse.getDWheel();
 		if (mmb)
@@ -59,7 +52,6 @@ public class MouseMaster
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
 			float distance = (float) (camera.getDistance() * Math.cos(Math.toRadians(camera.getRotation().x)));
 			float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().getY())));
-
 			float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().getY())));
 			camera.setPosition(axis.getX() - dx, camera.getPosition().y, axis.getY() + dy);
 		}

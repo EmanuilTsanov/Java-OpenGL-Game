@@ -18,7 +18,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
-import opengl.java.gui.Inventory;
 import opengl.java.interaction.MouseMaster;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
@@ -71,8 +70,6 @@ public class MainRenderer
 	private static HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getEntityHashMap();
 
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
-
-	private static Inventory inv = new Inventory();
 	static
 	{
 		enableCulling();
@@ -204,6 +201,17 @@ public class MainRenderer
 						|| currentEntity.getPosition().z - camera.getPosition().z > Maths.getFarPlane()
 						|| camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
 					continue;
+				{
+					float dx = (float) (Maths.getFarPlane() / 2 * Math.sin(Math.toRadians(camera.getRotation().y - 90)));
+					float dy = (float) (Maths.getFarPlane() / 2 * Math.cos(Math.toRadians(camera.getRotation().y - 90)));
+					float dx1 = camera.getPosition().x + dx;
+					float dy1 = camera.getPosition().z - dy;
+					float dx2 = camera.getPosition().x - dx;
+					float dy2 = camera.getPosition().z + dy;
+					float d = (currentEntity.getPosition().x - dx1) * (dy2 - dy1) - (currentEntity.getPosition().z - dy1) * (dx2 - dx1);
+					if (d < 0)
+						continue;
+				}
 				mainShader.loadTransformationMatrix(currentEntity.getPosition(), currentEntity.getRotation(), currentEntity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -349,7 +357,5 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
-		inv.update();
-		inv.render();
 	}
 }
