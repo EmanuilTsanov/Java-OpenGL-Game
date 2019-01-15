@@ -33,6 +33,11 @@ public abstract class GUIComponent
 		this.height = height;
 	}
 
+	public void setBackgroundColor(Vector3f color)
+	{
+		this.bgcolor = color;
+	}
+
 	protected RawModel createMesh(float width, float height)
 	{
 		float[] vertices = { -1, 1, 0, -1, Maths.toOpenGLHeight(height), 0, Maths.toOpenGLWidth(width), Maths.toOpenGLHeight(height), 0, Maths.toOpenGLWidth(width), 1, 0 };

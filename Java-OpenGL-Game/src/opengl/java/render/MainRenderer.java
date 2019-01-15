@@ -202,8 +202,8 @@ public class MainRenderer
 						|| camera.getPosition().z - currentEntity.getPosition().z > Maths.getFarPlane())
 					continue;
 				{
-					float dx = (float) (Maths.getFarPlane() / 2 * Math.sin(Math.toRadians(camera.getRotation().y - 90)));
-					float dy = (float) (Maths.getFarPlane() / 2 * Math.cos(Math.toRadians(camera.getRotation().y - 90)));
+					float dx = (float) (Maths.getFarPlane() * Math.sin(Math.toRadians(camera.getRotation().y - 90)));
+					float dy = (float) (Maths.getFarPlane() * Math.cos(Math.toRadians(camera.getRotation().y - 90)));
 					float dx1 = camera.getPosition().x + dx;
 					float dy1 = camera.getPosition().z - dy;
 					float dx2 = camera.getPosition().x - dx;
