@@ -31,6 +31,7 @@ public abstract class GUIComponent
 	{
 		this.width = width;
 		this.height = height;
+		model = createMesh(width, height);
 	}
 
 	public void setBackgroundColor(Vector3f color)

@@ -1,6 +1,6 @@
 package opengl.java.gui;
 
-public interface ActionInterface
+public interface Action
 {
 	public void onClick();
 }

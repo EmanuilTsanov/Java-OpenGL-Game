@@ -18,6 +18,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
+import opengl.java.gui.Inventory;
 import opengl.java.interaction.MouseMaster;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
@@ -70,6 +71,8 @@ public class MainRenderer
 	private static HashMap<Integer, HashMap<Integer, Entity>> entityArray = EntityManager.getEntityHashMap();
 
 	private static ShadowMapMasterRenderer smmr = new ShadowMapMasterRenderer(camera);
+
+	public static Inventory inv = new Inventory();
 	static
 	{
 		enableCulling();
@@ -357,5 +360,6 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
+		inv.render();
 	}
 }

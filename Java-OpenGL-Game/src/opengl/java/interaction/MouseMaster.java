@@ -44,6 +44,13 @@ public class MouseMaster
 		while (Mouse.next())
 		{
 			handleClicks(camera);
+			if (Mouse.getEventButtonState())
+			{
+				if (Mouse.getEventButton() == 0)
+				{
+					Inventory.mouseClick();
+				}
+			}
 		}
 		int dWheel = Mouse.getDWheel();
 		if (mmb)
