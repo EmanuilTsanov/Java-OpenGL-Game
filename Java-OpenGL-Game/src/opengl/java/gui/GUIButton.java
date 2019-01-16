@@ -19,6 +19,14 @@ public class GUIButton extends GUIComponent
 		this.action = action;
 	}
 
+	public boolean isHovering()
+	{
+		float x = Mouse.getX();
+		float y = Mouse.getY();
+		return x > this.x && x < this.x + this.width && Display.getHeight() - y > this.y && Display.getHeight() - y < this.y + this.height;
+	}
+
+	@Override
 	public void mouseClick()
 	{
 		if (isHovering())
@@ -26,13 +34,6 @@ public class GUIButton extends GUIComponent
 			if (action != null)
 				action.onClick();
 		}
-	}
-
-	public boolean isHovering()
-	{
-		float x = Mouse.getX();
-		float y = Mouse.getY();
-		return x > this.x && x < this.x + this.width && Display.getHeight() - y > this.y && Display.getHeight() - y < this.y + this.height;
 	}
 
 	@Override
@@ -45,6 +46,7 @@ public class GUIButton extends GUIComponent
 	{
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
+		shader.loadColor(bgcolor);
 		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x) + 1, Maths.toOpenGLHeight(y) - 1, 0), new Vector3f(0, 0, 0), 1f);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);

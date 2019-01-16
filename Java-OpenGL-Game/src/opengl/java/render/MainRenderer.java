@@ -51,7 +51,7 @@ public class MainRenderer
 
 	private static Camera camera = Camera.getInstance();
 
-	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.loadTexture("snowT").getID());
+	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.loadTexture("grass").getID());
 	private static TerrainTexture rTexture = new TerrainTexture(SRCLoader.loadTexture("dirt").getID());
 	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.loadTexture("path").getID());
 	private static TerrainTexture bTexture = new TerrainTexture(SRCLoader.loadTexture("rocks").getID());
@@ -84,14 +84,6 @@ public class MainRenderer
 		Random rand = new Random();
 		for (int i = 0; i < 1500; i++)
 		{
-			Entity e = Entity.christmasTree.getCopy();
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
-			EntityManager.addEntity(e);
-		}
-		for (int i = 0; i < 1500; i++)
-		{
 			Entity e = Entity.pineTree.getCopy();
 			float x = rand.nextFloat() * terrain.getSize();
 			float z = rand.nextFloat() * terrain.getSize();
@@ -101,14 +93,6 @@ public class MainRenderer
 		for (int i = 0; i < 10000; i++)
 		{
 			Entity e = Entity.grass.getCopy();
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
-			EntityManager.addEntity(e);
-		}
-		for (int i = 0; i < 2000; i++)
-		{
-			Entity e = Entity.snowman.getCopy();
 			float x = rand.nextFloat() * terrain.getSize();
 			float z = rand.nextFloat() * terrain.getSize();
 			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
@@ -360,6 +344,7 @@ public class MainRenderer
 		fontShader.loadColor(new Vector3f(0, 0, 0));
 		renderText(FPSCounter.getMesh());
 		fontShader.stop();
+		inv.update();
 		inv.render();
 	}
 }

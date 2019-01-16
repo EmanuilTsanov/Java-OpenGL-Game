@@ -19,6 +19,7 @@ public abstract class GUIComponent
 
 	public GUIComponent()
 	{
+		bgcolor = new Vector3f(0, 0, 1);
 	}
 
 	public void setPosition(int x, int y)
@@ -34,9 +35,20 @@ public abstract class GUIComponent
 		model = createMesh(width, height);
 	}
 
-	public void setBackgroundColor(Vector3f color)
+	public void setBackgroundColor(float r, float g, float b)
 	{
-		this.bgcolor = color;
+		float var = 1 / 255f;
+		this.bgcolor = new Vector3f(var * r, var * g, var * b);
+	}
+
+	public int getWidth()
+	{
+		return width;
+	}
+
+	public int getHeight()
+	{
+		return height;
 	}
 
 	protected RawModel createMesh(float width, float height)
@@ -47,6 +59,8 @@ public abstract class GUIComponent
 		float[] normals = { 0 };
 		return ModelLoader.loadModel(vertices, indices, textureCoords, normals);
 	}
+
+	public abstract void mouseClick();
 
 	public abstract void update();
 

@@ -1,5 +1,6 @@
 package opengl.java.gui;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import opengl.java.shader.GUIShader;
@@ -8,38 +9,53 @@ public class Inventory
 {
 	private GUIShader shader;
 
-	private static GUIButton button;
+	private static GUIWindow window;
+	private static GUIButtonGrid grid;
+	private static GUIButton button, button1;
 
 	public Inventory()
 	{
 		shader = new GUIShader();
+		window = new GUIWindow();
+		grid = new GUIButtonGrid(3,4);
+		grid.setBackgroundColor(100, 1, 1);
 		button = new GUIButton();
-		button.setPosition(10, 10);
-		button.setSize(100, 100);
-		button.addAction(new Action()
+		button1 = new GUIButton();
+		window.setPosition(0, 0);
+		window.setSize(Display.getWidth() / 3, Display.getHeight());
+		grid.setPosition(0, 100);
+		grid.setSize(window.getWidth(), window.getHeight() - 200);
+		window.setBackgroundColor(239, 46, 137);
+		window.addComponent(grid);
+		grid.addButton(button);
+		for (int i = 0; i < 50; i++)
 		{
+			grid.addButton(new GUIButton());
+		}
+		button.addAction(new Action() {
 			@Override
 			public void onClick()
 			{
+				System.out.println(1);
 			}
 		});
 	}
 
 	public static void mouseClick()
 	{
-		button.mouseClick();
+		window.mouseClick();
 	}
 
 	public void update()
 	{
-		button.update();
+		window.update();
 	}
 
 	public void render()
 	{
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		shader.start();
-		button.render(shader);
+		window.render(shader);
 		shader.stop();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
