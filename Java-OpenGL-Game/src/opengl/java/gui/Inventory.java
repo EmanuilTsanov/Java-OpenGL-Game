@@ -21,8 +21,8 @@ public class Inventory
 		button = new GUIButton();
 		window.setPosition(0, 0);
 		window.setSize(Display.getWidth() / 3, Display.getHeight());
-		grid.setPosition(0, 100);
-		grid.setSize(window.getWidth(), window.getHeight() - 200);
+		grid.setPosition(0, 60);
+		grid.setSize(window.getWidth(), window.getHeight() - 120);
 		window.setBackgroundColor(239, 46, 137);
 		window.addComponent(grid);
 		grid.addButton(button);
@@ -30,7 +30,8 @@ public class Inventory
 		{
 			grid.addButton(new GUIButton());
 		}
-		button.addAction(new Action() {
+		button.addAction(new Action()
+		{
 			@Override
 			public void onClick()
 			{
