@@ -11,16 +11,14 @@ public class Inventory
 
 	private static GUIWindow window;
 	private static GUIButtonGrid grid;
-	private static GUIButton button, button1;
+	private static GUIButton button;
 
 	public Inventory()
 	{
 		shader = new GUIShader();
 		window = new GUIWindow();
 		grid = new GUIButtonGrid(3,4);
-		grid.setBackgroundColor(100, 1, 1);
 		button = new GUIButton();
-		button1 = new GUIButton();
 		window.setPosition(0, 0);
 		window.setSize(Display.getWidth() / 3, Display.getHeight());
 		grid.setPosition(0, 100);

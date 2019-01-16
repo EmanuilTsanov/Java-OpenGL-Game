@@ -3,20 +3,14 @@ package opengl.java.gui;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.util.vector.Vector3f;
-
-import opengl.java.maths.Maths;
 import opengl.java.shader.GUIShader;
 
 public class GUIButtonGrid extends GUIComponent
 {
 	private int gridWidth;
 	private int gridHeight;
-	private int buttonSize;
-	private int xSpacing, ySpacing;
+	private float buttonSize;
+	private float xSpacing, ySpacing;
 
 	private int lastPage;
 
@@ -40,9 +34,8 @@ public class GUIButtonGrid extends GUIComponent
 		}
 		int gridX = buttons.get(lastPage).size() % gridWidth;
 		int gridY = (int) (buttons.get(lastPage).size() / gridWidth);
-		System.out.println(buttons.size());
-		button.setPosition(x + (gridX * buttonSize) + ((gridX + 1) * xSpacing), y + (gridY * buttonSize) + ((gridY + 1) * ySpacing));
-		button.setSize(buttonSize, buttonSize);
+		button.setPosition((int) (x + (gridX * buttonSize) + ((gridX + 1) * xSpacing)), (int) (y + (gridY * buttonSize) + ((gridY + 1) * ySpacing)));
+		button.setSize((int) buttonSize, (int) buttonSize);
 		buttons.get(lastPage).add(button);
 	}
 
@@ -50,9 +43,22 @@ public class GUIButtonGrid extends GUIComponent
 	public void setSize(int width, int height)
 	{
 		super.setSize(width, height);
-			this.xSpacing = 30 / gridWidth;
-			this.buttonSize = (this.width - (gridWidth + 1) * xSpacing) / gridWidth;
+		float spacing1 = (50 / gridWidth) + 1;
+		float spacing2 = (50 / gridHeight) + 1;
+		float btn1 = (this.width - ((gridWidth + 1) * spacing1)) / gridWidth;
+		float btn2 = (this.height - ((gridHeight + 1) * spacing2)) / gridHeight;
+		if (btn1 < btn2)
+		{
+			xSpacing = spacing1;
+			buttonSize = btn1;
 			ySpacing = (height - (gridHeight * buttonSize)) / (gridHeight + 1);
+		}
+		else
+		{
+			ySpacing = spacing2;
+			buttonSize = btn2;
+			xSpacing = (width - (gridWidth * buttonSize)) / (gridWidth + 1);
+		}
 	}
 
 	@Override
@@ -76,13 +82,6 @@ public class GUIButtonGrid extends GUIComponent
 	@Override
 	public void render(GUIShader shader)
 	{
-		GL30.glBindVertexArray(model.getVAOID());
-		GL20.glEnableVertexAttribArray(0);
-		shader.loadColor(bgcolor);
-		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x) + 1, Maths.toOpenGLHeight(y) - 1, 0), new Vector3f(0, 0, 0), 1);
-		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-		GL20.glDisableVertexAttribArray(0);
-		GL30.glBindVertexArray(0);
 		for (GUIButton button : buttons.get(currentPage))
 		{
 			button.render(shader);

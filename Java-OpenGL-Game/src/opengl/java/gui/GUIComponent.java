@@ -19,7 +19,7 @@ public abstract class GUIComponent
 
 	public GUIComponent()
 	{
-		bgcolor = new Vector3f(0, 0, 1);
+		bgcolor = new Vector3f(1f, 0.8156f, 0f);
 	}
 
 	public void setPosition(int x, int y)
