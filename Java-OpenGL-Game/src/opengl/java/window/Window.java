@@ -15,8 +15,8 @@ public class Window
 {
 	private static int fpsCap = 1000;
 
-	private static int width = 1920;
-	private static int height = 1080;
+	private static int width = 1366;
+	private static int height = 768;
 	private static JFrame frame = new JFrame();
 	private static Canvas canvas = new Canvas();
 
@@ -25,9 +25,9 @@ public class Window
 		frame.add(canvas);
 		frame.setTitle(title);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setSize(width, height);
 		frame.setMinimumSize(new Dimension(960, 540));
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		try
 		{

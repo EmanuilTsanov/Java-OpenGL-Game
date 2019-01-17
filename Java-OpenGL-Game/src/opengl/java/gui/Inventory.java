@@ -17,7 +17,7 @@ public class Inventory
 	{
 		shader = new GUIShader();
 		window = new GUIWindow();
-		grid = new GUIButtonGrid(3,4);
+		grid = new GUIButtonGrid(3, 4);
 		button = new GUIButton();
 		window.setPosition(0, 0);
 		window.setSize(Display.getWidth() / 3, Display.getHeight());
