@@ -19,7 +19,6 @@ public class GUIMenuBar extends GUIComponent
 
 	public void addButton(GUIButton button)
 	{
-		
 	}
 
 	@Override
