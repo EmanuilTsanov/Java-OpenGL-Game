@@ -17,9 +17,9 @@ public class MouseMaster
 	private boolean lmb, rmb, mmb;
 
 	private static final int ZOOM_STEPS = 10;
-	private static final int FINAL_STEP = 8;
-	private static final int FIRST_STEP = 1;
-	private static int currentStep;
+	private static final float FINAL_STEP = 3.6f;
+	private static final float FIRST_STEP = 1;
+	private static float currentStep;
 	private static float stepLength;
 
 	private Vector2f axis = new Vector2f(0, 0);
@@ -51,6 +51,9 @@ public class MouseMaster
 					Inventory.mouseClick();
 				}
 			}
+			else
+			{
+			}
 		}
 		int dWheel = Mouse.getDWheel();
 		if (mmb)
@@ -79,7 +82,7 @@ public class MouseMaster
 			{
 				if (currentStep < FINAL_STEP)
 				{
-					currentStep++;
+					currentStep += 0.4f;
 					zoom(stepLength, camera);
 				}
 			}
@@ -87,7 +90,7 @@ public class MouseMaster
 			{
 				if (currentStep > FIRST_STEP)
 				{
-					currentStep--;
+					currentStep -= 0.4f;
 					zoom(-stepLength, camera);
 				}
 			}
