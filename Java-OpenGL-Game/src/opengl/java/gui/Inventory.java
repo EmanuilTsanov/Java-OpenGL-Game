@@ -14,6 +14,8 @@ public class Inventory
 	private static GUIButton button;
 	public static GUIMenuBar bar;
 
+	public boolean isOpened;
+
 	public Inventory()
 	{
 		shader = new GUIShader();
@@ -30,7 +32,16 @@ public class Inventory
 		window.addComponent(bar);
 		bar.setSize(window.getWidth(), 60);
 		bar.setBackgroundColor(76, 88, 205);
-		grid.addButton(button);
+		button.setSize(100, 100);
+		button.setPosition(10, 10);
+		button.addAction(new Action()
+		{
+			@Override
+			public void onClick()
+			{
+				toggle();
+			}
+		});
 		for (int i = 0; i < 50; i++)
 		{
 			grid.addButton(new GUIButton());
@@ -39,24 +50,35 @@ public class Inventory
 		{
 			bar.addButton(new GUIButton());
 		}
-		button.addAction(new Action()
-		{
-			@Override
-			public void onClick()
-			{
-				System.out.println(1);
-			}
-		});
+	}
+
+	public void toggle()
+	{
+		if (isOpened)
+			isOpened = false;
+		else
+			isOpened = true;
 	}
 
 	public static void mouseClick()
 	{
 		window.mouseClick();
+		button.mouseClick();
 	}
 
 	public void update()
 	{
+		if (isOpened && window.getX() < 0)
+		{
+		}
+		else if (!isOpened && window.getX() + window.getWidth() > 0)
+		{
+
+		}
+		if (window.getX() > 0)
+			window.x = 0;
 		window.update();
+		button.update();
 	}
 
 	public void render()
@@ -64,6 +86,7 @@ public class Inventory
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		shader.start();
 		window.render(shader);
+		button.render(shader);
 		shader.stop();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}

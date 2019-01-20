@@ -14,18 +14,14 @@ public class GUIWindow extends GUIComponent
 {
 	private ArrayList<GUIComponent> components = new ArrayList<GUIComponent>();
 
-	public void move(int x, int y)
-	{
-		this.x += x;
-		this.y += y;
-	}
-
 	public void addComponent(GUIComponent component)
 	{
 		if (component.x < this.x || component.y < this.y || component.x + component.width > this.x + this.width || component.y + component.height > this.y + this.height)
 		{
 			System.out.println("A component is out of bounds.");
-		} else {
+		}
+		else
+		{
 			components.add(component);
 		}
 	}
@@ -54,7 +50,7 @@ public class GUIWindow extends GUIComponent
 		GL30.glBindVertexArray(model.getVAOID());
 		GL20.glEnableVertexAttribArray(0);
 		shader.loadColor(bgcolor);
-		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x) + 1, Maths.toOpenGLHeight(y) - 1, 0), new Vector3f(0, 0, 0), 1); 
+		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(x) + 1, Maths.toOpenGLHeight(y) - 1, 0), new Vector3f(0, 0, 0), 1);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);

@@ -28,8 +28,8 @@ public class GUIMenuBar extends GUIComponent
 	{
 		if (buttons.size() < rowWidth)
 		{
-			button.setPosition((int)(x + borderX + buttons.size() * (buttonSize + buttonSpacing)), (int)(y + borderY));
-			button.setSize((int)buttonSize, (int)buttonSize);
+			button.setPosition((int) (x + borderX + buttons.size() * (buttonSize + buttonSpacing)), (int) (y + borderY));
+			button.setSize((int) buttonSize, (int) buttonSize);
 			buttons.add(button);
 		}
 		else
@@ -43,7 +43,7 @@ public class GUIMenuBar extends GUIComponent
 	{
 		super.setSize(width, height);
 		float spacing1 = (50 / rowWidth) + 1;
-		float spacing2 = (height/100f)*10f;
+		float spacing2 = (height / 100f) * 10f;
 		float btn1 = (this.width - ((rowWidth + 1) * spacing1)) / rowWidth;
 		float btn2 = (this.height - (2 * spacing2));
 		if (btn1 < btn2)
