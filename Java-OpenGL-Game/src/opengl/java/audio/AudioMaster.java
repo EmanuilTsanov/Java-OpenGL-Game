@@ -36,16 +36,17 @@ public class AudioMaster
 			wavFile = WaveData.create(new BufferedInputStream(new FileInputStream(file)));
 		}
 		catch (FileNotFoundException e)
-		{System.out.println("File not found at " + file);
+		{
+			System.out.println("File not found at " + file);
 		}
 		AL10.alBufferData(bufferID, wavFile.format, wavFile.data, wavFile.samplerate);
 		wavFile.dispose();
 		return bufferID;
 	}
 
-	public static void setListenerData()
+	public static void setListenerData(float x, float y, float z)
 	{
-		AL10.alListener3f(AL10.AL_POSITION, 0, 0, 0);
+		AL10.alListener3f(AL10.AL_POSITION, x, y, z);
 		AL10.alListener3f(AL10.AL_VELOCITY, 0, 0, 0);
 	}
 
