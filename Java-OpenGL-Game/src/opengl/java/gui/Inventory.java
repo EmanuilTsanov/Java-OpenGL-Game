@@ -33,7 +33,7 @@ public class Inventory
 		bar.setSize(window.getWidth(), 60);
 		bar.setBackgroundColor(76, 88, 205);
 		button.setSize(100, 100);
-		button.setPosition(10, 10);
+		button.setPosition(Display.getWidth()-10-button.getWidth(), 10);
 		button.addAction(new Action()
 		{
 			@Override
@@ -70,13 +70,10 @@ public class Inventory
 	{
 		if (isOpened && window.getX() < 0)
 		{
+			window.move(1f, 0f);
+		} else if(!isOpened && window.getX() > -window.getWidth()) {
+			window.move(-1f, 0f);
 		}
-		else if (!isOpened && window.getX() + window.getWidth() > 0)
-		{
-
-		}
-		if (window.getX() > 0)
-			window.x = 0;
 		window.update();
 		button.update();
 	}

@@ -64,6 +64,16 @@ public class GUIMenuBar extends GUIComponent
 	}
 
 	@Override
+	public void move(float x, float y)
+	{
+		super.move(x, y);
+		for (GUIButton button : buttons)
+		{
+			button.move(x, y);
+		}
+	}
+
+	@Override
 	public void mouseClick()
 	{
 		for (GUIButton button : buttons)

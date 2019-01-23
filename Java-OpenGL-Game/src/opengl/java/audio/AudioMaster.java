@@ -12,6 +12,9 @@ import org.lwjgl.util.WaveData;
 
 public class AudioMaster
 {
+	private static String folder = "assets/audio/";
+	private static String extension = ".wav";
+
 	private static ArrayList<Integer> audioBuffers = new ArrayList<Integer>();
 
 	public static void initialize()
@@ -26,18 +29,18 @@ public class AudioMaster
 		}
 	}
 
-	public static int loadSound(String file)
+	public static int loadSound(String name)
 	{
 		int bufferID = AL10.alGenBuffers();
 		audioBuffers.add(bufferID);
 		WaveData wavFile = null;
 		try
 		{
-			wavFile = WaveData.create(new BufferedInputStream(new FileInputStream(file)));
+			wavFile = WaveData.create(new BufferedInputStream(new FileInputStream(folder + name + extension)));
 		}
 		catch (FileNotFoundException e)
 		{
-			System.out.println("File not found at " + file);
+			System.out.println("File not found at " + folder + name + extension);
 		}
 		AL10.alBufferData(bufferID, wavFile.format, wavFile.data, wavFile.samplerate);
 		wavFile.dispose();

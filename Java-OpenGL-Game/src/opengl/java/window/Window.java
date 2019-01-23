@@ -1,10 +1,5 @@
 package opengl.java.window;
 
-import java.awt.Canvas;
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -13,26 +8,17 @@ import opengl.java.logger.Logger;
 
 public class Window
 {
-	private static int fpsCap = 1000;
+	private static int fpsCap = 1500;
 
 	private static int width = 1366;
 	private static int height = 768;
-	private static JFrame frame = new JFrame();
-	private static Canvas canvas = new Canvas();
 
 	public static void create(String title)
 	{
-		frame.add(canvas);
-		frame.setTitle(title);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(width, height);
-		frame.setMinimumSize(new Dimension(960, 540));
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
 		try
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
-			Display.setParent(canvas);
+			Display.setTitle(title);
 			Display.create();
 		}
 		catch (LWJGLException e)

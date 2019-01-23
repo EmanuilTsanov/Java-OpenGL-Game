@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Random;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -17,8 +16,6 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.audio.AudioMaster;
-import opengl.java.audio.AudioSource;
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
 import opengl.java.gui.Inventory;
@@ -77,7 +74,9 @@ public class MainRenderer
 
 	public static Inventory inv = new Inventory();
 
-	static
+	public static float x1 = 10, speed = 0.001f;
+
+	public static void initialize()
 	{
 		enableCulling();
 		initShaders();

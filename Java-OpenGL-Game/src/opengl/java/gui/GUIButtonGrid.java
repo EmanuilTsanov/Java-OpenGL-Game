@@ -53,19 +53,33 @@ public class GUIButtonGrid extends GUIComponent
 			xSpacing = spacing1;
 			buttonSize = btn1;
 			ySpacing = (height - (gridHeight * buttonSize)) / (gridHeight + 1);
-			if(xSpacing < ySpacing)
-				ySpacing = xSpacing; else xSpacing = ySpacing;
+			if (xSpacing < ySpacing)
+				ySpacing = xSpacing;
+			else
+				xSpacing = ySpacing;
 		}
 		else
 		{
 			ySpacing = spacing2;
 			buttonSize = btn2;
 			xSpacing = (width - (gridWidth * buttonSize)) / (gridWidth + 1);
-			if(xSpacing < ySpacing)
-				ySpacing = xSpacing; else xSpacing = ySpacing;
+			if (xSpacing < ySpacing)
+				ySpacing = xSpacing;
+			else
+				xSpacing = ySpacing;
 		}
 		borderX = (width - ((gridWidth * buttonSize) + ((gridWidth - 1) * xSpacing))) / 2;
 		borderY = (height - ((gridHeight * buttonSize) + ((gridHeight - 1) * ySpacing))) / 2;
+	}
+
+	@Override
+	public void move(float x, float y)
+	{
+		super.move(x, y);
+		for (GUIButton button : buttons.get(currentPage))
+		{
+			button.move(x, y);
+		}
 	}
 
 	@Override

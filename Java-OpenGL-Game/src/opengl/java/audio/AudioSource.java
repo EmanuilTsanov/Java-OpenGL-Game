@@ -9,9 +9,6 @@ public class AudioSource
 	public AudioSource()
 	{
 		sourceID = AL10.alGenSources();
-		AL10.alSource3f(sourceID, AL10.AL_GAIN, 0, 0, 0);
-		AL10.alSourcef(sourceID, AL10.AL_PITCH, 1);
-		AL10.alSource3f(sourceID, AL10.AL_POSITION, 0, 0, 0);
 	}
 
 	public void play(int buffer)

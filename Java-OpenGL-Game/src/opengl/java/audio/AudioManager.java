@@ -1,33 +1,34 @@
 package opengl.java.audio;
 
-public class AudioManager extends Thread
+public class AudioManager
 {
-	public static int buffer;
+	public static int bounce, background;
 
 	public static AudioSource src;
 
-	@Override
-	public void run()
+	public static void initialize()
 	{
 		AudioMaster.initialize();
 		AudioMaster.setListenerData(0, 0, 0);
-		buffer = AudioMaster.loadSound("assets/audio/bounce.wav");
+		loadBuffers();
 		src = new AudioSource();
 		src.setLooping(true);
-		float x = 10;
-		float speed = 0.000001f;
-		src.setPosition(x, 0, 2);
-		src.play(buffer);
-		boolean b = true;
-		while (b)
-		{
-			if (x >= 10)
-				speed = 0.000001f;
-			else if (x <= -10)
-				speed = -0.000001f;
-			x -= speed;
-			src.setPosition(x, 0, 2);
-		}
+		src.setPosition(0, 0, 0);
+	}
+
+	public static void play()
+	{
+		src.play(bounce);
+	}
+
+	public static void loadBuffers()
+	{
+		bounce = AudioMaster.loadSound("bounce");
+		background = AudioMaster.loadSound("background");
+	}
+
+	public static void destroy()
+	{
 		src.delete();
 		AudioMaster.clean();
 	}
