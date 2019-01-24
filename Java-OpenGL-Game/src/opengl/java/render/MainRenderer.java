@@ -19,6 +19,7 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.entity.Entity;
 import opengl.java.fonts.GUIText;
 import opengl.java.gui.Inventory;
+import opengl.java.interaction.KeyboardMaster;
 import opengl.java.interaction.MouseMaster;
 import opengl.java.lighting.Light;
 import opengl.java.management.EntityManager;
@@ -78,6 +79,7 @@ public class MainRenderer
 
 	public static void initialize()
 	{
+		MouseMaster.initialize();
 		enableCulling();
 		initShaders();
 		renderer = new TerrainRenderer(terrainShader);
@@ -331,7 +333,8 @@ public class MainRenderer
 
 	public static void render()
 	{
-		MouseMaster.getInstance().update(camera);
+		MouseMaster.update(camera);
+		KeyboardMaster.update();
 		prepareScreen(0, 1, 1);
 		mainShader.start();
 		mainShader.loadLight(sun);

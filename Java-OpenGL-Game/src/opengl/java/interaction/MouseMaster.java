@@ -8,13 +8,11 @@ import opengl.java.view.Camera;
 
 public class MouseMaster
 {
-	private MousePicker picker = MousePicker.getInstance();
-
 	private static final int LEFT_MOUSE_BUTTON = 0;
 	private static final int RIGHT_MOUSE_BUTTON = 1;
 	private static final int MIDDLE_MOUSE_BUTTON = 2;
 
-	private boolean lmb, rmb, mmb;
+	private static boolean lmb, rmb, mmb;
 
 	private static final int ZOOM_STEPS = 10;
 	private static final float FINAL_STEP = 3.6f;
@@ -22,25 +20,17 @@ public class MouseMaster
 	private static float currentStep;
 	private static float stepLength;
 
-	private Vector2f axis = new Vector2f(0, 0);
-	private Vector2f mouseCoords = new Vector2f(0, 0);
-
-	private static MouseMaster singleton = new MouseMaster();
-
-	private MouseMaster()
+	private static Vector2f axis = new Vector2f(0, 0);
+	private static Vector2f mouseCoords = new Vector2f(0, 0);
+	
+	public static void initialize()
 	{
 		currentStep = FIRST_STEP;
 		stepLength = Camera.getInstance().getDistance() / (float) ZOOM_STEPS;
 	}
 
-	public static MouseMaster getInstance()
+	public static void update(Camera camera)
 	{
-		return singleton;
-	}
-
-	public void update(Camera camera)
-	{
-		picker.update();
 		while (Mouse.next())
 		{
 			handleClicks(camera);
@@ -97,7 +87,7 @@ public class MouseMaster
 		}
 	}
 
-	public void zoom(float speed, Camera camera)
+	public static void zoom(float speed, Camera camera)
 	{
 		float dst = (float) (speed * Math.cos(Math.toRadians(camera.getRotation().x)));
 		float dy = (float) (speed * Math.sin(Math.toRadians(camera.getRotation().x)));
@@ -106,7 +96,7 @@ public class MouseMaster
 		camera.move(dx, -dy, -dz);
 	}
 
-	public void handleClicks(Camera camera)
+	public static void handleClicks(Camera camera)
 	{
 		if (Mouse.getEventButtonState())
 		{

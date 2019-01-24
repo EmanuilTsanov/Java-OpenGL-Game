@@ -4,6 +4,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import opengl.java.shader.GUIShader;
+import opengl.java.window.FrameController;
 
 public class Inventory
 {
@@ -11,10 +12,9 @@ public class Inventory
 
 	private static GUIWindow window;
 	private static GUIButtonGrid grid;
-	private static GUIButton button;
 	public static GUIMenuBar bar;
 
-	public boolean isOpened;
+	public static boolean isOpened;
 
 	public Inventory()
 	{
@@ -22,7 +22,6 @@ public class Inventory
 		window = new GUIWindow();
 		grid = new GUIButtonGrid(3, 4);
 		bar = new GUIMenuBar(8);
-		button = new GUIButton();
 		window.setPosition(0, 0);
 		window.setSize(Display.getWidth() / 3, Display.getHeight());
 		grid.setPosition(0, 60);
@@ -32,16 +31,6 @@ public class Inventory
 		window.addComponent(bar);
 		bar.setSize(window.getWidth(), 60);
 		bar.setBackgroundColor(76, 88, 205);
-		button.setSize(100, 100);
-		button.setPosition(Display.getWidth()-10-button.getWidth(), 10);
-		button.addAction(new Action()
-		{
-			@Override
-			public void onClick()
-			{
-				toggle();
-			}
-		});
 		for (int i = 0; i < 50; i++)
 		{
 			grid.addButton(new GUIButton());
@@ -52,7 +41,7 @@ public class Inventory
 		}
 	}
 
-	public void toggle()
+	public static void toggle()
 	{
 		if (isOpened)
 			isOpened = false;
@@ -63,19 +52,17 @@ public class Inventory
 	public static void mouseClick()
 	{
 		window.mouseClick();
-		button.mouseClick();
 	}
 
 	public void update()
 	{
 		if (isOpened && window.getX() < 0)
 		{
-			window.move(1f, 0f);
+			window.move(3000f * FrameController.getFrameTimeSeconds(), 0f);
 		} else if(!isOpened && window.getX() > -window.getWidth()) {
-			window.move(-1f, 0f);
+			window.move(-3000f * FrameController.getFrameTimeSeconds(), 0f);
 		}
 		window.update();
-		button.update();
 	}
 
 	public void render()
@@ -83,7 +70,6 @@ public class Inventory
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		shader.start();
 		window.render(shader);
-		button.render(shader);
 		shader.stop();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}

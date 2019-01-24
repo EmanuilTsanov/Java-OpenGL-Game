@@ -36,16 +36,6 @@ public class GUIWindow extends GUIComponent
 	}
 
 	@Override
-	public void move(float x, float y)
-	{
-		super.move(x, y);
-		for (GUIComponent component : components)
-		{
-			component.move(x, y);
-		}
-	}
-
-	@Override
 	public void update()
 	{
 		for (GUIComponent component : components)

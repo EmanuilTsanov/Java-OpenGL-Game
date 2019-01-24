@@ -12,27 +12,25 @@ import opengl.java.view.Camera;
 
 public class MousePicker
 {
-	private Vector3f worldRay;
+	private static Vector3f worldRay;
 
-	private Matrix4f projectionMatrix;
-	private Matrix4f viewMatrix;
+	private static Matrix4f projectionMatrix;
+	private static Matrix4f viewMatrix;
 
-	private Vector2f mousePosition;
-	private Vector3f terrainPosition = new Vector3f(0, 0, 0);
+	private static Vector2f mousePosition;
+	private static Vector3f terrainPosition = new Vector3f(0, 0, 0);
 
 	private static final int RANGE = 600;
 	private static final int LOOPS = 200;
 
-	private static MousePicker singleton = new MousePicker();
-
-	public MousePicker()
+	public static void initialize()
 	{
-		this.projectionMatrix = Maths.getProjectionMatrix();
-		this.viewMatrix = Maths.createViewMatrix();
-		this.mousePosition = new Vector2f(0, 0);
+		projectionMatrix = Maths.getProjectionMatrix();
+		viewMatrix = Maths.createViewMatrix();
+		mousePosition = new Vector2f(0, 0);
 	}
 
-	public Vector3f getWorldRay()
+	public static Vector3f getWorldRay()
 	{
 		return worldRay;
 	}
@@ -54,7 +52,7 @@ public class MousePicker
 		worldRay = calculateMouseRay();
 	}
 
-	private Vector3f calculateMouseRay()
+	private static Vector3f calculateMouseRay()
 	{
 		float mouseX = Mouse.getX();
 		float mouseY = Mouse.getY();
@@ -66,21 +64,21 @@ public class MousePicker
 		return worldSpace;
 	}
 
-	private Vector2f normalizeDiviceCoords(float mouseX, float mouseY)
+	private static Vector2f normalizeDiviceCoords(float mouseX, float mouseY)
 	{
 		float x = (2f * mouseX) / Display.getWidth() - 1f;
 		float y = (2f * mouseY) / Display.getHeight() - 1f;
 		return new Vector2f(x, y);
 	}
 
-	private Vector4f toEyeSpace(Vector4f clipCoords)
+	private static Vector4f toEyeSpace(Vector4f clipCoords)
 	{
 		Matrix4f invertedMatrix = Matrix4f.invert(projectionMatrix, null);
 		Vector4f eyeCoords = Matrix4f.transform(invertedMatrix, clipCoords, null);
 		return new Vector4f(eyeCoords.x, eyeCoords.y, -1f, 0f);
 	}
 
-	private Vector3f toWorldSpace(Vector4f eyeSpace)
+	private static Vector3f toWorldSpace(Vector4f eyeSpace)
 	{
 		Matrix4f invertedMatrix = Matrix4f.invert(viewMatrix, null);
 		Vector4f worldRay = Matrix4f.transform(invertedMatrix, eyeSpace, null);
@@ -89,7 +87,7 @@ public class MousePicker
 		return mouseRay;
 	}
 
-	private Vector3f getPointOnVector(Vector3f ray, float distance)
+	private static Vector3f getPointOnVector(Vector3f ray, float distance)
 	{
 		Vector3f camPosition = Camera.getInstance().getPosition();
 		Vector3f start = new Vector3f(camPosition.x, camPosition.y, camPosition.z);
@@ -97,7 +95,7 @@ public class MousePicker
 		return Vector3f.add(start, scaledRay, null);
 	}
 
-	private Vector3f searchRay(int loops, float start, float end, Vector3f ray)
+	private static Vector3f searchRay(int loops, float start, float end, Vector3f ray)
 	{
 		float middle = start + (end - start) / 2f;
 		if (loops >= LOOPS)
@@ -111,7 +109,7 @@ public class MousePicker
 			return searchRay(loops + 1, middle, end, ray);
 	}
 
-	private boolean terrainIntersection(float start, float end, Vector3f ray)
+	private static boolean terrainIntersection(float start, float end, Vector3f ray)
 	{
 		Vector3f sPoint = getPointOnVector(ray, start);
 		Vector3f ePoint = getPointOnVector(ray, end);
@@ -119,10 +117,5 @@ public class MousePicker
 			return true;
 		else
 			return false;
-	}
-
-	public static MousePicker getInstance()
-	{
-		return singleton;
 	}
 }

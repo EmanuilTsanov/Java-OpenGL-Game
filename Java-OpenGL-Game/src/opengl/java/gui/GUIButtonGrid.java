@@ -73,16 +73,6 @@ public class GUIButtonGrid extends GUIComponent
 	}
 
 	@Override
-	public void move(float x, float y)
-	{
-		super.move(x, y);
-		for (GUIButton button : buttons.get(currentPage))
-		{
-			button.move(x, y);
-		}
-	}
-
-	@Override
 	public void mouseClick()
 	{
 		for (GUIButton button : buttons.get(currentPage))

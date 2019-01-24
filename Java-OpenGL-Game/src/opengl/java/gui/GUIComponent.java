@@ -61,12 +61,6 @@ public abstract class GUIComponent
 		return height;
 	}
 
-	public void move(float x, float y)
-	{
-		this.x += x;
-		this.y += y;
-	}
-
 	protected RawModel createMesh(float width, float height)
 	{
 		float[] vertices = { -1, 1, 0, -1, Maths.toOpenGLHeight(height), 0, Maths.toOpenGLWidth(width), Maths.toOpenGLHeight(height), 0, Maths.toOpenGLWidth(width), 1, 0 };
