@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.maths.Maths;
+import opengl.java.model.TexturedModel;
 import opengl.java.shader.GUIShader;
 
 public class GUIButton extends GUIComponent

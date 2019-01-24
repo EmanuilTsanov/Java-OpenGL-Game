@@ -22,6 +22,7 @@ public class GUIMenuBar extends GUIComponent
 	public GUIMenuBar(int rowWidth)
 	{
 		this.rowWidth = rowWidth;
+		this.bgcolor = new Vector3f(0.0f, 0.44f, 0.24f);
 	}
 
 	public void addButton(GUIButton button)

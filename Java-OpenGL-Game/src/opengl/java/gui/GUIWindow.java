@@ -16,7 +16,7 @@ public class GUIWindow extends GUIComponent
 
 	public GUIWindow()
 	{
-		bgcolor = new Vector3f(0.55f, 0.71f, 0f);
+		bgcolor = new Vector3f(0.50f, 0.55f, 0.51f);
 	}
 
 	public void addComponent(GUIComponent component)

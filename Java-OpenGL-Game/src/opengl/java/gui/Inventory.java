@@ -32,7 +32,6 @@ public class Inventory
 		window.addComponent(bar);
 		bar.setSize(window.getWidth(), 60);
 		bar.setPosition(0, 0);
-		bar.setBackgroundColor(76, 88, 205);
 		for (int i = 0; i < 50; i++)
 		{
 			grid.addButton(new GUIButton());
@@ -82,7 +81,6 @@ public class Inventory
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			shader.start();
 			window.render(shader);
-			System.out.println(12345);
 			shader.stop();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 		}
