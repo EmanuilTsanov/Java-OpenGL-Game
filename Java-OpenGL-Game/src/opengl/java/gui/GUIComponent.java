@@ -17,9 +17,11 @@ public abstract class GUIComponent
 
 	protected RawModel model;
 
+	protected GUIComponent parent;
+
 	public GUIComponent()
 	{
-		bgcolor = new Vector3f(1f, 0.8156f, 0f);
+		setBackgroundColor(239, 46, 137);
 	}
 
 	public void setPosition(int x, int y)
@@ -59,6 +61,16 @@ public abstract class GUIComponent
 	public int getHeight()
 	{
 		return height;
+	}
+
+	public void setParent(GUIComponent parent)
+	{
+		this.parent = parent;
+	}
+
+	public GUIComponent getParent()
+	{
+		return parent;
 	}
 
 	protected RawModel createMesh(float width, float height)

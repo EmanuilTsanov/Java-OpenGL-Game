@@ -14,9 +14,14 @@ public class GUIWindow extends GUIComponent
 {
 	private ArrayList<GUIComponent> components = new ArrayList<GUIComponent>();
 
+	public GUIWindow()
+	{
+		bgcolor = new Vector3f(0.55f, 0.71f, 0f);
+	}
+
 	public void addComponent(GUIComponent component)
 	{
-		if (component.x < this.x || component.y < this.y || component.x + component.width > this.x + this.width || component.y + component.height > this.y + this.height)
+		if (component.x < 0 || component.y < 0 || component.x + component.width > this.width || component.y + component.height > this.height)
 		{
 			System.out.println("A component is out of bounds.");
 		}
@@ -24,6 +29,12 @@ public class GUIWindow extends GUIComponent
 		{
 			components.add(component);
 		}
+	}
+
+	public void move(float x, float y)
+	{
+		this.x += x;
+		this.y += y;
 	}
 
 	@Override

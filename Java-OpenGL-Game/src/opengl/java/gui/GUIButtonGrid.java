@@ -35,6 +35,7 @@ public class GUIButtonGrid extends GUIComponent
 		}
 		int gridX = buttons.get(lastPage).size() % gridWidth;
 		int gridY = (int) (buttons.get(lastPage).size() / gridWidth);
+		button.setParent(parent);
 		button.setPosition(borderX + x + (gridX * (buttonSize + xSpacing)), borderY + y + (gridY * (buttonSize + ySpacing)));
 		button.setSize((int) buttonSize, (int) buttonSize);
 		buttons.get(lastPage).add(button);

@@ -19,7 +19,15 @@ public class Window
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(title);
+			Display.setFullscreen(true);
 			Display.create();
+			DisplayMode[] modes = Display.getAvailableDisplayModes();
+
+			for (int i = 0; i < modes.length; i++)
+			{
+				DisplayMode current = modes[i];
+				System.out.println(current.getWidth() + "x" + current.getHeight() + "x" + current.getBitsPerPixel() + " " + current.getFrequency() + "Hz");
+			}
 		}
 		catch (LWJGLException e)
 		{

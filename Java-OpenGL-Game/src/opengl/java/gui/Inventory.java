@@ -21,15 +21,17 @@ public class Inventory
 		shader = new GUIShader();
 		window = new GUIWindow();
 		grid = new GUIButtonGrid(3, 4);
+		grid.setParent(window);
 		bar = new GUIMenuBar(8);
-		window.setPosition(0, 0);
+		bar.setParent(window);
 		window.setSize(Display.getWidth() / 3, Display.getHeight());
+		window.setPosition(-window.getWidth(), 0);
 		grid.setPosition(0, 60);
 		grid.setSize(window.getWidth(), window.getHeight() - 120);
-		window.setBackgroundColor(239, 46, 137);
 		window.addComponent(grid);
 		window.addComponent(bar);
 		bar.setSize(window.getWidth(), 60);
+		bar.setPosition(0, 0);
 		bar.setBackgroundColor(76, 88, 205);
 		for (int i = 0; i < 50; i++)
 		{
@@ -51,7 +53,8 @@ public class Inventory
 
 	public static void mouseClick()
 	{
-		window.mouseClick();
+		if (isOpened || window.getX() > -window.getWidth())
+			window.mouseClick();
 	}
 
 	public void update()
@@ -59,18 +62,29 @@ public class Inventory
 		if (isOpened && window.getX() < 0)
 		{
 			window.move(3000f * FrameController.getFrameTimeSeconds(), 0f);
-		} else if(!isOpened && window.getX() > -window.getWidth()) {
-			window.move(-3000f * FrameController.getFrameTimeSeconds(), 0f);
+			if (window.getX() > 0)
+				window.x = 0;
 		}
-		window.update();
+		else if (!isOpened && window.getX() > -window.getWidth())
+		{
+			window.move(-3000f * FrameController.getFrameTimeSeconds(), 0f);
+			if (window.getX() < -window.getWidth())
+				window.x = -window.getWidth();
+		}
+		if (isOpened || window.getX() > -window.getWidth())
+			window.update();
 	}
 
 	public void render()
 	{
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		shader.start();
-		window.render(shader);
-		shader.stop();
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		if (isOpened || window.getX() > -window.getWidth())
+		{
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			shader.start();
+			window.render(shader);
+			System.out.println(12345);
+			shader.stop();
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+		}
 	}
 }
