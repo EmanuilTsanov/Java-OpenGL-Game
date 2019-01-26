@@ -1,65 +1,65 @@
 package opengl.java.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.management.EntityManager;
 import opengl.java.maths.Maths;
-import opengl.java.model.TexturedModel;
+import opengl.java.model.RawModel;
+import opengl.java.texture.ModelTexture;
 
 public class Entity
 {
-	protected int uniqueID;
-	protected int assetID;
+	protected int id;
+	protected EntityBase base;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 	protected Vector3f rotation = new Vector3f(0, 0, 0);
 
 	protected float scale = 1;
 
-	private static HashMap<Integer, Integer> assetList = new HashMap<Integer, Integer>();
+	protected Vector3f color;
 
-	private Vector3f color;
+	private static HashMap<EntityBase, ArrayList<Entity>> entities = new HashMap<EntityBase, ArrayList<Entity>>();
 
-	public static Entity pineTree = new Entity(TexturedModel.PINE_TREE.getID());
-	public static Entity bench = new Entity(TexturedModel.BENCH.getID());
-	public static Entity table = new Entity(TexturedModel.TABLE.getID());
-	public static Entity plate = new Entity(TexturedModel.PLATE.getID());
-	public static Entity rock = new Entity(TexturedModel.ROCK.getID());
-	public static Entity campfire = new Entity(TexturedModel.CAMPFIRE.getID());
-	public static Entity mushroom = new Entity(TexturedModel.MUSHROOM1.getID());
-	public static Entity mushroom1 = new Entity(TexturedModel.MUSHROOM2.getID());
-	public static Entity grass = new Entity(TexturedModel.GRASS.getID());
-	public static Entity christmasTree = new Entity(TexturedModel.CHRISTMAS_TREE.getID());
-	public static Entity snowman = new Entity(TexturedModel.SNOWMAN.getID());
-	public static Entity hut = new Entity(TexturedModel.HUT.getID());
+	private static HashMap<String, Entity> colors = new HashMap<String, Entity>();
 
-	public Entity(int asset)
+	public Entity(EntityBase base)
 	{
-		this.assetID = asset;
+		this.base = base;
+		if (entities.get(base) == null)
+		{
+			ArrayList<Entity> batch = new ArrayList<Entity>();
+			entities.put(base, batch);
+		}
+		this.id = entities.get(base).size();
+		entities.get(base).add(this);
+		color = Maths.getNextColor();
+		colors.put(color.x + "-" + color.y + "-" + color.z, this);
 	}
 
-	public Entity setup()
+	public Vector3f getPosition()
 	{
-		this.uniqueID = Maths.getNextUniqueID();
-		assetList.put(uniqueID, assetID);
-		color = Maths.getNextUniqueColor(uniqueID);
-		return this;
-	}
-
-	public Entity move(float x, float y, float z)
-	{
-		this.position.x += x;
-		this.position.y += y;
-		this.position.z += z;
-		return this;
+		return position;
 	}
 
 	public Entity setPosition(Vector3f position)
 	{
 		this.position = position;
 		return this;
+	}
+
+	public void move(float x, float y, float z)
+	{
+		this.position.x += x;
+		this.position.y += y;
+		this.position.z += z;
+	}
+
+	public Vector3f getRotation()
+	{
+		return rotation;
 	}
 
 	public Entity setRotation(Vector3f rotation)
@@ -75,6 +75,11 @@ public class Entity
 		this.rotation.z += z;
 	}
 
+	public float getScale()
+	{
+		return scale;
+	}
+
 	public Entity setScale(float scale)
 	{
 		this.scale = scale;
@@ -83,22 +88,7 @@ public class Entity
 
 	public int getID()
 	{
-		return uniqueID;
-	}
-
-	public int getAsset()
-	{
-		return assetID;
-	}
-
-	public void setAsset(int asset)
-	{
-		this.assetID = asset;
-	}
-
-	public Vector3f getPosition()
-	{
-		return position;
+		return id;
 	}
 
 	public Vector3f getColor()
@@ -106,27 +96,23 @@ public class Entity
 		return color;
 	}
 
-	public Vector3f getRotation()
+	public static HashMap<EntityBase, ArrayList<Entity>> getEntities()
 	{
-		return rotation;
+		return entities;
 	}
 
-	public float getScale()
+	public RawModel getModel()
 	{
-		return scale;
+		return base.getModel();
 	}
 
-	public Entity getCopy()
+	public ModelTexture getTexture()
 	{
-		return new Entity(assetID).setPosition(position).setRotation(rotation).setScale(scale).setup();
+		return base.getTexture();
 	}
 
-	public static Entity getEntityByColor(Vector3f color)
+	public Entity getEntityByColor(Vector3f color)
 	{
-		int uniqueID = Maths.getUniqueIDByColor(color.x + "/" + color.y + "/" + color.z);
-		if (uniqueID == -1)
-			return null;
-		Entity entity = EntityManager.getEntityHashMap().get(assetList.get(uniqueID)).get(uniqueID);
-		return entity;
+		return colors.get(color.x + "-" + color.y + "-" + color.z);
 	}
 }

@@ -1,5 +1,6 @@
 package opengl.java.shadows;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,10 +11,11 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 
 import opengl.java.entity.Entity;
+import opengl.java.entity.EntityBase;
 import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
-import opengl.java.model.TexturedModel;
 import opengl.java.shader.ShadowShader;
+import opengl.java.texture.ModelTexture;
 
 public class ShadowMapEntityRenderer
 {
@@ -43,16 +45,16 @@ public class ShadowMapEntityRenderer
 	 */
 	protected void render(HashMap<Integer, HashMap<Integer, Entity>> entities)
 	{
-		for (Map.Entry<Integer, HashMap<Integer, Entity>> entry : entities.entrySet())
+		for (Map.Entry<EntityBase, ArrayList<Entity>> entry : Entity.getEntities().entrySet())
 		{
-			for (Map.Entry<Integer, Entity> innerEntry : entry.getValue().entrySet())
+			for (Entity entity : entry.getValue())
 			{
-				RawModel rawModel = TexturedModel.getTexturedModel(innerEntry.getValue().getAsset()).getRawModel();
+				RawModel rawModel = entry.getKey().getModel();
+				ModelTexture texture = entry.getKey().getTexture();
 				bindModel(rawModel);
 				GL13.glActiveTexture(GL13.GL_TEXTURE0);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D,
-						TexturedModel.getTexturedModel(innerEntry.getValue().getAsset()).getTexture().getID());
-				prepareInstance(innerEntry.getValue());
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
+				prepareInstance(entity);
 				GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 		}

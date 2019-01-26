@@ -65,10 +65,10 @@ public class MainShader extends ShaderProgram
 		super.loadMatrix(loc_projectionMatrix, Maths.getProjectionMatrix());
 	}
 
-	public void loadViewMatrix(Camera camera)
+	public void loadViewMatrix()
 	{
 		super.loadMatrix(loc_viewMatrix, Maths.createViewMatrix());
-		super.loadVector3f(loc_cameraPosition, camera.getPosition());
+		super.loadVector3f(loc_cameraPosition, Camera.getPosition());
 	}
 
 	public void loadLight(Light light)

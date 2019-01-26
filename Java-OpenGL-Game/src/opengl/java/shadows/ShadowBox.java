@@ -20,14 +20,12 @@ public class ShadowBox
 	private float minY, maxY;
 	private float minZ, maxZ;
 	private Matrix4f lightViewMatrix;
-	private Camera cam;
 
 	private float farHeight, farWidth, nearHeight, nearWidth;
 
-	protected ShadowBox(Matrix4f lightViewMatrix, Camera camera)
+	protected ShadowBox(Matrix4f lightViewMatrix)
 	{
 		this.lightViewMatrix = lightViewMatrix;
-		this.cam = camera;
 		calculateWidthsAndHeights();
 	}
 
@@ -40,8 +38,8 @@ public class ShadowBox
 		toFar.scale(SHADOW_DISTANCE);
 		Vector3f toNear = new Vector3f(forwardVector);
 		toNear.scale(Maths.getNearPlane());
-		Vector3f centerNear = Vector3f.add(toNear, cam.getPosition(), null);
-		Vector3f centerFar = Vector3f.add(toFar, cam.getPosition(), null);
+		Vector3f centerNear = Vector3f.add(toNear, Camera.getPosition(), null);
+		Vector3f centerFar = Vector3f.add(toFar, Camera.getPosition(), null);
 
 		Vector4f[] points = calculateFrustumVertices(rotation, forwardVector, centerNear, centerFar);
 
@@ -147,8 +145,8 @@ public class ShadowBox
 	private Matrix4f calculateCameraRotationMatrix()
 	{
 		Matrix4f rotation = new Matrix4f();
-		rotation.rotate((float)-Math.toRadians(cam.getRotation().y), new Vector3f(0, 1, 0));
-		rotation.rotate((float)-Math.toRadians(cam.getRotation().x), new Vector3f(1, 0, 0));
+		rotation.rotate((float)-Math.toRadians(Camera.getRotation().y), new Vector3f(0, 1, 0));
+		rotation.rotate((float)-Math.toRadians(Camera.getRotation().x), new Vector3f(1, 0, 0));
 		return rotation;
 	}
 

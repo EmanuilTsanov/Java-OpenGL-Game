@@ -14,6 +14,7 @@ public class Main
 		while (Window.isOpened())
 		{
 			Window.update();
+			MainRenderer.update();
 			MainRenderer.render();
 		}
 		AudioManager.destroy();

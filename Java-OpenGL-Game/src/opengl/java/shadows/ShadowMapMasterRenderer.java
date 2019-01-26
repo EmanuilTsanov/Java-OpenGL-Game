@@ -10,7 +10,6 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.entity.Entity;
 import opengl.java.lighting.Light;
 import opengl.java.shader.ShadowShader;
-import opengl.java.view.Camera;
 
 public class ShadowMapMasterRenderer
 {
@@ -26,10 +25,10 @@ public class ShadowMapMasterRenderer
 
 	private ShadowMapEntityRenderer entityRenderer;
 
-	public ShadowMapMasterRenderer(Camera camera)
+	public ShadowMapMasterRenderer()
 	{
 		shader = new ShadowShader();
-		shadowBox = new ShadowBox(lightViewMatrix, camera);
+		shadowBox = new ShadowBox(lightViewMatrix);
 		shadowFbo = new ShadowFrameBuffer(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE);
 		entityRenderer = new ShadowMapEntityRenderer(shader, projectionViewMatrix);
 	}

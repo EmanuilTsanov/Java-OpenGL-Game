@@ -7,6 +7,8 @@ public class Light
 	private Vector3f position;
 
 	private Vector3f color;
+	
+	public static Light SUN = new Light(new Vector3f(1000000, 1500000, -1000000), new Vector3f(1.0f, 1.0f, 1.0f));
 
 	public Light(Vector3f position, Vector3f color)
 	{

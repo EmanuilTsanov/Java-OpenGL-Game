@@ -1,7 +1,5 @@
 package opengl.java.maths;
 
-import java.util.HashMap;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
@@ -14,15 +12,11 @@ public class Maths
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 200;
 
-	private static float defaultFOV = 70;
 	private static float FOV = 100;
 
 	private static Matrix4f projectionMatrix = null;
 
-	private static int nextUniqueID;
-
 	private static Vector3f nextUniqueColor = new Vector3f(0, 0, 0);
-	private static HashMap<String, Integer> colorArray = new HashMap<String, Integer>();
 
 	public static Matrix4f createTransMat(Vector3f position, Vector3f rotation, float scale)
 	{
@@ -34,6 +28,13 @@ public class Maths
 		Matrix4f.rotate((float) Math.toRadians(rotation.z), new Vector3f(0, 0, 1), matrix, matrix);
 		Matrix4f.scale(new Vector3f(scale, scale, scale), matrix, matrix);
 		return matrix;
+	}
+
+	public static Matrix4f getProjectionMatrix()
+	{
+		if (projectionMatrix == null)
+			createProjectMat();
+		return projectionMatrix;
 	}
 
 	private static void createProjectMat()
@@ -51,19 +52,13 @@ public class Maths
 		projectionMatrix.m33 = 0;
 	}
 
-	public static void deleteProjectionMatrix()
-	{
-		projectionMatrix = null;
-	}
-
 	public static Matrix4f createViewMatrix()
 	{
-		Camera camera = Camera.getInstance();
 		Matrix4f matrix = new Matrix4f();
 		matrix.setIdentity();
-		Matrix4f.rotate((float) Math.toRadians(camera.getRotation().x), new Vector3f(1, 0, 0), matrix, matrix);
-		Matrix4f.rotate((float) Math.toRadians(camera.getRotation().y), new Vector3f(0, 1, 0), matrix, matrix);
-		Vector3f camPos = camera.getPosition();
+		Matrix4f.rotate((float) Math.toRadians(Camera.getRotation().x), new Vector3f(1, 0, 0), matrix, matrix);
+		Matrix4f.rotate((float) Math.toRadians(Camera.getRotation().y), new Vector3f(0, 1, 0), matrix, matrix);
+		Vector3f camPos = Camera.getPosition();
 		Vector3f negativeCamPos = new Vector3f(-camPos.x, -camPos.y, -camPos.z);
 		Matrix4f.translate(negativeCamPos, matrix, matrix);
 		return matrix;
@@ -76,13 +71,6 @@ public class Maths
 		float l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
 		float l3 = 1.0f - l1 - l2;
 		return l1 * p1.y + l2 * p2.y + l3 * p3.y;
-	}
-
-	public static Matrix4f getProjectionMatrix()
-	{
-		if (projectionMatrix == null)
-			createProjectMat();
-		return projectionMatrix;
 	}
 
 	public static float toOpenGLWidth(float value)
@@ -105,21 +93,7 @@ public class Maths
 		return (float) value * pixel_size;
 	}
 
-	public static Vector3f normalizeColor(Vector3f v)
-	{
-		float px = (1f / 255f);
-		float x = px * v.x;
-		float y = px * v.y;
-		float z = px * v.z;
-		return new Vector3f(x, y, z);
-	}
-
-	public static int getNextUniqueID()
-	{
-		return nextUniqueID++;
-	}
-
-	public static Vector3f getNextUniqueColor(int uniqueID)
+	public static Vector3f getNextColor()
 	{
 		int r = (int) nextUniqueColor.x;
 		int g = (int) nextUniqueColor.y;
@@ -140,17 +114,7 @@ public class Maths
 			nextUniqueColor.y = 0;
 			nextUniqueColor.z = 0;
 		}
-		colorArray.put(col.x + "/" + col.y + "/" + col.z, uniqueID);
 		return col;
-	}
-
-	public static int getUniqueIDByColor(String color)
-	{
-		if (colorArray.get(color) == null)
-		{
-			return -1;
-		}
-		return colorArray.get(color);
 	}
 
 	public static float getNearPlane()
@@ -166,15 +130,5 @@ public class Maths
 	public static float getFOV()
 	{
 		return FOV;
-	}
-
-	public static float getDefaultFOV()
-	{
-		return defaultFOV;
-	}
-
-	public static void setFOV(float fov)
-	{
-		Maths.FOV = fov;
 	}
 }

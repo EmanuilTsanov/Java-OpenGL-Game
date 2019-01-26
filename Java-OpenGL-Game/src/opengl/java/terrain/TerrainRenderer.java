@@ -1,6 +1,4 @@
-package opengl.java.render;
-
-import java.util.List;
+package opengl.java.terrain;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -8,24 +6,28 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.lighting.Light;
 import opengl.java.model.RawModel;
 import opengl.java.shader.TerrainShader;
-import opengl.java.terrain.Terrain;
-import opengl.java.terrain.TerrainTexturepack;
+import opengl.java.shadows.ShadowMapMasterRenderer;
 
 public class TerrainRenderer
 {
-	private TerrainShader shader;
+	private static TerrainShader shader;
 
-	public TerrainRenderer(TerrainShader shader)
+	public static void initialize()
 	{
-		this.shader = shader;
+		shader = new TerrainShader();
 		shader.start();
 		shader.connectTextureUnits();
+		shader.loadProjectionMatrix();
+		shader.loadShadowMap();
+		shader.loadShadowDistance();
+		shader.loadMapSize(ShadowMapMasterRenderer.SHADOW_MAP_SIZE);
 		shader.stop();
 	}
 
-	public void prepare(Terrain terrain)
+	private static void prepare(Terrain terrain)
 	{
 		RawModel model = terrain.getModel();
 		GL30.glBindVertexArray(model.getVAOID());
@@ -35,7 +37,7 @@ public class TerrainRenderer
 		bindTexture(terrain);
 	}
 
-	public void bindTexture(Terrain terrain)
+	private static void bindTexture(Terrain terrain)
 	{
 		TerrainTexturepack texturepack = terrain.getTexturepack();
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -50,12 +52,12 @@ public class TerrainRenderer
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getBlendMap().getTextureID());
 	}
 
-	public void load(Terrain terrain)
+	private static void load(Terrain terrain)
 	{
 		shader.loadTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), new Vector3f(0, 0, 0), 1);
 	}
 
-	public void unbind()
+	private static void unbind()
 	{
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
@@ -63,14 +65,16 @@ public class TerrainRenderer
 		GL30.glBindVertexArray(0);
 	}
 
-	public void render(List<Terrain> terrains)
+	public static void render(Terrain terrain)
 	{
-		for (Terrain terrain : terrains)
-		{
-			prepare(terrain);
-			load(terrain);
-			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-			unbind();
-		}
+		shader.start();
+		shader.loadViewMatrix();
+		shader.loadLight(Light.SUN);
+		// shader.loadToShadowMapSpace(toShadowSpace);
+		prepare(terrain);
+		load(terrain);
+		GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+		unbind();
+		shader.stop();
 	}
 }

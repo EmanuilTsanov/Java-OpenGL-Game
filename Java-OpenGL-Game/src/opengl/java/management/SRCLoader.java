@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
 import org.lwjgl.opengl.GL11;
@@ -25,6 +26,8 @@ import opengl.java.texture.ModelTexture;
 
 public class SRCLoader
 {
+	private static HashMap<String, ModelTexture> textures = new HashMap<String, ModelTexture>();
+	private static HashMap<String, RawModel> models = new HashMap<String, RawModel>();
 
 	public static ArrayList<String> readTextFile(String path, String fileName, String extension)
 	{
@@ -50,7 +53,16 @@ public class SRCLoader
 		return lines;
 	}
 
-	public static RawModel loadModel(String fileName)
+	public static RawModel getModel(String fileName)
+	{
+		if (models.get(fileName) != null)
+		{
+			return models.get(fileName);
+		}
+		return loadModel(fileName);
+	}
+
+	private static RawModel loadModel(String fileName)
 	{
 		ArrayList<Vector3f> vertices = new ArrayList<Vector3f>();
 		ArrayList<Vector2f> texCoords = new ArrayList<Vector2f>();
@@ -129,10 +141,13 @@ public class SRCLoader
 		{
 			indicesArr[i] = indices.get(i);
 		}
-		return ModelLoader.loadModel(verticesArr, indicesArr, texturesArr, normalsArr);
+		RawModel model = ModelLoader.loadModel(verticesArr, indicesArr, texturesArr, normalsArr);
+		models.put(fileName, model);
+		return model;
 	}
 
-	public static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords, float[] texturesArr, ArrayList<Vector3f> normals, float[] normalsArr)
+	public static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords, float[] texturesArr, ArrayList<Vector3f> normals,
+			float[] normalsArr)
 	{
 		int vertexPointer = Integer.parseInt(vertexData[0]) - 1;
 		indices.add(vertexPointer);
@@ -145,12 +160,25 @@ public class SRCLoader
 		normalsArr[vertexPointer * 3 + 2] = normal.z;
 	}
 
-	public static ModelTexture loadTexture(String fileName)
+	public static ModelTexture getTexture(String fileName)
 	{
-		Texture tex = null;
+		if (textures.get(fileName) != null)
+		{
+			return textures.get(fileName);
+		}
+		return loadTexture(fileName);
+	}
+
+	private static ModelTexture loadTexture(String fileName)
+	{
+		if (textures.get(fileName) != null)
+		{
+			return textures.get(fileName);
+		}
+		ModelTexture texture = null;
 		try
 		{
-			tex = TextureLoader.getTexture("PNG", new FileInputStream(FileSRC.TEXTURES_FOLDER + fileName + "." + FileSRC.TEXTURE_EXTENSION));
+			Texture tex = TextureLoader.getTexture("PNG", new FileInputStream(FileSRC.TEXTURES_FOLDER + fileName + "." + FileSRC.TEXTURE_EXTENSION));
 			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
@@ -163,60 +191,13 @@ public class SRCLoader
 			{
 
 			}
+			texture = new ModelTexture(tex.getTextureID());
+			textures.put(fileName, texture);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		return new ModelTexture(tex.getTextureID());
+		return texture;
 	}
-
-	public static ModelTexture loadTexture(String path, String fileName)
-	{
-		Texture tex = null;
-		try
-		{
-			tex = org.newdawn.slick.opengl.TextureLoader.getTexture("png", new FileInputStream(path + fileName + "." + FileSRC.TEXTURE_EXTENSION));
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return new ModelTexture(tex.getTextureID());
-	}
-
-	// public static void saveScreenshot()
-	// {
-	// int width = Display.getWidth();
-	// int height = Display.getHeight();
-	// ByteBuffer buffer = GameRenderer.getInstance().readScreen(0, 0, width,
-	// height);
-	// File file = new File(
-	// Logger.getDate() + "_" + Logger.getFormattedTime() + FileSRC.DOT +
-	// FileSRC.TEXTURE_EXTENSION);
-	// BufferedImage image = new BufferedImage(width, height,
-	// BufferedImage.TYPE_INT_RGB);
-	//
-	// for (int x = 0; x < width; x++)
-	// {
-	// for (int y = 0; y < height; y++)
-	// {
-	// int i = (x + (width * y)) * 4;
-	// int r = buffer.get(i) & 0xFF;
-	// int g = buffer.get(i + 1) & 0xFF;
-	// int b = buffer.get(i + 2) & 0xFF;
-	// image.setRGB(x, height - (y + 1), (0xFF << 24) | (r << 16) | (g << 8) | b);
-	// }
-	// }
-	//
-	// try
-	// {
-	// ImageIO.write(image, FileSRC.TEXTURE_EXTENSION, file);
-	// System.out.println("SCREENSHOT");
-	// }
-	// catch (IOException e)
-	// {
-	// e.printStackTrace();
-	// }
-	// }
 }

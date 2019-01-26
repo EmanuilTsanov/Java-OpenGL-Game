@@ -8,7 +8,6 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.maths.Maths;
-import opengl.java.model.TexturedModel;
 import opengl.java.shader.GUIShader;
 
 public class GUIButton extends GUIComponent
@@ -67,7 +66,9 @@ public class GUIButton extends GUIComponent
 			shader.loadColor(hoverColor);
 		else
 			shader.loadColor(bgcolor);
-		shader.loadTransformationMatrix(new Vector3f(Maths.toOpenGLWidth(parent == null ? 0 : parent.getX() + x) + 1, Maths.toOpenGLHeight(parent == null ? 0 : parent.getY() + y) - 1, 0), new Vector3f(0, 0, 0), 1f);
+		shader.loadTransformationMatrix(
+				new Vector3f(Maths.toOpenGLWidth(parent == null ? 0 : parent.getX() + x) + 1, Maths.toOpenGLHeight(parent == null ? 0 : parent.getY() + y) - 1, 0),
+				new Vector3f(0, 0, 0), 1f);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
