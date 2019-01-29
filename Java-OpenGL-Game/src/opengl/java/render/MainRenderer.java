@@ -17,8 +17,10 @@ import opengl.java.fonts.GUIText;
 import opengl.java.gui.Inventory;
 import opengl.java.interaction.KeyboardMaster;
 import opengl.java.interaction.MouseMaster;
+import opengl.java.lighting.Light;
 import opengl.java.management.SRCLoader;
 import opengl.java.shader.FontShader;
+import opengl.java.shader.MainShader;
 import opengl.java.shader.OffscreenShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
@@ -32,6 +34,7 @@ public class MainRenderer
 {
 	private static OffscreenShader offscreenShader;
 	private static FontShader fontShader;
+	private static MainShader shader;
 
 	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.getTexture("grassT").getID());
 	private static TerrainTexture rTexture = new TerrainTexture(SRCLoader.getTexture("dirt").getID());
@@ -42,16 +45,22 @@ public class MainRenderer
 	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.getTexture("blendMap").getID());
 	private static Terrain terrain = new Terrain(0, 0, texturepack, blendMap, "heightmap");
 
+	private static EntityRenderer entityRenderer;
+
 	private static ShadowMapMasterRenderer shadowRenderer = new ShadowMapMasterRenderer();
 
 	public static Inventory inv = new Inventory();
 
 	public static void initialize()
 	{
+		shader = new MainShader();
+		shader.start();
+		shader.loadProjectionMatrix();
+		shader.stop();
 		Camera.initialize(new Vector3f(500, 80, 500), new Vector3f(55, 0, 0));
 		MouseMaster.initialize();
 		TerrainRenderer.initialize();
-		EntityRenderer.initialize();
+		entityRenderer = new EntityRenderer();
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		fillWithEntities();
@@ -92,7 +101,7 @@ public class MainRenderer
 		offscreenShader.loadProjectionMatrix();
 		offscreenShader.stop();
 	}
-	
+
 	private static void prepareScreen(float r, float g, float b)
 	{
 		GL11.glClearColor(r, g, b, 0);
@@ -118,6 +127,7 @@ public class MainRenderer
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
+
 	public static ByteBuffer readScreen(int x, int y, int width, int height)
 	{
 		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
@@ -136,7 +146,11 @@ public class MainRenderer
 	{
 		prepareScreen(0, 1, 1);
 		TerrainRenderer.render(terrain);
-		EntityRenderer.renderEntities();
+		shader.start();
+		shader.loadLight(Light.SUN);
+		shader.loadViewMatrix();
+		entityRenderer.renderEntities(shader);
+		shader.stop();
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(1, 1, 0));
 		renderText(FPSCounter.getMesh());

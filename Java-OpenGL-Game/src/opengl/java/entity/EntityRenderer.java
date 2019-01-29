@@ -8,7 +8,6 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import opengl.java.lighting.Light;
 import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.shader.MainShader;
@@ -17,18 +16,13 @@ import opengl.java.view.Camera;
 
 public class EntityRenderer
 {
-	private static MainShader shader;
 
-	public static void initialize()
+	public EntityRenderer()
 	{
 		enableCulling();
-		shader = new MainShader();
-		shader.start();
-		shader.loadProjectionMatrix();
-		shader.stop();
 	}
 
-	private static void enableCulling()
+	private void enableCulling()
 	{
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
@@ -39,11 +33,8 @@ public class EntityRenderer
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 
-	public static void renderEntities()
+	public void renderEntities(MainShader shader)
 	{
-		shader.start();
-		shader.loadLight(Light.SUN);
-		shader.loadViewMatrix();
 		for (Map.Entry<EntityBase, ArrayList<Entity>> outer : Entity.getEntities().entrySet())
 		{
 			RawModel model = outer.getKey().getModel();
@@ -59,17 +50,7 @@ public class EntityRenderer
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
 			for (Entity entity : outer.getValue())
 			{
-				if (entity.getPosition().x - Camera.getPosition().x > Maths.getFarPlane() || Camera.getPosition().x - entity.getPosition().x > Maths.getFarPlane()
-						|| entity.getPosition().z - Camera.getPosition().z > Maths.getFarPlane() || Camera.getPosition().z - entity.getPosition().z > Maths.getFarPlane())
-					continue;
-				float dx = (float) (Maths.getFarPlane() * Math.sin(Math.toRadians(Camera.getRotation().y - 90)));
-				float dy = (float) (Maths.getFarPlane() * Math.cos(Math.toRadians(Camera.getRotation().y - 90)));
-				float dx1 = Camera.getPosition().x + dx;
-				float dy1 = Camera.getPosition().z - dy;
-				float dx2 = Camera.getPosition().x - dx;
-				float dy2 = Camera.getPosition().z + dy;
-				float d = (entity.getPosition().x - dx1) * (dy2 - dy1) - (entity.getPosition().z - dy1) * (dx2 - dx1);
-				if (d < 0)
+				if (shouldSkipEntity(entity))
 					continue;
 				shader.loadTransformationMatrix(entity.getPosition(), entity.getRotation(), entity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -80,26 +61,20 @@ public class EntityRenderer
 			GL20.glDisableVertexAttribArray(2);
 			GL30.glBindVertexArray(0);
 		}
-		shader.stop();
 	}
 
-	public static void renderEntity(Entity entity)
+	public boolean shouldSkipEntity(Entity entity)
 	{
-		shader.start();
-		RawModel model = entity.getModel();
-		ModelTexture texture = entity.getTexture();
-		GL30.glBindVertexArray(model.getVAOID());
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		GL20.glEnableVertexAttribArray(2);
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
-		shader.loadTransformationMatrix(entity.getPosition(), entity.getRotation(), entity.getScale());
-		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-		GL20.glDisableVertexAttribArray(2);
-		GL30.glBindVertexArray(0);
-		shader.stop();
+		float dx = (float) (Maths.getFarPlane() * Math.sin(Math.toRadians(Camera.getRotation().y - 90)));
+		float dy = (float) (Maths.getFarPlane() * Math.cos(Math.toRadians(Camera.getRotation().y - 90)));
+		float dx1 = Camera.getPosition().x + dx;
+		float dy1 = Camera.getPosition().z - dy;
+		float dx2 = Camera.getPosition().x - dx;
+		float dy2 = Camera.getPosition().z + dy;
+		float d = (entity.getPosition().x - dx1) * (dy2 - dy1) - (entity.getPosition().z - dy1) * (dx2 - dx1);
+		if (entity.getPosition().x - Camera.getPosition().x > Maths.getFarPlane() || Camera.getPosition().x - entity.getPosition().x > Maths.getFarPlane()
+				|| entity.getPosition().z - Camera.getPosition().z > Maths.getFarPlane() || Camera.getPosition().z - entity.getPosition().z > Maths.getFarPlane() || d < 0)
+			return true;
+		return false;
 	}
 }
