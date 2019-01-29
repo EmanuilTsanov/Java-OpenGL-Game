@@ -30,15 +30,10 @@ import opengl.java.window.FPSCounter;
 
 public class MainRenderer
 {
-	// private static int framebufferID;
-
-	// private static int colorTextureID;
-	// private static int renderBufferID;
-
 	private static OffscreenShader offscreenShader;
 	private static FontShader fontShader;
 
-	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.getTexture("grass").getID());
+	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.getTexture("grassT").getID());
 	private static TerrainTexture rTexture = new TerrainTexture(SRCLoader.getTexture("dirt").getID());
 	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.getTexture("path").getID());
 	private static TerrainTexture bTexture = new TerrainTexture(SRCLoader.getTexture("rocks").getID());
@@ -97,37 +92,7 @@ public class MainRenderer
 		offscreenShader.loadProjectionMatrix();
 		offscreenShader.stop();
 	}
-
-	// private static void bindBuffers(int width, int height)
-	// {
-	// framebufferID = GL30.glGenFramebuffers();
-	// colorTextureID = GL11.glGenTextures();
-	// renderBufferID = GL30.glGenRenderbuffers();
-	//
-	// GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, framebufferID);
-	// GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
-	//
-	// GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
-	// GL11.GL_LINEAR);
-	// GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0,
-	// GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);
-	// GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0,
-	// GL11.GL_TEXTURE_2D, colorTextureID, 0);
-	// GL11.glEnable(GL11.GL_TEXTURE_2D);
-	//
-	// GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, renderBufferID);
-	// GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL14.GL_DEPTH_COMPONENT24,
-	// width, height);
-	// GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT,
-	// GL30.GL_RENDERBUFFER, renderBufferID);
-	// unbindBuffers();
-	// }
-	//
-	// private static void unbindBuffers()
-	// {
-	// GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
-	// }
-
+	
 	private static void prepareScreen(float r, float g, float b)
 	{
 		GL11.glClearColor(r, g, b, 0);
@@ -153,47 +118,6 @@ public class MainRenderer
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
-
-	// private static void renderOffScreen()
-	// {
-	// for (Map.Entry<Integer, HashMap<Integer, Entity>> outer :
-	// entityArray.entrySet())
-	// {
-	// RawModel model =
-	// TexturedModel.getTexturedModel(outer.getKey()).getRawModel();
-	// GL30.glBindVertexArray(model.getVAOID());
-	// GL20.glEnableVertexAttribArray(0);
-	// for (Map.Entry<Integer, Entity> inner : outer.getValue().entrySet())
-	// {
-	// Entity currentEntity = inner.getValue();
-	// offscreenShader.loadTransformationMatrix(currentEntity.getPosition(),
-	// currentEntity.getRotation(), currentEntity.getScale());
-	// offscreenShader.loadColor(currentEntity.getColor());
-	// GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(),
-	// GL11.GL_UNSIGNED_INT, 0);
-	// }
-	// GL20.glDisableVertexAttribArray(0);
-	// GL30.glBindVertexArray(0);
-	// }
-	// }
-	//
-	// public static Vector3f pickColor(int x, int y)
-	// {
-	// GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, framebufferID);
-	// offscreenShader.start();
-	// prepareScreen(1, 1, 1);
-	// offscreenShader.loadViewMatrix();
-	// renderOffScreen();
-	// offscreenShader.stop();
-	// ByteBuffer buffer = readScreen(x, y, 1, 1);
-	// unbindBuffers();
-	// int r = buffer.get(0) & 0xFF;
-	// int g = buffer.get(1) & 0xFF;
-	// int b = buffer.get(2) & 0xFF;
-	//
-	// return new Vector3f(r, g, b);
-	// }
-
 	public static ByteBuffer readScreen(int x, int y, int width, int height)
 	{
 		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
