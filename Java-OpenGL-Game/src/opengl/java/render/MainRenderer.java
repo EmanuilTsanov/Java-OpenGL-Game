@@ -12,19 +12,18 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.entity.EntityBase;
-import opengl.java.entity.EntityRenderer;
 import opengl.java.fonts.GUIText;
 import opengl.java.gui.Inventory;
 import opengl.java.interaction.KeyboardMaster;
 import opengl.java.interaction.MouseMaster;
 import opengl.java.lighting.Light;
 import opengl.java.management.SRCLoader;
+import opengl.java.shader.EntityShader;
 import opengl.java.shader.FontShader;
-import opengl.java.shader.MainShader;
 import opengl.java.shader.OffscreenShader;
+import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
-import opengl.java.terrain.TerrainRenderer;
 import opengl.java.terrain.TerrainTexture;
 import opengl.java.terrain.TerrainTexturepack;
 import opengl.java.view.Camera;
@@ -32,35 +31,34 @@ import opengl.java.window.FPSCounter;
 
 public class MainRenderer
 {
-	private static OffscreenShader offscreenShader;
-	private static FontShader fontShader;
-	private static MainShader shader;
+	private static FontShader fontShader = new FontShader();
+	private static EntityShader entityShader = new EntityShader();
+	private static TerrainShader terrainShader = new TerrainShader();
+	private static OffscreenShader offscreenShader = new OffscreenShader();
 
-	private static TerrainTexture backgroundTexture = new TerrainTexture(SRCLoader.getTexture("grassT").getID());
-	private static TerrainTexture rTexture = new TerrainTexture(SRCLoader.getTexture("dirt").getID());
-	private static TerrainTexture gTexture = new TerrainTexture(SRCLoader.getTexture("path").getID());
-	private static TerrainTexture bTexture = new TerrainTexture(SRCLoader.getTexture("rocks").getID());
+	private static Terrain terrain = new Terrain(0, 0, "grassT");
 
-	private static TerrainTexturepack texturepack = new TerrainTexturepack(backgroundTexture, rTexture, gTexture, bTexture);
-	private static TerrainTexture blendMap = new TerrainTexture(SRCLoader.getTexture("blendMap").getID());
-	private static Terrain terrain = new Terrain(0, 0, texturepack, blendMap, "heightmap");
-
-	private static EntityRenderer entityRenderer;
-
+	private static EntityRenderer entityRenderer = new EntityRenderer();
+	private static TerrainRenderer terrainRenderer = new TerrainRenderer(terrainShader);
 	private static ShadowMapMasterRenderer shadowRenderer = new ShadowMapMasterRenderer();
-
+	
+	private static Camera camera = new Camera(new Vector3f(500, 80, 500), new Vector3f(55, 0, 0));
+	private static MouseMaster mouseMaster = new MouseMaster(camera);
 	public static Inventory inv = new Inventory();
 
 	public static void initialize()
 	{
-		shader = new MainShader();
-		shader.start();
-		shader.loadProjectionMatrix();
-		shader.stop();
-		Camera.initialize(new Vector3f(500, 80, 500), new Vector3f(55, 0, 0));
-		MouseMaster.initialize();
-		TerrainRenderer.initialize();
+		entityShader.start();
+		entityShader.loadProjectionMatrix();
+		entityShader.stop();
+		terrainShader.start();
+		terrainShader.loadProjectionMatrix();
+		terrainShader.loadShadowMap();
+		terrainShader.loadShadowDistance();
+		terrainShader.loadMapSize(ShadowMapMasterRenderer.SHADOW_MAP_SIZE);
+		terrainShader.stop();
 		entityRenderer = new EntityRenderer();
+		terrainRenderer = new TerrainRenderer(terrainShader);
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		fillWithEntities();
@@ -81,7 +79,7 @@ public class MainRenderer
 			Entity e = new Entity(EntityBase.GRASS);
 			float x = rand.nextFloat() * terrain.getSize();
 			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, terrain.getHeightOfTerrain(x, z), z));
+			e.setPosition(new Vector3f(x, 0, z));
 		}
 	}
 
@@ -137,7 +135,7 @@ public class MainRenderer
 
 	public static void update()
 	{
-		MouseMaster.update();
+		mouseMaster.update(camera);
 		KeyboardMaster.update();
 		inv.update();
 	}
@@ -145,12 +143,16 @@ public class MainRenderer
 	public static void render()
 	{
 		prepareScreen(0, 1, 1);
-		TerrainRenderer.render(terrain);
-		shader.start();
-		shader.loadLight(Light.SUN);
-		shader.loadViewMatrix();
-		entityRenderer.renderEntities(shader);
-		shader.stop();
+		terrainShader.start();
+		terrainShader.loadViewMatrix(camera);
+		terrainShader.loadLight(Light.SUN);
+		terrainRenderer.render(terrain, terrainShader);
+		terrainShader.stop();
+		entityShader.start();
+		entityShader.loadLight(Light.SUN);
+		entityShader.loadViewMatrix(camera);
+		entityRenderer.renderEntities(entityShader, camera);
+		entityShader.stop();
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(1, 1, 0));
 		renderText(FPSCounter.getMesh());

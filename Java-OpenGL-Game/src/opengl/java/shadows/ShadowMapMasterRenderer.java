@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.entity.Entity;
 import opengl.java.lighting.Light;
 import opengl.java.shader.ShadowShader;
+import opengl.java.view.Camera;
 
 public class ShadowMapMasterRenderer
 {
@@ -33,9 +34,9 @@ public class ShadowMapMasterRenderer
 		entityRenderer = new ShadowMapEntityRenderer(shader, projectionViewMatrix);
 	}
 
-	public void render(HashMap<Integer, HashMap<Integer, Entity>> entities, Light sun)
+	public void render(HashMap<Integer, HashMap<Integer, Entity>> entities, Light sun, Camera camera)
 	{
-		shadowBox.update();
+		shadowBox.update(camera);
 		Vector3f sunPosition = sun.getPosition();
 		Vector3f lightDirection = new Vector3f(-sunPosition.x, -sunPosition.y, -sunPosition.z);
 		prepare(lightDirection, shadowBox);

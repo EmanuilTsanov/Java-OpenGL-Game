@@ -7,7 +7,7 @@ import opengl.java.maths.Maths;
 import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 
-public class MainShader extends ShaderProgram
+public class EntityShader extends ShaderProgram
 {
 	private static final String VERTEX_SHADER = "main-vertex";
 	private static final String FRAGMENT_SHADER = "main-fragment";
@@ -25,7 +25,7 @@ public class MainShader extends ShaderProgram
 
 	private int loc_cameraPosition;
 
-	public MainShader()
+	public EntityShader()
 	{
 		super(VERTEX_SHADER, FRAGMENT_SHADER);
 	}
@@ -65,10 +65,10 @@ public class MainShader extends ShaderProgram
 		super.loadMatrix(loc_projectionMatrix, Maths.getProjectionMatrix());
 	}
 
-	public void loadViewMatrix()
+	public void loadViewMatrix(Camera camera)
 	{
-		super.loadMatrix(loc_viewMatrix, Maths.createViewMatrix());
-		super.loadVector3f(loc_cameraPosition, Camera.getPosition());
+		super.loadMatrix(loc_viewMatrix, Maths.createViewMatrix(camera));
+		super.loadVector3f(loc_cameraPosition, camera.getPosition());
 	}
 
 	public void loadLight(Light light)

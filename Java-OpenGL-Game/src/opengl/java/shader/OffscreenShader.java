@@ -3,6 +3,7 @@ package opengl.java.shader;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.maths.Maths;
+import opengl.java.view.Camera;
 
 public class OffscreenShader extends ShaderProgram
 {
@@ -44,9 +45,9 @@ public class OffscreenShader extends ShaderProgram
 		super.loadMatrix(loc_mat_project, Maths.getProjectionMatrix());
 	}
 
-	public void loadViewMatrix()
+	public void loadViewMatrix(Camera camera)
 	{
-		super.loadMatrix(loc_mat_view, Maths.createViewMatrix());
+		super.loadMatrix(loc_mat_view, Maths.createViewMatrix(camera));
 	}
 
 	public void loadColor(Vector3f color)

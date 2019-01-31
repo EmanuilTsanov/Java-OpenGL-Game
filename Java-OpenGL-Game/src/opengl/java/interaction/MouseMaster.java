@@ -23,17 +23,17 @@ public class MouseMaster
 	private static Vector2f axis = new Vector2f(0, 0);
 	private static Vector2f mouseCoords = new Vector2f(0, 0);
 
-	public static void initialize()
+	public MouseMaster(Camera camera)
 	{
 		currentStep = FIRST_STEP;
-		stepLength = Camera.getDistance() / (float) ZOOM_STEPS;
+		stepLength = camera.getDistance() / (float) ZOOM_STEPS;
 	}
 
-	public static void update()
+	public void update(Camera camera)
 	{
 		while (Mouse.next())
 		{
-			handleClicks();
+			handleClicks(camera);
 			if (Mouse.getEventButtonState())
 			{
 				if (Mouse.getEventButton() == 0)
@@ -48,23 +48,23 @@ public class MouseMaster
 		int dWheel = Mouse.getDWheel();
 		if (mmb)
 		{
-			Camera.rotate(0, 0.2f * (Mouse.getX() - mouseCoords.getX()), 0);
+			camera.rotate(0, 0.2f * (Mouse.getX() - mouseCoords.getX()), 0);
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
-			float distance = (float) (Camera.getDistance() * Math.cos(Math.toRadians(Camera.getRotation().x)));
-			float dx = (float) (distance * Math.sin(Math.toRadians(Camera.getRotation().getY())));
-			float dy = (float) (distance * Math.cos(Math.toRadians(Camera.getRotation().getY())));
-			Camera.setPosition(axis.getX() - dx, Camera.getPosition().y, axis.getY() + dy);
+			float distance = (float) (camera.getDistance() * Math.cos(Math.toRadians(camera.getRotation().x)));
+			float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().getY())));
+			float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().getY())));
+			camera.setPosition(axis.getX() - dx, camera.getPosition().y, axis.getY() + dy);
 		}
 		else if (rmb)
 		{
 			float distanceX = 0.3f * (Mouse.getX() - mouseCoords.getX()) / currentStep;
 			float distanceY = 0.3f * (Mouse.getY() - mouseCoords.getY()) / currentStep;
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
-			float dx = (float) (distanceX * Math.sin(Math.toRadians(Camera.getRotation().y - 90)));
-			float dy = (float) (distanceX * Math.cos(Math.toRadians(Camera.getRotation().y - 90)));
-			float dx1 = (float) (distanceY * Math.sin(Math.toRadians(Camera.getRotation().y)));
-			float dy1 = (float) (distanceY * Math.cos(Math.toRadians(Camera.getRotation().y)));
-			Camera.move(dx - dx1, 0, -dy + dy1);
+			float dx = (float) (distanceX * Math.sin(Math.toRadians(camera.getRotation().y - 90)));
+			float dy = (float) (distanceX * Math.cos(Math.toRadians(camera.getRotation().y - 90)));
+			float dx1 = (float) (distanceY * Math.sin(Math.toRadians(camera.getRotation().y)));
+			float dy1 = (float) (distanceY * Math.cos(Math.toRadians(camera.getRotation().y)));
+			camera.move(dx - dx1, 0, -dy + dy1);
 		}
 		else if (!lmb && !rmb && !mmb)
 		{
@@ -73,7 +73,7 @@ public class MouseMaster
 				if (currentStep < FINAL_STEP)
 				{
 					currentStep += 0.4f;
-					zoom(stepLength);
+					zoom(stepLength, camera);
 				}
 			}
 			else if (dWheel < 0)
@@ -81,22 +81,22 @@ public class MouseMaster
 				if (currentStep > FIRST_STEP)
 				{
 					currentStep -= 0.4f;
-					zoom(-stepLength);
+					zoom(-stepLength, camera);
 				}
 			}
 		}
 	}
 
-	public static void zoom(float speed)
+	public void zoom(float speed, Camera camera)
 	{
-		float dst = (float) (speed * Math.cos(Math.toRadians(Camera.getRotation().x)));
-		float dy = (float) (speed * Math.sin(Math.toRadians(Camera.getRotation().x)));
-		float dx = (float) (dst * Math.sin(Math.toRadians(Camera.getRotation().y)));
-		float dz = (float) (dst * Math.cos(Math.toRadians(Camera.getRotation().y)));
-		Camera.move(dx, -dy, -dz);
+		float dst = (float) (speed * Math.cos(Math.toRadians(camera.getRotation().x)));
+		float dy = (float) (speed * Math.sin(Math.toRadians(camera.getRotation().x)));
+		float dx = (float) (dst * Math.sin(Math.toRadians(camera.getRotation().y)));
+		float dz = (float) (dst * Math.cos(Math.toRadians(camera.getRotation().y)));
+		camera.move(dx, -dy, -dz);
 	}
 
-	public static void handleClicks()
+	public void handleClicks(Camera camera)
 	{
 		if (Mouse.getEventButtonState())
 		{
@@ -117,10 +117,10 @@ public class MouseMaster
 				if (!lmb && !rmb)
 				{
 					mmb = true;
-					float distance = (float) (Camera.getDistance() * Math.cos(Math.toRadians(Camera.getRotation().x)));
-					float dx = (float) (distance * Math.sin(Math.toRadians(Camera.getRotation().y)));
-					float dy = (float) (distance * Math.cos(Math.toRadians(Camera.getRotation().y)));
-					axis.set(Camera.getPosition().x + dx, Camera.getPosition().z - dy);
+					float distance = (float) (camera.getDistance() * Math.cos(Math.toRadians(camera.getRotation().x)));
+					float dx = (float) (distance * Math.sin(Math.toRadians(camera.getRotation().y)));
+					float dy = (float) (distance * Math.cos(Math.toRadians(camera.getRotation().y)));
+					axis.set(camera.getPosition().x + dx, camera.getPosition().z - dy);
 					mouseCoords.set(Mouse.getX(), Mouse.getY());
 				}
 			}
