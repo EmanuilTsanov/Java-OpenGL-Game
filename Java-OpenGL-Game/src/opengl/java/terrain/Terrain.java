@@ -7,8 +7,6 @@ import opengl.java.model.RawModel;
 public class Terrain
 {
 	private static final float SIZE = 1024;
-	private static final float MAX_HEIGHT = 0;
-	private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
 	private float x, z;
 	private RawModel model;
@@ -51,7 +49,7 @@ public class Terrain
 
 	private RawModel generateTerrain()
 	{
-		float[] vertices = { -SIZE, 0, -SIZE, -SIZE, 0, SIZE, SIZE, 0, SIZE, SIZE, 0, -SIZE };
+		float[] vertices = { 0, 0, 0, 0, 0, SIZE, SIZE, 0, SIZE, SIZE, 0, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
 		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
 		float[] normals = { 0, 1, 0 };

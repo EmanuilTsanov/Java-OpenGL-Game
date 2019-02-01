@@ -42,8 +42,6 @@ public class MainRenderer
 	private static TerrainRenderer terrainRenderer = new TerrainRenderer(terrainShader);
 	private static ShadowMapMasterRenderer shadowRenderer = new ShadowMapMasterRenderer();
 	
-	private static Camera camera = new Camera(new Vector3f(500, 80, 500), new Vector3f(55, 0, 0));
-	private static MouseMaster mouseMaster = new MouseMaster(camera);
 	public static Inventory inv = new Inventory();
 
 	public static void initialize()
@@ -135,7 +133,7 @@ public class MainRenderer
 
 	public static void update()
 	{
-		mouseMaster.update(camera);
+		MouseMaster.update();
 		KeyboardMaster.update();
 		inv.update();
 	}
@@ -144,14 +142,14 @@ public class MainRenderer
 	{
 		prepareScreen(0, 1, 1);
 		terrainShader.start();
-		terrainShader.loadViewMatrix(camera);
+		terrainShader.loadViewMatrix();
 		terrainShader.loadLight(Light.SUN);
 		terrainRenderer.render(terrain, terrainShader);
 		terrainShader.stop();
 		entityShader.start();
 		entityShader.loadLight(Light.SUN);
-		entityShader.loadViewMatrix(camera);
-		entityRenderer.renderEntities(entityShader, camera);
+		entityShader.loadViewMatrix();
+		entityRenderer.renderEntities(entityShader);
 		entityShader.stop();
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(1, 1, 0));

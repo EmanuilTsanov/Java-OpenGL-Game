@@ -6,7 +6,6 @@ import org.lwjgl.util.vector.Vector3f;
 import opengl.java.lighting.Light;
 import opengl.java.maths.Maths;
 import opengl.java.shadows.ShadowBox;
-import opengl.java.view.Camera;
 
 public class TerrainShader extends ShaderProgram
 {
@@ -68,9 +67,9 @@ public class TerrainShader extends ShaderProgram
 		super.loadMatrix(loc_mat_project, Maths.getProjectionMatrix());
 	}
 
-	public void loadViewMatrix(Camera camera)
+	public void loadViewMatrix()
 	{
-		super.loadMatrix(loc_mat_view, Maths.createViewMatrix(camera));
+		super.loadMatrix(loc_mat_view, Maths.createViewMatrix());
 	}
 
 	public void loadToShadowMapSpace(Matrix4f mat)

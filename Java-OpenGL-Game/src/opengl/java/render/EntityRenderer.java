@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.entity.EntityBase;
@@ -34,7 +35,7 @@ public class EntityRenderer
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 
-	public void renderEntities(EntityShader shader, Camera camera)
+	public void renderEntities(EntityShader shader)
 	{
 		for (Map.Entry<EntityBase, ArrayList<Entity>> outer : Entity.getEntities().entrySet())
 		{
@@ -51,7 +52,7 @@ public class EntityRenderer
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
 			for (Entity entity : outer.getValue())
 			{
-				if (shouldSkipEntity(entity, camera))
+				if (shouldSkipEntity(entity))
 					continue;
 				shader.loadTransformationMatrix(entity.getPosition(), entity.getRotation(), entity.getScale());
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -64,17 +65,18 @@ public class EntityRenderer
 		}
 	}
 
-	public boolean shouldSkipEntity(Entity entity, Camera camera)
+	public boolean shouldSkipEntity(Entity entity)
 	{
-		float dx = (float) (Maths.getFarPlane() * Math.sin(Math.toRadians(camera.getRotation().y - 90)));
-		float dy = (float) (Maths.getFarPlane() * Math.cos(Math.toRadians(camera.getRotation().y - 90)));
-		float dx1 = camera.getPosition().x + dx;
-		float dy1 = camera.getPosition().z - dy;
-		float dx2 = camera.getPosition().x - dx;
-		float dy2 = camera.getPosition().z + dy;
+		Vector3f camPosition = Camera.getPosition();
+		float dx = (float) (Maths.getFarPlane() * Math.sin(Math.toRadians(camPosition.y - 90)));
+		float dy = (float) (Maths.getFarPlane() * Math.cos(Math.toRadians(camPosition.y - 90)));
+		float dx1 = camPosition.x + dx;
+		float dy1 = camPosition.z - dy;
+		float dx2 = camPosition.x - dx;
+		float dy2 = camPosition.z + dy;
 		float d = (entity.getPosition().x - dx1) * (dy2 - dy1) - (entity.getPosition().z - dy1) * (dx2 - dx1);
-		if (entity.getPosition().x - camera.getPosition().x > Maths.getFarPlane() || camera.getPosition().x - entity.getPosition().x > Maths.getFarPlane() || entity.getPosition().z - camera.getPosition().z > Maths.getFarPlane()
-				|| camera.getPosition().z - entity.getPosition().z > Maths.getFarPlane() || d < 0)
+		if (entity.getPosition().x - camPosition.x > Maths.getFarPlane() || camPosition.x - entity.getPosition().x > Maths.getFarPlane() || entity.getPosition().z - camPosition.z > Maths.getFarPlane()
+				|| camPosition.z - entity.getPosition().z > Maths.getFarPlane() || d < 0)
 			return true;
 		return false;
 	}

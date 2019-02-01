@@ -14,24 +14,14 @@ public class MousePicker
 {
 	private static Vector3f worldRay;
 
-	private static Matrix4f projectionMatrix;
-	private static Matrix4f viewMatrix;
+	private static Matrix4f projectionMatrix = Maths.getProjectionMatrix();
+	private static Matrix4f viewMatrix = Maths.createViewMatrix();
 
-	private static Vector2f mousePosition;
+	private static Vector2f mousePosition = new Vector2f(0, 0);
 	private static Vector3f terrainPosition = new Vector3f(0, 0, 0);
-	
-	private static Camera camera;
 
 	private static final int RANGE = 600;
 	private static final int LOOPS = 200;
-
-	public MousePicker(Camera camera)
-	{
-		MousePicker.camera = camera;
-		projectionMatrix = Maths.getProjectionMatrix();
-		viewMatrix = Maths.createViewMatrix(camera);
-		mousePosition = new Vector2f(0, 0);
-	}
 
 	public static Vector3f getWorldRay()
 	{
@@ -51,7 +41,7 @@ public class MousePicker
 
 	public void update()
 	{
-		viewMatrix = Maths.createViewMatrix(camera);
+		viewMatrix = Maths.createViewMatrix();
 		worldRay = calculateMouseRay();
 	}
 
@@ -92,7 +82,7 @@ public class MousePicker
 
 	private static Vector3f getPointOnVector(Vector3f ray, float distance)
 	{
-		Vector3f camPosition = camera.getPosition();
+		Vector3f camPosition = Camera.getPosition();
 		Vector3f start = new Vector3f(camPosition.x, camPosition.y, camPosition.z);
 		Vector3f scaledRay = new Vector3f(ray.x * distance, ray.y * distance, ray.z * distance);
 		return Vector3f.add(start, scaledRay, null);
