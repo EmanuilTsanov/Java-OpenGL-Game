@@ -17,15 +17,12 @@ import opengl.java.gui.Inventory;
 import opengl.java.interaction.KeyboardMaster;
 import opengl.java.interaction.MouseMaster;
 import opengl.java.lighting.Light;
-import opengl.java.management.SRCLoader;
 import opengl.java.shader.EntityShader;
 import opengl.java.shader.FontShader;
 import opengl.java.shader.OffscreenShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
-import opengl.java.terrain.TerrainTexture;
-import opengl.java.terrain.TerrainTexturepack;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
 
@@ -41,7 +38,7 @@ public class MainRenderer
 	private static EntityRenderer entityRenderer = new EntityRenderer();
 	private static TerrainRenderer terrainRenderer = new TerrainRenderer(terrainShader);
 	private static ShadowMapMasterRenderer shadowRenderer = new ShadowMapMasterRenderer();
-	
+
 	public static Inventory inv = new Inventory();
 
 	public static void initialize()
@@ -60,6 +57,8 @@ public class MainRenderer
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		fillWithEntities();
+		Camera.setPosition(500, 50, 500);
+		Camera.setRotation(40, 0, 0);
 	}
 
 	public static void fillWithEntities()
