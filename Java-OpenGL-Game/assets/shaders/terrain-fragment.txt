@@ -1,47 +1,19 @@
 #version 330 core
 
 in vec2 textureCoords;
-in vec4 shadowCoords;
 in vec3 surfaceNormal;
 
 in vec3 toLightVector;
 
-uniform sampler2D shadowMap;
-uniform sampler2D backgroundTexture;
+uniform sampler2D sampler;
 
 uniform vec3 lightColor;
 
-uniform float mapSize;
-
 out vec4 finalColor;
-
-const int pcfCount = 2;
-const float totalTexels = (pcfCount * 2.0f + 1.0f) * (pcfCount * 2.0f + 1.0f);
 
 void main()
 {
-	vec4 backgroundTextureColor = texture(backgroundTexture, textureCoords);
-	
-	vec4 totalColor = backgroundTextureColor;
-
-	float texelSize = 1.0f / mapSize;
-	float total = 0.0f;
-	
-	for(int x = -pcfCount; x <= pcfCount; x++)
-	{
-		for(int y = -pcfCount; y <= pcfCount; y++)
-		{
-			float objectNearestLight = texture(shadowMap, shadowCoords.xy + vec2(x, y) * texelSize).r;
-			if(shadowCoords.z > objectNearestLight) {
-				total += 1.0f;
-			}
-		}
-	}
-	
-	total /= totalTexels;
-	
-	float lightFactor = 1.0f - (total * shadowCoords.w) * 0.5f;
-	
+	vec4 pixelColor = texture(sampler,textureCoords*60f);
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitToLightVector = normalize(toLightVector);
 	
@@ -50,5 +22,5 @@ void main()
 	
 	vec3 diffuse = lightColor * brightness;
 	
-	finalColor = vec4(diffuse, 1.0) * totalColor * vec4(1.0f,1.0f,1.0f,1.0f) * lightFactor;
+	finalColor = vec4(diffuse, 1.0) * pixelColor * vec4(1.0f,1.0f,1.0f,1.0f);
 }

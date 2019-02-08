@@ -52,7 +52,7 @@ public class Terrain
 		float[] vertices = { 0, 0, 0, 0, 0, SIZE, SIZE, 0, SIZE, SIZE, 0, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
 		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
-		float[] normals = { 0, 1, 0 };
+		float[] normals = { 0, 1, 0, 0, 1, 0 };
 		return ModelLoader.loadModel(vertices, indices, textureCoords, normals);
 	}
 

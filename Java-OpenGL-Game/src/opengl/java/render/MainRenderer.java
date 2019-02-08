@@ -21,7 +21,6 @@ import opengl.java.shader.EntityShader;
 import opengl.java.shader.FontShader;
 import opengl.java.shader.OffscreenShader;
 import opengl.java.shader.TerrainShader;
-import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
@@ -36,8 +35,7 @@ public class MainRenderer
 	private static Terrain terrain = new Terrain(0, 0, "grassT");
 
 	private static EntityRenderer entityRenderer = new EntityRenderer();
-	private static TerrainRenderer terrainRenderer = new TerrainRenderer(terrainShader);
-	private static ShadowMapMasterRenderer shadowRenderer = new ShadowMapMasterRenderer();
+	private static TerrainRenderer terrainRenderer = new TerrainRenderer();
 
 	public static Inventory inv = new Inventory();
 
@@ -48,12 +46,7 @@ public class MainRenderer
 		entityShader.stop();
 		terrainShader.start();
 		terrainShader.loadProjectionMatrix();
-		terrainShader.loadShadowMap();
-		terrainShader.loadShadowDistance();
-		terrainShader.loadMapSize(ShadowMapMasterRenderer.SHADOW_MAP_SIZE);
 		terrainShader.stop();
-		entityRenderer = new EntityRenderer();
-		terrainRenderer = new TerrainRenderer(terrainShader);
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		fillWithEntities();
@@ -102,7 +95,6 @@ public class MainRenderer
 		GL11.glClearColor(r, g, b, 0);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		GL13.glActiveTexture(GL13.GL_TEXTURE5);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, shadowRenderer.getShadowMap());
 	}
 
 	public static void renderText(GUIText t)

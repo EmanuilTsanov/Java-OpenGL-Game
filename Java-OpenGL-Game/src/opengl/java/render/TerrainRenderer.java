@@ -12,13 +12,6 @@ import opengl.java.terrain.Terrain;
 
 public class TerrainRenderer
 {
-	public TerrainRenderer(TerrainShader shader)
-	{
-		shader.start();
-		shader.connectTextureUnits();
-		shader.stop();
-	}
-
 	private void prepare(Terrain terrain)
 	{
 		RawModel model = terrain.getModel();
@@ -44,7 +37,6 @@ public class TerrainRenderer
 
 	public void render(Terrain terrain, TerrainShader shader)
 	{
-//		shader.loadToShadowMapSpace(toShadowSpace);
 		prepare(terrain);
 		bindTexture(terrain);
 		shader.loadTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), new Vector3f(0, 0, 0), 1);
