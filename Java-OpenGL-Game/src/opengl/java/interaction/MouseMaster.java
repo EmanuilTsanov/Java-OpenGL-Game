@@ -118,7 +118,7 @@ public class MouseMaster
 					float distance = (float) (Camera.getDistance() * Math.cos(Math.toRadians(camRotation.x)));
 					float dx = (float) (distance * Math.sin(Math.toRadians(camRotation.y)));
 					float dy = (float) (distance * Math.cos(Math.toRadians(camRotation.y)));
-					axis.set(camRotation.x + dx, camRotation.z - dy);
+					axis.set(Camera.getPosition().x + dx, Camera.getPosition().z - dy);
 					mouseCoords.set(Mouse.getX(), Mouse.getY());
 				}
 			}

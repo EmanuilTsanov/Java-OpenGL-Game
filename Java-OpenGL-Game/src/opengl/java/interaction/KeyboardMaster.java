@@ -17,6 +17,14 @@ public class KeyboardMaster
 		{
 			if (Keyboard.getEventKeyState())
 			{
+				if (Keyboard.getEventKey() == Keyboard.KEY_A || Keyboard.getEventKey() == Keyboard.KEY_D)
+				{
+					Vector3f camRotation = Camera.getRotation();
+					float distance = (float) (Camera.getDistance() * Math.cos(Math.toRadians(camRotation.x)));
+					float dx = (float) (distance * Math.sin(Math.toRadians(camRotation.y)));
+					float dy = (float) (distance * Math.cos(Math.toRadians(camRotation.y)));
+					axis.set(Camera.getPosition().x + dx, Camera.getPosition().z - dy);
+				}
 			}
 			else
 			{
