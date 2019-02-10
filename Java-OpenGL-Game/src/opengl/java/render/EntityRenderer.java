@@ -68,8 +68,8 @@ public class EntityRenderer
 	public boolean shouldSkipEntity(Entity entity)
 	{
 		Vector3f camPosition = Camera.getPosition();
-		float dx = (float) (Maths.getFarPlane() * Math.sin(Math.toRadians(camPosition.y - 90)));
-		float dy = (float) (Maths.getFarPlane() * Math.cos(Math.toRadians(camPosition.y - 90)));
+		float dx = (float) (Maths.getFarPlane() * Math.sin(Math.toRadians(Camera.getRotation().y - 90)));
+		float dy = (float) (Maths.getFarPlane() * Math.cos(Math.toRadians(Camera.getRotation().y - 90)));
 		float dx1 = camPosition.x + dx;
 		float dy1 = camPosition.z - dy;
 		float dx2 = camPosition.x - dx;

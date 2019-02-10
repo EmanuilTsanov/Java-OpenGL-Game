@@ -10,8 +10,6 @@ public class Terrain
 
 	private float x, z;
 	private RawModel model;
-	private TerrainTexturepack texturepack;
-	private TerrainTexture blendMap;
 	private int texture;
 
 	public Terrain(int gridX, int gridZ, String texture)
@@ -35,16 +33,6 @@ public class Terrain
 	public RawModel getModel()
 	{
 		return model;
-	}
-
-	public TerrainTexturepack getTexturepack()
-	{
-		return texturepack;
-	}
-
-	public TerrainTexture getBlendMap()
-	{
-		return blendMap;
 	}
 
 	private RawModel generateTerrain()
