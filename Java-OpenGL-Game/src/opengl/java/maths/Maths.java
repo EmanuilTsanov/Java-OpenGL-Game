@@ -16,8 +16,6 @@ public class Maths
 
 	private static Matrix4f projectionMatrix = null;
 
-	private static Vector3f nextUniqueColor = new Vector3f(0, 0, 0);
-
 	public static Matrix4f createTransMat(Vector3f position, Vector3f rotation, float scale)
 	{
 		Matrix4f matrix = new Matrix4f();
@@ -92,31 +90,7 @@ public class Maths
 		float pixel_size = 1f / dimSize;
 		return (float) value * pixel_size;
 	}
-
-	public static Vector3f getNextColor()
-	{
-		int r = (int) nextUniqueColor.x;
-		int g = (int) nextUniqueColor.y;
-		int b = (int) nextUniqueColor.z;
-		Vector3f col = new Vector3f(r, g, b);
-		if (b < 255)
-		{
-			nextUniqueColor.z++;
-		}
-		else if (g < 255)
-		{
-			nextUniqueColor.y++;
-			nextUniqueColor.z = 0;
-		}
-		else if (r < 255)
-		{
-			nextUniqueColor.x++;
-			nextUniqueColor.y = 0;
-			nextUniqueColor.z = 0;
-		}
-		return col;
-	}
-
+	
 	public static float getNearPlane()
 	{
 		return NEAR_PLANE;

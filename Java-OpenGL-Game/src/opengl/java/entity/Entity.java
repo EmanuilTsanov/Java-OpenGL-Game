@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.texture.ModelTexture;
 
@@ -19,11 +18,7 @@ public class Entity
 
 	protected float scale = 1;
 
-	protected Vector3f color;
-
 	private static HashMap<EntityBase, ArrayList<Entity>> entities = new HashMap<EntityBase, ArrayList<Entity>>();
-
-	private static HashMap<String, Entity> colors = new HashMap<String, Entity>();
 
 	public Entity(EntityBase base)
 	{
@@ -35,8 +30,6 @@ public class Entity
 		}
 		this.id = entities.get(base).size();
 		entities.get(base).add(this);
-		color = Maths.getNextColor();
-		colors.put(color.x + "-" + color.y + "-" + color.z, this);
 	}
 
 	public Vector3f getPosition()
@@ -91,11 +84,6 @@ public class Entity
 		return id;
 	}
 
-	public Vector3f getColor()
-	{
-		return color;
-	}
-
 	public static HashMap<EntityBase, ArrayList<Entity>> getEntities()
 	{
 		return entities;
@@ -109,10 +97,5 @@ public class Entity
 	public ModelTexture getTexture()
 	{
 		return base.getTexture();
-	}
-
-	public Entity getEntityByColor(Vector3f color)
-	{
-		return colors.get(color.x + "-" + color.y + "-" + color.z);
 	}
 }

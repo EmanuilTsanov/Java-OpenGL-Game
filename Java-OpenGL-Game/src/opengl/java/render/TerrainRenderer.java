@@ -6,12 +6,23 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.lighting.Light;
 import opengl.java.model.RawModel;
 import opengl.java.shader.TerrainShader;
 import opengl.java.terrain.Terrain;
 
 public class TerrainRenderer
 {
+	private static TerrainShader shader;
+
+	public TerrainRenderer()
+	{
+		shader = new TerrainShader();
+		shader.start();
+		shader.loadProjectionMatrix();
+		shader.stop();
+	}
+
 	private void prepare(Terrain terrain)
 	{
 		RawModel model = terrain.getModel();
@@ -35,12 +46,17 @@ public class TerrainRenderer
 		GL30.glBindVertexArray(0);
 	}
 
-	public void render(Terrain terrain, TerrainShader shader)
+	public void render(Terrain terrain)
 	{
+		shader.start();
+		shader.loadViewMatrix();
+		shader.loadLight(Light.SUN);
 		prepare(terrain);
 		bindTexture(terrain);
 		shader.loadTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), new Vector3f(0, 0, 0), 1);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		unbind();
+		shader.stop();
+
 	}
 }

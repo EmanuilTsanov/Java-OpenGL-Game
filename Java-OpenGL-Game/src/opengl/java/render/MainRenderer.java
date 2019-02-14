@@ -1,9 +1,7 @@
 package opengl.java.render;
 
-import java.nio.ByteBuffer;
 import java.util.Random;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -16,11 +14,8 @@ import opengl.java.fonts.GUIText;
 import opengl.java.gui.Inventory;
 import opengl.java.interaction.KeyboardMaster;
 import opengl.java.interaction.MouseMaster;
-import opengl.java.lighting.Light;
-import opengl.java.shader.EntityShader;
 import opengl.java.shader.FontShader;
 import opengl.java.shader.OffscreenShader;
-import opengl.java.shader.TerrainShader;
 import opengl.java.terrain.Terrain;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
@@ -28,11 +23,9 @@ import opengl.java.window.FPSCounter;
 public class MainRenderer
 {
 	private static FontShader fontShader = new FontShader();
-	private static EntityShader entityShader = new EntityShader();
-	private static TerrainShader terrainShader = new TerrainShader();
 	private static OffscreenShader offscreenShader = new OffscreenShader();
 
-	private static Terrain terrain = new Terrain(0, 0, "grassT");
+	private static Terrain terrain = new Terrain(0, 0, "grass");
 
 	private static EntityRenderer entityRenderer = new EntityRenderer();
 	private static TerrainRenderer terrainRenderer = new TerrainRenderer();
@@ -41,12 +34,6 @@ public class MainRenderer
 
 	public static void initialize()
 	{
-		entityShader.start();
-		entityShader.loadProjectionMatrix();
-		entityShader.stop();
-		terrainShader.start();
-		terrainShader.loadProjectionMatrix();
-		terrainShader.stop();
 		initShaders();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		fillWithEntities();
@@ -64,13 +51,13 @@ public class MainRenderer
 			float z = rand.nextFloat() * terrain.getSize();
 			e.setPosition(new Vector3f(x, 0, z));
 		}
-		for (int i = 0; i < 10000; i++)
-		{
-			Entity e = new Entity(EntityBase.GRASS);
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, 0, z));
-		}
+//		for (int i = 0; i < 10000; i++)
+//		{
+//			Entity e = new Entity(EntityBase.GRASS);
+//			float x = rand.nextFloat() * terrain.getSize();
+//			float z = rand.nextFloat() * terrain.getSize();
+//			e.setPosition(new Vector3f(x, 0, z));
+//		}
 	}
 
 	private static void initShaders()
@@ -115,13 +102,6 @@ public class MainRenderer
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
-	public static ByteBuffer readScreen(int x, int y, int width, int height)
-	{
-		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
-		GL11.glReadPixels(x, y, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
-		return buffer;
-	}
-
 	public static void update()
 	{
 		MouseMaster.update();
@@ -132,16 +112,8 @@ public class MainRenderer
 	public static void render()
 	{
 		prepareScreen(0, 1, 1);
-		terrainShader.start();
-		terrainShader.loadViewMatrix();
-		terrainShader.loadLight(Light.SUN);
-		terrainRenderer.render(terrain, terrainShader);
-		terrainShader.stop();
-		entityShader.start();
-		entityShader.loadLight(Light.SUN);
-		entityShader.loadViewMatrix();
-		entityRenderer.renderEntities(entityShader);
-		entityShader.stop();
+		terrainRenderer.render(terrain);
+		entityRenderer.render();
 		fontShader.start();
 		fontShader.loadColor(new Vector3f(1, 1, 0));
 		renderText(FPSCounter.getMesh());
