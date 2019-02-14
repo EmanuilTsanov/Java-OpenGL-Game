@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.loader.ModelLoader;
 import opengl.java.maths.Maths;
@@ -21,6 +22,8 @@ public class GUIText
 	private FontType fontType;
 	private float fontSize;
 
+	private Vector3f color;
+
 	private Vector2f textDimensions = new Vector2f();
 
 	public GUIText(int x, int y, String text, FontType fontType, float fontSize, int maxLineWidth)
@@ -32,6 +35,7 @@ public class GUIText
 		this.maxLineWidth = maxLineWidth;
 		txtModel = translateText(text, maxLineWidth, fontType, fontSize);
 		imgID = fontType.getImg().getID();
+		color = new Vector3f(0, 0, 0);
 	}
 
 	public void update(String t)
@@ -169,5 +173,15 @@ public class GUIText
 	public Vector2f getTextDimensions()
 	{
 		return textDimensions;
+	}
+
+	public Vector3f getColor()
+	{
+		return color;
+	}
+
+	public void setColor(Vector3f color)
+	{
+		this.color = color;
 	}
 }

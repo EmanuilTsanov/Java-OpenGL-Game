@@ -19,39 +19,14 @@ import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import opengl.java.files.FileSRC;
 import opengl.java.loader.ModelLoader;
 import opengl.java.model.RawModel;
 import opengl.java.texture.ModelTexture;
 
-public class SRCLoader
+public class Assets
 {
 	private static HashMap<String, ModelTexture> textures = new HashMap<String, ModelTexture>();
 	private static HashMap<String, RawModel> models = new HashMap<String, RawModel>();
-
-	public static ArrayList<String> readTextFile(String path, String fileName, String extension)
-	{
-		ArrayList<String> lines = new ArrayList<String>();
-
-		try (BufferedReader stream = new BufferedReader(new FileReader(new File(path + fileName + FileSRC.DOT + extension))))
-		{
-			String line;
-			while ((line = stream.readLine()) != null)
-			{
-				lines.add(line);
-			}
-		}
-		catch (FileNotFoundException e)
-		{
-			System.out.println("File '" + fileName + FileSRC.DOT + extension + "' + not found");
-		}
-		catch (Exception e)
-		{
-			System.out.println("Error reading file '" + fileName + FileSRC.DOT + extension + "'.\nInfoLog: ");
-			e.printStackTrace();
-		}
-		return lines;
-	}
 
 	public static RawModel getModel(String fileName)
 	{
@@ -73,7 +48,7 @@ public class SRCLoader
 		float[] normalsArr = null;
 		int[] indicesArr = null;
 
-		ArrayList<String> lines = readTextFile(FileSRC.MODELS_FOLDER, fileName, FileSRC.MODEL_EXTENSION);
+		ArrayList<String> lines = readTextFile("assets/models/", fileName, ".obj");
 
 		int currentLine = 0;
 		String line;
@@ -146,8 +121,31 @@ public class SRCLoader
 		return model;
 	}
 
-	public static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords, float[] texturesArr, ArrayList<Vector3f> normals,
-			float[] normalsArr)
+	private static ArrayList<String> readTextFile(String path, String fileName, String extension)
+	{
+		ArrayList<String> lines = new ArrayList<String>();
+
+		try (BufferedReader stream = new BufferedReader(new FileReader(new File(new StringBuilder().append(path).append(fileName).append(extension).toString()))))
+		{
+			String line;
+			while ((line = stream.readLine()) != null)
+			{
+				lines.add(line);
+			}
+		}
+		catch (FileNotFoundException e)
+		{
+			System.out.println("File '" + fileName + extension + "' was not found.");
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error reading file '" + fileName + extension + "'.\nInfoLog: ");
+			e.printStackTrace();
+		}
+		return lines;
+	}
+
+	private static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords, float[] texturesArr, ArrayList<Vector3f> normals, float[] normalsArr)
 	{
 		int vertexPointer = Integer.parseInt(vertexData[0]) - 1;
 		indices.add(vertexPointer);
@@ -178,7 +176,7 @@ public class SRCLoader
 		ModelTexture texture = null;
 		try
 		{
-			Texture tex = TextureLoader.getTexture("PNG", new FileInputStream(FileSRC.TEXTURES_FOLDER + fileName + "." + FileSRC.TEXTURE_EXTENSION));
+			Texture tex = TextureLoader.getTexture("PNG", new FileInputStream(new StringBuilder().append("assets/textures/").append(fileName).append(".png").toString()));
 			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);

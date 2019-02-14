@@ -1,7 +1,7 @@
 package opengl.java.terrain;
 
 import opengl.java.loader.ModelLoader;
-import opengl.java.management.SRCLoader;
+import opengl.java.management.Assets;
 import opengl.java.model.RawModel;
 
 public class Terrain
@@ -17,7 +17,7 @@ public class Terrain
 		this.x = gridX * SIZE;
 		this.z = gridZ * SIZE;
 		this.model = generateTerrain();
-		this.texture = SRCLoader.getTexture(texture).getID();
+		this.texture = Assets.getTexture(texture).getID();
 	}
 
 	public float getX()

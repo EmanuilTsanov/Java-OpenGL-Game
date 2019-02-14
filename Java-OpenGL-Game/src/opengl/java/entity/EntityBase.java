@@ -1,6 +1,6 @@
 package opengl.java.entity;
 
-import opengl.java.management.SRCLoader;
+import opengl.java.management.Assets;
 import opengl.java.model.RawModel;
 import opengl.java.texture.ModelTexture;
 
@@ -17,8 +17,8 @@ public class EntityBase
 
 	public EntityBase(String model, String texture)
 	{
-		this.model = SRCLoader.getModel(model);
-		this.texture = SRCLoader.getTexture(texture);
+		this.model = Assets.getModel(model);
+		this.texture = Assets.getTexture(texture);
 		backfaceCulling = true;
 	}
 
