@@ -2,6 +2,7 @@ package opengl.java.shader;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.lighting.Light;
 import opengl.java.maths.Maths;
 
 public class EntityShader extends ShaderProgram
@@ -12,6 +13,8 @@ public class EntityShader extends ShaderProgram
 	private int modelMatrixLocation;
 	private int projectionMatrixLocation;
 	private int viewMatrixLocation;
+	private int lightPositionLocation;
+	private int lightColorLocation;
 
 	public EntityShader()
 	{
@@ -32,6 +35,8 @@ public class EntityShader extends ShaderProgram
 		modelMatrixLocation = super.getUniformLocation("modelMatrix");
 		projectionMatrixLocation = super.getUniformLocation("projectionMatrix");
 		viewMatrixLocation = super.getUniformLocation("viewMatrix");
+		lightPositionLocation = super.getUniformLocation("lightPosition");
+		lightColorLocation = super.getUniformLocation("lightColor");
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
@@ -47,5 +52,11 @@ public class EntityShader extends ShaderProgram
 	public void loadViewMatrix()
 	{
 		super.loadMatrix(viewMatrixLocation, Maths.createViewMatrix());
+	}
+
+	public void loadLight(Light light)
+	{
+		super.loadVector3f(lightPositionLocation, light.getPosition());
+		super.loadVector3f(lightColorLocation, light.getColor());
 	}
 }

@@ -20,6 +20,6 @@ void main()
 	vec4 worldPos = modelMat * vec4(vertex, 1.0f);
 	gl_Position = projectionMat * viewMat * worldPos;
 	textureCoords = texCoords;
-	surfaceNormal = normal;
+	surfaceNormal = (modelMat * vec4(normal, 1.0)).xyz;
 	toLightVector = lightPosition - worldPos.xyz;
 }

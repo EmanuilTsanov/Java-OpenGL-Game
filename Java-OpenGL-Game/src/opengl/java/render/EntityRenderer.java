@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.entity.EntityBase;
+import opengl.java.lighting.Light;
 import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.shader.EntityShader;
@@ -72,6 +73,7 @@ public class EntityRenderer
 	{
 		shader.start();
 		shader.loadViewMatrix();
+		shader.loadLight(Light.SUN);
 		renderEntities();
 		shader.stop();
 	}

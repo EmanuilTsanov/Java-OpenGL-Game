@@ -7,11 +7,17 @@ in vec3 normal;
 uniform mat4 modelMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
+uniform vec3 lightPosition;
 
 out vec2 textureCoords;
+out vec3 surfaceNormal;
+out vec3 toLightVector;
 
 void main()
 {
-	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertex, 1.0);
+	vec4 worldPosition = modelMatrix * vec4(vertex, 1.0);
+	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 	textureCoords = texCoords;
+	surfaceNormal = (modelMatrix * vec4(normal, 0.0)).xyz;
+	toLightVector = lightPosition - worldPosition.xyz;
 }

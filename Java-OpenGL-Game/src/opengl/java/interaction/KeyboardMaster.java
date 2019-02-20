@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.gui.Inventory;
 import opengl.java.view.Camera;
+import opengl.java.window.FrameController;
 
 public class KeyboardMaster
 {
@@ -37,7 +38,7 @@ public class KeyboardMaster
 		if (Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
 			Vector3f camRotation = Camera.getRotation();
-			Camera.rotate(0, 0.2f, 0);
+			Camera.rotate(0, 100*FrameController.getFrameTimeSeconds(), 0);
 			float distance = (float) (Camera.getDistance() * Math.cos(Math.toRadians(camRotation.x)));
 			float dx = (float) (distance * Math.sin(Math.toRadians(camRotation.getY())));
 			float dy = (float) (distance * Math.cos(Math.toRadians(camRotation.getY())));
@@ -46,7 +47,7 @@ public class KeyboardMaster
 		else if (Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
 			Vector3f camRotation = Camera.getRotation();
-			Camera.rotate(0, -0.2f, 0);
+			Camera.rotate(0, -100*FrameController.getFrameTimeSeconds(), 0);
 			float distance = (float) (Camera.getDistance() * Math.cos(Math.toRadians(camRotation.x)));
 			float dx = (float) (distance * Math.sin(Math.toRadians(camRotation.getY())));
 			float dy = (float) (distance * Math.cos(Math.toRadians(camRotation.getY())));
