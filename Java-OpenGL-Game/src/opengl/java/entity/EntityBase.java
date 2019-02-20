@@ -12,7 +12,7 @@ public class EntityBase
 	protected boolean backfaceCulling;
 
 	public static final EntityBase PINE_TREE = new EntityBase("pineTree", "pineTree");
-	public static final EntityBase GRASS = new EntityBase("grass", "grass").setBackfaceCulling(false);
+	public static final EntityBase GRASS = new EntityBase("grass", "tallgrass").setBackfaceCulling(false);
 	public static final EntityBase MUSHROOM = new EntityBase("mushroom", "mushroom");
 
 	public EntityBase(String model, String texture)

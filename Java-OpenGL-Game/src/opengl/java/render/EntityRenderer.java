@@ -11,7 +11,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.entity.EntityBase;
-import opengl.java.lighting.Light;
 import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.shader.EntityShader;
@@ -52,9 +51,6 @@ public class EntityRenderer
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
 			GL20.glEnableVertexAttribArray(2);
-			if (texture.isTransparent() || !outer.getKey().isCullingAvailable())
-				disableCulling();
-			shader.loadTextureVariables(texture);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
 			for (Entity entity : outer.getValue())
@@ -75,7 +71,6 @@ public class EntityRenderer
 	public void render()
 	{
 		shader.start();
-		shader.loadLight(Light.SUN);
 		shader.loadViewMatrix();
 		renderEntities();
 		shader.stop();

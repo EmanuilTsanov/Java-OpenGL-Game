@@ -13,7 +13,7 @@ out vec4 finalColor;
 
 void main()
 {
-	vec4 pixelColor = texture(sampler, textureCoords*20);
+	vec4 pixelColor = texture(sampler, textureCoords*60);
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitToLightVector = normalize(toLightVector);
 	

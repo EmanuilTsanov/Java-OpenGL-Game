@@ -2,28 +2,16 @@ package opengl.java.shader;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.lighting.Light;
 import opengl.java.maths.Maths;
-import opengl.java.texture.ModelTexture;
-import opengl.java.view.Camera;
 
 public class EntityShader extends ShaderProgram
 {
 	private static final String VERTEX_SHADER = "main-vertex";
 	private static final String FRAGMENT_SHADER = "main-fragment";
 
-	private int loc_modelMatrix;
-	private int loc_projectionMatrix;
-	private int loc_viewMatrix;
-
-	private int loc_lightPosition;
-	private int loc_lightColor;
-
-	private int loc_shineDamper;
-	private int loc_reflectivity;
-	private int loc_useFakeLighting;
-
-	private int loc_cameraPosition;
+	private int modelMatrixLocation;
+	private int projectionMatrixLocation;
+	private int viewMatrixLocation;
 
 	public EntityShader()
 	{
@@ -41,46 +29,23 @@ public class EntityShader extends ShaderProgram
 	@Override
 	public void getAllUniformLocations()
 	{
-		loc_modelMatrix = super.getUniformLocation("modelMat");
-		loc_projectionMatrix = super.getUniformLocation("projectionMat");
-		loc_viewMatrix = super.getUniformLocation("viewMat");
-
-		loc_lightPosition = super.getUniformLocation("lightPosition");
-		loc_lightColor = super.getUniformLocation("lightColor");
-
-		loc_shineDamper = super.getUniformLocation("shineDamper");
-		loc_reflectivity = super.getUniformLocation("reflectivity");
-		loc_useFakeLighting = super.getUniformLocation("useFakeLighting");
-
-		loc_cameraPosition = super.getUniformLocation("cameraPosition");
+		modelMatrixLocation = super.getUniformLocation("modelMatrix");
+		projectionMatrixLocation = super.getUniformLocation("projectionMatrix");
+		viewMatrixLocation = super.getUniformLocation("viewMatrix");
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
 	{
-		super.loadMatrix(loc_modelMatrix, Maths.createTransMat(position, rotation, scale));
+		super.loadMatrix(modelMatrixLocation, Maths.createTransMat(position, rotation, scale));
 	}
 
 	public void loadProjectionMatrix()
 	{
-		super.loadMatrix(loc_projectionMatrix, Maths.getProjectionMatrix());
+		super.loadMatrix(projectionMatrixLocation, Maths.getProjectionMatrix());
 	}
 
 	public void loadViewMatrix()
 	{
-		super.loadMatrix(loc_viewMatrix, Maths.createViewMatrix());
-		super.loadVector3f(loc_cameraPosition, Camera.getPosition());
-	}
-
-	public void loadLight(Light light)
-	{
-		super.loadVector3f(loc_lightPosition, light.getPosition());
-		super.loadVector3f(loc_lightColor, light.getColor());
-	}
-
-	public void loadTextureVariables(ModelTexture texture)
-	{
-		super.loadFloat(loc_shineDamper, texture.getShineDamper());
-		super.loadFloat(loc_reflectivity, texture.getReflectivity());
-		super.loadBoolean(loc_useFakeLighting, texture.shouldUseFakeLighting());
+		super.loadMatrix(viewMatrixLocation, Maths.createViewMatrix());
 	}
 }

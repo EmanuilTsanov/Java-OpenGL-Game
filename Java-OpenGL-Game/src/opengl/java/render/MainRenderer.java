@@ -43,13 +43,13 @@ public class MainRenderer
 			float z = rand.nextFloat() * terrain.getSize();
 			e.setPosition(new Vector3f(x, 0, z));
 		}
-		// for (int i = 0; i < 10000; i++)
-		// {
-		// Entity e = new Entity(EntityBase.GRASS);
-		// float x = rand.nextFloat() * terrain.getSize();
-		// float z = rand.nextFloat() * terrain.getSize();
-		// e.setPosition(new Vector3f(x, 0, z));
-		// }
+		 for (int i = 0; i < 10000; i++)
+		 {
+		 Entity e = new Entity(EntityBase.GRASS);
+		 float x = rand.nextFloat() * terrain.getSize();
+		 float z = rand.nextFloat() * terrain.getSize();
+		 e.setPosition(new Vector3f(x, 0, z));
+		 }
 	}
 
 	private static void prepareScreen(float r, float g, float b)
