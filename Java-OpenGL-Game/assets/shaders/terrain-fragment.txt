@@ -13,14 +13,14 @@ out vec4 finalColor;
 
 void main()
 {
-	vec4 pixelColor = texture(sampler, textureCoords*60);
+	vec4 pixelColor = texture(sampler, textureCoords*80);
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitToLightVector = normalize(toLightVector);
 	
 	float dotProduct = dot(unitNormal, unitToLightVector);
-	float brightness = max(dotProduct, 0.3);
+	float brightness = max(dotProduct, 0.2);
 	
 	vec3 diffuse = lightColor * brightness;
 	
-	finalColor = vec4(diffuse, 1.0) * pixelColor * vec4(1.0f,1.0f,1.0f,1.0f);
+	finalColor = vec4(diffuse, 1.0) * pixelColor * vec4(1.0, 1.0, 1.0, 1.0);
 }

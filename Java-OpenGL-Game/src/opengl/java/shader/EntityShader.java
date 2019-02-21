@@ -15,6 +15,9 @@ public class EntityShader extends ShaderProgram
 	private int viewMatrixLocation;
 	private int lightPositionLocation;
 	private int lightColorLocation;
+	private int shineDamperLocation;
+	private int reflectivityLocation;
+	private int useFakeLightingLocation;
 
 	public EntityShader()
 	{
@@ -37,6 +40,9 @@ public class EntityShader extends ShaderProgram
 		viewMatrixLocation = super.getUniformLocation("viewMatrix");
 		lightPositionLocation = super.getUniformLocation("lightPosition");
 		lightColorLocation = super.getUniformLocation("lightColor");
+		shineDamperLocation = super.getUniformLocation("shineDamper");
+		reflectivityLocation = super.getUniformLocation("reflectivity");
+		useFakeLightingLocation = super.getUniformLocation("useFakeLighting");
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
@@ -58,5 +64,16 @@ public class EntityShader extends ShaderProgram
 	{
 		super.loadVector3f(lightPositionLocation, light.getPosition());
 		super.loadVector3f(lightColorLocation, light.getColor());
+	}
+
+	public void loadSpecularValues(float shineDamper, float reflectivity)
+	{
+		super.loadFloat(shineDamperLocation, shineDamper);
+		super.loadFloat(reflectivityLocation, reflectivity);
+	}
+
+	public void loadFakeLighting(boolean b)
+	{
+		super.loadBoolean(useFakeLightingLocation, b);
 	}
 }

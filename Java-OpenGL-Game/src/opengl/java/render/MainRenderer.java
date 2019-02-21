@@ -64,7 +64,6 @@ public class MainRenderer
 		MouseMaster.update();
 		KeyboardMaster.update();
 		inv.update();
-		System.out.println(Camera.getPosition());
 	}
 
 	public static void render()

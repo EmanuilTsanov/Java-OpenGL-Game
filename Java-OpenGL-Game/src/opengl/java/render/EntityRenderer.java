@@ -46,14 +46,21 @@ public class EntityRenderer
 	{
 		for (Map.Entry<EntityBase, ArrayList<Entity>> outer : Entity.getEntities().entrySet())
 		{
-			RawModel model = outer.getKey().getModel();
-			ModelTexture texture = outer.getKey().getTexture();
+			EntityBase base = outer.getKey();
+			RawModel model = base.getModel();
+			ModelTexture texture = base.getTexture();
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
 			GL20.glEnableVertexAttribArray(2);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
+			shader.loadSpecularValues(base.getShineDamper(), base.getReflectivity());
+			shader.loadFakeLighting(base.hasFakeLighting());
+			if (base.hasTransparency())
+			{
+				disableCulling();
+			}
 			for (Entity entity : outer.getValue())
 			{
 				if (shouldSkipEntity(entity))

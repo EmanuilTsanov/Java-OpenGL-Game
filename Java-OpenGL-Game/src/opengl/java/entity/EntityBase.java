@@ -8,18 +8,21 @@ public class EntityBase
 {
 	private RawModel model;
 	private ModelTexture texture;
-
-	protected boolean backfaceCulling;
+	
+	private float shineDamper = 1;
+	private float reflectivity = 0;
+	
+	private boolean hasTransparency;
+	private boolean hasFakeLighting;
 
 	public static final EntityBase PINE_TREE = new EntityBase("pineTree", "pineTree");
-	public static final EntityBase GRASS = new EntityBase("grass", "tallgrass").setBackfaceCulling(false);
+	public static final EntityBase GRASS = new EntityBase("grass", "tallgrass").setTransparency(true).setFakeLighting(true);
 	public static final EntityBase MUSHROOM = new EntityBase("mushroom", "mushroom");
 
 	public EntityBase(String model, String texture)
 	{
 		this.model = Assets.getModel(model);
 		this.texture = Assets.getTexture(texture);
-		backfaceCulling = true;
 	}
 
 	public RawModel getModel()
@@ -32,14 +35,47 @@ public class EntityBase
 		return texture;
 	}
 
-	public EntityBase setBackfaceCulling(boolean b)
+	public float getShineDamper()
 	{
-		backfaceCulling = b;
+		return shineDamper;
+	}
+
+	public EntityBase setShineDamper(float shineDamper)
+	{
+		this.shineDamper = shineDamper;
 		return this;
 	}
 
-	public boolean isCullingAvailable()
+	public float getReflectivity()
 	{
-		return backfaceCulling;
+		return reflectivity;
+	}
+
+	public EntityBase setReflectivity(float reflectivity)
+	{
+		this.reflectivity = reflectivity;
+		return this;
+	}
+
+	public boolean hasTransparency()
+	{
+		return hasTransparency;
+	}
+
+	public EntityBase setTransparency(boolean transparency)
+	{
+		this.hasTransparency = transparency;
+		return this;
+	}
+
+	public boolean hasFakeLighting()
+	{
+		return hasFakeLighting;
+	}
+
+	public EntityBase setFakeLighting(boolean fakeLighting)
+	{
+		this.hasFakeLighting = fakeLighting;
+		return this;
 	}
 }
