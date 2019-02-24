@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.gui.Inventory;
 import opengl.java.view.Camera;
+import opengl.java.window.FrameController;
 
 public class MouseMaster
 {
@@ -20,6 +21,8 @@ public class MouseMaster
 	private static final float FIRST_STEP = 1;
 	private static float currentStep = FIRST_STEP;
 	private static float stepLength = Camera.getDistance() / (float) ZOOM_STEPS;
+	
+	private static float length;
 
 	private static Vector2f axis = new Vector2f(0, 0);
 	private static Vector2f mouseCoords = new Vector2f(0, 0);
@@ -44,12 +47,14 @@ public class MouseMaster
 		int dWheel = Mouse.getDWheel();
 		if (mmb)
 		{
-			Camera.rotate(0, 0.2f * (Mouse.getX() - mouseCoords.getX()), 0);
+			Camera.rotate(-0.2f * (Mouse.getY() - mouseCoords.getY()), 0.2f * (Mouse.getX() - mouseCoords.getX()), 0);
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
-			float distance = (float) (Camera.getDistance() * Math.cos(Math.toRadians(camRotation.x)));
-			float dx = (float) (distance * Math.sin(Math.toRadians(camRotation.getY())));
-			float dy = (float) (distance * Math.cos(Math.toRadians(camRotation.getY())));
-			Camera.setPosition(axis.getX() - dx, Camera.getPosition().y, axis.getY() + dy);
+			
+			float y = (float) (length * Math.sin(Math.toRadians(camRotation.x)));
+			float dist = (float) (length * Math.cos(Math.toRadians(camRotation.x)));
+			float x = (float) (dist * Math.sin(Math.toRadians(camRotation.y)));
+			float z = (float) (dist * Math.cos(Math.toRadians(camRotation.y)));
+			Camera.setPosition(axis.getX() - x, y, axis.getY() + z);
 		}
 		else if (rmb)
 		{
@@ -113,6 +118,7 @@ public class MouseMaster
 			{
 				if (!lmb && !rmb)
 				{
+					length = Camera.getDistance();
 					mmb = true;
 					Vector3f camRotation = Camera.getRotation();
 					float distance = (float) (Camera.getDistance() * Math.cos(Math.toRadians(camRotation.x)));
