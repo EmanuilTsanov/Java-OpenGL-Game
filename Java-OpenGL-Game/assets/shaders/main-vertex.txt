@@ -10,15 +10,20 @@ uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
 uniform float useFakeLighting;
 
+const float density = 0.003;
+const float gradient = 3;
+
 out vec2 textureCoords;
 out vec3 surfaceNormal;
 out vec3 toLightVector;
 out vec3 toCameraVector;
+out float visibility;
 
 void main()
 {
 	vec4 worldPosition = modelMatrix * vec4(vertex, 1.0);
-	gl_Position = projectionMatrix * viewMatrix * worldPosition;
+	vec4 relativeToCamera = viewMatrix * worldPosition;
+	gl_Position = projectionMatrix * relativeToCamera;
 	textureCoords = texCoords;
 	
 	vec3 actualNormal = normal;
@@ -29,4 +34,8 @@ void main()
 	surfaceNormal = (modelMatrix * vec4(actualNormal, 0.0)).xyz;
 	toLightVector = lightPosition - worldPosition.xyz;
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
+	
+	float distance = length(relativeToCamera.xyz);
+	visibility = exp(-pow((distance*density), gradient));
+	visibility = clamp(visibility, 0.0, 1.0);
 }

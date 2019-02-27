@@ -16,7 +16,7 @@ public class EntityBase
 	private boolean hasFakeLighting;
 
 	public static final EntityBase PINE_TREE = new EntityBase("pineTree", "pineTree");
-	public static final EntityBase GRASS = new EntityBase("grass", "tallgrass").setTransparency(true).setFakeLighting(true);
+	public static final EntityBase GRASS = new EntityBase("grass", "tallgrass");
 	public static final EntityBase MUSHROOM = new EntityBase("mushroom", "mushroom");
 	public static final EntityBase BENCH = new EntityBase("bench", "bench");
 

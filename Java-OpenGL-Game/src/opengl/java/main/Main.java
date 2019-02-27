@@ -9,13 +9,13 @@ public class Main
 	public static void main(String args[])
 	{
 		Window.create("OpenGL Game");
-		MainRenderer.initialize();
+		MainRenderer renderer = new MainRenderer();
 		AudioManager.initialize();
 		while (Window.isOpened())
 		{
 			Window.update();
-			MainRenderer.update();
-			MainRenderer.render();
+			renderer.update();
+			renderer.render();
 		}
 		AudioManager.destroy();
 		Window.destroy();

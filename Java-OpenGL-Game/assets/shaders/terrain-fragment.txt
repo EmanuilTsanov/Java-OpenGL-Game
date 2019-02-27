@@ -2,18 +2,18 @@
 
 in vec2 textureCoords;
 in vec3 surfaceNormal;
-
 in vec3 toLightVector;
+in float visibility;
 
 uniform sampler2D sampler;
-
 uniform vec3 lightColor;
+uniform vec3 skyColor;
 
 out vec4 finalColor;
 
 void main()
 {
-	vec4 pixelColor = texture(sampler, textureCoords*80);
+	vec4 textureColor = texture(sampler, textureCoords*80);
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitToLightVector = normalize(toLightVector);
 	
@@ -22,5 +22,6 @@ void main()
 	
 	vec3 diffuse = lightColor * brightness;
 	
-	finalColor = vec4(diffuse, 1.0) * pixelColor * vec4(1.0, 1.0, 1.0, 1.0);
+	finalColor = vec4(diffuse, 1.0) * textureColor;
+	finalColor = mix(vec4(skyColor, 1.0), finalColor, visibility);
 }

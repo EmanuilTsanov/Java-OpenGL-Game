@@ -11,7 +11,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.entity.EntityBase;
-import opengl.java.lighting.Light;
 import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.shader.EntityShader;
@@ -20,14 +19,8 @@ import opengl.java.view.Camera;
 
 public class EntityRenderer
 {
-	private static EntityShader shader;
-
 	public EntityRenderer()
 	{
-		shader = new EntityShader();
-		shader.start();
-		shader.loadProjectionMatrix();
-		shader.stop();
 		enableCulling();
 	}
 
@@ -42,7 +35,7 @@ public class EntityRenderer
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 
-	private void renderEntities()
+	public void render(EntityShader shader)
 	{
 		for (Map.Entry<EntityBase, ArrayList<Entity>> outer : Entity.getEntities().entrySet())
 		{
@@ -76,15 +69,6 @@ public class EntityRenderer
 		}
 	}
 
-	public void render()
-	{
-		shader.start();
-		shader.loadViewMatrix();
-		shader.loadLight(Light.SUN);
-		renderEntities();
-		shader.stop();
-	}
-
 	public boolean shouldSkipEntity(Entity entity)
 	{
 		Vector3f camPosition = Camera.getPosition();
@@ -95,8 +79,8 @@ public class EntityRenderer
 		float dx2 = camPosition.x - dx;
 		float dy2 = camPosition.z + dy;
 		float d = (entity.getPosition().x - dx1) * (dy2 - dy1) - (entity.getPosition().z - dy1) * (dx2 - dx1);
-		if (entity.getPosition().x - camPosition.x > Maths.getFarPlane() || camPosition.x - entity.getPosition().x > Maths.getFarPlane()
-				|| entity.getPosition().z - camPosition.z > Maths.getFarPlane() || camPosition.z - entity.getPosition().z > Maths.getFarPlane() || d < 0)
+		if (entity.getPosition().x - camPosition.x > Maths.getFarPlane() || camPosition.x - entity.getPosition().x > Maths.getFarPlane() || entity.getPosition().z - camPosition.z > Maths.getFarPlane()
+				|| camPosition.z - entity.getPosition().z > Maths.getFarPlane() || d < 0)
 			return true;
 		return false;
 	}

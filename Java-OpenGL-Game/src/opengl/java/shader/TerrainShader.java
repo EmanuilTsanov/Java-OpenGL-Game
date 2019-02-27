@@ -10,11 +10,12 @@ public class TerrainShader extends ShaderProgram
 	private static final String VERTEX_SHADER = "terrain-vertex";
 	private static final String FRAGMENT_SHADER = "terrain-fragment";
 
-	private int loc_mat_trans;
-	private int loc_mat_project;
-	private int loc_mat_view;
-	private int loc_lightPosition;
-	private int loc_lightColor;
+	private int modelMatrixLocation;
+	private int projectionMatrixLocation;
+	private int viewMatrixLocation;
+	private int lightPositionLocation;
+	private int lightColorLocation;
+	private int skyColorLocation;
 
 	public TerrainShader()
 	{
@@ -32,31 +33,37 @@ public class TerrainShader extends ShaderProgram
 	@Override
 	public void getAllUniformLocations()
 	{
-		loc_mat_trans = super.getUniformLocation("modelMat");
-		loc_mat_project = super.getUniformLocation("projectionMat");
-		loc_mat_view = super.getUniformLocation("viewMat");
-		loc_lightPosition = super.getUniformLocation("lightPosition");
-		loc_lightColor = super.getUniformLocation("lightColor");
+		modelMatrixLocation = super.getUniformLocation("modelMatrix");
+		projectionMatrixLocation = super.getUniformLocation("projectionMatrix");
+		viewMatrixLocation = super.getUniformLocation("viewMatrix");
+		lightPositionLocation = super.getUniformLocation("lightPosition");
+		lightColorLocation = super.getUniformLocation("lightColor");
+		skyColorLocation = super.getUniformLocation("skyColor");
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
 	{
-		super.loadMatrix(loc_mat_trans, Maths.createTransMat(position, rotation, scale));
+		super.loadMatrix(modelMatrixLocation, Maths.createTransMat(position, rotation, scale));
 	}
 
 	public void loadProjectionMatrix()
 	{
-		super.loadMatrix(loc_mat_project, Maths.getProjectionMatrix());
+		super.loadMatrix(projectionMatrixLocation, Maths.getProjectionMatrix());
 	}
 
 	public void loadViewMatrix()
 	{
-		super.loadMatrix(loc_mat_view, Maths.createViewMatrix());
+		super.loadMatrix(viewMatrixLocation, Maths.createViewMatrix());
 	}
 
 	public void loadLight(Light light)
 	{
-		super.loadVector3f(loc_lightPosition, light.getPosition());
-		super.loadVector3f(loc_lightColor, light.getColor());
+		super.loadVector3f(lightPositionLocation, light.getPosition());
+		super.loadVector3f(lightColorLocation, light.getColor());
+	}
+
+	public void loadSkyColor(float r, float g, float b)
+	{
+		super.loadVector3f(skyColorLocation, new Vector3f(r, g, b));
 	}
 }

@@ -18,6 +18,7 @@ public class EntityShader extends ShaderProgram
 	private int shineDamperLocation;
 	private int reflectivityLocation;
 	private int useFakeLightingLocation;
+	private int skyColorLocation;
 
 	public EntityShader()
 	{
@@ -43,6 +44,7 @@ public class EntityShader extends ShaderProgram
 		shineDamperLocation = super.getUniformLocation("shineDamper");
 		reflectivityLocation = super.getUniformLocation("reflectivity");
 		useFakeLightingLocation = super.getUniformLocation("useFakeLighting");
+		skyColorLocation = super.getUniformLocation("skyColor");
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
@@ -75,5 +77,10 @@ public class EntityShader extends ShaderProgram
 	public void loadFakeLighting(boolean b)
 	{
 		super.loadBoolean(useFakeLightingLocation, b);
+	}
+
+	public void loadSkyColor(float r, float g, float b)
+	{
+		super.loadVector3f(skyColorLocation, new Vector3f(r, g, b));
 	}
 }

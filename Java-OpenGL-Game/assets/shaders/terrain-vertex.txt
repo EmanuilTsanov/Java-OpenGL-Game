@@ -4,22 +4,29 @@ in vec3 vertex;
 in vec2 texCoords;
 in vec3 normal;
 
-uniform mat4 modelMat;
-uniform mat4 projectionMat;
-uniform mat4 viewMat;
-
+uniform mat4 modelMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
+
+const float density = 0.003;
+const float gradient = 3;
 
 out vec2 textureCoords;
 out vec3 surfaceNormal;
-
 out vec3 toLightVector;
+out float visibility;
 
 void main()
 {
-	vec4 worldPos = modelMat * vec4(vertex, 1.0f);
-	gl_Position = projectionMat * viewMat * worldPos;
+	vec4 worldPosition = modelMatrix * vec4(vertex, 1.0);
+	vec4 relativeToCamera = viewMatrix * worldPosition;
+	gl_Position = projectionMatrix * relativeToCamera;
 	textureCoords = texCoords;
-	surfaceNormal = (modelMat * vec4(normal, 1.0)).xyz;
-	toLightVector = lightPosition - worldPos.xyz;
+	surfaceNormal = (modelMatrix * vec4(normal, 1.0)).xyz;
+	toLightVector = lightPosition - worldPosition.xyz;
+	
+	float distance = length(relativeToCamera.xyz);
+	visibility = exp(-pow((distance*density), gradient));
+	visibility = clamp(visibility, 0.0, 1.0);
 }
