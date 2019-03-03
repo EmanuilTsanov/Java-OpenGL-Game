@@ -11,7 +11,7 @@ import opengl.java.entity.EntityBase;
 import opengl.java.gui.Inventory;
 import opengl.java.interaction.KeyboardMaster;
 import opengl.java.interaction.MouseMaster;
-import opengl.java.lighting.Light;
+import opengl.java.lighting.LightMaster;
 import opengl.java.shader.EntityShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.terrain.Terrain;
@@ -26,6 +26,7 @@ public class MainRenderer
 	private EntityRenderer entityRenderer = new EntityRenderer();
 	private TerrainRenderer terrainRenderer = new TerrainRenderer();
 	private TextRenderer textRenderer = new TextRenderer();
+	private LightMaster master = new LightMaster();
 
 	private Terrain terrain = new Terrain(0, 0, "grass");
 
@@ -46,7 +47,7 @@ public class MainRenderer
 	{
 		entityShader = new EntityShader();
 		terrainShader = new TerrainShader();
-		
+
 		entityShader.start();
 		entityShader.loadProjectionMatrix();
 		entityShader.stop();
@@ -91,18 +92,18 @@ public class MainRenderer
 	public void render()
 	{
 		prepareScreen();
-		
+
 		terrainShader.start();
 		terrainShader.loadSkyColor(R, G, B);
 		terrainShader.loadViewMatrix();
-		terrainShader.loadLight(Light.SUN);
+		terrainShader.loadLights(LightMaster.lights);
 		terrainRenderer.render(terrain, terrainShader);
 		terrainShader.stop();
 
 		entityShader.start();
 		entityShader.loadSkyColor(R, G, B);
 		entityShader.loadViewMatrix();
-		entityShader.loadLight(Light.SUN);
+		entityShader.loadLights(LightMaster.lights);
 		entityRenderer.render(entityShader);
 		entityShader.stop();
 

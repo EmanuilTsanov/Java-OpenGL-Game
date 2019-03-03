@@ -7,6 +7,8 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
+import opengl.java.audio.AudioManager;
+import opengl.java.audio.AudioSource;
 import opengl.java.maths.Maths;
 import opengl.java.shader.GUIShader;
 
@@ -14,12 +16,15 @@ public class GUIButton extends GUIComponent
 {
 	private Action action;
 
+	private AudioSource src;
+
 	private Vector3f hoverColor;
 
 	public GUIButton()
 	{
 		bgcolor = new Vector3f(1f, 0.8f, 0f);
 		hoverColor = new Vector3f(0.85f, 0.65f, 0f);
+		src = new AudioSource();
 	}
 
 	public void addAction(Action action)
@@ -47,6 +52,7 @@ public class GUIButton extends GUIComponent
 	{
 		if (isHovering())
 		{
+			src.play(AudioManager.tap);
 			if (action != null)
 				action.onClick();
 		}

@@ -7,14 +7,14 @@ in vec3 normal;
 uniform mat4 modelMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
-uniform vec3 lightPosition;
+uniform vec3 lightPosition[4];
 
 const float density = 0.003;
 const float gradient = 3;
 
 out vec2 textureCoords;
 out vec3 surfaceNormal;
-out vec3 toLightVector;
+out vec3 toLightVector[4];
 out float visibility;
 
 void main()
@@ -24,7 +24,10 @@ void main()
 	gl_Position = projectionMatrix * relativeToCamera;
 	textureCoords = texCoords;
 	surfaceNormal = (modelMatrix * vec4(normal, 1.0)).xyz;
-	toLightVector = lightPosition - worldPosition.xyz;
+	for(int i = 0; i < 4; i++)
+	{
+		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
+	}
 	
 	float distance = length(relativeToCamera.xyz);
 	visibility = exp(-pow((distance*density), gradient));

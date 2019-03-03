@@ -2,7 +2,7 @@ package opengl.java.audio;
 
 public class AudioManager
 {
-	public static int bounce, background;
+	public static int bounce, background, tap;
 
 	public static AudioSource src;
 
@@ -25,6 +25,7 @@ public class AudioManager
 	{
 		bounce = AudioMaster.loadSound("bounce");
 		background = AudioMaster.loadSound("background");
+		tap = AudioMaster.loadSound("tap");
 	}
 
 	public static void destroy()

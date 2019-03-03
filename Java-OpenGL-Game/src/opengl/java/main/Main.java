@@ -9,8 +9,8 @@ public class Main
 	public static void main(String args[])
 	{
 		Window.create("OpenGL Game");
-		MainRenderer renderer = new MainRenderer();
 		AudioManager.initialize();
+		MainRenderer renderer = new MainRenderer();
 		while (Window.isOpened())
 		{
 			Window.update();
