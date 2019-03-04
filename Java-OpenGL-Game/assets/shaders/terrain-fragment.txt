@@ -1,4 +1,4 @@
-#version 330 core
+#version 400 core
 
 in vec2 textureCoords;
 in vec3 surfaceNormal;
@@ -15,21 +15,19 @@ void main()
 {
 	vec3 unitNormal = normalize(surfaceNormal);
 	
-	vec3 diffuse = vec3(0.0);
+	vec3 totalDiffuse = vec3(0.0);
 	
 	for(int i = 0; i < 4; i++)
 	{
 		vec3 unitToLightVector = normalize(toLightVector[i]);
-		
 		float dotProduct = dot(unitNormal, unitToLightVector);
 		float brightness = max(dotProduct, 0.0);
-		
-		diffuse = diffuse + lightColor[i] * brightness;
+		totalDiffuse += brightness * lightColor[i];
 	}
-	diffuse = max(diffuse, 0.2);
+	totalDiffuse = max(totalDiffuse, 0.2);
 	
 	vec4 textureColor = texture(sampler, textureCoords*80);
 	
-	finalColor = vec4(diffuse, 1.0) * textureColor;
+	finalColor = vec4(totalDiffuse, 1.0) * textureColor;
 	finalColor = mix(vec4(skyColor, 1.0), finalColor, visibility);
 }

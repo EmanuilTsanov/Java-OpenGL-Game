@@ -95,15 +95,15 @@ public class MainRenderer
 
 		terrainShader.start();
 		terrainShader.loadSkyColor(R, G, B);
-		terrainShader.loadViewMatrix();
 		terrainShader.loadLights(LightMaster.lights);
+		terrainShader.loadViewMatrix();
 		terrainRenderer.render(terrain, terrainShader);
 		terrainShader.stop();
 
 		entityShader.start();
 		entityShader.loadSkyColor(R, G, B);
-		entityShader.loadViewMatrix();
 		entityShader.loadLights(LightMaster.lights);
+		entityShader.loadViewMatrix();
 		entityRenderer.render(entityShader);
 		entityShader.stop();
 
