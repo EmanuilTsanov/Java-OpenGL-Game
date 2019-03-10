@@ -8,6 +8,7 @@ in float visibility;
 
 uniform sampler2D sampler;
 uniform vec3 lightColor[4];
+uniform vec3 attenuation[4];
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColor;
@@ -24,6 +25,8 @@ void main()
 	
 	for(int i = 0; i < 4; i++)
 	{
+		float distance = length(toLightVector[i]);
+		float attenuationFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
 		vec3 unitToLightVector = normalize(toLightVector[i]);
 		float dotProduct = dot(unitNormal, unitToLightVector);
 		float brightness = max(dotProduct, 0.0);
@@ -32,8 +35,8 @@ void main()
 		float specularFactor = dot(reflectedLightDirection, unitToCameraVector);
 		specularFactor = max(specularFactor, 0.0);
 		float dampedFactor = pow(specularFactor, shineDamper);
-		totalDiffuse += brightness * lightColor[i];
-		totalSpecular += dampedFactor * reflectivity * lightColor[i];
+		totalDiffuse += (brightness * lightColor[i]) / attenuationFactor;
+		totalSpecular += (dampedFactor * reflectivity * lightColor[i]) / attenuationFactor;
 	}
 	totalDiffuse = max(totalDiffuse, 0.2);
 	

@@ -3,6 +3,7 @@
 in vec2 textureCoords;
 in vec3 surfaceNormal;
 in vec3 toLightVector[4];
+in vec3 attenuation[4];
 in float visibility;
 
 uniform sampler2D sampler;
@@ -19,10 +20,12 @@ void main()
 	
 	for(int i = 0; i < 4; i++)
 	{
+		float distance = length(toLightVector[i]);
+		float attenuationFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
 		vec3 unitToLightVector = normalize(toLightVector[i]);
 		float dotProduct = dot(unitNormal, unitToLightVector);
 		float brightness = max(dotProduct, 0.0);
-		totalDiffuse += brightness * lightColor[i];
+		totalDiffuse += (brightness * lightColor[i]) / attenuationFactor;
 	}
 	totalDiffuse = max(totalDiffuse, 0.2);
 	

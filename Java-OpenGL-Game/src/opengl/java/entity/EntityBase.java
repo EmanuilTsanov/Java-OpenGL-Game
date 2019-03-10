@@ -19,6 +19,8 @@ public class EntityBase
 	public static final EntityBase GRASS = new EntityBase("grass", "tallgrass");
 	public static final EntityBase MUSHROOM = new EntityBase("mushroom", "mushroom");
 	public static final EntityBase BENCH = new EntityBase("bench", "bench");
+	public static final EntityBase TABLE = new EntityBase("table", "table");
+	public static final EntityBase SNOWMAN = new EntityBase("snowman", "snowman");
 
 	public EntityBase(String model, String texture)
 	{

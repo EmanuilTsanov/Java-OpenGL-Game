@@ -73,6 +73,27 @@ public class MainRenderer
 			float z = rand.nextFloat() * terrain.getSize();
 			e.setPosition(new Vector3f(x, 0, z));
 		}
+		for (int i = 0; i < 1500; i++)
+		{
+			Entity e = new Entity(EntityBase.SNOWMAN);
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, 0, z));
+		}
+		for (int i = 0; i < 1500; i++)
+		{
+			Entity e = new Entity(EntityBase.BENCH);
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, 0, z));
+		}
+		for (int i = 0; i < 1500; i++)
+		{
+			Entity e = new Entity(EntityBase.TABLE);
+			float x = rand.nextFloat() * terrain.getSize();
+			float z = rand.nextFloat() * terrain.getSize();
+			e.setPosition(new Vector3f(x, 0, z));
+		}
 	}
 
 	private void prepareScreen()
@@ -99,7 +120,10 @@ public class MainRenderer
 		terrainShader.loadViewMatrix();
 		terrainRenderer.render(terrain, terrainShader);
 		terrainShader.stop();
-
+		for (int i = 0; i < LightMaster.lights.size(); i++)
+		{
+			Entity.getEntities().get(EntityBase.PINE_TREE).get(i).setPosition(LightMaster.lights.get(i).getPosition());
+		}
 		entityShader.start();
 		entityShader.loadSkyColor(R, G, B);
 		entityShader.loadLights(LightMaster.lights);

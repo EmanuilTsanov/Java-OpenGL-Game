@@ -19,6 +19,7 @@ public class EntityShader extends ShaderProgram
 	private int viewMatrixLocation;
 	private int lightPositionLocation[];
 	private int lightColorLocation[];
+	private int attenuationLocation[];
 	private int shineDamperLocation;
 	private int reflectivityLocation;
 	private int useFakeLightingLocation;
@@ -49,10 +50,12 @@ public class EntityShader extends ShaderProgram
 		skyColorLocation = super.getUniformLocation("skyColor");
 		lightPositionLocation = new int[MAX_LIGHTS];
 		lightColorLocation = new int[MAX_LIGHTS];
+		attenuationLocation = new int[MAX_LIGHTS];
 		for (int i = 0; i < MAX_LIGHTS; i++)
 		{
 			lightPositionLocation[i] = super.getUniformLocation("lightPosition[" + i + "]");
 			lightColorLocation[i] = super.getUniformLocation("lightColor[" + i + "]");
+			attenuationLocation[i] = super.getUniformLocation("attenuation[" + i + "]");
 		}
 	}
 
@@ -79,11 +82,13 @@ public class EntityShader extends ShaderProgram
 			{
 				super.loadVector3f(lightPositionLocation[i], lights.get(i).getPosition());
 				super.loadVector3f(lightColorLocation[i], lights.get(i).getColor());
+				super.loadVector3f(attenuationLocation[i], lights.get(i).getAttenuation());
 			}
 			else
 			{
 				super.loadVector3f(lightPositionLocation[i], new Vector3f(0, 0, 0));
 				super.loadVector3f(lightColorLocation[i], new Vector3f(0, 0, 0));
+				super.loadVector3f(attenuationLocation[i], new Vector3f(1, 0, 0));
 			}
 		}
 	}
