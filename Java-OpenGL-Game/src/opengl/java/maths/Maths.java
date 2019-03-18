@@ -16,7 +16,7 @@ public class Maths
 
 	private static Matrix4f projectionMatrix = null;
 
-	public static Matrix4f createTransMat(Vector3f position, Vector3f rotation, float scale)
+	public static Matrix4f createTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
 	{
 		Matrix4f matrix = new Matrix4f();
 		matrix.setIdentity();

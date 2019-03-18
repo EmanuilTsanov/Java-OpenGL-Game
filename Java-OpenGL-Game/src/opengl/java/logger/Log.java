@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 
-public class Logger
+public class Log
 {
 	private static File file = new File("log.txt");
 	private static Calendar c = Calendar.getInstance();
 
-	public static void log(String s)
+	public static void println(String s)
 	{
 		if (!file.exists())
 		{

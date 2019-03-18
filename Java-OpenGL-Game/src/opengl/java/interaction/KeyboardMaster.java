@@ -23,7 +23,8 @@ public class KeyboardMaster
 				{
 					findAxis();
 				}
-				if(Keyboard.getEventKey() == Keyboard.KEY_W || Keyboard.getEventKey() == Keyboard.KEY_S) {
+				if (Keyboard.getEventKey() == Keyboard.KEY_W || Keyboard.getEventKey() == Keyboard.KEY_S)
+				{
 					findAxis();
 					length = Camera.getDistance();
 				}

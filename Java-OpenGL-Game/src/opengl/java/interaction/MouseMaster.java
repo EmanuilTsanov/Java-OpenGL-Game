@@ -36,7 +36,6 @@ public class MouseMaster
 			{
 				if (Mouse.getEventButton() == 0)
 				{
-					Inventory.mouseClick();
 				}
 			}
 			else

@@ -30,9 +30,7 @@ public class MainRenderer
 
 	private Terrain terrain = new Terrain(0, 0, "grass");
 
-	public Inventory inv = new Inventory();
-
-	private static final float R = 0.5f, G = 0.5f, B = 0.5f;
+	public static final float RED = 0.5f, GREEN = 0.5f, BLUE = 0.5f;
 
 	public MainRenderer()
 	{
@@ -73,32 +71,11 @@ public class MainRenderer
 			float z = rand.nextFloat() * terrain.getSize();
 			e.setPosition(new Vector3f(x, 0, z));
 		}
-		for (int i = 0; i < 1500; i++)
-		{
-			Entity e = new Entity(EntityBase.SNOWMAN);
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, 0, z));
-		}
-		for (int i = 0; i < 1500; i++)
-		{
-			Entity e = new Entity(EntityBase.BENCH);
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, 0, z));
-		}
-		for (int i = 0; i < 1500; i++)
-		{
-			Entity e = new Entity(EntityBase.TABLE);
-			float x = rand.nextFloat() * terrain.getSize();
-			float z = rand.nextFloat() * terrain.getSize();
-			e.setPosition(new Vector3f(x, 0, z));
-		}
 	}
 
 	private void prepareScreen()
 	{
-		GL11.glClearColor(R, G, B, 0);
+		GL11.glClearColor(RED, GREEN, BLUE, 0);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		GL13.glActiveTexture(GL13.GL_TEXTURE5);
 	}
@@ -107,7 +84,17 @@ public class MainRenderer
 	{
 		MouseMaster.update();
 		KeyboardMaster.update();
-		inv.update();
+	}
+
+	public static void enableCulling()
+	{
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
+	}
+
+	public static void disableCulling()
+	{
+		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 
 	public void render()
@@ -115,7 +102,7 @@ public class MainRenderer
 		prepareScreen();
 
 		terrainShader.start();
-		terrainShader.loadSkyColor(R, G, B);
+		terrainShader.loadSkyColor(RED, GREEN, BLUE);
 		terrainShader.loadLights(LightMaster.lights);
 		terrainShader.loadViewMatrix();
 		terrainRenderer.render(terrain, terrainShader);
@@ -125,13 +112,12 @@ public class MainRenderer
 			Entity.getEntities().get(EntityBase.PINE_TREE).get(i).setPosition(LightMaster.lights.get(i).getPosition());
 		}
 		entityShader.start();
-		entityShader.loadSkyColor(R, G, B);
+		entityShader.loadSkyColor(RED, GREEN, BLUE);
 		entityShader.loadLights(LightMaster.lights);
 		entityShader.loadViewMatrix();
 		entityRenderer.render(entityShader);
 		entityShader.stop();
 
 		textRenderer.render(FPSCounter.getMesh());
-		inv.render();
 	}
 }

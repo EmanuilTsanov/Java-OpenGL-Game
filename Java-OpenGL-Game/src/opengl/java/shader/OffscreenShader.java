@@ -36,7 +36,7 @@ public class OffscreenShader extends ShaderProgram
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)
 	{
-		super.loadMatrix(loc_mat_trans, Maths.createTransMat(position, rotation, scale));
+		super.loadMatrix(loc_mat_trans, Maths.createTransformationMatrix(position, rotation, scale));
 	}
 
 	public void loadProjectionMatrix()

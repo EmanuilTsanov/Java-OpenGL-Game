@@ -4,8 +4,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import opengl.java.logger.Logger;
-
 public class Window
 {
 	private static int fpsCap = 1500;
@@ -21,18 +19,10 @@ public class Window
 			Display.setTitle(title);
 			Display.setFullscreen(true);
 			Display.create();
-			DisplayMode[] modes = Display.getAvailableDisplayModes();
-
-			for (int i = 0; i < modes.length; i++)
-			{
-				DisplayMode current = modes[i];
-				System.out.println(current.getWidth() + "x" + current.getHeight() + "x" + current.getBitsPerPixel() + " " + current.getFrequency() + "Hz");
-			}
 		}
 		catch (LWJGLException e)
 		{
 			System.out.println("An error occured while initializing the display.");
-			Logger.log("An error occured while initializing the display.");
 		}
 	}
 

@@ -1,43 +1,22 @@
-package opengl.java.management;
+package opengl.java.loader;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
-import opengl.java.loader.ModelLoader;
 import opengl.java.model.RawModel;
-import opengl.java.texture.ModelTexture;
 
-public class Assets
+public class OBJLoader
 {
-	private static HashMap<String, ModelTexture> textures = new HashMap<String, ModelTexture>();
 	private static HashMap<String, RawModel> models = new HashMap<String, RawModel>();
 
-	public static RawModel getModel(String fileName)
-	{
-		if (models.get(fileName) != null)
-		{
-			return models.get(fileName);
-		}
-		return loadModel(fileName);
-	}
-
-	private static RawModel loadModel(String fileName)
+	public static RawModel loadModel(String fileName)
 	{
 		ArrayList<Vector3f> vertices = new ArrayList<Vector3f>();
 		ArrayList<Vector2f> texCoords = new ArrayList<Vector2f>();
@@ -121,6 +100,20 @@ public class Assets
 		return model;
 	}
 
+	private static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords, float[] texturesArr, ArrayList<Vector3f> normals,
+			float[] normalsArr)
+	{
+		int vertexPointer = Integer.parseInt(vertexData[0]) - 1;
+		indices.add(vertexPointer);
+		Vector2f texture = texCoords.get(Integer.parseInt(vertexData[1]) - 1);
+		texturesArr[vertexPointer * 2] = texture.x;
+		texturesArr[vertexPointer * 2 + 1] = 1 - texture.y;
+		Vector3f normal = normals.get(Integer.parseInt(vertexData[2]) - 1);
+		normalsArr[vertexPointer * 3] = normal.x;
+		normalsArr[vertexPointer * 3 + 1] = normal.y;
+		normalsArr[vertexPointer * 3 + 2] = normal.z;
+	}
+
 	private static ArrayList<String> readTextFile(String path, String fileName, String extension)
 	{
 		ArrayList<String> lines = new ArrayList<String>();
@@ -143,59 +136,5 @@ public class Assets
 			e.printStackTrace();
 		}
 		return lines;
-	}
-
-	private static void processFace(String[] vertexData, ArrayList<Integer> indices, ArrayList<Vector2f> texCoords, float[] texturesArr, ArrayList<Vector3f> normals, float[] normalsArr)
-	{
-		int vertexPointer = Integer.parseInt(vertexData[0]) - 1;
-		indices.add(vertexPointer);
-		Vector2f texture = texCoords.get(Integer.parseInt(vertexData[1]) - 1);
-		texturesArr[vertexPointer * 2] = texture.x;
-		texturesArr[vertexPointer * 2 + 1] = 1 - texture.y;
-		Vector3f normal = normals.get(Integer.parseInt(vertexData[2]) - 1);
-		normalsArr[vertexPointer * 3] = normal.x;
-		normalsArr[vertexPointer * 3 + 1] = normal.y;
-		normalsArr[vertexPointer * 3 + 2] = normal.z;
-	}
-
-	public static ModelTexture getTexture(String fileName)
-	{
-		if (textures.get(fileName) != null)
-		{
-			return textures.get(fileName);
-		}
-		return loadTexture(fileName);
-	}
-
-	private static ModelTexture loadTexture(String fileName)
-	{
-		if (textures.get(fileName) != null)
-		{
-			return textures.get(fileName);
-		}
-		ModelTexture texture = null;
-		try
-		{
-			Texture tex = TextureLoader.getTexture("PNG", new FileInputStream(new StringBuilder().append("assets/textures/").append(fileName).append(".png").toString()));
-			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
-			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
-			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
-			if (GLContext.getCapabilities().GL_EXT_texture_filter_anisotropic)
-			{
-				float amount = Math.min(4f, GL11.glGetFloat(EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
-				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, amount);
-			}
-			else
-			{
-
-			}
-			texture = new ModelTexture(tex.getTextureID());
-			textures.put(fileName, texture);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return texture;
 	}
 }

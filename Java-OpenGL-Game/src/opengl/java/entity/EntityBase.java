@@ -1,6 +1,7 @@
 package opengl.java.entity;
 
-import opengl.java.management.Assets;
+import opengl.java.loader.ImageLoader;
+import opengl.java.loader.OBJLoader;
 import opengl.java.model.RawModel;
 import opengl.java.texture.ModelTexture;
 
@@ -8,24 +9,20 @@ public class EntityBase
 {
 	private RawModel model;
 	private ModelTexture texture;
-	
+
 	private float shineDamper = 1;
 	private float reflectivity = 0;
-	
+
 	private boolean hasTransparency;
 	private boolean hasFakeLighting;
 
-	public static final EntityBase PINE_TREE = new EntityBase("pineTree", "pineTree");
-	public static final EntityBase GRASS = new EntityBase("grass", "tallgrass");
-	public static final EntityBase MUSHROOM = new EntityBase("mushroom", "mushroom");
-	public static final EntityBase BENCH = new EntityBase("bench", "bench");
-	public static final EntityBase TABLE = new EntityBase("table", "table");
-	public static final EntityBase SNOWMAN = new EntityBase("snowman", "snowman");
+	public static final EntityBase PINE_TREE = new EntityBase(OBJLoader.loadModel("pineTree"), ImageLoader.loadTexture("pineTree"));
+	public static final EntityBase GRASS = new EntityBase(OBJLoader.loadModel("grass"), ImageLoader.loadTexture("tallgrass"));
 
-	public EntityBase(String model, String texture)
+	public EntityBase(RawModel model, ModelTexture texture)
 	{
-		this.model = Assets.getModel(model);
-		this.texture = Assets.getTexture(texture);
+		this.model = model;
+		this.texture = texture;
 	}
 
 	public RawModel getModel()
