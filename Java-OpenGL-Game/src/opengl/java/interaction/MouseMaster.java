@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.gui.Inventory;
 import opengl.java.view.Camera;
-import opengl.java.window.FrameController;
+import opengl.java.window.WindowManager;
 
 public class MouseMaster
 {

@@ -16,7 +16,6 @@ import opengl.java.lighting.Light;
 import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.shader.NormalMappingShader;
-import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 
 public class NormalMappingRenderer
@@ -61,10 +60,10 @@ public class NormalMappingRenderer
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
-		ModelTexture texture = model.getTexture();
+		int texture = model.getTexture();
 		shader.loadShineVariables(model.getShineDamper(), model.getReflectivity());
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 	}
 
 	private void unbindTexturedModel()

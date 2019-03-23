@@ -4,7 +4,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import opengl.java.shader.GUIShader;
-import opengl.java.window.FrameController;
+import opengl.java.window.WindowManager;
 
 public class Inventory
 {
@@ -60,13 +60,13 @@ public class Inventory
 	{
 		if (isOpened && window.getX() < 0)
 		{
-			window.move(3000f * FrameController.getFrameTimeSeconds(), 0f);
+			window.move(3000f * WindowManager.getFrameTimeSeconds(), 0f);
 			if (window.getX() > 0)
 				window.x = 0;
 		}
 		else if (!isOpened && window.getX() > -window.getWidth())
 		{
-			window.move(-3000f * FrameController.getFrameTimeSeconds(), 0f);
+			window.move(-3000f * WindowManager.getFrameTimeSeconds(), 0f);
 			if (window.getX() < -window.getWidth())
 				window.x = -window.getWidth();
 		}

@@ -14,7 +14,6 @@ import opengl.java.entity.EntityBase;
 import opengl.java.maths.Maths;
 import opengl.java.model.RawModel;
 import opengl.java.shader.EntityShader;
-import opengl.java.texture.ModelTexture;
 import opengl.java.view.Camera;
 
 public class EntityRenderer
@@ -30,13 +29,13 @@ public class EntityRenderer
 		{
 			EntityBase base = outer.getKey();
 			RawModel model = base.getModel();
-			ModelTexture texture = base.getTexture();
+			int texture = base.getTexture();
 			GL30.glBindVertexArray(model.getVAOID());
 			GL20.glEnableVertexAttribArray(0);
 			GL20.glEnableVertexAttribArray(1);
 			GL20.glEnableVertexAttribArray(2);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 			shader.loadSpecularValues(base.getShineDamper(), base.getReflectivity());
 			shader.loadFakeLighting(base.hasFakeLighting());
 			if (base.hasTransparency())

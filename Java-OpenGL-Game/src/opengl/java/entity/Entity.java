@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.model.RawModel;
-import opengl.java.texture.ModelTexture;
 
 public class Entity
 {
@@ -87,15 +86,5 @@ public class Entity
 	public static HashMap<EntityBase, ArrayList<Entity>> getEntities()
 	{
 		return entities;
-	}
-
-	public RawModel getModel()
-	{
-		return base.getModel();
-	}
-
-	public ModelTexture getTexture()
-	{
-		return base.getTexture();
 	}
 }

@@ -18,7 +18,7 @@ public class Terrain
 		this.x = gridX * SIZE;
 		this.z = gridZ * SIZE;
 		this.model = generateTerrain();
-		this.texture = ImageLoader.loadTexture(texture).getID();
+		this.texture = ImageLoader.loadTexture(texture);
 	}
 
 	public float getX()

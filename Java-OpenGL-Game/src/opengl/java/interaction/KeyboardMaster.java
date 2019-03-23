@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.gui.Inventory;
 import opengl.java.view.Camera;
-import opengl.java.window.FrameController;
+import opengl.java.window.WindowManager;
 
 public class KeyboardMaster
 {
@@ -59,7 +59,7 @@ public class KeyboardMaster
 	{
 		Vector3f camRotation = Camera.getRotation();
 		float camDistance = Camera.getDistance();
-		Camera.rotate(0, speed * FrameController.getFrameTimeSeconds(), 0);
+		Camera.rotate(0, speed * WindowManager.getFrameTimeSeconds(), 0);
 		float distance = (float) (camDistance * Math.cos(Math.toRadians(camRotation.x)));
 		float dx = (float) (distance * Math.sin(Math.toRadians(camRotation.getY())));
 		float dy = (float) (distance * Math.cos(Math.toRadians(camRotation.getY())));
@@ -69,7 +69,7 @@ public class KeyboardMaster
 	public static void rotateOverAxis(float speed)
 	{
 		Vector3f camRotation = Camera.getRotation();
-		Camera.rotate(speed * FrameController.getFrameTimeSeconds(), 0, 0);
+		Camera.rotate(speed * WindowManager.getFrameTimeSeconds(), 0, 0);
 		float y = (float) (length * Math.sin(Math.toRadians(camRotation.x)));
 		float dist = (float) (length * Math.cos(Math.toRadians(camRotation.x)));
 		float x = (float) (dist * Math.sin(Math.toRadians(camRotation.y)));

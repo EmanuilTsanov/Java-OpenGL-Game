@@ -12,18 +12,14 @@ import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import opengl.java.texture.ModelTexture;
-
 public class ImageLoader
 {
-	private static HashMap<String, ModelTexture> textures = new HashMap<String, ModelTexture>();
-
-	public static ModelTexture loadTexture(String fileName)
+	public static int loadTexture(String fileName)
 	{
-		ModelTexture texture = null;
+		Texture tex = null;
 		try
 		{
-			Texture tex = TextureLoader.getTexture("PNG", new FileInputStream(new StringBuilder().append("assets/textures/").append(fileName).append(".png").toString()));
+			tex = TextureLoader.getTexture("PNG", new FileInputStream(new StringBuilder().append("assets/textures/").append(fileName).append(".png").toString()));
 			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
@@ -36,13 +32,11 @@ public class ImageLoader
 			{
 
 			}
-			texture = new ModelTexture(tex.getTextureID());
-			textures.put(fileName, texture);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		return texture;
+		return tex.getTextureID();
 	}
 }

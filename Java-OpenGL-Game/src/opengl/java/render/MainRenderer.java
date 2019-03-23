@@ -8,10 +8,14 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.entity.Entity;
 import opengl.java.entity.EntityBase;
-import opengl.java.gui.Inventory;
 import opengl.java.interaction.KeyboardMaster;
 import opengl.java.interaction.MouseMaster;
 import opengl.java.lighting.LightMaster;
+import opengl.java.loader.ImageLoader;
+import opengl.java.loader.ModelLoader;
+import opengl.java.particles.ParticleManager;
+import opengl.java.particles.ParticleSystem;
+import opengl.java.particles.ParticleTexture;
 import opengl.java.shader.EntityShader;
 import opengl.java.shader.TerrainShader;
 import opengl.java.terrain.Terrain;
@@ -27,6 +31,9 @@ public class MainRenderer
 	private TerrainRenderer terrainRenderer = new TerrainRenderer();
 	private TextRenderer textRenderer = new TextRenderer();
 	private LightMaster master = new LightMaster();
+	private ModelLoader loader;
+	private ParticleTexture texture = new ParticleTexture(ImageLoader.loadTexture("star2"), 4);
+	private ParticleSystem sys = new ParticleSystem(texture, 60, 15, 0.1f, 1.6f);
 
 	private Terrain terrain = new Terrain(0, 0, "grass");
 
@@ -39,6 +46,8 @@ public class MainRenderer
 		fillWithEntities();
 		Camera.setPosition(500, 50, 500);
 		Camera.setRotation(40, 0, 0);
+		loader = new ModelLoader();
+		ParticleManager.initialize(loader);
 	}
 
 	private void setupShaders()
@@ -84,6 +93,8 @@ public class MainRenderer
 	{
 		MouseMaster.update();
 		KeyboardMaster.update();
+		ParticleManager.update();
+		sys.generateParticles(new Vector3f(500, 0, 500));
 	}
 
 	public static void enableCulling()
@@ -117,7 +128,7 @@ public class MainRenderer
 		entityShader.loadViewMatrix();
 		entityRenderer.render(entityShader);
 		entityShader.stop();
-
+		ParticleManager.renderParticles();
 		textRenderer.render(FPSCounter.getMesh());
 	}
 }

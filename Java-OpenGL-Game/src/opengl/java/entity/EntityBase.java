@@ -3,12 +3,11 @@ package opengl.java.entity;
 import opengl.java.loader.ImageLoader;
 import opengl.java.loader.OBJLoader;
 import opengl.java.model.RawModel;
-import opengl.java.texture.ModelTexture;
 
 public class EntityBase
 {
 	private RawModel model;
-	private ModelTexture texture;
+	private int textureID;
 
 	private float shineDamper = 1;
 	private float reflectivity = 0;
@@ -19,10 +18,10 @@ public class EntityBase
 	public static final EntityBase PINE_TREE = new EntityBase(OBJLoader.loadModel("pineTree"), ImageLoader.loadTexture("pineTree"));
 	public static final EntityBase GRASS = new EntityBase(OBJLoader.loadModel("grass"), ImageLoader.loadTexture("tallgrass"));
 
-	public EntityBase(RawModel model, ModelTexture texture)
+	public EntityBase(RawModel model, int texture)
 	{
 		this.model = model;
-		this.texture = texture;
+		this.textureID = texture;
 	}
 
 	public RawModel getModel()
@@ -30,9 +29,9 @@ public class EntityBase
 		return model;
 	}
 
-	public ModelTexture getTexture()
+	public int getTexture()
 	{
-		return texture;
+		return textureID;
 	}
 
 	public float getShineDamper()

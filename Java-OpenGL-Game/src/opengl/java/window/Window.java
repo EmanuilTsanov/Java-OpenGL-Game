@@ -31,7 +31,7 @@ public class Window
 		Display.sync(fpsCap);
 		Display.update();
 		FPSCounter.update();
-		FrameController.update();
+		WindowManager.update();
 	}
 
 	public static void destroy()
