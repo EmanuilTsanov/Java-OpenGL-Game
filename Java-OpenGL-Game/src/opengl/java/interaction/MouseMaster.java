@@ -4,9 +4,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.gui.Inventory;
 import opengl.java.view.Camera;
-import opengl.java.window.WindowManager;
 
 public class MouseMaster
 {
@@ -21,7 +19,7 @@ public class MouseMaster
 	private static final float FIRST_STEP = 1;
 	private static float currentStep = FIRST_STEP;
 	private static float stepLength = Camera.getDistance() / (float) ZOOM_STEPS;
-	
+
 	private static float length;
 
 	private static Vector2f axis = new Vector2f(0, 0);
@@ -48,7 +46,7 @@ public class MouseMaster
 		{
 			Camera.rotate(-0.2f * (Mouse.getY() - mouseCoords.getY()), 0.2f * (Mouse.getX() - mouseCoords.getX()), 0);
 			mouseCoords.set(Mouse.getX(), Mouse.getY());
-			
+
 			float y = (float) (length * Math.sin(Math.toRadians(camRotation.x)));
 			float dist = (float) (length * Math.cos(Math.toRadians(camRotation.x)));
 			float x = (float) (dist * Math.sin(Math.toRadians(camRotation.y)));

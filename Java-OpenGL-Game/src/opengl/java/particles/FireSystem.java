@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.window.WindowManager;
 
-public class ParticleSystem
+public class FireSystem
 {
 	private float pps;
 	private float speed;
@@ -15,7 +15,7 @@ public class ParticleSystem
 
 	private ParticleTexture texture;
 
-	public ParticleSystem(ParticleTexture texture, float pps, float speed, float gravityComplient, float lifeLength)
+	public FireSystem(ParticleTexture texture, float pps, float speed, float gravityComplient, float lifeLength)
 	{
 		this.texture = texture;
 		this.pps = pps;
@@ -47,7 +47,7 @@ public class ParticleSystem
 		Vector3f velocity = new Vector3f(dirX, 1, dirZ);
 		velocity.normalise();
 		velocity.scale(speed);
-		new Particle(texture, new Vector3f(center), velocity, gravityComplient, lifeLength, new Random().nextFloat()*360, 1);
+		new Particle(texture, new Vector3f(center), velocity, gravityComplient, lifeLength, new Random().nextFloat()*360, 50);
 	}
 
 }

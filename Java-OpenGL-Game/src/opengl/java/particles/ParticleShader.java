@@ -1,8 +1,5 @@
 package opengl.java.particles;
 
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector2f;
-
 import opengl.java.maths.Maths;
 import opengl.java.shader.ShaderProgram;
 
@@ -12,11 +9,8 @@ public class ParticleShader extends ShaderProgram
 	private static final String VERTEX_FILE = "particle-vertex";
 	private static final String FRAGMENT_FILE = "particle-fragment";
 
-	private int location_modelViewMatrix;
-	private int location_projectionMatrix;
-	private int locationOffset1;
-	private int locationOffset2;
-	private int locationTexCoordInfo;
+	private int locationNumberOfRows;
+	private int locationProjectionMatrix;
 
 	public ParticleShader()
 	{
@@ -26,34 +20,26 @@ public class ParticleShader extends ShaderProgram
 	@Override
 	protected void getAllUniformLocations()
 	{
-		location_modelViewMatrix = super.getUniformLocation("modelViewMatrix");
-		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
-		locationOffset1 = super.getUniformLocation("offset1");
-		locationOffset2 = super.getUniformLocation("offset2");
-		locationTexCoordInfo = super.getUniformLocation("texCoordInfo");
+		locationNumberOfRows = super.getUniformLocation("numberOfRows");
+		locationProjectionMatrix = super.getUniformLocation("projectionMatrix");
 	}
 
 	@Override
-	protected void bindAllAttributes()
+	protected void bindAttributes()
 	{
 		super.bindAttribute(0, "position");
+		super.bindAttribute(1, "modelViewMatrix");
+		super.bindAttribute(5, "textureOffsets");
+		super.bindAttribute(6, "blendFactor");
 	}
 
-	protected void loadModelViewMatrix(Matrix4f modelView)
+	protected void loadNumberOfRows(float numberOfRows)
 	{
-		super.loadMatrix(location_modelViewMatrix, modelView);
+		super.loadFloat(locationNumberOfRows, numberOfRows);
 	}
 
 	protected void loadProjectionMatrix()
 	{
-		super.loadMatrix(location_projectionMatrix, Maths.getProjectionMatrix());
+		super.loadMatrix(locationProjectionMatrix, Maths.getProjectionMatrix());
 	}
-
-	public void loadTextureCoordInfo(Vector2f offset1, Vector2f offset2, float numRows, float blend)
-	{
-		super.loadVector2f(locationOffset1, offset1);
-		super.loadVector2f(locationOffset2, offset2);
-		super.loadVector2f(locationTexCoordInfo, new Vector2f(numRows, blend));
-	}
-
 }

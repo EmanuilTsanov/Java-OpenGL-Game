@@ -5,8 +5,6 @@ import java.util.HashMap;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import opengl.java.model.RawModel;
-
 public class Entity
 {
 	protected int id;

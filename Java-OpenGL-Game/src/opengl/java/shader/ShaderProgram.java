@@ -37,7 +37,7 @@ public abstract class ShaderProgram
 		GL20.glUseProgram(0);
 	}
 
-	protected abstract void bindAllAttributes();
+	protected abstract void bindAttributes();
 
 	protected void bindAttribute(int index, String name)
 	{
@@ -58,7 +58,7 @@ public abstract class ShaderProgram
 		int fShader = loadShader(fShadFileName, GL20.GL_FRAGMENT_SHADER);
 		GL20.glAttachShader(programID, vShader);
 		GL20.glAttachShader(programID, fShader);
-		bindAllAttributes();
+		bindAttributes();
 		GL20.glLinkProgram(programID);
 		GL20.glValidateProgram(programID);
 

@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL33;
 
 import opengl.java.model.RawModel;
 
@@ -27,7 +28,38 @@ public class ModelLoader
 		return new RawModel(vaoID, vertices.length / 2);
 	}
 
-	public static RawModel loadModel(float[] vertices, int[] indices, float[] textureCoords, float[] normals)
+	public static int createEmptyVBO(int floatCount)
+	{
+		int vbo = GL15.glGenBuffers();
+		vboList.add(vbo);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, floatCount * 4, GL15.GL_STREAM_DRAW);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		return vbo;
+	}
+
+	public static void addInstancedAttribute(int vao, int vbo, int attribute, int dataSize, int instancedDataLength, int offset)
+	{
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
+		GL30.glBindVertexArray(vao);
+		GL20.glVertexAttribPointer(attribute, dataSize, GL11.GL_FLOAT, false, instancedDataLength * 4, offset * 4);
+		GL33.glVertexAttribDivisor(attribute, 1);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		GL30.glBindVertexArray(0);
+	}
+
+	public static void updateVBO(int vbo, float[] data, FloatBuffer buffer)
+	{
+		buffer.clear();
+		buffer.put(data);
+		buffer.flip();
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer.capacity(), GL15.GL_STREAM_DRAW);
+		GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, 0, buffer);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+	}
+
+	public static RawModel loadToVAO(float[] vertices, int[] indices, float[] textureCoords, float[] normals)
 	{
 		int vaoID = createVAO();
 		storeIntsInVBO(indices);

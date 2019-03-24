@@ -79,7 +79,7 @@ public abstract class GUIComponent
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
 		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
 		float[] normals = { 0 };
-		return ModelLoader.loadModel(vertices, indices, textureCoords, normals);
+		return ModelLoader.loadToVAO(vertices, indices, textureCoords, normals);
 	}
 
 	public abstract void mouseClick();

@@ -76,7 +76,7 @@ public class Terrain
 				indices[pointer++] = bottomRight;
 			}
 		}
-		return ModelLoader.loadModel(vertices, indices, textureCoords, normals);
+		return ModelLoader.loadToVAO(vertices, indices, textureCoords, normals);
 	}
 
 	public float getSize()

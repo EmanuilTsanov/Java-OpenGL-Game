@@ -2,7 +2,6 @@ package opengl.java.loader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
 import org.lwjgl.opengl.GL11;

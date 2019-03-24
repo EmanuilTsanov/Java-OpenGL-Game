@@ -16,7 +16,7 @@ public class FontShader extends ShaderProgram
 	}
 
 	@Override
-	public void bindAllAttributes()
+	public void bindAttributes()
 	{
 		super.bindAttribute(0, "vertex");
 		super.bindAttribute(1, "textureCoords");

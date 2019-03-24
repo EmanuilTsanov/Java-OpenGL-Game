@@ -2,6 +2,7 @@ package opengl.java.shader;
 
 import java.util.List;
 
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.lighting.Light;
@@ -19,6 +20,8 @@ public class TerrainShader extends ShaderProgram
 	private int lightColorLocation[];
 	private int attenuationLocation[];
 	private int skyColorLocation;
+	private int locationToShadowMapSpace;
+	private int locationShadowMap;
 
 	public TerrainShader()
 	{
@@ -26,7 +29,7 @@ public class TerrainShader extends ShaderProgram
 	}
 
 	@Override
-	public void bindAllAttributes()
+	public void bindAttributes()
 	{
 		super.bindAttribute(0, "vertex");
 		super.bindAttribute(1, "texCoords");
@@ -40,6 +43,8 @@ public class TerrainShader extends ShaderProgram
 		projectionMatrixLocation = super.getUniformLocation("projectionMatrix");
 		viewMatrixLocation = super.getUniformLocation("viewMatrix");
 		skyColorLocation = super.getUniformLocation("skyColor");
+		locationToShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
+		locationShadowMap = super.getUniformLocation("shadowMap");
 		lightPositionLocation = new int[4];
 		lightColorLocation = new int[4];
 		attenuationLocation = new int[4];
@@ -49,6 +54,16 @@ public class TerrainShader extends ShaderProgram
 			lightColorLocation[i] = super.getUniformLocation("lightColor[" + i + "]");
 			attenuationLocation[i] = super.getUniformLocation("attenuation[" + i + "]");
 		}
+	}
+
+	public void connectTextureUnits()
+	{
+		super.loadInt(locationShadowMap, 5);
+	}
+
+	public void loadToShadowMapSpace(Matrix4f matrix)
+	{
+		super.loadMatrix(locationToShadowMapSpace, matrix);
 	}
 
 	public void loadTransformationMatrix(Vector3f position, Vector3f rotation, float scale)

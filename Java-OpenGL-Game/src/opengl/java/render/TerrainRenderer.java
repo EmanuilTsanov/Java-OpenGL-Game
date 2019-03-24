@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.model.RawModel;
@@ -35,8 +36,9 @@ public class TerrainRenderer
 		GL30.glBindVertexArray(0);
 	}
 
-	public void render(Terrain terrain, TerrainShader shader)
+	public void render(Terrain terrain, TerrainShader shader, Matrix4f toShadowMapMatrix)
 	{
+		shader.loadToShadowMapSpace(toShadowMapMatrix);
 		prepare(terrain);
 		bindTexture(terrain);
 		shader.loadTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), new Vector3f(0, 0, 0), 1);

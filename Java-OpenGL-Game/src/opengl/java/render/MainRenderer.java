@@ -1,5 +1,7 @@
 package opengl.java.render;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
@@ -10,7 +12,8 @@ import opengl.java.entity.Entity;
 import opengl.java.entity.EntityBase;
 import opengl.java.interaction.KeyboardMaster;
 import opengl.java.interaction.MouseMaster;
-import opengl.java.lighting.LightMaster;
+import opengl.java.lighting.Light;
+import opengl.java.lighting.Lights;
 import opengl.java.loader.ImageLoader;
 import opengl.java.loader.ModelLoader;
 import opengl.java.particles.ParticleManager;
@@ -18,6 +21,7 @@ import opengl.java.particles.ParticleSystem;
 import opengl.java.particles.ParticleTexture;
 import opengl.java.shader.EntityShader;
 import opengl.java.shader.TerrainShader;
+import opengl.java.shadows.ShadowMapMasterRenderer;
 import opengl.java.terrain.Terrain;
 import opengl.java.view.Camera;
 import opengl.java.window.FPSCounter;
@@ -30,10 +34,11 @@ public class MainRenderer
 	private EntityRenderer entityRenderer = new EntityRenderer();
 	private TerrainRenderer terrainRenderer = new TerrainRenderer();
 	private TextRenderer textRenderer = new TextRenderer();
-	private LightMaster master = new LightMaster();
 	private ModelLoader loader;
 	private ParticleTexture texture = new ParticleTexture(ImageLoader.loadTexture("star2"), 4);
 	private ParticleSystem sys = new ParticleSystem(texture, 60, 15, 0.1f, 1.6f);
+
+	private ShadowMapMasterRenderer shadowRenderer;
 
 	private Terrain terrain = new Terrain(0, 0, "grass");
 
@@ -54,12 +59,14 @@ public class MainRenderer
 	{
 		entityShader = new EntityShader();
 		terrainShader = new TerrainShader();
+		shadowRenderer = new ShadowMapMasterRenderer();
 
 		entityShader.start();
 		entityShader.loadProjectionMatrix();
 		entityShader.stop();
 		terrainShader.start();
 		terrainShader.loadProjectionMatrix();
+		terrainShader.connectTextureUnits();
 		terrainShader.stop();
 	}
 
@@ -84,9 +91,11 @@ public class MainRenderer
 
 	private void prepareScreen()
 	{
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClearColor(RED, GREEN, BLUE, 0);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		GL13.glActiveTexture(GL13.GL_TEXTURE5);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, shadowRenderer.getShadowMap());
 	}
 
 	public void update()
@@ -108,23 +117,28 @@ public class MainRenderer
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 
+	public void renderShadowMap(HashMap<EntityBase, ArrayList<Entity>> entities, Light sun)
+	{
+		shadowRenderer.render(entities, sun);
+	}
+
 	public void render()
 	{
+		renderShadowMap(Entity.getEntities(), Light.SUN);
 		prepareScreen();
-
 		terrainShader.start();
 		terrainShader.loadSkyColor(RED, GREEN, BLUE);
-		terrainShader.loadLights(LightMaster.lights);
+		terrainShader.loadLights(Lights.lights);
 		terrainShader.loadViewMatrix();
-		terrainRenderer.render(terrain, terrainShader);
+		terrainRenderer.render(terrain, terrainShader, shadowRenderer.getToShadowMapSpaceMatrix());
 		terrainShader.stop();
-		for (int i = 0; i < LightMaster.lights.size(); i++)
+		for (int i = 0; i < Lights.lights.size(); i++)
 		{
-			Entity.getEntities().get(EntityBase.PINE_TREE).get(i).setPosition(LightMaster.lights.get(i).getPosition());
+			Entity.getEntities().get(EntityBase.PINE_TREE).get(i).setPosition(Lights.lights.get(i).getPosition());
 		}
 		entityShader.start();
 		entityShader.loadSkyColor(RED, GREEN, BLUE);
-		entityShader.loadLights(LightMaster.lights);
+		entityShader.loadLights(Lights.lights);
 		entityShader.loadViewMatrix();
 		entityRenderer.render(entityShader);
 		entityShader.stop();

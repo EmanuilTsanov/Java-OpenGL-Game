@@ -1,24 +1,29 @@
 package opengl.java.window;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.PixelFormat;
 
 public class Window
 {
-	private static int fpsCap = 1500;
+	private static int fpsCap = 100;
 
 	private static int width = 1366;
 	private static int height = 768;
 
 	public static void create(String title)
 	{
+		ContextAttribs attribs = new ContextAttribs(3, 3).withForwardCompatible(true).withProfileCore(true);
 		try
 		{
 			Display.setDisplayMode(new DisplayMode(width, height));
+			Display.create(new PixelFormat(), attribs);
 			Display.setTitle(title);
-			Display.setFullscreen(true);
-			Display.create();
+			GL11.glEnable(GL13.GL_MULTISAMPLE);
 		}
 		catch (LWJGLException e)
 		{

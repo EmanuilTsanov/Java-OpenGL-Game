@@ -95,7 +95,7 @@ public class OBJLoader
 		{
 			indicesArr[i] = indices.get(i);
 		}
-		RawModel model = ModelLoader.loadModel(verticesArr, indicesArr, texturesArr, normalsArr);
+		RawModel model = ModelLoader.loadToVAO(verticesArr, indicesArr, texturesArr, normalsArr);
 		models.put(fileName, model);
 		return model;
 	}

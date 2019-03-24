@@ -9,17 +9,23 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition[4];
 
+uniform mat4 toShadowMapSpace;
+
 const float density = 0.003;
 const float gradient = 3;
+const float shadowDistance = 150;
+const float transitionDistance = 10.0;
 
 out vec2 textureCoords;
 out vec3 surfaceNormal;
 out vec3 toLightVector[4];
 out float visibility;
+out vec4 shadowCoords;
 
 void main()
 {
 	vec4 worldPosition = modelMatrix * vec4(vertex, 1.0);
+	shadowCoords = toShadowMapSpace * worldPosition;
 	vec4 relativeToCamera = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * relativeToCamera;
 	textureCoords = texCoords;
@@ -32,4 +38,8 @@ void main()
 	float distance = length(relativeToCamera.xyz);
 	visibility = exp(-pow((distance*density), gradient));
 	visibility = clamp(visibility, 0.0, 1.0);
+	
+	distance -= (shadowDistance-transitionDistance);
+	distance /= transitionDistance;
+	shadowCoords.w = clamp(1.0-distance, 0.0, 1.0);
 }
