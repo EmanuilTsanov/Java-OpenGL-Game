@@ -145,4 +145,9 @@ public class MainRenderer
 		ParticleManager.renderParticles();
 		textRenderer.render(FPSCounter.getMesh());
 	}
+
+	public void destroy()
+	{
+
+	}
 }
