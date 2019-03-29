@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import opengl.java.gui.Inventory;
 import opengl.java.view.Camera;
+import opengl.java.window.Window;
 import opengl.java.window.WindowManager;
 
 public class KeyboardMaster
@@ -27,6 +28,18 @@ public class KeyboardMaster
 				{
 					findAxis();
 					length = Camera.getDistance();
+				}
+				if (Keyboard.getEventKey() == Keyboard.KEY_1)
+				{
+					Window.setDisplayMode(1280, 720, false);
+				}
+				if (Keyboard.getEventKey() == Keyboard.KEY_2)
+				{
+					Window.setDisplayMode(1280, 720, true);
+				}
+				if (Keyboard.getEventKey() == Keyboard.KEY_3)
+				{
+					Window.setDisplayMode(2715, 1527, true);
 				}
 			}
 			else

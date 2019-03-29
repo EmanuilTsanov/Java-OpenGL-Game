@@ -28,7 +28,7 @@ public class MousePicker
 		return worldRay;
 	}
 
-	public Vector3f getMapPosition()
+	public static Vector3f getMapPosition()
 	{
 		Vector2f mousePos = new Vector2f(Mouse.getX(), Mouse.getY());
 		if (mousePos.x != mousePosition.x || mousePos.y != mousePosition.y)
@@ -39,7 +39,7 @@ public class MousePicker
 		return terrainPosition;
 	}
 
-	public void update()
+	public static void update()
 	{
 		viewMatrix = Maths.createViewMatrix();
 		worldRay = calculateMouseRay();

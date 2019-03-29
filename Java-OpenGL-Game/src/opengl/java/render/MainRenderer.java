@@ -12,6 +12,7 @@ import opengl.java.entity.Entity;
 import opengl.java.entity.EntityBase;
 import opengl.java.interaction.KeyboardMaster;
 import opengl.java.interaction.MouseMaster;
+import opengl.java.interaction.MousePicker;
 import opengl.java.lighting.Light;
 import opengl.java.lighting.Lights;
 import opengl.java.loader.ImageLoader;
@@ -30,6 +31,8 @@ public class MainRenderer
 {
 	private EntityShader entityShader;
 	private TerrainShader terrainShader;
+	
+	private MousePicker picker;
 
 	private EntityRenderer entityRenderer = new EntityRenderer();
 	private TerrainRenderer terrainRenderer = new TerrainRenderer();
@@ -53,6 +56,7 @@ public class MainRenderer
 		Camera.setRotation(40, 0, 0);
 		loader = new ModelLoader();
 		ParticleManager.initialize(loader);
+		picker = new MousePicker();
 	}
 
 	private void setupShaders()
@@ -103,6 +107,7 @@ public class MainRenderer
 		MouseMaster.update();
 		KeyboardMaster.update();
 		ParticleManager.update();
+		picker.update();
 		sys.generateParticles(new Vector3f(500, 0, 500));
 	}
 
