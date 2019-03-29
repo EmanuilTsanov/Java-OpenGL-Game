@@ -39,7 +39,7 @@ public class KeyboardMaster
 				}
 				if (Keyboard.getEventKey() == Keyboard.KEY_3)
 				{
-					Window.setDisplayMode(2715, 1527, true);
+					Window.setDisplayMode(1920, 1080, true);
 				}
 			}
 			else
