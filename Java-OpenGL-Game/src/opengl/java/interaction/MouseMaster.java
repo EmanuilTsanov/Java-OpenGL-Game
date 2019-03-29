@@ -90,12 +90,12 @@ public class MouseMaster
 		Vector3f camRotation = Camera.getRotation();
 		float dst = (float) (speed * Math.cos(Math.toRadians(camRotation.x)));
 		float dy = (float) (speed * Math.sin(Math.toRadians(camRotation.x)));
-		
+
 		Vector3f vec = new Vector3f(Camera.getPosition().x - MousePicker.getMapPosition().x, 0, Camera.getPosition().z - MousePicker.getMapPosition().z);
 		float angle = (float) Math.toDegrees(vec.x / vec.length());
 		System.out.println(angle);
-		float dx = (float) (dst * Math.sin(Math.toRadians(camRotation.y-angle)));
-		float dz = (float) (dst * Math.cos(Math.toRadians(camRotation.y-angle)));
+		float dx = (float) (dst * Math.sin(Math.toRadians(camRotation.y - angle)));
+		float dz = (float) (dst * Math.cos(Math.toRadians(camRotation.y - angle)));
 		Camera.move(dx, -dy, -dz);
 	}
 
